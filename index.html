@@ -65,6 +65,19 @@
       color: red;
       margin-bottom: 10px;
     }
+    .cta {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .cta:hover {
+      background-color: #005bbb;
+    }
   </style>
 </head>
 <body>
@@ -184,9 +197,21 @@
         }
 
         html += `<p><strong>Beskrivning:</strong> ${details.description}</p>`;
+        html += `<button onclick="resetCalculator()">Räkna igen</button>`;
+        html += `<br><a href="mailto:kontakt@sodertorniframe.se" class="cta">Kontakta oss för hjälp med att sänka energikostnaderna</a>`;
+
         resultDiv.innerHTML = html;
       }
     }, 1000);
+  }
+
+  function resetCalculator() {
+    document.getElementById('heatingSystem').value = "";
+    document.getElementById('annualCost').value = "";
+    document.getElementById('numApartments').value = "";
+    document.getElementById('selectedService').value = "";
+    document.getElementById('result').innerHTML = "";
+    document.getElementById('error').textContent = "";
   }
 </script>
 
