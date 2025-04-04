@@ -1,168 +1,194 @@
-import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Energikalkylator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background-color: #CBE8F1;
+      border: 2px solid #003366;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #003366;
+      text-transform: uppercase;
+    }
+    label {
+      font-weight: bold;
+      color: #003366;
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #003366;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005599;
+    }
+    .result {
+      margin-top: 20px;
+      color: #003366;
+    }
+    .bar-bg {
+      height: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: #007bff;
+      transition: width 1s;
+    }
+    .error {
+      color: red;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
 
-const energySavings = {
-  "Smart värmereglering": 10,
-  "Injustering av värmesystem": 5,
-  "Frånluftsåtervinning med värmepump": 25,
-};
+<div class="card">
+  <h2>Energikalkylator</h2>
+  <div id="error" class="error"></div>
 
-const serviceDetails = {
-  "Smart värmereglering": {
-    description: "Genom att implementera smart värmereglering kan en genomsnittlig energibesparing på 10% uppnås.",
-    costPerApartment: 1500 // kr
-  },
-  "Injustering av värmesystem": {
-    description: "Genom injustering av befintligt värmesystem kan en genomsnittlig besparing på 5% uppnås.",
-    costPerApartment: 2000
-  },
-  "Frånluftsåtervinning med värmepump": {
-    description: "Genom att installera frånluftsåtervinning kan en energibesparing på upp till 25% uppnås.",
-    costPerApartment: null // ingen fast kostnad, man får kontakta
-  }
-};
+  <label>Välj värmesystem</label>
+  <select id="heatingSystem">
+    <option value="">Välj värmesystem</option>
+    <option value="Fjärrvärme">Fjärrvärme</option>
+    <option value="Bergvärme">Bergvärme</option>
+    <option value="Direktverkande el">Direktverkande el</option>
+  </select>
 
-export default function EnergyCalculator() {
-  const [heatingSystem, setHeatingSystem] = useState("");
-  const [annualCost, setAnnualCost] = useState("");
-  const [numApartments, setNumApartments] = useState("");
-  const [selectedService, setSelectedService] = useState("");
-  const [savings, setSavings] = useState(null);
-  const [savingsAmount, setSavingsAmount] = useState(null);
-  const [totalSavings, setTotalSavings] = useState(null);
-  const [investment, setInvestment] = useState(null);
-  const [paybackTime, setPaybackTime] = useState(null);
-  const [additionalInfo, setAdditionalInfo] = useState("");
-  const [isCalculating, setIsCalculating] = useState(false);
-  const [countdown, setCountdown] = useState(3);
-  const [error, setError] = useState("");
+  <label>Årlig energikostnad per lägenhet (kr)</label>
+  <input type="number" id="annualCost" placeholder="Ange kostnad i kronor">
 
-  const calculateSavings = () => {
-    if (!selectedService || !annualCost || !numApartments || numApartments <= 0) {
-      setError("Vänligen fyll i alla fält korrekt innan du beräknar.");
+  <label>Antal lägenheter</label>
+  <input type="number" id="numApartments" placeholder="Ange antal lägenheter">
+
+  <label>Välj energibesparingsåtgärd</label>
+  <select id="selectedService">
+    <option value="">Välj åtgärd</option>
+  </select>
+
+  <button onclick="calculate()">Beräkna besparing</button>
+
+  <div id="calculating" style="display:none;">
+    <p><strong>Analyserar data... Vänta <span id="countdown">3</span> sekunder</strong></p>
+    <div class="bar-bg"><div class="bar-fill" id="progressBar" style="width: 0%;"></div></div>
+  </div>
+
+  <div id="result" class="result"></div>
+</div>
+
+<script>
+  const energySavings = {
+    "Smart värmereglering": 10,
+    "Injustering av värmesystem": 5,
+    "Frånluftsåtervinning med värmepump": 25,
+  };
+
+  const serviceDetails = {
+    "Smart värmereglering": {
+      description: "Genom att implementera smart värmereglering kan en genomsnittlig energibesparing på 10% uppnås.",
+      costPerApartment: 1500
+    },
+    "Injustering av värmesystem": {
+      description: "Genom injustering av befintligt värmesystem kan en genomsnittlig besparing på 5% uppnås.",
+      costPerApartment: 2000
+    },
+    "Frånluftsåtervinning med värmepump": {
+      description: "Genom att installera frånluftsåtervinning kan en energibesparing på upp till 25% uppnås.",
+      costPerApartment: null
+    }
+  };
+
+  const serviceSelect = document.getElementById('selectedService');
+  Object.keys(energySavings).forEach(service => {
+    const option = document.createElement("option");
+    option.value = service;
+    option.textContent = service;
+    serviceSelect.appendChild(option);
+  });
+
+  function calculate() {
+    const annualCost = parseFloat(document.getElementById('annualCost').value);
+    const numApartments = parseInt(document.getElementById('numApartments').value);
+    const selectedService = document.getElementById('selectedService').value;
+    const errorDiv = document.getElementById('error');
+    const resultDiv = document.getElementById('result');
+    const calculatingDiv = document.getElementById('calculating');
+    const countdownSpan = document.getElementById('countdown');
+    const progressBar = document.getElementById('progressBar');
+
+    errorDiv.textContent = "";
+    resultDiv.innerHTML = "";
+
+    if (!selectedService || isNaN(annualCost) || isNaN(numApartments) || numApartments <= 0) {
+      errorDiv.textContent = "Vänligen fyll i alla fält korrekt innan du beräknar.";
       return;
     }
 
-    setError("");
-    setIsCalculating(true);
-    setCountdown(3);
+    calculatingDiv.style.display = "block";
+    let countdown = 3;
+    countdownSpan.textContent = countdown;
+    progressBar.style.width = "0%";
 
     let interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === 1) {
-          clearInterval(interval);
-          return 0;
+      countdown--;
+      countdownSpan.textContent = countdown;
+      progressBar.style.width = `${(3 - countdown) * 33.3}%`;
+      if (countdown === 0) {
+        clearInterval(interval);
+        calculatingDiv.style.display = "none";
+
+        const percentage = energySavings[selectedService];
+        const savedPerApartment = (annualCost * percentage) / 100;
+        const totalSaved = savedPerApartment * numApartments;
+
+        const details = serviceDetails[selectedService];
+        const totalInvestment = details.costPerApartment ? details.costPerApartment * numApartments : null;
+        const payback = totalInvestment && totalSaved > 0 ? (totalInvestment / totalSaved).toFixed(1) : null;
+
+        let html = `
+          <p><strong>Besparing per lägenhet:</strong> ${Math.round(savedPerApartment)} kr/år (${percentage}%)</p>
+          <p><strong>Total årlig besparing:</strong> ${Math.round(totalSaved)} kr</p>
+        `;
+
+        if (totalInvestment !== null) {
+          html += `<p><strong>Uppskattad investeringskostnad:</strong> ${totalInvestment} kr</p>`;
+          html += `<p><strong>Återbetalningstid:</strong> ${payback} år</p>`;
+        } else {
+          html += `<p><strong>Investering:</strong> Kontakta oss för offert.</p>`;
         }
-        return prev - 1;
-      });
+
+        html += `<p><strong>Beskrivning:</strong> ${details.description}</p>`;
+        resultDiv.innerHTML = html;
+      }
     }, 1000);
+  }
+</script>
 
-    setTimeout(() => {
-      const savingsPercentage = energySavings[selectedService] || 0;
-      const estimatedSavings = (parseFloat(annualCost) * savingsPercentage) / 100;
-      const totalEstimatedSavings = estimatedSavings * parseInt(numApartments);
-
-      const service = serviceDetails[selectedService];
-      const totalInvestment = service.costPerApartment
-        ? service.costPerApartment * parseInt(numApartments)
-        : null;
-
-      const payback = totalInvestment && totalEstimatedSavings > 0
-        ? (totalInvestment / totalEstimatedSavings).toFixed(1)
-        : null;
-
-      setSavings(savingsPercentage);
-      setSavingsAmount(Math.round(estimatedSavings));
-      setTotalSavings(Math.round(totalEstimatedSavings));
-      setInvestment(totalInvestment);
-      setPaybackTime(payback);
-      setAdditionalInfo(service);
-      setIsCalculating(false);
-    }, 3000);
-  };
-
-  return (
-    <Card className="p-6 w-full max-w-lg mx-auto bg-[#CBE8F1] border border-[#003366] rounded-lg shadow-md">
-      <CardContent>
-        <h2 className="text-2xl font-bold uppercase mb-4 text-[#003366]">Energikalkylator</h2>
-
-        {error && <p className="text-red-600 mb-2">{error}</p>}
-
-        <label className="block text-[#003366] font-semibold">Välj värmesystem</label>
-        <select 
-          value={heatingSystem} 
-          onChange={(e) => setHeatingSystem(e.target.value)} 
-          className="w-full p-2 border rounded mb-2 bg-white"
-        >
-          <option value="">Välj värmesystem</option>
-          <option value="Fjärrvärme">Fjärrvärme</option>
-          <option value="Bergvärme">Bergvärme</option>
-          <option value="Direktverkande el">Direktverkande el</option>
-        </select>
-
-        <label className="block text-[#003366] font-semibold">Årlig energikostnad per lägenhet (kr)</label>
-        <Input
-          type="number"
-          placeholder="Ange kostnad i kronor"
-          value={annualCost}
-          onChange={(e) => setAnnualCost(e.target.value)}
-          className="w-full p-2 border rounded mb-2"
-        />
-
-        <label className="block text-[#003366] font-semibold">Antal lägenheter</label>
-        <Input
-          type="number"
-          placeholder="Ange antal lägenheter"
-          value={numApartments}
-          onChange={(e) => setNumApartments(e.target.value)}
-          className="w-full p-2 border rounded mb-2"
-        />
-
-        <label className="block text-[#003366] font-semibold">Välj energibesparingsåtgärd</label>
-        <select 
-          value={selectedService} 
-          onChange={(e) => setSelectedService(e.target.value)} 
-          className="w-full p-2 border rounded mb-2 bg-white"
-        >
-          <option value="">Välj åtgärd</option>
-          {Object.keys(energySavings).map((service) => (
-            <option key={service} value={service}>{service}</option>
-          ))}
-        </select>
-
-        <Button onClick={calculateSavings} className="mt-4 bg-[#003366] text-white px-4 py-2 rounded">
-          Beräkna besparing
-        </Button>
-
-        {isCalculating && (
-          <div className="mt-4 text-center">
-            <p className="text-lg font-bold text-[#003366]">Analyserar data... Vänta <span className="text-[#007bff]">{countdown}</span> sekunder</p>
-            <div className="relative w-full h-3 bg-gray-300 rounded overflow-hidden mt-2">
-              <div className="absolute left-0 top-0 h-full bg-[#007bff] transition-all duration-1000 ease-in-out" 
-                style={{ width: `${(3 - countdown) * 33.3}%` }}>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {!isCalculating && savingsAmount !== null && (
-          <div className="mt-4 text-md text-[#003366] space-y-1">
-            <p><strong>Besparing per lägenhet:</strong> {savingsAmount} kr/år ({savings}%)</p>
-            <p><strong>Total årlig besparing:</strong> {totalSavings} kr</p>
-            {investment !== null ? (
-              <>
-                <p><strong>Uppskattad investeringskostnad:</strong> {investment} kr</p>
-                <p><strong>Återbetalningstid:</strong> {paybackTime} år</p>
-              </>
-            ) : (
-              <p><strong>Investering:</strong> Kontakta oss för offert.</p>
-            )}
-            <p><strong>Beskrivning:</strong> {additionalInfo.description}</p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
+</body>
+</html>
