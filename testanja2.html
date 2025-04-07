@@ -199,7 +199,7 @@
             <h4>1. Vad är huvudsyftet med ett skyddsrum?</h4>
             <ul>
                 <li>Att förvara utrustning för fastigheten.</li>
-                <li>Att ge skydd åt människor vid krig eller allvarliga händelser.</li>
+                <li data-index="1">Att ge skydd åt människor vid krig eller allvarliga händelser.</li>
                 <li>Att användas som en tillfällig samlingsplats vid brand.</li>
                 <li>Att vara en plats för övernattning vid strömavbrott.</li>
             </ul>
@@ -210,14 +210,14 @@
                 <li>Inom en vecka.</li>
                 <li>Inom 72 timmar.</li>
                 <li>Inom 48 timmar.</li>
-                <li>Inom 24 timmar.</li>
+                <li data-index="3">Inom 24 timmar.</li>
             </ul>
         </div>
         <div class="quiz" data-correct="2">
             <h4>3. Vem har det primära ansvaret för att underhålla och se till att ett skyddsrum är i funktionsdugligt skick?</h4>
             <ul>
                 <li>Kommunen.</li>
-                <li>Fastighetsägaren.</li>
+                <li data-index="1">Fastighetsägaren.</li>
                 <li>Myndigheten för samhällsskydd och beredskap (MSB).</li>
                 <li>De boende i fastigheten.</li>
             </ul>
@@ -227,7 +227,7 @@
             <ul>
                 <li>Brandfarliga vätskor och gaser.</li>
                 <li>Tunga möbler och annat som är svårt att flytta snabbt.</li>
-                <li>Saker som snabbt kan flyttas undan vid ett larm.</li>
+                <li data-index="2">Saker som snabbt kan flyttas undan vid ett larm.</li>
                 <li>Livsmedel och vatten för långvarig lagring.</li>
             </ul>
         </div>
@@ -235,7 +235,7 @@
             <h4>5. Hur är ett skyddsrum markerat utifrån?</h4>
             <ul>
                 <li>Med en röd skylt med texten "Skyddsrum".</li>
-                <li>Med en blå skylt med en orange triangel och texten "Skyddsrum".</li>
+                <li data-index="1">Med en blå skylt med en orange triangel och texten "Skyddsrum".</li>
                 <li>Med en grön skylt med en vit symbol (en triangel i en cirkel) och texten "Skyddsrum".</li>
                 <li>Med en gul varningsskylt.</li>
             </ul>
@@ -259,7 +259,8 @@
                     if (quizBlock.classList.contains("answered")) return;
                     quizBlock.classList.add("answered");
                     answered++;
-                    if (index + 1 === correctIndex) {
+                    const answerIndex = parseInt(li.dataset.index);
+                    if (answerIndex + 1 === correctIndex) {
                         li.classList.add("correct");
                         totalScore++;
                     } else {
