@@ -13,6 +13,16 @@
             line-height: 1.6;
             margin: 0;
             padding: 0;
+            display: flex; /* Aktiverar flexbox för att centrera innehållet */
+            justify-content: center; /* Centrerar horisontellt */
+        }
+
+        .container {
+            background-color: #e9f4fb; /* Den blå bakgrunden */
+            width: 75%; /* Fyller 75% av fönstret */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         a {
@@ -40,87 +50,15 @@
             font-size: 1.5rem;
         }
 
-        /* Navigationsmeny */
-        nav {
-            background-color: #f2f2f2;
-            padding: 1rem;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        nav a {
-            margin-right: 1rem;
-            font-weight: 600;
-            color: #002f6c;
-        }
-
-        /* Sidomeny (vänster) */
-        .sidebar {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            padding: 1rem;
-            margin-right: 2rem;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .sidebar li {
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Call-to-action box */
-        .cta-box {
-            background-color: #f8f6f1;
-            border: 1px solid #e6e1d7;
-            padding: 1.5rem;
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .cta-box h2 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .button-primary {
-            background-color: #005aa4;
-            color: #fff;
-            padding: 0.75rem 1.25rem;
-            border: none;
-            border-radius: 3px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .button-primary:hover {
-            background-color: #00457d;
-        }
-
-        /* Textblock under "Vad vi erbjuder" */
-        .offerings h3 {
-            color: #002f6c;
-            font-weight: bold;
-            margin-bottom: 0.25rem;
-        }
-
-        .offerings p {
-            margin-bottom: 1.25rem;
-        }
-
         /* Quiz-block */
         .quiz {
-            background-color: #e9f4fb;
             border-left: 5px solid #005aa4;
             padding: 1rem;
-            margin-bottom: 0; /* Tog bort standardmellanrummet */
+            margin-bottom: 0;
         }
 
         .quiz:last-child {
-            margin-bottom: 2rem; /* Lägg tillbaka marginal på sista frågan */
+            margin-bottom: 1rem; /* Lite mindre marginal under sista frågan */
         }
 
         .quiz h4 {
@@ -131,7 +69,7 @@
 
         .quiz ul {
             padding-left: 1.2rem;
-            list-style-type: none; /* Ta bort standardpunktlistan */
+            list-style-type: none;
         }
 
         .quiz li {
@@ -149,11 +87,11 @@
         }
 
         .quiz.answered label {
-            cursor: default; /* Inaktivera klick efter svar */
+            cursor: default;
         }
 
         .quiz.answered input[type="checkbox"] {
-            pointer-events: none; /* Inaktivera kryssrutor efter svar */
+            pointer-events: none;
         }
 
         .answer.correct {
@@ -167,11 +105,38 @@
         }
 
         /* Resultat */
+        #score-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        #score-container h2 {
+            font-size: 1.75rem; /* Större rubrik för resultatet */
+            color: #002f6c;
+            margin-bottom: 0.5rem;
+        }
+
         #score {
             font-size: 1.2rem;
             font-weight: bold;
-            margin-top: 2rem;
-            color: #002f6c;
+            color: #333;
+        }
+
+        /* Knapp */
+        #submit-quiz {
+            background-color: #005aa4;
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 3px;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 1rem auto;
+        }
+
+        #submit-quiz:hover {
+            background-color: #00457d;
         }
 
         /* Call to action */
@@ -180,7 +145,7 @@
             border: 1px solid #e6e1d7;
             padding: 1.5rem;
             text-align: center;
-            margin: 2rem 0;
+            margin-top: 2rem;
         }
 
         .cta h2 {
@@ -188,32 +153,16 @@
             margin-bottom: 1rem;
         }
 
-        /* Responsiv layout, t.ex. två kolumner */
-        @media (min-width: 768px) {
-            .layout {
-                display: flex;
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .sidebar {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 1rem;
-            }
-
-            .main-content {
-                width: 100%;
-            }
-
-            .quiz {
-                width: 100%;
+        /* Responsiv layout */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%; /* Ta upp mer plats på mindre skärmar */
             }
         }
     </style>
 </head>
 <body>
-    <div class="layout">
+    <div class="container">
         <h1>Skyddsrum – Vad vet du?</h1>
         <p>Kryssa i det svar du tror är rätt för varje fråga.</p>
         <div class="quiz" data-correct="2">
@@ -262,7 +211,10 @@
             </ul>
         </div>
         <button id="submit-quiz">Se Resultat</button>
-        <div id="score"></div>
+        <div id="score-container">
+            <h2>Ditt Resultat</h2>
+            <div id="score"></div>
+        </div>
         <div class="cta">
             <h2>Vill ni ha hjälp att se över skyddsrum i er förening?</h2>
             <p>Vi hjälper gärna till att reda ut vad som gäller och hur ni kan säkerställa att ert skyddsrum är redo vid kris.</p>
@@ -278,22 +230,26 @@
         submitButton.addEventListener("click", () => {
             totalScore = 0;
             quizBlocks.forEach((quizBlock) => {
-                if (quizBlock.classList.contains("answered")) return; // Förhindra omräkning
+                if (quizBlock.classList.contains("answered")) return;
 
                 const correctIndex = parseInt(quizBlock.dataset.correct);
                 const checkboxes = quizBlock.querySelectorAll('input[type="checkbox"]');
                 const labels = quizBlock.querySelectorAll('label');
                 let isCorrect = true;
+                let checkedCount = 0;
 
                 checkboxes.forEach((checkbox, index) => {
                     const isCorrectAnswer = (index + 1 === correctIndex);
                     const label = labels[index];
-                    label.classList.remove("correct", "incorrect"); // Återställ tidigare markeringar
+                    label.classList.remove("correct", "incorrect");
 
-                    if (checkbox.checked && !isCorrectAnswer) {
-                        isCorrect = false;
-                        label.classList.add("incorrect");
-                    } else if (!checkbox.checked && isCorrectAnswer) {
+                    if (checkbox.checked) {
+                        checkedCount++;
+                        if (!isCorrectAnswer) {
+                            isCorrect = false;
+                            label.classList.add("incorrect");
+                        }
+                    } else if (isCorrectAnswer) {
                         isCorrect = false;
                     }
 
@@ -302,13 +258,25 @@
                     }
                 });
 
-                if (isCorrect) {
+                if (isCorrect && checkedCount === 1) { // Kontrollera att endast ett svar är ikryssat och korrekt
                     totalScore++;
+                } else if (checkedCount > 1) {
+                    // Om mer än ett svar är ikryssat räknas det som fel
+                    checkboxes.forEach((checkbox, index) => {
+                        if (checkbox.checked && (index + 1) !== correctIndex) {
+                            labels[index].classList.add("incorrect");
+                        } else if ((index + 1) === correctIndex) {
+                            labels[index].classList.add("correct");
+                        }
+                    });
+                } else if (checkedCount === 0) {
+                    labels[correctIndex - 1].classList.add("correct"); // Visa rätt svar om inget är valt
                 }
-                quizBlock.classList.add("answered"); // Markera frågan som besvarad
+
+                quizBlock.classList.add("answered");
             });
-            scoreDisplay.innerText = `Du fick ${totalScore} av ${quizBlocks.length} rätt.`;
-            submitButton.disabled = true; // Inaktivera knappen efter inlämning
+            scoreDisplay.innerText = `${totalScore} av ${quizBlocks.length} rätt.`;
+            submitButton.disabled = true;
         });
     </script>
 </body>
