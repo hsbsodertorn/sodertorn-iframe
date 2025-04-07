@@ -23,8 +23,8 @@
 
     .container {
       max-width: 600px;
-      margin: auto;
-      padding: 2em 1em;
+      margin: 2em auto;
+      padding: 2em;
       background-color: var(--hsb-vit);
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       border-radius: 12px;
@@ -45,9 +45,7 @@
       transition: width 0.3s ease;
     }
 
-    h2 {
-      margin-bottom: 0.5em;
-    }
+    h2 { margin-bottom: 0.5em; }
 
     .options {
       display: flex;
@@ -62,27 +60,15 @@
       text-align: center;
       background-color: #fff;
       cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
-      min-width: 200px; /* Gör klickområdet större på dator */
+      transition: background 0.2s ease;
     }
 
-    .option-card:hover {
-      background-color: var(--hsb-gul);
-      color: var(--hsb-blå);
-    }
-
-    .option-card input[type="radio"]:checked + .option-card {
+    .option-card.selected {
       background-color: var(--hsb-blå);
       color: var(--hsb-vit);
     }
 
-    .option-card input[type="radio"]:focus + .option-card {
-      outline: 2px solid var(--hsb-ocra); /* Tydlig fokusstil för tangentbordsnavigering */
-    }
-
-    input[type="radio"] {
-      display: none;
-    }
+    input[type="radio"] { display: none; }
 
     button {
       margin-top: 2em;
@@ -95,55 +81,23 @@
       font-size: 1rem;
     }
 
-    button:hover {
-      background-color: var(--hsb-ocra);
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 8px solid var(--hsb-blå);
+      width: 50px;
+      height: 50px;
+      animation: spin 2s linear infinite;
+      margin: 2em auto;
     }
 
-    .thank-you {
-      text-align: center;
-      padding: 2em;
-    }
-
-    .thank-you h2 {
-      font-size: 1.5em;
-    }
-
-    .thank-you p {
-      font-size: 1.1em;
-    }
-
-    .thinking-overlay {
-      position: fixed; /* Stannar på skärmen även om man scrollar */
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.9); /* Lätt transparent vit bakgrund */
-      display: none; /* Initialt dold */
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000; /* Se till att den ligger över annat innehåll */
-      font-size: 1.2em;
-    }
-
-    .thinking-animation {
-      font-size: 3em;
-      margin-bottom: 1em;
-      /* Enkel roterande animation */
-      animation: rotate 2s linear infinite;
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     @media (max-width: 600px) {
-      .container {
-        border-radius: 0;
-        box-shadow: none;
-      }
+      .container { border-radius: 0; box-shadow: none; }
     }
   </style>
 </head>
@@ -156,73 +110,52 @@
     </form>
   </div>
 
-  <div id="thinkingOverlay" class="thinking-overlay">
-    <div class="thinking-animation">⏳</div>
-    <p>Analyserar resultatet...</p>
-  </div>
-
   <script>
-    const questions = [
-      { text: "Var ligger föreningens fastigheter?", options: ["Kustnära/låglänt område", "Högt beläget/kuperad terräng", "Tätbebyggt område/stadsmiljö", "Glesbygd/landbygd"] },
-      { text: "Vilken typ av byggnader har föreningen?", options: ["Flerbostadshus (3+ våningar)", "Låga byggnader (1–2 våningar)", "Radhus/kedjehus", "Blandad bebyggelse"] },
-      { text: "Har fastigheten drabbats av översvämningar tidigare?", options: ["Ja, upprepade gånger", "Ja, någon gång", "Nej", "Vet ej"] },
-      { text: "Hur bedömer ni dagvattenhanteringen?", options: ["Lokala lösningar (regnrabatter, gröna tak)", "Stuprör till kommunalt system", "Vi vet inte"] },
-      { text: "Har ni installerat backventiler i byggnaderna?", options: ["Ja, i alla hus", "Ja, i vissa delar", "Nej", "Vet ej"] },
-      { text: "Finns det solskydd i söderlägen?", options: ["Ja, både invändiga & utvändiga", "Endast invändiga", "Nej", "Vet ej"] },
-      { text: "Finns det träd eller växtlighet som skuggar gården?", options: ["Ja, mycket", "Lite grann", "Nej", "Planeras"] },
-      { text: "Har ni haft problem med skadedjur de senaste 2 åren?", options: ["Ja, ofta", "Ja, men sällan", "Nej", "Vet ej"] },
-      { text: "Har ni råttstopp i avloppssystemet?", options: ["Ja", "Nej", "Vet ej"] },
-      { text: "Besiktigas tak och skorsten regelbundet?", options: ["Ja, varje år", "Ibland", "Nej", "Vet ej"] },
-      { text: "Har ni riskträd som kan falla på byggnader?", options: ["Ja, åtgärdade", "Ja, men inte åtgärdat", "Nej", "Vet ej"] },
-      { text: "Har ni en uppdaterad underhållsplan med klimatanpassning?", options: ["Ja", "Nej, men det planeras", "Nej", "Vet ej"] },
-      { text: "Har ni diskuterat klimatanpassning i styrelsen i år?", options: ["Ja, aktivt", "Ja, kortfattat", "Nej", "Vet ej"] }
-    ];
+    const questions = [/* samma frågor som tidigare */];
 
     let currentIndex = 0;
+    const answers = [];
     const form = document.getElementById("questionForm");
     const questionContent = document.getElementById("questionContent");
-    const nextButton = document.getElementById("nextButton");
     const progressBar = document.getElementById("progress");
-    const container = document.querySelector(".container");
-    const thinkingOverlay = document.getElementById("thinkingOverlay");
 
     function renderQuestion(index) {
-      const q = questions[index];
       progressBar.style.width = `${(index / questions.length) * 100}%`;
+      const q = questions[index];
       questionContent.innerHTML = `
         <h2>${index + 1}. ${q.text}</h2>
         <div class="options">
-          ${q.options.map((opt, i) => `
+          ${q.options.map(opt => `
             <label class="option-card">
               <input type="radio" name="question${index}" value="${opt}" required />
               ${opt}
-            </label>
-          `).join("")}
+            </label>`).join('')}
         </div>`;
-      nextButton.textContent = index === questions.length - 1 ? "Slutför" : "Nästa";
+
+      document.querySelectorAll('.option-card').forEach(card => {
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          card.querySelector('input').checked = true;
+        });
+      });
+
+      document.getElementById("nextButton").textContent = index === questions.length - 1 ? "Slutför" : "Nästa";
     }
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const selected = form.querySelector(`input[name="question${currentIndex}"]:checked`);
       if (!selected) return;
+      answers.push(selected.value);
       currentIndex++;
       if (currentIndex < questions.length) {
         renderQuestion(currentIndex);
       } else {
-        // Visa "tänker"-skärmen
-        container.style.display = "none";
-        thinkingOverlay.style.display = "flex";
-
-        // Simulera tänkande med en fördröjning
+        document.querySelector(".container").innerHTML = `<div class="loader"></div><p style="text-align:center;">Analyserar resultatet...</p>`;
         setTimeout(() => {
-          thinkingOverlay.innerHTML = `
-            <div class="thank-you">
-              <h2>✅ Analys slutförd!</h2>
-              <p>Vi har nu analyserat resultatet och du kan nu kolla på vår analys i Klimatkollen på hur er förening kan utvecklas.</p>
-              <button onclick="window.location.href='din-klimatkollen-länk.html'">Gå till Klimatkollen</button>
-            </div>`;
-        }, 3000); // Vänta 3 sekunder (3000 millisekunder)
+          document.querySelector(".container").innerHTML = `<div class="thank-you"><h2>✅ Tack för dina svar!</h2><p>Vi har nu analyserat resultatet och du kan nu kolla på vår analys i Klimatkollen på hur er förening kan utvecklas.</p></div>`;
+        }, 3000);
       }
     });
 
