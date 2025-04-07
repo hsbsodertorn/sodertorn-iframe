@@ -206,23 +206,18 @@
       e.preventDefault();
       const selected = form.querySelector(`input[name="question${currentIndex}"]:checked`);
       if (!selected) return;
+      const answer = selected.value;
+      localStorage.setItem(`question-${currentIndex}`, answer); // Lagra svaret lokalt
       currentIndex++;
       if (currentIndex < questions.length) {
         renderQuestion(currentIndex);
       } else {
-        // Visa "tänker"-skärmen
+        // När alla frågor är besvarade, visa "tänker"-skärmen och navigera sedan
         container.style.display = "none";
         thinkingOverlay.style.display = "flex";
-
-        // Simulera tänkande med en fördröjning
         setTimeout(() => {
-          thinkingOverlay.innerHTML = `
-            <div class="thank-you">
-              <h2>✅ Analys slutförd!</h2>
-              <p>Vi har nu analyserat resultatet och du kan nu kolla på vår analys i Klimatkollen på hur er förening kan utvecklas.</p>
-              <button onclick="window.location.href='din-klimatkollen-länk.html'">Gå till Klimatkollen</button>
-            </div>`;
-        }, 3000); // Vänta 3 sekunder (3000 millisekunder)
+          window.location.href = "steg2.html";
+        }, 3000); // Vänta 3 sekunder innan navigering
       }
     });
 
