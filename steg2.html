@@ -67,7 +67,7 @@
     }
     .contact-button {
       display: inline-block;
-      background-color: var(--hsb-mörkblå); /* Mörkare blå för CTA-knapp */
+      background-color: var(--hsb-blå); /* Samma blå som de andra fönstrena */
       color: var(--hsb-vit);
       border: none;
       padding: 1em 2em;
@@ -80,7 +80,7 @@
       min-width: 200px;
     }
     .contact-button:hover {
-      background-color: var(--hsb-blå);
+      background-color: var(--hsb-ljusblå);
     }
     /* Nyckeltalsstyling */
     .key-figure-container {
@@ -89,7 +89,7 @@
       align-items: center; /* Centrerar innehållet */
       margin-top: 2em;
       padding: 1.5em;
-      background-color: var(--hsb-ljusblå); /* Ljusare blå bakgrund */
+      background-color: var(--hsb-vit); /* Vit bakgrund */
       border-radius: 8px;
       color: var(--hsb-mörkblå); /* Mörkare blå text */
       text-align: center;
@@ -100,12 +100,18 @@
       font-size: 1.2em;
     }
     .key-figure .risk-count {
-      font-size: 3em; /* Större siffra för dynamik */
+      font-size: 4em; /* Större siffra */
       font-weight: bold;
       margin-bottom: 0.2em;
+      font-family: 'Saira', sans-serif; /* Använder Saira för siffran */
     }
     .key-figure .risk-text {
       font-size: 1.1em;
+    }
+    .key-figure-start-text {
+      font-size: 1.2em;
+      margin-bottom: 1em;
+      text-align: center;
     }
     @media (min-width: 600px) {
       .key-figure-container {
@@ -184,6 +190,7 @@
 
       let keyFiguresHTML = `
         <div class="key-figure-container">
+          <p class="key-figure-start-text">Baserat på dina svar har vi identifierat:</p>
           <div class="key-figure">
             <h4>Identifierade risker</h4>
             <p class="risk-count">${riskCount}</p>
