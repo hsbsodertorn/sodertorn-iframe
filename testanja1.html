@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz om Skyddsrum</title>
+  <style>
+    body {
+      font-family: "Open Sans", sans-serif;
+      background-color: #fff;
+      color: #222;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2, h3, h4 {
+      color: #002f6c;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin: 0 0 1.5rem 0;
+    }
+
+    .layout {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .quiz {
+      background-color: #e9f4fb;
+      border-left: 5px solid #005aa4;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 4px;
+    }
+
+    .quiz h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .quiz ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .quiz li {
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .quiz li::before {
+      content: "☐";
+      position: absolute;
+      left: 0;
+      color: #005aa4;
+    }
+
+    .quiz li.correct::before {
+      content: "✔";
+      color: green;
+    }
+
+    .quiz li.incorrect::before {
+      content: "✖";
+      color: red;
+    }
+
+    .cta {
+      background-color: #f8f6f1;
+      border: 1px solid #e6e1d7;
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 2rem;
+      border-radius: 4px;
+    }
+
+    .cta a {
+      background-color: #005aa4;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .cta a:hover {
+      background-color: #00457d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="layout">
+    <h1>Skyddsrum – Vad vet du?</h1>
+    <p>Testa dina kunskaper om skyddsrum och hur du bör agera vid en krissituation.</p>
+
+    <div class="quiz" data-correct="1">
+      <h4>1. Vad är ett skyddsrum till för?</h4>
+      <ul>
+        <li>Förvaring av föreningens verktyg</li>
+        <li class="correct">Ett utrymme för att skydda människor vid krig eller allvarliga hot</li>
+        <li>Ett rum för cykelförvaring</li>
+        <li>Ett vanligt förråd</li>
+      </ul>
+    </div>
+
+    <div class="quiz" data-correct="3">
+      <h4>2. Hur snabbt ska ett skyddsrum kunna iordningställas?</h4>
+      <ul>
+        <li>Inom 2 dagar</li>
+        <li>Inom 12 timmar</li>
+        <li>Inom 48 timmar</li>
+        <li class="correct">Inom 24 timmar</li>
+      </ul>
+    </div>
+
+    <div class="quiz" data-correct="2">
+      <h4>3. Vem ansvarar för att skyddsrummet hålls i ordning?</h4>
+      <ul>
+        <li>Myndigheten för samhällsskydd och beredskap (MSB)</li>
+        <li class="correct">Fastighetsägaren</li>
+        <li>Kommunen</li>
+        <li>Polisen</li>
+      </ul>
+    </div>
+
+    <div class="quiz" data-correct="3">
+      <h4>4. Vad får förvaras i ett skyddsrum?</h4>
+      <ul>
+        <li>Inget alls</li>
+        <li>Möbler som tar upp hela utrymmet</li>
+        <li class="correct">Saker som snabbt kan tas bort vid aktivering</li>
+        <li>Brännbart material</li>
+      </ul>
+    </div>
+
+    <div class="quiz" data-correct="2">
+      <h4>5. Hur märks ett skyddsrum ut?</h4>
+      <ul>
+        <li>Med ett rött kryss</li>
+        <li class="correct">Med en blå skylt med vit symbol</li>
+        <li>Med en grön skylt och text</li>
+        <li>Med en gul varningsskylt</li>
+      </ul>
+    </div>
+
+    <div class="cta">
+      <h2>Vill ni ha hjälp att se över skyddsrum i er förening?</h2>
+      <p>Vi hjälper gärna till att reda ut vad som gäller och hur ni kan säkerställa att ert skyddsrum är redo vid kris.</p>
+      <a href="#">Kontakta oss</a>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll(".quiz").forEach((quizBlock) => {
+      quizBlock.querySelectorAll("li").forEach((li) => {
+        li.addEventListener("click", () => {
+          if (li.classList.contains("correct")) {
+            li.classList.add("correct");
+          } else {
+            li.classList.add("incorrect");
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
