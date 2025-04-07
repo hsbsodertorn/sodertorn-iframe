@@ -25,7 +25,8 @@
       margin: 0;
       padding: 20px;
     }
-    h2, h3 {
+    h2,
+    h3 {
       font-family: var(--font-rubrik);
       color: var(--hsb-mörkblå); /* Mörkare blå för rubriker */
       text-align: center;
@@ -44,10 +45,11 @@
       padding: 1.5em;
       border: 2px solid var(--hsb-blå);
       border-radius: 8px;
-      background-color: #fff;
+      background-color: var(--hsb-blå); /* Blå bakgrund för identifierade problem */
+      color: var(--hsb-vit); /* Vit text för identifierade problem */
     }
     .result-section h3 {
-      color: var(--hsb-mörkblå); /* Mörkare blå för rubrik i sektion */
+      color: var(--hsb-vit); /* Vit rubrik i identifierade problem */
       font-family: var(--font-rubrik);
       margin-top: 0;
       margin-bottom: 0.75em;
@@ -190,7 +192,8 @@
         </div>
       `;
 
-      const recommendedSteps = `<div class="result-section"><h3>Nästa steg</h3><ul>
+      const recommendedSteps = `<div class="result-section" style="background-color: #fff; color: var(--hsb-blå); border-color: var(--hsb-blå);">
+      <h3 style="color: var(--hsb-mörkblå);">Nästa steg</h3><ul>
         <li>Kontakta oss för en djupare analys och skräddarsydda rekommendationer.</li>
         <li>Utforska möjligheter till finansiering och bidrag för klimatanpassningsåtgärder.</li>
       </ul></div>`;
