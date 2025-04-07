@@ -116,7 +116,11 @@
             background-color: #e9f4fb;
             border-left: 5px solid #005aa4;
             padding: 1rem;
-            margin: 2rem 0;
+            margin-bottom: 0; /* Tog bort standardmellanrummet */
+        }
+
+        .quiz:last-child {
+            margin-bottom: 2rem; /* Lägg tillbaka marginal på sista frågan */
         }
 
         .quiz h4 {
@@ -127,19 +131,37 @@
 
         .quiz ul {
             padding-left: 1.2rem;
+            list-style-type: none; /* Ta bort standardpunktlistan */
         }
 
         .quiz li {
             margin-bottom: 0.5rem;
-            cursor: pointer; /* Gör svarsalternativen klickbara */
         }
 
-        .quiz li.correct {
+        .quiz label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .quiz input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .quiz.answered label {
+            cursor: default; /* Inaktivera klick efter svar */
+        }
+
+        .quiz.answered input[type="checkbox"] {
+            pointer-events: none; /* Inaktivera kryssrutor efter svar */
+        }
+
+        .answer.correct {
             color: green;
             font-weight: bold;
         }
 
-        .quiz li.incorrect {
+        .answer.incorrect {
             color: red;
             text-decoration: line-through;
         }
@@ -170,21 +192,20 @@
         @media (min-width: 768px) {
             .layout {
                 display: flex;
-                flex-direction: column; /* Ändrat till column för att stapla innehållet */
-                align-items: stretch; /* Se till att alla element sträcker sig över bredden */
+                flex-direction: column;
+                align-items: stretch;
             }
 
             .sidebar {
-                width: 100%; /* Sidomenyn tar hela bredden på mindre skärmar */
-                margin-right: 0; /* Ingen höger marginal på mindre skärmar */
-                margin-bottom: 1rem; /* Lägg till lite utrymme under sidomenyn */
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 1rem;
             }
 
             .main-content {
-                width: 100%; /* Huvudinnehållet tar också hela bredden */
+                width: 100%;
             }
 
-            /* Justering för att quiz-blocken ska ta full bredd */
             .quiz {
                 width: 100%;
             }
@@ -194,52 +215,53 @@
 <body>
     <div class="layout">
         <h1>Skyddsrum – Vad vet du?</h1>
-        <p>Testa dina kunskaper om skyddsrum och hur du bör agera vid en krissituation.</p>
+        <p>Kryssa i det svar du tror är rätt för varje fråga.</p>
         <div class="quiz" data-correct="2">
             <h4>1. Vad är huvudsyftet med ett skyddsrum?</h4>
             <ul>
-                <li>Att förvara utrustning för fastigheten.</li>
-                <li data-index="1">Att ge skydd åt människor vid krig eller allvarliga händelser.</li>
-                <li>Att användas som en tillfällig samlingsplats vid brand.</li>
-                <li>Att vara en plats för övernattning vid strömavbrott.</li>
+                <li><label><input type="checkbox" name="q1" value="1"> Att förvara utrustning för fastigheten.</label></li>
+                <li><label class="answer" data-index="1"><input type="checkbox" name="q1" value="2"> Att ge skydd åt människor vid krig eller allvarliga händelser.</label></li>
+                <li><label><input type="checkbox" name="q1" value="3"> Att användas som en tillfällig samlingsplats vid brand.</label></li>
+                <li><label><input type="checkbox" name="q1" value="4"> Att vara en plats för övernattning vid strömavbrott.</label></li>
             </ul>
         </div>
         <div class="quiz" data-correct="4">
             <h4>2. Hur snabbt ska ett skyddsrum normalt kunna iordningställas för användning?</h4>
             <ul>
-                <li>Inom en vecka.</li>
-                <li>Inom 72 timmar.</li>
-                <li>Inom 48 timmar.</li>
-                <li data-index="3">Inom 24 timmar.</li>
+                <li><label><input type="checkbox" name="q2" value="1"> Inom en vecka.</label></li>
+                <li><label><input type="checkbox" name="q2" value="2"> Inom 72 timmar.</label></li>
+                <li><label><input type="checkbox" name="q2" value="3"> Inom 48 timmar.</label></li>
+                <li><label class="answer" data-index="3"><input type="checkbox" name="q2" value="4"> Inom 24 timmar.</label></li>
             </ul>
         </div>
         <div class="quiz" data-correct="2">
             <h4>3. Vem har det primära ansvaret för att underhålla och se till att ett skyddsrum är i funktionsdugligt skick?</h4>
             <ul>
-                <li>Kommunen.</li>
-                <li data-index="1">Fastighetsägaren.</li>
-                <li>Myndigheten för samhällsskydd och beredskap (MSB).</li>
-                <li>De boende i fastigheten.</li>
+                <li><label><input type="checkbox" name="q3" value="1"> Kommunen.</label></li>
+                <li><label class="answer" data-index="1"><input type="checkbox" name="q3" value="2"> Fastighetsägaren.</label></li>
+                <li><label><input type="checkbox" name="q3" value="3"> Myndigheten för samhällsskydd och beredskap (MSB).</label></li>
+                <li><label><input type="checkbox" name="q3" value="4"> De boende i fastigheten.</label></li>
             </ul>
         </div>
         <div class="quiz" data-correct="3">
             <h4>4. Vad får normalt sett förvaras i ett skyddsrum i fredstid?</h4>
             <ul>
-                <li>Brandfarliga vätskor och gaser.</li>
-                <li>Tunga möbler och annat som är svårt att flytta snabbt.</li>
-                <li data-index="2">Saker som snabbt kan flyttas undan vid ett larm.</li>
-                <li>Livsmedel och vatten för långvarig lagring.</li>
+                <li><label><input type="checkbox" name="q4" value="1"> Brandfarliga vätskor och gaser.</label></li>
+                <li><label><input type="checkbox" name="q4" value="2"> Tunga möbler och annat som är svårt att flytta snabbt.</label></li>
+                <li><label class="answer" data-index="2"><input type="checkbox" name="q4" value="3"> Saker som snabbt kan flyttas undan vid ett larm.</label></li>
+                <li><label><input type="checkbox" name="q4" value="4"> Livsmedel och vatten för långvarig lagring.</label></li>
             </ul>
         </div>
         <div class="quiz" data-correct="2">
             <h4>5. Hur är ett skyddsrum markerat utifrån?</h4>
             <ul>
-                <li>Med en röd skylt med texten "Skyddsrum".</li>
-                <li data-index="1">Med en blå skylt med en orange triangel och texten "Skyddsrum".</li>
-                <li>Med en grön skylt med en vit symbol (en triangel i en cirkel) och texten "Skyddsrum".</li>
-                <li>Med en gul varningsskylt.</li>
+                <li><label><input type="checkbox" name="q5" value="1"> Med en röd skylt med texten "Skyddsrum".</label></li>
+                <li><label class="answer" data-index="1"><input type="checkbox" name="q5" value="2"> Med en blå skylt med en orange triangel och texten "Skyddsrum".</label></li>
+                <li><label><input type="checkbox" name="q5" value="3"> Med en grön skylt med en vit symbol (en triangel i en cirkel) och texten "Skyddsrum".</label></li>
+                <li><label><input type="checkbox" name="q5" value="4"> Med en gul varningsskylt.</label></li>
             </ul>
         </div>
+        <button id="submit-quiz">Se Resultat</button>
         <div id="score"></div>
         <div class="cta">
             <h2>Vill ni ha hjälp att se över skyddsrum i er förening?</h2>
@@ -248,30 +270,45 @@
         </div>
     </div>
     <script>
+        const quizBlocks = document.querySelectorAll(".quiz");
+        const submitButton = document.getElementById("submit-quiz");
+        const scoreDisplay = document.getElementById("score");
         let totalScore = 0;
-        let answered = 0;
-        const totalQuestions = document.querySelectorAll(".quiz").length;
-        document.querySelectorAll(".quiz").forEach((quizBlock) => {
-            const correctIndex = parseInt(quizBlock.dataset.correct);
-            const answers = quizBlock.querySelectorAll("li");
-            answers.forEach((li, index) => {
-                li.addEventListener("click", () => {
-                    if (quizBlock.classList.contains("answered")) return;
-                    quizBlock.classList.add("answered");
-                    answered++;
-                    const answerIndex = parseInt(li.dataset.index);
-                    if (answerIndex + 1 === correctIndex) {
-                        li.classList.add("correct");
-                        totalScore++;
-                    } else {
-                        li.classList.add("incorrect");
-                        answers[correctIndex - 1].classList.add("correct");
+
+        submitButton.addEventListener("click", () => {
+            totalScore = 0;
+            quizBlocks.forEach((quizBlock) => {
+                if (quizBlock.classList.contains("answered")) return; // Förhindra omräkning
+
+                const correctIndex = parseInt(quizBlock.dataset.correct);
+                const checkboxes = quizBlock.querySelectorAll('input[type="checkbox"]');
+                const labels = quizBlock.querySelectorAll('label');
+                let isCorrect = true;
+
+                checkboxes.forEach((checkbox, index) => {
+                    const isCorrectAnswer = (index + 1 === correctIndex);
+                    const label = labels[index];
+                    label.classList.remove("correct", "incorrect"); // Återställ tidigare markeringar
+
+                    if (checkbox.checked && !isCorrectAnswer) {
+                        isCorrect = false;
+                        label.classList.add("incorrect");
+                    } else if (!checkbox.checked && isCorrectAnswer) {
+                        isCorrect = false;
                     }
-                    if (answered === totalQuestions) {
-                        document.getElementById("score").innerText = `Du fick ${totalScore} av ${totalQuestions} rätt.`;
+
+                    if (isCorrectAnswer) {
+                        label.classList.add("correct");
                     }
                 });
+
+                if (isCorrect) {
+                    totalScore++;
+                }
+                quizBlock.classList.add("answered"); // Markera frågan som besvarad
             });
+            scoreDisplay.innerText = `Du fick ${totalScore} av ${quizBlocks.length} rätt.`;
+            submitButton.disabled = true; // Inaktivera knappen efter inlämning
         });
     </script>
 </body>
