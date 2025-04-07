@@ -1,77 +1,118 @@
 <!DOCTYPE html>
 <html lang="sv">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Klimatverktyg – Steg 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Klimatguiden – Steg 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
       --hsb-blå: #003366;
       --hsb-gul: #ffcf00;
       --hsb-ocra: #d7a900;
       --hsb-vit: #ffffff;
-      --hsb-svart: #000000;
-      --font-rubrik: 'Saira', sans-serif;
-      --font-brödtext: 'ITC New Baskerville Std', serif;
+      --hsb-grå: #f5f5f5;
     }
 
     body {
-      font-family: var(--font-brödtext);
-      color: var(--hsb-blå);
-      background-color: var(--hsb-vit);
-      line-height: 1.6;
+      font-family: 'Saira', sans-serif;
       margin: 0;
-      padding: 0;
+      background-color: var(--hsb-grå);
+      color: var(--hsb-blå);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 2em 1em;
+      background-color: var(--hsb-vit);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 12px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 1em;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background-color: var(--hsb-gul);
+      transition: width 0.3s ease;
     }
 
     h2 {
-      font-family: var(--font-rubrik);
+      margin-bottom: 0.5em;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75em;
+    }
+
+    .option-card {
+      border: 2px solid var(--hsb-blå);
+      border-radius: 8px;
+      padding: 1em;
+      text-align: center;
+      background-color: #fff;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .option-card:hover {
+      background-color: var(--hsb-gul);
       color: var(--hsb-blå);
-      font-weight: 600;
+    }
+
+    input[type="radio"] {
+      display: none;
     }
 
     button {
+      margin-top: 2em;
+      padding: 0.75em 1.5em;
       background-color: var(--hsb-blå);
-      color: var(--hsb-vit);
+      color: white;
       border: none;
-      padding: 0.5em 1em;
-      font-family: var(--font-rubrik);
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 5px;
-      margin-top: 1em;
+      font-size: 1rem;
     }
 
     button:hover {
       background-color: var(--hsb-ocra);
     }
 
-    .question-container {
-      max-width: 600px;
-      margin: 2em auto;
+    .thank-you {
+      text-align: center;
       padding: 2em;
-      background-color: var(--hsb-vit);
-      border: 1px solid var(--hsb-blå);
-      border-radius: 10px;
     }
 
-    .question {
-      display: none;
+    .thank-you h2 {
+      font-size: 1.5em;
     }
 
-    .question.active {
-      display: block;
+    .thank-you p {
+      font-size: 1.1em;
     }
 
-    .options label {
-      display: block;
-      margin-bottom: 0.5em;
+    @media (max-width: 600px) {
+      .container {
+        border-radius: 0;
+        box-shadow: none;
+      }
     }
   </style>
 </head>
-
 <body>
-  <div class="question-container">
+  <div class="container">
+    <div class="progress-bar"><div id="progress" class="progress"></div></div>
     <form id="questionForm">
       <div id="questionContent"></div>
       <button type="submit" id="nextButton">Nästa</button>
@@ -80,38 +121,40 @@
 
   <script>
     const questions = [
-      { text: "1. Var ligger föreningens fastigheter?", options: ["Kustnära/låglänt område", "Högt beläget/kuperad terräng", "Tätbebyggt område/stadsmiljö", "Glesbygd/landbygd"] },
-      { text: "2. Vilken typ av byggnader har föreningen?", options: ["Flerbostadshus (3+ våningar)", "Låga byggnader (1–2 våningar)", "Radhus/kedjehus", "Blandad bebyggelse"] },
-      { text: "3. Har fastigheten drabbats av översvämningar tidigare?", options: ["Ja, upprepade gånger", "Ja, någon gång", "Nej", "Vet ej"] },
-      { text: "4. Hur bedömer ni dagvattenhanteringen på er mark?", options: ["Vi har lokala lösningar (regnrabatter, fördröjningsmagasin, gröna tak)", "Vi har stuprör kopplade till kommunalt system", "Vi vet inte hur dagvattnet leds bort"] },
-      { text: "5. Har ni installerat backventiler i byggnaderna?", options: ["Ja, i alla hus", "Ja, i vissa delar", "Nej", "Vet ej"] },
-      { text: "6. Finns det solskydd i lägenheter som vetter mot söder?", options: ["Ja, både invändiga och utvändiga", "Endast invändiga", "Nej", "Vet ej"] },
-      { text: "7. Finns det träd, grönytor eller annan skuggande växtlighet på gården?", options: ["Ja, mycket", "Lite grann", "Nej", "Planeras"] },
-      { text: "8. Har ni upplevt problem med skadedjur de senaste 2 åren?", options: ["Ja, ofta", "Ja, men sällan", "Nej", "Vet ej"] },
-      { text: "9. Har ni råttstopp eller andra skydd i avloppssystemet?", options: ["Ja", "Nej", "Vet ej"] },
-      { text: "10. Besiktigas tak, skorstenar och vindskivor regelbundet?", options: ["Ja, varje år", "Någon gång ibland", "Nej", "Vet ej"] },
-      { text: "11. Har ni riskträd på föreningens mark som skulle kunna falla på byggnader?", options: ["Ja, vi har identifierat och åtgärdat dem", "Ja, men vi har inte åtgärdat ännu", "Nej", "Vet ej"] },
-      { text: "12. Har ni en uppdaterad underhållsplan med klimatanpassning inkluderad?", options: ["Ja", "Nej, men det planeras", "Nej", "Vet ej"] },
-      { text: "13. Har ni diskuterat klimatanpassning i styrelsen under det senaste året?", options: ["Ja, aktivt", "Ja, men kortfattat", "Nej", "Vet ej"] }
+      { text: "Var ligger föreningens fastigheter?", options: ["Kustnära/låglänt område", "Högt beläget/kuperad terräng", "Tätbebyggt område/stadsmiljö", "Glesbygd/landbygd"] },
+      { text: "Vilken typ av byggnader har föreningen?", options: ["Flerbostadshus (3+ våningar)", "Låga byggnader (1–2 våningar)", "Radhus/kedjehus", "Blandad bebyggelse"] },
+      { text: "Har fastigheten drabbats av översvämningar tidigare?", options: ["Ja, upprepade gånger", "Ja, någon gång", "Nej", "Vet ej"] },
+      { text: "Hur bedömer ni dagvattenhanteringen?", options: ["Lokala lösningar (regnrabatter, gröna tak)", "Stuprör till kommunalt system", "Vi vet inte"] },
+      { text: "Har ni installerat backventiler i byggnaderna?", options: ["Ja, i alla hus", "Ja, i vissa delar", "Nej", "Vet ej"] },
+      { text: "Finns det solskydd i söderlägen?", options: ["Ja, både invändiga & utvändiga", "Endast invändiga", "Nej", "Vet ej"] },
+      { text: "Finns det träd eller växtlighet som skuggar gården?", options: ["Ja, mycket", "Lite grann", "Nej", "Planeras"] },
+      { text: "Har ni haft problem med skadedjur de senaste 2 åren?", options: ["Ja, ofta", "Ja, men sällan", "Nej", "Vet ej"] },
+      { text: "Har ni råttstopp i avloppssystemet?", options: ["Ja", "Nej", "Vet ej"] },
+      { text: "Besiktigas tak och skorsten regelbundet?", options: ["Ja, varje år", "Ibland", "Nej", "Vet ej"] },
+      { text: "Har ni riskträd som kan falla på byggnader?", options: ["Ja, åtgärdade", "Ja, men inte åtgärdat", "Nej", "Vet ej"] },
+      { text: "Har ni en uppdaterad underhållsplan med klimatanpassning?", options: ["Ja", "Nej, men det planeras", "Nej", "Vet ej"] },
+      { text: "Har ni diskuterat klimatanpassning i styrelsen i år?", options: ["Ja, aktivt", "Ja, kortfattat", "Nej", "Vet ej"] }
     ];
 
+    let currentIndex = 0;
     const form = document.getElementById("questionForm");
     const questionContent = document.getElementById("questionContent");
     const nextButton = document.getElementById("nextButton");
+    const progressBar = document.getElementById("progress");
 
-    let currentIndex = 0;
     function renderQuestion(index) {
       const q = questions[index];
+      progressBar.style.width = `${(index / questions.length) * 100}%`;
       questionContent.innerHTML = `
-        <h2>${q.text}</h2>
+        <h2>${index + 1}. ${q.text}</h2>
         <div class="options">
-          ${q.options.map((opt) => `
-            <label>
+          ${q.options.map((opt, i) => `
+            <label class="option-card">
               <input type="radio" name="question${index}" value="${opt}" required />
               ${opt}
-            </label>`).join("")}
-        </div>
-      `;
+            </label>
+          `).join("")}
+        </div>`;
       nextButton.textContent = index === questions.length - 1 ? "Slutför" : "Nästa";
     }
 
@@ -123,7 +166,11 @@
       if (currentIndex < questions.length) {
         renderQuestion(currentIndex);
       } else {
-        form.innerHTML = "<h2>Tack för dina svar!</h2><p>Du går nu vidare till klimatanalysen.</p>";
+        document.querySelector(".container").innerHTML = `
+          <div class="thank-you">
+            <h2>✅ Tack för dina svar!</h2>
+            <p>Du går nu vidare till klimatanalysen.</p>
+          </div>`;
       }
     });
 
