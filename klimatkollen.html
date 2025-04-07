@@ -8,8 +8,8 @@
   <style>
     :root {
       --hsb-blå: #003366;
-      --hsb-gul: #ffcf00;
-      --hsb-ocra: #d7a900;
+      --hsb-mörkblå: #001a33; /* En mörkare nyans av blå */
+      --hsb-ljusblå: #6699CC; /* En ljusare nyans av blå */
       --hsb-vit: #ffffff;
       --hsb-grå: #f5f5f5;
     }
@@ -18,7 +18,7 @@
       font-family: 'Saira', sans-serif;
       margin: 0;
       background-color: var(--hsb-grå);
-      color: var(--hsb-blå);
+      color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
     }
 
     .container {
@@ -41,12 +41,13 @@
     .progress {
       height: 100%;
       width: 0%;
-      background-color: var(--hsb-gul);
+      background-color: var(--hsb-blå); /* Använder blå för framsteg */
       transition: width 0.3s ease;
     }
 
     h2 {
       margin-bottom: 0.5em;
+      color: var(--hsb-mörkblå); /* Använder mörkare blå för rubrik */
     }
 
     .options {
@@ -64,11 +65,12 @@
       cursor: pointer;
       transition: background 0.2s ease, color 0.2s ease;
       min-width: 200px; /* Gör klickområdet större på dator */
+      color: var(--hsb-mörkblå); /* Använder mörkare blå för text i kort */
     }
 
     .option-card:hover {
-      background-color: var(--hsb-gul);
-      color: var(--hsb-blå);
+      background-color: var(--hsb-ljusblå); /* Ljusare blå vid hover */
+      color: var(--hsb-mörkblå);
     }
 
     .option-card input[type="radio"]:checked + .option-card {
@@ -77,7 +79,7 @@
     }
 
     .option-card input[type="radio"]:focus + .option-card {
-      outline: 2px solid var(--hsb-ocra); /* Tydlig fokusstil för tangentbordsnavigering */
+      outline: 2px solid var(--hsb-ljusblå); /* Ljusare blå fokusstil */
     }
 
     input[type="radio"] {
@@ -96,7 +98,7 @@
     }
 
     button:hover {
-      background-color: var(--hsb-ocra);
+      background-color: var(--hsb-ljusblå); /* Ljusare blå vid hover på knapp */
     }
 
     .thank-you {
@@ -106,10 +108,12 @@
 
     .thank-you h2 {
       font-size: 1.5em;
+      color: var(--hsb-mörkblå); /* Använder mörkare blå för rubrik */
     }
 
     .thank-you p {
       font-size: 1.1em;
+      color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
     }
 
     .thinking-overlay {
@@ -125,11 +129,13 @@
       align-items: center;
       z-index: 1000; /* Se till att den ligger över annat innehåll */
       font-size: 1.2em;
+      color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
     }
 
     .thinking-animation {
       font-size: 3em;
       margin-bottom: 1em;
+      color: var(--hsb-blå); /* Använder blå för animation */
       /* Enkel roterande animation */
       animation: rotate 2s linear infinite;
     }
