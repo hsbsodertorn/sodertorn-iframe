@@ -107,11 +107,15 @@
     }
     .key-figure .risk-text {
       font-size: 1.1em;
+      /* Ta bort denna rad */
+      display: none;
     }
     .key-figure-start-text {
       font-size: 1.2em;
       margin-bottom: 1em;
       text-align: center;
+      /* Ta bort denna klass helt om du inte använder den någon annanstans */
+      display: none;
     }
     @media (min-width: 600px) {
       .key-figure-container {
@@ -190,11 +194,9 @@
 
       let keyFiguresHTML = `
         <div class="key-figure-container">
-          <p class="key-figure-start-text">Baserat på dina svar har vi identifierat:</p>
           <div class="key-figure">
             <h4>Identifierade risker</h4>
             <p class="risk-count">${riskCount}</p>
-            <p class="risk-text">potentiella områden att fokusera på</p>
           </div>
         </div>
       `;
