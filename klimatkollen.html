@@ -1,221 +1,236 @@
 <!DOCTYPE html>
-<html lang="sv">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Klimatanalysverktyg HSB</title>
-  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --hsb-blå: #003366;
-      --hsb-mörkblå: #001a33; /* En mörkare nyans av blå */
-      --hsb-ljusblå: #6699CC; /* En ljusare nyans av blå */
-      --hsb-ocra: #d7a900; /* Behåller ockra för accent om det behövs */
-      --hsb-vit: #ffffff;
-      --hsb-grå: #f5f5f5;
-      --font-rubrik: 'Saira', sans-serif;
-      --font-brödtext: 'ITC New Baskerville Std', serif;
-    }
-    body {
-      font-family: var(--font-brödtext);
-      color: var(--hsb-blå);
-      background-color: var(--hsb-grå);
-      line-height: 1.6;
-      margin: 0;
-      padding: 20px;
-    }
-    h2,
-    h3 {
-      font-family: var(--font-rubrik);
-      color: var(--hsb-mörkblå); /* Mörkare blå för rubriker */
-      text-align: center;
-      margin-bottom: 1.5em;
-    }
-    .container {
-      max-width: 600px;
-      margin: 2em auto;
-      padding: 2em 1em;
-      background-color: var(--hsb-vit);
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .result-section {
-      margin-bottom: 1.5em;
-      padding: 1.5em;
-      border: 2px solid var(--hsb-blå);
-      border-radius: 8px;
-      background-color: var(--hsb-blå); /* Blå bakgrund för identifierade problem */
-      color: var(--hsb-vit); /* Vit text för identifierade problem */
-    }
-    .result-section h3 {
-      color: var(--hsb-vit); /* Vit rubrik i identifierade problem */
-      font-family: var(--font-rubrik);
-      margin-top: 0;
-      margin-bottom: 0.75em;
-      text-align: center;
-      border-bottom: 2px solid var(--hsb-ljusblå); /* Ljusare blå understrykning */
-      padding-bottom: 0.5em;
-    }
-    .result-section ul {
-      list-style-type: disc;
-      padding-left: 1.5em;
-    }
-    .cta-container {
-      text-align: center;
-      margin-top: 2em;
-    }
-    .contact-button {
-      display: inline-block;
-      background-color: var(--hsb-blå); /* Samma blå som de andra fönstrena */
-      color: var(--hsb-vit);
-      border: none;
-      padding: 1em 2em;
-      font-family: var(--font-rubrik);
-      cursor: pointer;
-      border-radius: 6px;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-      min-width: 200px;
-    }
-    .contact-button:hover {
-      background-color: var(--hsb-ljusblå);
-    }
-    /* Nyckeltalsstyling */
-    .key-figure-container {
-      display: flex;
-      flex-direction: column; /* Staplar på mindre skärmar som standard */
-      align-items: center; /* Centrerar innehållet */
-      margin-top: 2em;
-      padding: 1.5em;
-      background-color: var(--hsb-vit); /* Vit bakgrund */
-      border-radius: 8px;
-      color: var(--hsb-mörkblå); /* Mörkare blå text */
-      text-align: center;
-    }
-    .key-figure h4 {
-      font-family: var(--font-rubrik);
-      margin-bottom: 0.5em;
-      font-size: 1.2em;
-    }
-    .key-figure .risk-count {
-      font-size: 4em; /* Större siffra */
-      font-weight: bold;
-      margin-bottom: 0.2em;
-      font-family: 'Saira', sans-serif; /* Använder Saira för siffran */
-    }
-    .key-figure .risk-text {
-      font-size: 1.1em;
-      display: none;
-    }
-    .key-figure-start-text {
-      font-size: 1.2em;
-      margin-bottom: 1em;
-      text-align: center;
-      display: none;
-    }
-    @media (min-width: 600px) {
-      .key-figure-container {
-        flex-direction: row; /* Lägger i rad på större skärmar */
-        justify-content: space-around;
-      }
-      .key-figure {
-        flex: 1;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>Analys av Klimatanpassning</h2>
-    <div id="resultDiv">
-      <p>Hämtar och analyserar svar...</p>
-    </div>
-    <div class="cta-container">
-      <a href="kontakta-oss.html" class="contact-button">Kontakta oss för mer information</a>
-    </div>
-  </div>
-
-  <script>
-    const resultDiv = document.getElementById("resultDiv");
-    const numberOfQuestions = 13; // Antalet frågor i steg 1
-    const answers = [];
-
-    // Hämta svaren från localStorage
-    for (let i = 0; i < numberOfQuestions; i++) {
-      const answer = localStorage.getItem(`question-${i}`);
-      if (answer) {
-        answers.push(answer);
-      } else {
-        resultDiv.innerHTML = "<p>Fel: Kunde inte hämta alla svar.</p>";
-        break;
-      }
-    }
-
-    function generateAnalysis(answers) {
-      let output = "";
-      let riskCount = 0;
-
-      if (answers[0] === "Kustnära/låglänt område" || answers[2].includes("Ja")) {
-        output += `<div class="result-section"><h3>🌧️ Hög risk för översvämning vid skyfall</h3><ul>
-        <li>Installera backventiler</li><li>Anlägg regnrabatter</li><li>Säkerställ dränering</li><li>Rensa brunnar</li></ul></div>`;
-        riskCount++;
-      }
-      if (answers[3] === "Stuprör till kommunalt system" && !answers[4].includes("Ja")) {
-        output += `<div class="result-section"><h3>💧 Bristfällig hantering av dagvatten</h3><ul><li>Se över möjligheter till lokal dagvattenhantering.</li><li>Installera backventiler.</li></ul></div>`;
-        riskCount++;
-      }
-      if (answers[5] === "Nej" && answers[6].includes("Nej")) {
-        output += `<div class="result-section"><h3>☀️ Hög risk för överhettning</h3><ul>
-        <li>Installera markiser eller annan solavskärmning.</li><li>Plantera träd eller annan växtlighet för skugga.</li><li>Utred möjligheten till gröna tak.</li></ul></div>`;
-        riskCount++;
-      }
-      if (answers[7].includes("Ja") && answers[8] === "Nej") {
-        output += `<div class="result-section"><h3>🐭 Ökad risk för skadedjur</h3><ul>
-        <li>Installera råttstopp.</li><li>Se över sophantering och täta eventuella ingångar.</li></ul></div>`;
-        riskCount++;
-      }
-      if (answers[9].includes("Nej") || answers[10].includes("Ja, men inte åtgärdat")) {
-        output += `<div class="result-section"><h3>⚠️ Identifierade underhållsbehov</h3><ul>
-        <li>Se till att tak och skorsten besiktigas regelbundet.</li><li>Åtgärda riskträd snarast.</li></ul></div>`;
-        riskCount++;
-      }
-      if (answers[11].includes("Nej")) {
-        output += `<div class="result-section"><h3>📝 Avsaknad av klimatanpassningsplan</h3><ul><li>Upprätta eller uppdatera underhållsplanen med tydliga klimatanpassningsåtgärder.</li></ul></div>`;
-        riskCount++;
-      }
-      if (answers[12].includes("Nej")) {
-        output += `<div class="result-section"><h3>🗣️ Låg medvetenhet i styrelsen</h3><ul><li>Boka en workshop för klimatanpassning i styrelsen.</li><li>Diskutera klimatrisker och åtgärder regelbundet.</li></ul></div>`;
-        riskCount++;
-      }
-
-      let keyFiguresHTML = `
-        <div class="key-figure-container">
-          <div class="key-figure">
-            <h4>Identifierade risker</h4>
-            <p class="risk-count">${riskCount}</p>
-          </div>
-        </div>
-      `;
-
-      const recommendedSteps = `<div class="result-section" style="background-color: #fff; color: var(--hsb-blå); border-color: var(--hsb-blå);">
-      <h3 style="color: var(--hsb-mörkblå);">Nästa steg</h3><ul>
-        <li>Kontakta oss för en djupare analys och skräddarsydda rekommendationer.</li>
-        <li>Utforska möjligheter till finansiering och bidrag för klimatanpassningsåtgärder.</li>
-      </ul></div>`;
-
-      return keyFiguresHTML + output + recommendedSteps;
-    }
-
-    // Visa analysen om alla svar har hämtats
-    if (answers.length === numberOfQuestions) {
-      resultDiv.innerHTML = generateAnalysis(answers);
-      // Rensa localStorage efter att svaren har hämtats (valfritt)
-      for (let i = 0; i < numberOfQuestions; i++) {
-        localStorage.removeItem(`question-${i}`);
-      }
-    }
-  </script>
-</body>
-</html>
+ <html lang="sv">
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <title>Klimatguiden – Steg 1</title>
+   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@500&display=swap" rel="stylesheet">
+   <style>
+     :root {
+       --hsb-blå: #003366;
+       --hsb-mörkblå: #001a33; /* En mörkare nyans av blå */
+       --hsb-ljusblå: #6699CC; /* En ljusare nyans av blå */
+       --hsb-vit: #ffffff;
+       --hsb-grå: #f5f5f5;
+     }
+ 
+     body {
+       font-family: 'Saira', sans-serif;
+       margin: 0;
+       background-color: var(--hsb-grå);
+       color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
+     }
+ 
+     .container {
+       max-width: 600px;
+       margin: auto;
+       padding: 2em 1em;
+       background-color: var(--hsb-vit);
+       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+       border-radius: 12px;
+     }
+ 
+     .progress-bar {
+       height: 10px;
+       background-color: #e0e0e0;
+       border-radius: 5px;
+       overflow: hidden;
+       margin-bottom: 1em;
+     }
+ 
+     .progress {
+       height: 100%;
+       width: 0%;
+       background-color: var(--hsb-blå); /* Använder blå för framsteg */
+       transition: width 0.3s ease;
+     }
+ 
+     h2 {
+       margin-bottom: 0.5em;
+       color: var(--hsb-mörkblå); /* Använder mörkare blå för rubrik */
+     }
+ 
+     .options {
+       display: flex;
+       flex-direction: column;
+       gap: 0.75em;
+     }
+ 
+     .option-card {
+       border: 2px solid var(--hsb-blå);
+       border-radius: 8px;
+       padding: 1em;
+       text-align: center;
+       background-color: #fff;
+       cursor: pointer;
+       transition: background 0.2s ease, color 0.2s ease;
+       min-width: 200px; /* Gör klickområdet större på dator */
+       color: var(--hsb-mörkblå); /* Använder mörkare blå för text i kort */
+     }
+ 
+     .option-card:hover {
+       background-color: var(--hsb-ljusblå); /* Ljusare blå vid hover */
+       color: var(--hsb-mörkblå);
+     }
+ 
+     .option-card input[type="radio"]:checked + .option-card {
+       background-color: var(--hsb-blå);
+       color: var(--hsb-vit);
+       background-color: var(--hsb-mörkblå); /* Mörkblå bakgrund vid val */
+       color: var(--hsb-vit); /* Vit text vid val */
+     }
+ 
+     .option-card input[type="radio"]:focus + .option-card {
+       outline: 2px solid var(--hsb-ljusblå); /* Ljusare blå fokusstil */
+     }
+ 
+     input[type="radio"] {
+       display: none;
+     }
+ 
+     button {
+       margin-top: 2em;
+       padding: 0.75em 1.5em;
+       background-color: var(--hsb-blå);
+       background-color: var(--hsb-mörkblå); /* Alltid mörkblå bakgrund */
+       color: white;
+       border: none;
+       border-radius: 6px;
+       cursor: pointer;
+       font-size: 1rem;
+     }
+ 
+     button:hover {
+       background-color: var(--hsb-ljusblå); /* Ljusare blå vid hover på knapp */
+     }
+ 
+     .thank-you {
+       text-align: center;
+       padding: 2em;
+     }
+ 
+     .thank-you h2 {
+       font-size: 1.5em;
+       color: var(--hsb-mörkblå); /* Använder mörkare blå för rubrik */
+     }
+ 
+     .thank-you p {
+       font-size: 1.1em;
+       color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
+     }
+ 
+     .thinking-overlay {
+       position: fixed; /* Stannar på skärmen även om man scrollar */
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background-color: rgba(255, 255, 255, 0.9); /* Lätt transparent vit bakgrund */
+       display: none; /* Initialt dold */
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       z-index: 1000; /* Se till att den ligger över annat innehåll */
+       font-size: 1.2em;
+       color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
+     }
+ 
+     .thinking-animation {
+       font-size: 3em;
+       margin-bottom: 1em;
+       color: var(--hsb-blå); /* Använder blå för animation */
+       /* Enkel roterande animation */
+       animation: rotate 2s linear infinite;
+     }
+ 
+     @keyframes rotate {
+       from { transform: rotate(0deg); }
+       to { transform: rotate(360deg); }
+     }
+ 
+     @media (max-width: 600px) {
+       .container {
+         border-radius: 0;
+         box-shadow: none;
+       }
+     }
+   </style>
+ </head>
+ <body>
+   <div class="container">
+     <div class="progress-bar"><div id="progress" class="progress"></div></div>
+     <form id="questionForm">
+       <div id="questionContent"></div>
+       <button type="submit" id="nextButton">Nästa</button>
+     </form>
+   </div>
+ 
+   <div id="thinkingOverlay" class="thinking-overlay">
+     <div class="thinking-animation">⏳</div>
+     <p>Analyserar resultatet...</p>
+   </div>
+ 
+   <script>
+     const questions = [
+       { text: "Var ligger föreningens fastigheter?", options: ["Kustnära/låglänt område", "Högt beläget/kuperad terräng", "Tätbebyggt område/stadsmiljö", "Glesbygd/landbygd"] },
+       { text: "Vilken typ av byggnader har föreningen?", options: ["Flerbostadshus (3+ våningar)", "Låga byggnader (1–2 våningar)", "Radhus/kedjehus", "Blandad bebyggelse"] },
+       { text: "Har fastigheten drabbats av översvämningar tidigare?", options: ["Ja, upprepade gånger", "Ja, någon gång", "Nej", "Vet ej"] },
+       { text: "Hur bedömer ni dagvattenhanteringen?", options: ["Lokala lösningar (regnrabatter, gröna tak)", "Stuprör till kommunalt system", "Vi vet inte"] },
+       { text: "Har ni installerat backventiler i byggnaderna?", options: ["Ja, i alla hus", "Ja, i vissa delar", "Nej", "Vet ej"] },
+       { text: "Finns det solskydd i söderlägen?", options: ["Ja, både invändiga & utvändiga", "Endast invändiga", "Nej", "Vet ej"] },
+       { text: "Finns det träd eller växtlighet som skuggar gården?", options: ["Ja, mycket", "Lite grann", "Nej", "Planeras"] },
+       { text: "Har ni haft problem med skadedjur de senaste 2 åren?", options: ["Ja, ofta", "Ja, men sällan", "Nej", "Vet ej"] },
+       { text: "Har ni råttstopp i avloppssystemet?", options: ["Ja", "Nej", "Vet ej"] },
+       { text: "Besiktigas tak och skorsten regelbundet?", options: ["Ja, varje år", "Ibland", "Nej", "Vet ej"] },
+       { text: "Har ni riskträd som kan falla på byggnader?", options: ["Ja, åtgärdade", "Ja, men inte åtgärdat", "Nej", "Vet ej"] },
+       { text: "Har ni en uppdaterad underhållsplan med klimatanpassning?", options: ["Ja", "Nej, men det planeras", "Nej", "Vet ej"] },
+       { text: "Har ni diskuterat klimatanpassning i styrelsen i år?", options: ["Ja, aktivt", "Ja, kortfattat", "Nej", "Vet ej"] }
+     ];
+ 
+     let currentIndex = 0;
+     const form = document.getElementById("questionForm");
+     const questionContent = document.getElementById("questionContent");
+     const nextButton = document.getElementById("nextButton");
+     const progressBar = document.getElementById("progress");
+     const container = document.querySelector(".container");
+     const thinkingOverlay = document.getElementById("thinkingOverlay");
+ 
+     function renderQuestion(index) {
+       const q = questions[index];
+       progressBar.style.width = `${(index / questions.length) * 100}%`;
+       questionContent.innerHTML = `
+         <h2>${index + 1}. ${q.text}</h2>
+         <div class="options">
+           ${q.options.map((opt, i) => `
+             <label class="option-card">
+               <input type="radio" name="question${index}" value="${opt}" required />
+               ${opt}
+             </label>
+           `).join("")}
+         </div>`;
+       nextButton.textContent = index === questions.length - 1 ? "Slutför" : "Nästa";
+     }
+ 
+     form.addEventListener("submit", (e) => {
+       e.preventDefault();
+       const selected = form.querySelector(`input[name="question${currentIndex}"]:checked`);
+       if (!selected) return;
+       const answer = selected.value;
+       localStorage.setItem(`question-${currentIndex}`, answer); // Lagra svaret lokalt
+       currentIndex++;
+       if (currentIndex < questions.length) {
+         renderQuestion(currentIndex);
+       } else {
+         // När alla frågor är besvarade, visa "tänker"-skärmen och navigera sedan
+         container.style.display = "none";
+         thinkingOverlay.style.display = "flex";
+         setTimeout(() => {
+           window.location.href = "steg2.html";
+         }, 3000); // Vänta 3 sekunder innan navigering
+       }
+     });
+ 
+     renderQuestion(currentIndex);
+   </script>
+ </body>
+ </html>
