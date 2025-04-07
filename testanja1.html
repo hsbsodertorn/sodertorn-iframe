@@ -5,108 +5,147 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz om Skyddsrum</title>
   <style>
+    /* Grundläggande layout */
     body {
       font-family: "Open Sans", sans-serif;
-      background-color: #fff;
       color: #222;
+      background-color: #fff;
       line-height: 1.6;
       margin: 0;
       padding: 0;
     }
 
+    a {
+      color: #005aa4;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Rubriker */
     h1, h2, h3, h4 {
       color: #002f6c;
       font-weight: 700;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
     }
 
     h1 {
       font-size: 2rem;
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
     }
 
-    p {
-      margin: 0 0 1.5rem 0;
-      padding: 0;
+    h2 {
+      font-size: 1.5rem;
     }
 
-    .layout {
-      max-width: 900px;
-      margin: 0 auto;
+    /* Navigationsmeny */
+    nav {
+      background-color: #f2f2f2;
       padding: 1rem;
+      border-bottom: 2px solid #e0e0e0;
     }
 
-    .quiz {
-      background-color: #e9f4fb;
-      border-left: 5px solid #005aa4;
+    nav a {
+      margin-right: 1rem;
+      font-weight: 600;
+      color: #002f6c;
+    }
+
+    /* Sidomeny (vänster) */
+    .sidebar {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
       padding: 1rem;
-      border-radius: 4px;
-      margin-bottom: 0; /* Korrekt: Tar bort marginalen mellan frågorna */
+      margin-right: 2rem;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
     }
 
-    .quiz h4 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .quiz ul {
+    .sidebar ul {
       list-style: none;
       padding-left: 0;
     }
 
-    .quiz li {
-      margin-bottom: 0.5rem;
-      padding-left: 1.5rem;
-      position: relative;
-      cursor: pointer;
+    .sidebar li {
+      margin-bottom: 0.75rem;
+      font-weight: 600;
     }
 
-    .quiz li::before {
-      content: "☐";
-      position: absolute;
-      left: 0;
-      color: #005aa4;
-    }
-
-    .quiz li.correct::before {
-      content: "✔";
-      color: green;
-    }
-
-    .quiz li.incorrect::before {
-      content: "✖";
-      color: red;
-    }
-
-    .cta {
+    /* Call-to-action box */
+    .cta-box {
       background-color: #f8f6f1;
       border: 1px solid #e6e1d7;
       padding: 1.5rem;
       text-align: center;
-      margin-top: 2rem;
-      border-radius: 4px;
+      margin: 2rem 0;
     }
 
-    .cta a {
+    .cta-box h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .button-primary {
       background-color: #005aa4;
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      text-decoration: none;
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 3px;
       font-weight: bold;
-      display: inline-block;
-      margin-top: 1rem;
+      cursor: pointer;
     }
 
-    .cta a:hover {
+    .button-primary:hover {
       background-color: #00457d;
     }
 
-    #score {
+    /* Textblock under "Vad vi erbjuder" */
+    .offerings h3 {
+      color: #002f6c;
       font-weight: bold;
-      font-size: 1.2rem;
-      margin-top: 2rem;
-      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .offerings p {
+      margin-bottom: 1.25rem;
+    }
+
+    /* Quiz-block */
+    .quiz {
+      background-color: #e9f4fb;
+      border-left: 5px solid #005aa4;
+      padding: 1rem;
+      margin: 2rem 0;
+    }
+
+    .quiz h4 {
+      margin: 0 0 0.5rem 0;
+      color: #003f7d;
+      font-size: 1.1rem;
+    }
+
+    .quiz ul {
+      padding-left: 1.2rem;
+    }
+
+    .quiz li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Responsiv layout, t.ex. två kolumner */
+    @media (min-width: 768px) {
+      .layout {
+        display: flex;
+      }
+
+      .sidebar {
+        width: 25%;
+      }
+
+      .main-content {
+        width: 75%;
+      }
     }
   </style>
 </head>
