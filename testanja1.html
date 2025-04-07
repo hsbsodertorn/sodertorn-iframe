@@ -1,235 +1,277 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz om Skyddsrum</title>
-  <style>
-    /* Grundläggande layout */
-    body {
-      font-family: "Open Sans", sans-serif;
-      color: #222;
-      background-color: #fff;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz om Skyddsrum</title>
+    <style>
+        /* Grundläggande layout */
+        body {
+            font-family: "Open Sans", sans-serif;
+            color: #222;
+            background-color: #fff;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
 
-    a {
-      color: #005aa4;
-      text-decoration: none;
-    }
+        a {
+            color: #005aa4;
+            text-decoration: none;
+        }
 
-    a:hover {
-      text-decoration: underline;
-    }
+        a:hover {
+            text-decoration: underline;
+        }
 
-    /* Rubriker */
-    h1, h2, h3, h4 {
-      color: #002f6c;
-      font-weight: 700;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
+        /* Rubriker */
+        h1, h2, h3, h4 {
+            color: #002f6c;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
 
-    h1 {
-      font-size: 2rem;
-    }
+        h1 {
+            font-size: 2rem;
+        }
 
-    h2 {
-      font-size: 1.5rem;
-    }
+        h2 {
+            font-size: 1.5rem;
+        }
 
-    /* Navigationsmeny */
-    nav {
-      background-color: #f2f2f2;
-      padding: 1rem;
-      border-bottom: 2px solid #e0e0e0;
-    }
+        /* Navigationsmeny */
+        nav {
+            background-color: #f2f2f2;
+            padding: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
 
-    nav a {
-      margin-right: 1rem;
-      font-weight: 600;
-      color: #002f6c;
-    }
+        nav a {
+            margin-right: 1rem;
+            font-weight: 600;
+            color: #002f6c;
+        }
 
-    /* Sidomeny (vänster) */
-    .sidebar {
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      padding: 1rem;
-      margin-right: 2rem;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
-    }
+        /* Sidomeny (vänster) */
+        .sidebar {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin-right: 2rem;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+        }
 
-    .sidebar ul {
-      list-style: none;
-      padding-left: 0;
-    }
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
 
-    .sidebar li {
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-    }
+        .sidebar li {
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
 
-    /* Call-to-action box */
-    .cta-box {
-      background-color: #f8f6f1;
-      border: 1px solid #e6e1d7;
-      padding: 1.5rem;
-      text-align: center;
-      margin: 2rem 0;
-    }
+        /* Call-to-action box */
+        .cta-box {
+            background-color: #f8f6f1;
+            border: 1px solid #e6e1d7;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
 
-    .cta-box h2 {
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-    }
+        .cta-box h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
 
-    .button-primary {
-      background-color: #005aa4;
-      color: #fff;
-      padding: 0.75rem 1.25rem;
-      border: none;
-      border-radius: 3px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+        .button-primary {
+            background-color: #005aa4;
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 3px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-    .button-primary:hover {
-      background-color: #00457d;
-    }
+        .button-primary:hover {
+            background-color: #00457d;
+        }
 
-    /* Textblock under "Vad vi erbjuder" */
-    .offerings h3 {
-      color: #002f6c;
-      font-weight: bold;
-      margin-bottom: 0.25rem;
-    }
+        /* Textblock under "Vad vi erbjuder" */
+        .offerings h3 {
+            color: #002f6c;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
 
-    .offerings p {
-      margin-bottom: 1.25rem;
-    }
+        .offerings p {
+            margin-bottom: 1.25rem;
+        }
 
-    /* Quiz-block */
-    .quiz {
-      background-color: #e9f4fb;
-      border-left: 5px solid #005aa4;
-      padding: 1rem;
-      margin: 2rem 0;
-    }
+        /* Quiz-block */
+        .quiz {
+            background-color: #e9f4fb;
+            border-left: 5px solid #005aa4;
+            padding: 1rem;
+            margin: 2rem 0;
+        }
 
-    .quiz h4 {
-      margin: 0 0 0.5rem 0;
-      color: #003f7d;
-      font-size: 1.1rem;
-    }
+        .quiz h4 {
+            margin: 0 0 0.5rem 0;
+            color: #003f7d;
+            font-size: 1.1rem;
+        }
 
-    .quiz ul {
-      padding-left: 1.2rem;
-    }
+        .quiz ul {
+            padding-left: 1.2rem;
+        }
 
-    .quiz li {
-      margin-bottom: 0.5rem;
-    }
+        .quiz li {
+            margin-bottom: 0.5rem;
+            cursor: pointer; /* Gör svarsalternativen klickbara */
+        }
 
-    /* Responsiv layout, t.ex. två kolumner */
-    @media (min-width: 768px) {
-      .layout {
-        display: flex;
-      }
+        .quiz li.correct {
+            color: green;
+            font-weight: bold;
+        }
 
-      .sidebar {
-        width: 25%;
-      }
+        .quiz li.incorrect {
+            color: red;
+            text-decoration: line-through;
+        }
 
-      .main-content {
-        width: 75%;
-      }
-    }
-  </style>
+        /* Resultat */
+        #score {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 2rem;
+            color: #002f6c;
+        }
+
+        /* Call to action */
+        .cta {
+            background-color: #f8f6f1;
+            border: 1px solid #e6e1d7;
+            padding: 1.5rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .cta h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsiv layout, t.ex. två kolumner */
+        @media (min-width: 768px) {
+            .layout {
+                display: flex;
+                flex-direction: column; /* Ändrat till column för att stapla innehållet */
+                align-items: stretch; /* Se till att alla element sträcker sig över bredden */
+            }
+
+            .sidebar {
+                width: 100%; /* Sidomenyn tar hela bredden på mindre skärmar */
+                margin-right: 0; /* Ingen höger marginal på mindre skärmar */
+                margin-bottom: 1rem; /* Lägg till lite utrymme under sidomenyn */
+            }
+
+            .main-content {
+                width: 100%; /* Huvudinnehållet tar också hela bredden */
+            }
+
+            /* Justering för att quiz-blocken ska ta full bredd */
+            .quiz {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="layout">
-    <h1>Skyddsrum – Vad vet du?</h1>
-    <p>Testa dina kunskaper om skyddsrum och hur du bör agera vid en krissituation.</p>
-    <div class="quiz" data-correct="1">
-      <h4>1. Vad är ett skyddsrum till för?</h4>
-      <ul>
-        <li>Förvaring av föreningens verktyg</li>
-        <li>Ett utrymme för att skydda människor vid krig eller allvarliga hot</li>
-        <li>Ett rum för cykelförvaring</li>
-        <li>Ett vanligt förråd</li>
-      </ul>
-    </div>
-    <div class="quiz" data-correct="4">
-      <h4>2. Hur snabbt ska ett skyddsrum kunna iordningställas?</h4>
-      <ul>
-        <li>Inom 2 dagar</li>
-        <li>Inom 12 timmar</li>
-        <li>Inom 48 timmar</li>
-        <li>Inom 24 timmar</li>
-      </ul>
-    </div>
-    <div class="quiz" data-correct="2">
-      <h4>3. Vem ansvarar för att skyddsrummet hålls i ordning?</h4>
-      <ul>
-        <li>Myndigheten för samhällsskydd och beredskap (MSB)</li>
-        <li>Fastighetsägaren</li>
-        <li>Kommunen</li>
-        <li>Polisen</li>
-      </ul>
-    </div>
-    <div class="quiz" data-correct="3">
-      <h4>4. Vad får förvaras i ett skyddsrum?</h4>
-      <ul>
-        <li>Inget alls</li>
-        <li>Möbler som tar upp hela utrymmet</li>
-        <li>Saker som snabbt kan tas bort vid aktivering</li>
-        <li>Brännbart material</li>
-      </ul>
-    </div>
-    <div class="quiz" data-correct="2">
-      <h4>5. Hur märks ett skyddsrum ut?</h4>
-      <ul>
-        <li>Med ett rött kryss</li>
-        <li>Med en blå skylt med vit symbol</li>
-        <li>Med en grön skylt och text</li>
-        <li>Med en gul varningsskylt</li>
-      </ul>
-    </div>
-    <div id="score"></div>
-    <div class="cta">
-      <h2>Vill ni ha hjälp att se över skyddsrum i er förening?</h2>
-      <p>Vi hjälper gärna till att reda ut vad som gäller och hur ni kan säkerställa att ert skyddsrum är redo vid kris.</p>
-      <a href="#">Kontakta oss</a>
-    </div>
-  </div>
-  <script>
-    let totalScore = 0;
-    let answered = 0;
-    const totalQuestions = document.querySelectorAll(".quiz").length;
-    document.querySelectorAll(".quiz").forEach((quizBlock) => {
-      const correctIndex = parseInt(quizBlock.dataset.correct);
-      const answers = quizBlock.querySelectorAll("li");
-      answers.forEach((li, index) => {
-        li.addEventListener("click", () => {
-          if (quizBlock.classList.contains("answered")) return;
-          quizBlock.classList.add("answered");
-          answered++;
-          if (index + 1 === correctIndex) {
-            li.classList.add("correct");
-            totalScore++;
-          } else {
-            li.classList.add("incorrect");
-            answers[correctIndex - 1].classList.add("correct");
-          }
-          if (answered === totalQuestions) {
-            document.getElementById("score").innerText = `Du fick ${totalScore} av ${totalQuestions} rätt.`;
-          }
-        });
-      });
-    });
-  </script>
+    <div class="layout">
+        <h1>Skyddsrum – Vad vet du?</h1>
+        <p>Testa dina kunskaper om skyddsrum och hur du bör agera vid en krissituation.</p>
+        <div class="quiz" data-correct="2">
+            <h4>1. Vad är huvudsyftet med ett skyddsrum?</h4>
+            <ul>
+                <li>Att förvara utrustning för fastigheten.</li>
+                <li>Att ge skydd åt människor vid krig eller allvarliga händelser.</li>
+                <li>Att användas som en tillfällig samlingsplats vid brand.</li>
+                <li>Att vara en plats för övernattning vid strömavbrott.</li>
+            </ul>
+        </div>
+        <div class="quiz" data-correct="4">
+            <h4>2. Hur snabbt ska ett skyddsrum normalt kunna iordningställas för användning?</h4>
+            <ul>
+                <li>Inom en vecka.</li>
+                <li>Inom 72 timmar.</li>
+                <li>Inom 48 timmar.</li>
+                <li>Inom 24 timmar.</li>
+            </ul>
+        </div>
+        <div class="quiz" data-correct="2">
+            <h4>3. Vem har det primära ansvaret för att underhålla och se till att ett skyddsrum är i funktionsdugligt skick?</h4>
+            <ul>
+                <li>Kommunen.</li>
+                <li>Fastighetsägaren.</li>
+                <li>Myndigheten för samhällsskydd och beredskap (MSB).</li>
+                <li>De boende i fastigheten.</li>
+            </ul>
+        </div>
+        <div class="quiz" data-correct="3">
+            <h4>4. Vad får normalt sett förvaras i ett skyddsrum i fredstid?</h4>
+            <ul>
+                <li>Brandfarliga vätskor och gaser.</li>
+                <li>Tunga möbler och annat som är svårt att flytta snabbt.</li>
+                <li>Saker som snabbt kan flyttas undan vid ett larm.</li>
+                <li>Livsmedel och vatten för långvarig lagring.</li>
+            </ul>
+        </div>
+        <div class="quiz" data-correct="2">
+            <h4>5. Hur är ett skyddsrum markerat utifrån?</h4>
+            <ul>
+                <li>Med en röd skylt med texten "Skyddsrum".</li>
+                <li>Med en blå skylt med en orange triangel och texten "Skyddsrum".</li>
+                <li>Med en grön skylt med en vit symbol (en triangel i en cirkel) och texten "Skyddsrum".</li>
+                <li>Med en gul varningsskylt.</li>
+            </ul>
+        </div>
+        <div id="score"></div>
+        <div class="cta">
+            <h2>Vill ni ha hjälp att se över skyddsrum i er förening?</h2>
+            <p>Vi hjälper gärna till att reda ut vad som gäller och hur ni kan säkerställa att ert skyddsrum är redo vid kris.</p>
+            <a href="#">Kontakta oss</a>
+        </div>
+    </div>
+    <script>
+        let totalScore = 0;
+        let answered = 0;
+        const totalQuestions = document.querySelectorAll(".quiz").length;
+        document.querySelectorAll(".quiz").forEach((quizBlock) => {
+            const correctIndex = parseInt(quizBlock.dataset.correct);
+            const answers = quizBlock.querySelectorAll("li");
+            answers.forEach((li, index) => {
+                li.addEventListener("click", () => {
+                    if (quizBlock.classList.contains("answered")) return;
+                    quizBlock.classList.add("answered");
+                    answered++;
+                    if (index + 1 === correctIndex) {
+                        li.classList.add("correct");
+                        totalScore++;
+                    } else {
+                        li.classList.add("incorrect");
+                        answers[correctIndex - 1].classList.add("correct");
+                    }
+                    if (answered === totalQuestions) {
+                        document.getElementById("score").innerText = `Du fick ${totalScore} av ${totalQuestions} rätt.`;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
