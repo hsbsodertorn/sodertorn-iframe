@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klimatanalysverktyg HSB</title>
+  <style>
+    :root {
+      --hsb-blå: #003366;
+      --hsb-gul: #ffcf00;
+      --hsb-ocra: #d7a900;
+      --hsb-vit: #ffffff;
+      --hsb-svart: #000000;
+      --font-rubrik: 'Saira', sans-serif;
+      --font-brödtext: 'ITC New Baskerville Std', serif;
+    }
+    body {
+      font-family: var(--font-brödtext);
+      color: var(--hsb-blå);
+      background-color: var(--hsb-vit);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    h2, h3 {
+      font-family: var(--font-rubrik);
+      color: var(--hsb-blå);
+    }
+    button {
+      background-color: var(--hsb-blå);
+      color: var(--hsb-vit);
+      border: none;
+      padding: 0.5em 1em;
+      font-family: var(--font-rubrik);
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 1em;
+    }
+    button:hover {
+      background-color: var(--hsb-ocra);
+    }
+    .container {
+      max-width: 700px;
+      margin: 2em auto;
+      padding: 2em;
+      background-color: var(--hsb-vit);
+      border: 1px solid var(--hsb-blå);
+      border-radius: 10px;
+    }
+    .question {
+      display: none;
+    }
+    .question.active {
+      display: block;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+    .result {
+      margin-top: 2em;
+      padding: 1em;
+      border: 1px solid var(--hsb-ocra);
+      background: #fffbe6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form id="questionForm">
+      <div id="questionContent"></div>
+      <button type="submit" id="nextButton">Nästa</button>
+    </form>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    const questions = [/* samma array som tidigare steg med 13 frågor */];
+    const form = document.getElementById("questionForm");
+    const questionContent = document.getElementById("questionContent");
+    const nextButton = document.getElementById("nextButton");
+    const resultDiv = document.getElementById("result");
+
+    let currentIndex = 0;
+    let answers = [];
+
+    function renderQuestion(index) {
+      const q = questions[index];
+      questionContent.innerHTML = `
+        <h2>${q.text}</h2>
+        <div class="options">
+          ${q.options.map((opt, i) => `
+            <label>
+              <input type="radio" name="question${index}" value="${opt}" required />
+              ${opt}
+            </label>`).join("")}
+        </div>
+      `;
+      nextButton.textContent = index === questions.length - 1 ? "Slutför" : "Nästa";
+    }
+
+    function generateAnalysis(answers) {
+      // Exempel: analyslogik baserat på svar enligt dokumenten
+      let output = "<h2>🌍 Klimatanalys</h2>";
+      if (answers[0].includes("Kustn") && answers[2].includes("Ja")) {
+        output += `<h3>🌧 Hög risk för havsnivåökning</h3><ul>
+        <li>Kontakta kommunen om barriärskydd</li>
+        <li>Undvik nybyggnation nära vatten</li></ul>`;
+      }
+      if (answers[0].includes("låglänt") && answers[2].includes("Ja")) {
+        output += `<h3>🌧️ Hög risk för översvämning vid skyfall</h3><ul>
+        <li>Installera backventiler</li><li>Anlägg regnrabatter</li><li>Säkerställ dränering</li><li>Rensa brunnar</li></ul>`;
+      }
+      if (answers[5] === "Nej" && answers[6].includes("Nej")) {
+        output += `<h3>☀️ Risk för överhettning</h3><ul>
+        <li>Installera markiser</li><li>Plantera träd för skuggning</li><li>Utred möjlighet till gröna tak</li></ul>`;
+      }
+      if (answers[7].includes("Ja") && answers[8] === "Nej") {
+        output += `<h3>🐍 Skadedjursrisk</h3><ul>
+        <li>Installera råttstopp</li><li>Se över sophantering</li><li>Täta fasad och ventiler</li></ul>`;
+      }
+      output += `<h3>📅 Rekommenderade steg</h3><ul>
+        <li>Upprätta eller uppdatera underhållsplanen med klimatrisker</li>
+        <li>Kontakta kommunen för eventuell samfinansiering</li>
+        <li>Boka workshop för klimatanpassning i styrelsen</li></ul>`;
+      return output;
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const selected = form.querySelector(`input[name="question${currentIndex}"]:checked`);
+      if (!selected) return;
+      answers[currentIndex] = selected.value;
+      currentIndex++;
+      if (currentIndex < questions.length) {
+        renderQuestion(currentIndex);
+      } else {
+        form.style.display = "none";
+        resultDiv.innerHTML = generateAnalysis(answers);
+      }
+    });
+
+    renderQuestion(currentIndex);
+  </script>
+</body>
+</html>
