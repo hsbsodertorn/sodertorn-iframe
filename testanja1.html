@@ -100,6 +100,13 @@
     .cta a:hover {
       background-color: #00457d;
     }
+
+    #score {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -112,19 +119,19 @@
       <h4>1. Vad är ett skyddsrum till för?</h4>
       <ul>
         <li>Förvaring av föreningens verktyg</li>
-        <li class="correct">Ett utrymme för att skydda människor vid krig eller allvarliga hot</li>
+        <li>Ett utrymme för att skydda människor vid krig eller allvarliga hot</li>
         <li>Ett rum för cykelförvaring</li>
         <li>Ett vanligt förråd</li>
       </ul>
     </div>
 
-    <div class="quiz" data-correct="3">
+    <div class="quiz" data-correct="4">
       <h4>2. Hur snabbt ska ett skyddsrum kunna iordningställas?</h4>
       <ul>
         <li>Inom 2 dagar</li>
         <li>Inom 12 timmar</li>
         <li>Inom 48 timmar</li>
-        <li class="correct">Inom 24 timmar</li>
+        <li>Inom 24 timmar</li>
       </ul>
     </div>
 
@@ -132,7 +139,7 @@
       <h4>3. Vem ansvarar för att skyddsrummet hålls i ordning?</h4>
       <ul>
         <li>Myndigheten för samhällsskydd och beredskap (MSB)</li>
-        <li class="correct">Fastighetsägaren</li>
+        <li>Fastighetsägaren</li>
         <li>Kommunen</li>
         <li>Polisen</li>
       </ul>
@@ -143,7 +150,7 @@
       <ul>
         <li>Inget alls</li>
         <li>Möbler som tar upp hela utrymmet</li>
-        <li class="correct">Saker som snabbt kan tas bort vid aktivering</li>
+        <li>Saker som snabbt kan tas bort vid aktivering</li>
         <li>Brännbart material</li>
       </ul>
     </div>
@@ -152,11 +159,13 @@
       <h4>5. Hur märks ett skyddsrum ut?</h4>
       <ul>
         <li>Med ett rött kryss</li>
-        <li class="correct">Med en blå skylt med vit symbol</li>
+        <li>Med en blå skylt med vit symbol</li>
         <li>Med en grön skylt och text</li>
         <li>Med en gul varningsskylt</li>
       </ul>
     </div>
+
+    <div id="score"></div>
 
     <div class="cta">
       <h2>Vill ni ha hjälp att se över skyddsrum i er förening?</h2>
@@ -166,13 +175,30 @@
   </div>
 
   <script>
+    let totalScore = 0;
+    let answered = 0;
+    const totalQuestions = document.querySelectorAll(".quiz").length;
+
     document.querySelectorAll(".quiz").forEach((quizBlock) => {
-      quizBlock.querySelectorAll("li").forEach((li) => {
+      const correctIndex = parseInt(quizBlock.dataset.correct);
+      const answers = quizBlock.querySelectorAll("li");
+
+      answers.forEach((li, index) => {
         li.addEventListener("click", () => {
-          if (li.classList.contains("correct")) {
+          if (quizBlock.classList.contains("answered")) return;
+          quizBlock.classList.add("answered");
+          answered++;
+
+          if (index + 1 === correctIndex) {
             li.classList.add("correct");
+            totalScore++;
           } else {
             li.classList.add("incorrect");
+            answers[correctIndex - 1].classList.add("correct");
+          }
+
+          if (answered === totalQuestions) {
+            document.getElementById("score").innerText = `Du fick ${totalScore} av ${totalQuestions} rätt.`;
           }
         });
       });
