@@ -62,12 +62,22 @@
       text-align: center;
       background-color: #fff;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease;
+      min-width: 200px; /* Gör klickområdet större på dator */
     }
 
     .option-card:hover {
       background-color: var(--hsb-gul);
       color: var(--hsb-blå);
+    }
+
+    .option-card input[type="radio"]:checked + .option-card {
+      background-color: var(--hsb-blå);
+      color: var(--hsb-vit);
+    }
+
+    .option-card input[type="radio"]:focus + .option-card {
+      outline: 2px solid var(--hsb-ocra); /* Tydlig fokusstil för tangentbordsnavigering */
     }
 
     input[type="radio"] {
@@ -102,6 +112,33 @@
       font-size: 1.1em;
     }
 
+    .thinking-overlay {
+      position: fixed; /* Stannar på skärmen även om man scrollar */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9); /* Lätt transparent vit bakgrund */
+      display: none; /* Initialt dold */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000; /* Se till att den ligger över annat innehåll */
+      font-size: 1.2em;
+    }
+
+    .thinking-animation {
+      font-size: 3em;
+      margin-bottom: 1em;
+      /* Enkel roterande animation */
+      animation: rotate 2s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     @media (max-width: 600px) {
       .container {
         border-radius: 0;
@@ -117,6 +154,11 @@
       <div id="questionContent"></div>
       <button type="submit" id="nextButton">Nästa</button>
     </form>
+  </div>
+
+  <div id="thinkingOverlay" class="thinking-overlay">
+    <div class="thinking-animation">⏳</div>
+    <p>Analyserar resultatet...</p>
   </div>
 
   <script>
@@ -141,6 +183,8 @@
     const questionContent = document.getElementById("questionContent");
     const nextButton = document.getElementById("nextButton");
     const progressBar = document.getElementById("progress");
+    const container = document.querySelector(".container");
+    const thinkingOverlay = document.getElementById("thinkingOverlay");
 
     function renderQuestion(index) {
       const q = questions[index];
@@ -166,11 +210,19 @@
       if (currentIndex < questions.length) {
         renderQuestion(currentIndex);
       } else {
-        document.querySelector(".container").innerHTML = `
-          <div class="thank-you">
-            <h2>✅ Tack för dina svar!</h2>
-            <p>Du går nu vidare till klimatanalysen.</p>
-          </div>`;
+        // Visa "tänker"-skärmen
+        container.style.display = "none";
+        thinkingOverlay.style.display = "flex";
+
+        // Simulera tänkande med en fördröjning
+        setTimeout(() => {
+          thinkingOverlay.innerHTML = `
+            <div class="thank-you">
+              <h2>✅ Analys slutförd!</h2>
+              <p>Vi har nu analyserat resultatet och du kan nu kolla på vår analys i Klimatkollen på hur er förening kan utvecklas.</p>
+              <button onclick="window.location.href='din-klimatkollen-länk.html'">Gå till Klimatkollen</button>
+            </div>`;
+        }, 3000); // Vänta 3 sekunder (3000 millisekunder)
       }
     });
 
