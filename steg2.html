@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klimatanalys – Resultat</title>
+  <style>
+    /* Återanvänd eller definiera nya stilar efter behov */
+    :root {
+      --hsb-blå: #003366;
+      --hsb-gul: #ffcf00;
+      --hsb-ocra: #d7a900;
+      --hsb-vit: #ffffff;
+      --hsb-svart: #000000;
+      --font-rubrik: 'Saira', sans-serif;
+      --font-brödtext: 'ITC New Baskerville Std', serif;
+    }
+    body {
+      font-family: var(--font-brödtext);
+      color: var(--hsb-blå);
+      background-color: var(--hsb-vit);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 2em auto;
+      padding: 2em;
+      background-color: var(--hsb-vit);
+      border: 1px solid var(--hsb-blå);
+      border-radius: 10px;
+    }
+    h2 {
+      font-family: var(--font-rubrik);
+      color: var(--hsb-blå);
+    }
+    .result-section {
+      margin-top: 1.5em;
+      padding: 1em;
+      border: 1px solid var(--hsb-ocra);
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .result-section h3 {
+      font-family: var(--font-rubrik);
+      color: var(--hsb-ocra);
+      margin-top: 0;
+    }
+    .result-section ul {
+      list-style-type: disc;
+      padding-left: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Analys av era svar</h2>
+    <div id="analysisOutput">
+      <p>Hämtar och analyserar svar...</p>
+    </div>
+    <button onclick="window.location.href='index.html'">Gå tillbaka till steg 1</button>
+  </div>
+
+  <script>
+    const analysisOutputDiv = document.getElementById("analysisOutput");
+    const numberOfQuestions = 13; // Antalet frågor i steg 1
+
+    function analyzeAnswers() {
+      const answers = [];
+      for (let i = 0; i < numberOfQuestions; i++) {
+        const answer = localStorage.getItem(`question-${i}`);
+        if (answer) {
+          answers.push(answer);
+        } else {
+          analysisOutputDiv.innerHTML = "<p>Fel: Kunde inte hämta alla svar.</p>";
+          return null;
+        }
+      }
+      return answers;
+    }
+
+    function generateAnalysis(answers) {
+      let output = "";
+
+      // Exempel på analyslogik baserat på dina frågor i steg 1
+      if (answers[0] === "Kustnära/låglänt område" || answers[2].includes("Ja")) {
+        output += `<div class="result-section"><h3>Risk för översvämning</h3><ul>`;
+        if (answers[0] === "Kustnära/låglänt område") {
+          output += `<li>Fastighetens läge ökar risken för översvämning vid höga vattennivåer.</li>`;
+        }
+        if (answers[2].includes("Ja")) {
+          output += `<li>Tidigare översvämningar indikerar en sårbarhet.</li>`;
+        }
+        output += `</ul></div>`;
+      }
+
+      if (answers[3] === "Stuprör till kommunalt system" && !answers[4].includes("Ja")) {
+        output += `<div class="result-section"><h3>Hantering av dagvatten</h3><ul><li>Avsaknad av backventiler i kombination med direkt avledning till kommunalt system kan öka risken vid kraftiga regn.</li></ul></div>`;
+      }
+
+      if (answers[5] === "Nej" && !answers[6].includes("Ja")) {
+        output += `<div class="result-section"><h3>Risk för överhettning</h3><ul><li>Avsaknad av solskydd och begränsad skugga kan leda till höga temperaturer inomhus.</li></ul></div>`;
+      }
+
+      // Lägg till mer analyslogik baserat på alla dina frågor och önskade utfall
+
+      if (output === "") {
+        output = "<p>Inga specifika risker identifierades baserat på svaren.</p>";
+      }
+
+      return output;
+    }
+
+    // Hämta och visa analysen när sidan laddas
+    const retrievedAnswers = analyzeAnswers();
+    if (retrievedAnswers) {
+      analysisOutputDiv.innerHTML = generateAnalysis(retrievedAnswers);
+      // Rensa Local Storage efter att svaren har hämtats (om du inte behöver dem igen)
+      for (let i = 0; i < numberOfQuestions; i++) {
+        localStorage.removeItem(`question-${i}`);
+      }
+    }
+  </script>
+</body>
+</html>
