@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="sv">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Klimatanalysverktyg HSB</title>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@500&display=swap" rel="stylesheet">
   <style>
     :root {
       --hsb-blå: #003366;
@@ -17,40 +19,38 @@
     body {
       font-family: var(--font-brödtext);
       color: var(--hsb-blå);
-      background-color: var(--hsb-vit);
+      background-color: var(--hsb-grå); /* Använder samma grå bakgrund som steg 1 */
       line-height: 1.6;
       margin: 0;
-      padding: 20px; /* Ökat padding för luftigare intryck */
+      padding: 20px;
     }
     h2, h3 {
       font-family: var(--font-rubrik);
       color: var(--hsb-blå);
-      text-align: center; /* Centrerad rubrik */
-      margin-bottom: 1.5em; /* Mer utrymme under rubriken */
+      text-align: center;
+      margin-bottom: 1.5em;
     }
     .container {
-      max-width: 800px; /* Bredare container */
-      margin: 3em auto; /* Mer marginal runt containern */
-      padding: 2em;
-      background-color: #f9f9f9; /* Ljusare bakgrund */
-      border: 1px solid var(--hsb-blå);
-      border-radius: 15px; /* Rundare hörn */
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtil skugga */
+      max-width: 600px; /* Samma max-width som steg 1 för mobilanpassning */
+      margin: 2em auto;
+      padding: 2em 1em; /* Samma padding som steg 1 */
+      background-color: var(--hsb-vit); /* Vit bakgrund som steg 1 */
+      border-radius: 12px; /* Samma border-radius som steg 1 */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Samma box-shadow som steg 1 */
     }
     .result-section {
       margin-bottom: 1.5em;
       padding: 1.5em;
-      border: 1px solid var(--hsb-ocra);
-      border-radius: 10px;
-      background-color: var(--hsb-vit); /* Vit bakgrund för resultatsektioner */
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Liten skugga för sektioner */
+      border: 2px solid var(--hsb-blå); /* Samma border som option-cards */
+      border-radius: 8px; /* Samma border-radius som option-cards */
+      background-color: #fff; /* Vit bakgrund som option-cards */
     }
     .result-section h3 {
-      color: var(--hsb-ocra);
+      color: var(--hsb-blå);
       font-family: var(--font-rubrik);
       margin-top: 0;
       margin-bottom: 0.75em;
-      text-align: left; /* Vänsterjusterad rubrik i sektion */
+      text-align: center; /* Centrerad rubrik i resultatsektionen */
       border-bottom: 2px solid var(--hsb-gul); /* Gul understrykning */
       padding-bottom: 0.5em;
     }
@@ -63,19 +63,49 @@
       margin-top: 2em;
     }
     .contact-button {
-      background-color: var(--hsb-ocra); /* Annan färg för CTA-knapp */
+      display: inline-block; /* För att kunna styra bredd och padding bättre */
+      background-color: var(--hsb-ocra); /* Samma färg som hover på knapp i steg 1 */
       color: var(--hsb-vit);
       border: none;
       padding: 1em 2em;
       font-family: var(--font-rubrik);
       cursor: pointer;
-      border-radius: 8px;
-      font-size: 1.1em;
+      border-radius: 6px; /* Samma border-radius som knapp i steg 1 */
+      font-size: 1rem;
+      text-decoration: none;
       transition: background-color 0.3s ease;
-      text-decoration: none; /* För att kunna använda som länk */
+      min-width: 200px; /* Gör knappen tillräckligt bred för mobil */
     }
     .contact-button:hover {
-      background-color: var(--hsb-blå);
+      background-color: var(--hsb-blå); /* Samma hover-färg som knapp i steg 1 */
+    }
+    /* Potentiella nyckeltalsstilar */
+    .key-figure-container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 2em;
+      padding: 1em;
+      background-color: var(--hsb-gul);
+      border-radius: 8px;
+      color: var(--hsb-blå);
+      text-align: center;
+    }
+    .key-figure {
+      flex: 1;
+    }
+    .key-figure h4 {
+      font-family: var(--font-rubrik);
+      margin-bottom: 0.2em;
+    }
+    .key-figure p {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    @media (max-width: 600px) {
+      .key-figure-container {
+        flex-direction: column;
+        gap: 1em;
+      }
     }
   </style>
 </head>
@@ -108,27 +138,63 @@
 
     function generateAnalysis(answers) {
       let output = "";
+      let riskCount = 0;
 
       if (answers[0] === "Kustnära/låglänt område" || answers[2].includes("Ja")) {
-        output += `<div class="result-section"><h3>🌧️ Hög risk för översvämning</h3><ul>
+        output += `<div class="result-section"><h3>🌧️ Hög risk för översvämning vid skyfall</h3><ul>
         <li>Installera backventiler</li><li>Anlägg regnrabatter</li><li>Säkerställ dränering</li><li>Rensa brunnar</li></ul></div>`;
+        riskCount++;
       }
       if (answers[3] === "Stuprör till kommunalt system" && !answers[4].includes("Ja")) {
-        output += `<div class="result-section"><h3>💧 Hantering av dagvatten</h3><ul><li>Avsaknad av backventiler i kombination med direkt avledning till kommunalt system kan öka risken vid kraftiga regn.</li></ul></div>`;
+        output += `<div class="result-section"><h3>💧 Bristfällig hantering av dagvatten</h3><ul><li>Se över möjligheter till lokal dagvattenhantering.</li><li>Installera backventiler.</li></ul></div>`;
+        riskCount++;
       }
       if (answers[5] === "Nej" && answers[6].includes("Nej")) {
-        output += `<div class="result-section"><h3>☀️ Risk för överhettning</h3><ul>
-        <li>Installera markiser</li><li>Plantera träd för skuggning</li><li>Utred möjlighet till gröna tak</li></ul></div>`;
+        output += `<div class="result-section"><h3>☀️ Hög risk för överhettning</h3><ul>
+        <li>Installera markiser eller annan solavskärmning.</li><li>Plantera träd eller annan växtlighet för skugga.</li><li>Utred möjligheten till gröna tak.</li></ul></div>`;
+        riskCount++;
       }
       if (answers[7].includes("Ja") && answers[8] === "Nej") {
-        output += `<div class="result-section"><h3>🐍 Skadedjursrisk</h3><ul>
-        <li>Installera råttstopp</li><li>Se över sophantering</li><li>Täta fasad och ventiler</li></ul></div>`;
+        output += `<div class="result-section"><h3>🐭 Ökad risk för skadedjur</h3><ul>
+        <li>Installera råttstopp.</li><li>Se över sophantering och täta eventuella ingångar.</li></ul></div>`;
+        riskCount++;
       }
-      output += `<div class="result-section"><h3>📅 Rekommenderade steg</h3><ul>
-        <li>Upprätta eller uppdatera underhållsplanen med klimatrisker</li>
-        <li>Kontakta kommunen för eventuell samfinansiering</li>
-        <li>Boka workshop för klimatanpassning i styrelsen</li></ul></div>`;
-      return output;
+      if (answers[9].includes("Nej") || answers[10].includes("Ja, men inte åtgärdat")) {
+        output += `<div class="result-section"><h3>⚠️ Identifierade underhållsbehov</h3><ul>
+        <li>Se till att tak och skorsten besiktigas regelbundet.</li><li>Åtgärda riskträd snarast.</li></ul></div>`;
+        riskCount++;
+      }
+      if (answers[11].includes("Nej")) {
+        output += `<div class="result-section"><h3>📝 Avsaknad av klimatanpassningsplan</h3><ul><li>Upprätta eller uppdatera underhållsplanen med tydliga klimatanpassningsåtgärder.</li></ul></div>`;
+        riskCount++;
+      }
+      if (answers[12].includes("Nej")) {
+        output += `<div class="result-section"><h3>🗣️ Låg medvetenhet i styrelsen</h3><ul><li>Boka en workshop för klimatanpassning i styrelsen.</li><li>Diskutera klimatrisker och åtgärder regelbundet.</li></ul></div>`;
+        riskCount++;
+      }
+
+      let keyFiguresHTML = "";
+      if (riskCount > 0) {
+        keyFiguresHTML = `
+          <div class="key-figure-container">
+            <div class="key-figure">
+              <h4>Identifierade risker</h4>
+              <p>${riskCount}</p>
+            </div>
+            <div class="key-figure">
+              <h4>Rekommenderade åtgärder</h4>
+              <p>Se nedan</p>
+            </div>
+          </div>
+        `;
+      }
+
+      const recommendedSteps = `<div class="result-section"><h3>Nästa steg</h3><ul>
+        <li>Kontakta oss för en djupare analys och skräddarsydda rekommendationer.</li>
+        <li>Utforska möjligheter till finansiering och bidrag för klimatanpassningsåtgärder.</li>
+      </ul></div>`;
+
+      return keyFiguresHTML + output + recommendedSteps;
     }
 
     // Visa analysen om alla svar har hämtats
