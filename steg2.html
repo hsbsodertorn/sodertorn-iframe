@@ -20,58 +20,74 @@
       background-color: var(--hsb-vit);
       line-height: 1.6;
       margin: 0;
-      padding: 0;
+      padding: 20px; /* Ökat padding för luftigare intryck */
     }
     h2, h3 {
       font-family: var(--font-rubrik);
       color: var(--hsb-blå);
-    }
-    button {
-      background-color: var(--hsb-blå);
-      color: var(--hsb-vit);
-      border: none;
-      padding: 0.5em 1em;
-      font-family: var(--font-rubrik);
-      cursor: pointer;
-      border-radius: 5px;
-      margin-top: 1em;
-    }
-    button:hover {
-      background-color: var(--hsb-ocra);
+      text-align: center; /* Centrerad rubrik */
+      margin-bottom: 1.5em; /* Mer utrymme under rubriken */
     }
     .container {
-      max-width: 700px;
-      margin: 2em auto;
+      max-width: 800px; /* Bredare container */
+      margin: 3em auto; /* Mer marginal runt containern */
       padding: 2em;
-      background-color: var(--hsb-vit);
+      background-color: #f9f9f9; /* Ljusare bakgrund */
       border: 1px solid var(--hsb-blå);
-      border-radius: 10px;
+      border-radius: 15px; /* Rundare hörn */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtil skugga */
     }
-    .result {
-      margin-top: 2em;
-      padding: 1em;
+    .result-section {
+      margin-bottom: 1.5em;
+      padding: 1.5em;
       border: 1px solid var(--hsb-ocra);
-      border-radius: 5px;
-      background-color: #f9f9f9;
+      border-radius: 10px;
+      background-color: var(--hsb-vit); /* Vit bakgrund för resultatsektioner */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Liten skugga för sektioner */
     }
-    .result h3 {
+    .result-section h3 {
       color: var(--hsb-ocra);
       font-family: var(--font-rubrik);
       margin-top: 0;
+      margin-bottom: 0.75em;
+      text-align: left; /* Vänsterjusterad rubrik i sektion */
+      border-bottom: 2px solid var(--hsb-gul); /* Gul understrykning */
+      padding-bottom: 0.5em;
     }
-    .result ul {
+    .result-section ul {
       list-style-type: disc;
       padding-left: 1.5em;
+    }
+    .cta-container {
+      text-align: center;
+      margin-top: 2em;
+    }
+    .contact-button {
+      background-color: var(--hsb-ocra); /* Annan färg för CTA-knapp */
+      color: var(--hsb-vit);
+      border: none;
+      padding: 1em 2em;
+      font-family: var(--font-rubrik);
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease;
+      text-decoration: none; /* För att kunna använda som länk */
+    }
+    .contact-button:hover {
+      background-color: var(--hsb-blå);
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Analys av era svar</h2>
+    <h2>Analys av Klimatanpassning</h2>
     <div id="resultDiv">
       <p>Hämtar och analyserar svar...</p>
     </div>
-    <button onclick="window.location.href='index.html'">Gå tillbaka till steg 1</button>
+    <div class="cta-container">
+      <a href="kontakta-oss.html" class="contact-button">Kontakta oss för mer information</a>
+    </div>
   </div>
 
   <script>
@@ -94,25 +110,24 @@
       let output = "";
 
       if (answers[0] === "Kustnära/låglänt område" || answers[2].includes("Ja")) {
-        output += `<h3>🌧️ Risk för översvämning</h3><ul>`;
-        if (answers[0] === "Kustnära/låglänt område") {
-          output += `<li>Fastighetens läge ökar risken för översvämning vid höga vattennivåer.</li>`;
-        }
-        if (answers[2].includes("Ja")) {
-          output += `<li>Tidigare översvämningar indikerar en sårbarhet.</li>`;
-        }
-        output += `</ul>`;
+        output += `<div class="result-section"><h3>🌧️ Hög risk för översvämning</h3><ul>
+        <li>Installera backventiler</li><li>Anlägg regnrabatter</li><li>Säkerställ dränering</li><li>Rensa brunnar</li></ul></div>`;
       }
       if (answers[3] === "Stuprör till kommunalt system" && !answers[4].includes("Ja")) {
-        output += `<h3>💧 Hantering av dagvatten</h3><ul><li>Avsaknad av backventiler i kombination med direkt avledning till kommunalt system kan öka risken vid kraftiga regn.</li></ul>`;
+        output += `<div class="result-section"><h3>💧 Hantering av dagvatten</h3><ul><li>Avsaknad av backventiler i kombination med direkt avledning till kommunalt system kan öka risken vid kraftiga regn.</li></ul></div>`;
       }
       if (answers[5] === "Nej" && answers[6].includes("Nej")) {
-        output += `<h3>☀️ Risk för överhettning</h3><ul><li>Installera markiser</li><li>Plantera träd för skuggning</li><li>Utred möjlighet till gröna tak</li></ul>`;
+        output += `<div class="result-section"><h3>☀️ Risk för överhettning</h3><ul>
+        <li>Installera markiser</li><li>Plantera träd för skuggning</li><li>Utred möjlighet till gröna tak</li></ul></div>`;
       }
       if (answers[7].includes("Ja") && answers[8] === "Nej") {
-        output += `<h3>🐭 Skadedjursrisk</h3><ul><li>Installera råttstopp</li><li>Se över sophantering</li><li>Täta fasad och ventiler</li></ul>`;
+        output += `<div class="result-section"><h3>🐍 Skadedjursrisk</h3><ul>
+        <li>Installera råttstopp</li><li>Se över sophantering</li><li>Täta fasad och ventiler</li></ul></div>`;
       }
-      output += `<h3>📅 Rekommenderade steg</h3><ul><li>Upprätta eller uppdatera underhållsplanen med klimatrisker</li><li>Kontakta kommunen för eventuell samfinansiering</li><li>Boka workshop för klimatanpassning i styrelsen</li></ul>`;
+      output += `<div class="result-section"><h3>📅 Rekommenderade steg</h3><ul>
+        <li>Upprätta eller uppdatera underhållsplanen med klimatrisker</li>
+        <li>Kontakta kommunen för eventuell samfinansiering</li>
+        <li>Boka workshop för klimatanpassning i styrelsen</li></ul></div>`;
       return output;
     }
 
