@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Klimatanalysverktyg HSB</title>
+  <title>Klimatverktyg – Steg 1</title>
   <style>
     :root {
       --hsb-blå: #003366;
@@ -15,6 +15,7 @@
       --font-rubrik: 'Saira', sans-serif;
       --font-brödtext: 'ITC New Baskerville Std', serif;
     }
+
     body {
       font-family: var(--font-brödtext);
       color: var(--hsb-blå);
@@ -23,10 +24,13 @@
       margin: 0;
       padding: 0;
     }
-    h2, h3 {
+
+    h2 {
       font-family: var(--font-rubrik);
       color: var(--hsb-blå);
+      font-weight: 600;
     }
+
     button {
       background-color: var(--hsb-blå);
       color: var(--hsb-vit);
@@ -37,61 +41,71 @@
       border-radius: 5px;
       margin-top: 1em;
     }
+
     button:hover {
       background-color: var(--hsb-ocra);
     }
-    .container {
-      max-width: 700px;
+
+    .question-container {
+      max-width: 600px;
       margin: 2em auto;
       padding: 2em;
       background-color: var(--hsb-vit);
       border: 1px solid var(--hsb-blå);
       border-radius: 10px;
     }
+
     .question {
       display: none;
     }
+
     .question.active {
       display: block;
     }
+
     .options label {
       display: block;
       margin-bottom: 0.5em;
-    }
-    .result {
-      margin-top: 2em;
-      padding: 1em;
-      border: 1px solid var(--hsb-ocra);
-      background: #fffbe6;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="question-container">
     <form id="questionForm">
       <div id="questionContent"></div>
       <button type="submit" id="nextButton">Nästa</button>
     </form>
-    <div id="result" class="result"></div>
   </div>
 
   <script>
-    const questions = [/* samma array som tidigare steg med 13 frågor */];
+    const questions = [
+      { text: "1. Var ligger föreningens fastigheter?", options: ["Kustnära/låglänt område", "Högt beläget/kuperad terräng", "Tätbebyggt område/stadsmiljö", "Glesbygd/landbygd"] },
+      { text: "2. Vilken typ av byggnader har föreningen?", options: ["Flerbostadshus (3+ våningar)", "Låga byggnader (1–2 våningar)", "Radhus/kedjehus", "Blandad bebyggelse"] },
+      { text: "3. Har fastigheten drabbats av översvämningar tidigare?", options: ["Ja, upprepade gånger", "Ja, någon gång", "Nej", "Vet ej"] },
+      { text: "4. Hur bedömer ni dagvattenhanteringen på er mark?", options: ["Vi har lokala lösningar (regnrabatter, fördröjningsmagasin, gröna tak)", "Vi har stuprör kopplade till kommunalt system", "Vi vet inte hur dagvattnet leds bort"] },
+      { text: "5. Har ni installerat backventiler i byggnaderna?", options: ["Ja, i alla hus", "Ja, i vissa delar", "Nej", "Vet ej"] },
+      { text: "6. Finns det solskydd i lägenheter som vetter mot söder?", options: ["Ja, både invändiga och utvändiga", "Endast invändiga", "Nej", "Vet ej"] },
+      { text: "7. Finns det träd, grönytor eller annan skuggande växtlighet på gården?", options: ["Ja, mycket", "Lite grann", "Nej", "Planeras"] },
+      { text: "8. Har ni upplevt problem med skadedjur de senaste 2 åren?", options: ["Ja, ofta", "Ja, men sällan", "Nej", "Vet ej"] },
+      { text: "9. Har ni råttstopp eller andra skydd i avloppssystemet?", options: ["Ja", "Nej", "Vet ej"] },
+      { text: "10. Besiktigas tak, skorstenar och vindskivor regelbundet?", options: ["Ja, varje år", "Någon gång ibland", "Nej", "Vet ej"] },
+      { text: "11. Har ni riskträd på föreningens mark som skulle kunna falla på byggnader?", options: ["Ja, vi har identifierat och åtgärdat dem", "Ja, men vi har inte åtgärdat ännu", "Nej", "Vet ej"] },
+      { text: "12. Har ni en uppdaterad underhållsplan med klimatanpassning inkluderad?", options: ["Ja", "Nej, men det planeras", "Nej", "Vet ej"] },
+      { text: "13. Har ni diskuterat klimatanpassning i styrelsen under det senaste året?", options: ["Ja, aktivt", "Ja, men kortfattat", "Nej", "Vet ej"] }
+    ];
+
     const form = document.getElementById("questionForm");
     const questionContent = document.getElementById("questionContent");
     const nextButton = document.getElementById("nextButton");
-    const resultDiv = document.getElementById("result");
 
     let currentIndex = 0;
-    let answers = [];
-
     function renderQuestion(index) {
       const q = questions[index];
       questionContent.innerHTML = `
         <h2>${q.text}</h2>
         <div class="options">
-          ${q.options.map((opt, i) => `
+          ${q.options.map((opt) => `
             <label>
               <input type="radio" name="question${index}" value="${opt}" required />
               ${opt}
@@ -101,44 +115,15 @@
       nextButton.textContent = index === questions.length - 1 ? "Slutför" : "Nästa";
     }
 
-    function generateAnalysis(answers) {
-      // Exempel: analyslogik baserat på svar enligt dokumenten
-      let output = "<h2>🌍 Klimatanalys</h2>";
-      if (answers[0].includes("Kustn") && answers[2].includes("Ja")) {
-        output += `<h3>🌧 Hög risk för havsnivåökning</h3><ul>
-        <li>Kontakta kommunen om barriärskydd</li>
-        <li>Undvik nybyggnation nära vatten</li></ul>`;
-      }
-      if (answers[0].includes("låglänt") && answers[2].includes("Ja")) {
-        output += `<h3>🌧️ Hög risk för översvämning vid skyfall</h3><ul>
-        <li>Installera backventiler</li><li>Anlägg regnrabatter</li><li>Säkerställ dränering</li><li>Rensa brunnar</li></ul>`;
-      }
-      if (answers[5] === "Nej" && answers[6].includes("Nej")) {
-        output += `<h3>☀️ Risk för överhettning</h3><ul>
-        <li>Installera markiser</li><li>Plantera träd för skuggning</li><li>Utred möjlighet till gröna tak</li></ul>`;
-      }
-      if (answers[7].includes("Ja") && answers[8] === "Nej") {
-        output += `<h3>🐍 Skadedjursrisk</h3><ul>
-        <li>Installera råttstopp</li><li>Se över sophantering</li><li>Täta fasad och ventiler</li></ul>`;
-      }
-      output += `<h3>📅 Rekommenderade steg</h3><ul>
-        <li>Upprätta eller uppdatera underhållsplanen med klimatrisker</li>
-        <li>Kontakta kommunen för eventuell samfinansiering</li>
-        <li>Boka workshop för klimatanpassning i styrelsen</li></ul>`;
-      return output;
-    }
-
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const selected = form.querySelector(`input[name="question${currentIndex}"]:checked`);
       if (!selected) return;
-      answers[currentIndex] = selected.value;
       currentIndex++;
       if (currentIndex < questions.length) {
         renderQuestion(currentIndex);
       } else {
-        form.style.display = "none";
-        resultDiv.innerHTML = generateAnalysis(answers);
+        form.innerHTML = "<h2>Tack för dina svar!</h2><p>Du går nu vidare till klimatanalysen.</p>";
       }
     });
 
