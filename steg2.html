@@ -9,49 +9,50 @@
   <style>
     :root {
       --hsb-blå: #003366;
-      --hsb-gul: #ffcf00;
-      --hsb-ocra: #d7a900;
+      --hsb-mörkblå: #001a33; /* En mörkare nyans av blå */
+      --hsb-ljusblå: #6699CC; /* En ljusare nyans av blå */
+      --hsb-ocra: #d7a900; /* Behåller ockra för accent om det behövs */
       --hsb-vit: #ffffff;
-      --hsb-svart: #000000;
+      --hsb-grå: #f5f5f5;
       --font-rubrik: 'Saira', sans-serif;
       --font-brödtext: 'ITC New Baskerville Std', serif;
     }
     body {
       font-family: var(--font-brödtext);
       color: var(--hsb-blå);
-      background-color: var(--hsb-grå); /* Använder samma grå bakgrund som steg 1 */
+      background-color: var(--hsb-grå);
       line-height: 1.6;
       margin: 0;
       padding: 20px;
     }
     h2, h3 {
       font-family: var(--font-rubrik);
-      color: var(--hsb-blå);
+      color: var(--hsb-mörkblå); /* Mörkare blå för rubriker */
       text-align: center;
       margin-bottom: 1.5em;
     }
     .container {
-      max-width: 600px; /* Samma max-width som steg 1 för mobilanpassning */
+      max-width: 600px;
       margin: 2em auto;
-      padding: 2em 1em; /* Samma padding som steg 1 */
-      background-color: var(--hsb-vit); /* Vit bakgrund som steg 1 */
-      border-radius: 12px; /* Samma border-radius som steg 1 */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Samma box-shadow som steg 1 */
+      padding: 2em 1em;
+      background-color: var(--hsb-vit);
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .result-section {
       margin-bottom: 1.5em;
       padding: 1.5em;
-      border: 2px solid var(--hsb-blå); /* Samma border som option-cards */
-      border-radius: 8px; /* Samma border-radius som option-cards */
-      background-color: #fff; /* Vit bakgrund som option-cards */
+      border: 2px solid var(--hsb-blå);
+      border-radius: 8px;
+      background-color: #fff;
     }
     .result-section h3 {
-      color: var(--hsb-blå);
+      color: var(--hsb-mörkblå); /* Mörkare blå för rubrik i sektion */
       font-family: var(--font-rubrik);
       margin-top: 0;
       margin-bottom: 0.75em;
-      text-align: center; /* Centrerad rubrik i resultatsektionen */
-      border-bottom: 2px solid var(--hsb-gul); /* Gul understrykning */
+      text-align: center;
+      border-bottom: 2px solid var(--hsb-ljusblå); /* Ljusare blå understrykning */
       padding-bottom: 0.5em;
     }
     .result-section ul {
@@ -63,48 +64,54 @@
       margin-top: 2em;
     }
     .contact-button {
-      display: inline-block; /* För att kunna styra bredd och padding bättre */
-      background-color: var(--hsb-ocra); /* Samma färg som hover på knapp i steg 1 */
+      display: inline-block;
+      background-color: var(--hsb-mörkblå); /* Mörkare blå för CTA-knapp */
       color: var(--hsb-vit);
       border: none;
       padding: 1em 2em;
       font-family: var(--font-rubrik);
       cursor: pointer;
-      border-radius: 6px; /* Samma border-radius som knapp i steg 1 */
+      border-radius: 6px;
       font-size: 1rem;
       text-decoration: none;
       transition: background-color 0.3s ease;
-      min-width: 200px; /* Gör knappen tillräckligt bred för mobil */
+      min-width: 200px;
     }
     .contact-button:hover {
-      background-color: var(--hsb-blå); /* Samma hover-färg som knapp i steg 1 */
+      background-color: var(--hsb-blå);
     }
-    /* Potentiella nyckeltalsstilar */
+    /* Nyckeltalsstyling */
     .key-figure-container {
       display: flex;
-      justify-content: space-around;
+      flex-direction: column; /* Staplar på mindre skärmar som standard */
+      align-items: center; /* Centrerar innehållet */
       margin-top: 2em;
-      padding: 1em;
-      background-color: var(--hsb-gul);
+      padding: 1.5em;
+      background-color: var(--hsb-ljusblå); /* Ljusare blå bakgrund */
       border-radius: 8px;
-      color: var(--hsb-blå);
+      color: var(--hsb-mörkblå); /* Mörkare blå text */
       text-align: center;
-    }
-    .key-figure {
-      flex: 1;
     }
     .key-figure h4 {
       font-family: var(--font-rubrik);
+      margin-bottom: 0.5em;
+      font-size: 1.2em;
+    }
+    .key-figure .risk-count {
+      font-size: 3em; /* Större siffra för dynamik */
+      font-weight: bold;
       margin-bottom: 0.2em;
     }
-    .key-figure p {
-      font-size: 1.2em;
-      font-weight: bold;
+    .key-figure .risk-text {
+      font-size: 1.1em;
     }
-    @media (max-width: 600px) {
+    @media (min-width: 600px) {
       .key-figure-container {
-        flex-direction: column;
-        gap: 1em;
+        flex-direction: row; /* Lägger i rad på större skärmar */
+        justify-content: space-around;
+      }
+      .key-figure {
+        flex: 1;
       }
     }
   </style>
@@ -173,21 +180,15 @@
         riskCount++;
       }
 
-      let keyFiguresHTML = "";
-      if (riskCount > 0) {
-        keyFiguresHTML = `
-          <div class="key-figure-container">
-            <div class="key-figure">
-              <h4>Identifierade risker</h4>
-              <p>${riskCount}</p>
-            </div>
-            <div class="key-figure">
-              <h4>Rekommenderade åtgärder</h4>
-              <p>Se nedan</p>
-            </div>
+      let keyFiguresHTML = `
+        <div class="key-figure-container">
+          <div class="key-figure">
+            <h4>Identifierade risker</h4>
+            <p class="risk-count">${riskCount}</p>
+            <p class="risk-text">potentiella områden att fokusera på</p>
           </div>
-        `;
-      }
+        </div>
+      `;
 
       const recommendedSteps = `<div class="result-section"><h3>Nästa steg</h3><ul>
         <li>Kontakta oss för en djupare analys och skräddarsydda rekommendationer.</li>
