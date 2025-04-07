@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Klimatanalys – Resultat</title>
+  <title>Klimatanalysverktyg HSB</title>
   <style>
-    /* Återanvänd eller definiera nya stilar efter behov */
     :root {
       --hsb-blå: #003366;
       --hsb-gul: #ffcf00;
@@ -23,6 +22,23 @@
       margin: 0;
       padding: 0;
     }
+    h2, h3 {
+      font-family: var(--font-rubrik);
+      color: var(--hsb-blå);
+    }
+    button {
+      background-color: var(--hsb-blå);
+      color: var(--hsb-vit);
+      border: none;
+      padding: 0.5em 1em;
+      font-family: var(--font-rubrik);
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 1em;
+    }
+    button:hover {
+      background-color: var(--hsb-ocra);
+    }
     .container {
       max-width: 700px;
       margin: 2em auto;
@@ -31,23 +47,19 @@
       border: 1px solid var(--hsb-blå);
       border-radius: 10px;
     }
-    h2 {
-      font-family: var(--font-rubrik);
-      color: var(--hsb-blå);
-    }
-    .result-section {
-      margin-top: 1.5em;
+    .result {
+      margin-top: 2em;
       padding: 1em;
       border: 1px solid var(--hsb-ocra);
       border-radius: 5px;
       background-color: #f9f9f9;
     }
-    .result-section h3 {
-      font-family: var(--font-rubrik);
+    .result h3 {
       color: var(--hsb-ocra);
+      font-family: var(--font-rubrik);
       margin-top: 0;
     }
-    .result-section ul {
+    .result ul {
       list-style-type: disc;
       padding-left: 1.5em;
     }
@@ -56,67 +68,58 @@
 <body>
   <div class="container">
     <h2>Analys av era svar</h2>
-    <div id="analysisOutput">
+    <div id="resultDiv">
       <p>Hämtar och analyserar svar...</p>
     </div>
     <button onclick="window.location.href='index.html'">Gå tillbaka till steg 1</button>
   </div>
 
   <script>
-    const analysisOutputDiv = document.getElementById("analysisOutput");
+    const resultDiv = document.getElementById("resultDiv");
     const numberOfQuestions = 13; // Antalet frågor i steg 1
+    const answers = [];
 
-    function analyzeAnswers() {
-      const answers = [];
-      for (let i = 0; i < numberOfQuestions; i++) {
-        const answer = localStorage.getItem(`question-${i}`);
-        if (answer) {
-          answers.push(answer);
-        } else {
-          analysisOutputDiv.innerHTML = "<p>Fel: Kunde inte hämta alla svar.</p>";
-          return null;
-        }
+    // Hämta svaren från localStorage
+    for (let i = 0; i < numberOfQuestions; i++) {
+      const answer = localStorage.getItem(`question-${i}`);
+      if (answer) {
+        answers.push(answer);
+      } else {
+        resultDiv.innerHTML = "<p>Fel: Kunde inte hämta alla svar.</p>";
+        break;
       }
-      return answers;
     }
 
     function generateAnalysis(answers) {
       let output = "";
 
-      // Exempel på analyslogik baserat på dina frågor i steg 1
       if (answers[0] === "Kustnära/låglänt område" || answers[2].includes("Ja")) {
-        output += `<div class="result-section"><h3>Risk för översvämning</h3><ul>`;
+        output += `<h3>🌧️ Risk för översvämning</h3><ul>`;
         if (answers[0] === "Kustnära/låglänt område") {
           output += `<li>Fastighetens läge ökar risken för översvämning vid höga vattennivåer.</li>`;
         }
         if (answers[2].includes("Ja")) {
           output += `<li>Tidigare översvämningar indikerar en sårbarhet.</li>`;
         }
-        output += `</ul></div>`;
+        output += `</ul>`;
       }
-
       if (answers[3] === "Stuprör till kommunalt system" && !answers[4].includes("Ja")) {
-        output += `<div class="result-section"><h3>Hantering av dagvatten</h3><ul><li>Avsaknad av backventiler i kombination med direkt avledning till kommunalt system kan öka risken vid kraftiga regn.</li></ul></div>`;
+        output += `<h3>💧 Hantering av dagvatten</h3><ul><li>Avsaknad av backventiler i kombination med direkt avledning till kommunalt system kan öka risken vid kraftiga regn.</li></ul>`;
       }
-
-      if (answers[5] === "Nej" && !answers[6].includes("Ja")) {
-        output += `<div class="result-section"><h3>Risk för överhettning</h3><ul><li>Avsaknad av solskydd och begränsad skugga kan leda till höga temperaturer inomhus.</li></ul></div>`;
+      if (answers[5] === "Nej" && answers[6].includes("Nej")) {
+        output += `<h3>☀️ Risk för överhettning</h3><ul><li>Installera markiser</li><li>Plantera träd för skuggning</li><li>Utred möjlighet till gröna tak</li></ul>`;
       }
-
-      // Lägg till mer analyslogik baserat på alla dina frågor och önskade utfall
-
-      if (output === "") {
-        output = "<p>Inga specifika risker identifierades baserat på svaren.</p>";
+      if (answers[7].includes("Ja") && answers[8] === "Nej") {
+        output += `<h3>🐭 Skadedjursrisk</h3><ul><li>Installera råttstopp</li><li>Se över sophantering</li><li>Täta fasad och ventiler</li></ul>`;
       }
-
+      output += `<h3>📅 Rekommenderade steg</h3><ul><li>Upprätta eller uppdatera underhållsplanen med klimatrisker</li><li>Kontakta kommunen för eventuell samfinansiering</li><li>Boka workshop för klimatanpassning i styrelsen</li></ul>`;
       return output;
     }
 
-    // Hämta och visa analysen när sidan laddas
-    const retrievedAnswers = analyzeAnswers();
-    if (retrievedAnswers) {
-      analysisOutputDiv.innerHTML = generateAnalysis(retrievedAnswers);
-      // Rensa Local Storage efter att svaren har hämtats (om du inte behöver dem igen)
+    // Visa analysen om alla svar har hämtats
+    if (answers.length === numberOfQuestions) {
+      resultDiv.innerHTML = generateAnalysis(answers);
+      // Rensa localStorage efter att svaren har hämtats (valfritt)
       for (let i = 0; i < numberOfQuestions; i++) {
         localStorage.removeItem(`question-${i}`);
       }
