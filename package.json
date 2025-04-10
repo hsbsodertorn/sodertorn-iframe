@@ -1,6 +1,9 @@
 {
   "name": "netlify-functions",
   "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'No build step required'"
+  },
   "dependencies": {
     "node-fetch": "^2.6.1"
   }
