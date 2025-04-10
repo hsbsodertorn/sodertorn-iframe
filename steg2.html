@@ -119,6 +119,7 @@
         flex-direction: row;
         justify-content: space-around;
       }
+
       .key-figure {
         flex: 1;
       }
@@ -207,11 +208,16 @@
 
     if (answers.length === numberOfQuestions) {
       resultDiv.innerHTML = generateAnalysis(answers);
-      for (let i = 0; i < numberOfQuestions; i++) {
-        localStorage.removeItem(`question-${i}`);
-      }
 
-      // 🔍 Skicka till AI-funktionen i Netlify
+      // Visa att AI-svaret hämtas
+      resultDiv.innerHTML += `
+        <div class="result-section" style="background-color:#fff; color:#001a33; border: 2px dashed #ccc;">
+          <h3 style="color:#001a33;">🤖 AI-analys pågår...</h3>
+          <p>Vänligen vänta, vi analyserar era svar...</p>
+        </div>
+      `;
+
+      // 🔁 AI-anropet
       fetch("/.netlify/functions/netlifyfunctions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -221,15 +227,21 @@
         .then(data => {
           const aiHTML = `
             <div class="result-section" style="background-color:#fff; color: var(--hsb-blå); border-color: var(--hsb-ljusblå);">
-              <h3 style="color: var(--hsb-mörkblå);">🤖 AI-genererad klimatanalys</h3>
-              <p style="white-space: pre-line;">${data.result}</p>
+              <h3 style="color: var(--hsb-mörkblå);">🧠 AI-genererad sammanfattning</h3>
+              <p style="white-space: pre-line;">${data.result || "Inget svar mottaget."}</p>
             </div>
           `;
           resultDiv.innerHTML += aiHTML;
         })
         .catch(err => {
-          console.error("AI-anropet misslyckades:", err);
+          resultDiv.innerHTML += `<p style="color:red;">❌ AI-svaret kunde inte hämtas just nu.</p>`;
+          console.error("Fel i AI-anrop:", err);
         });
+
+      // Rensa localStorage
+      for (let i = 0; i < numberOfQuestions; i++) {
+        localStorage.removeItem(`question-${i}`);
+      }
     }
   </script>
 </body>
