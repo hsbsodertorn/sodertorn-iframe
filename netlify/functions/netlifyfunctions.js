@@ -1,8 +1,12 @@
+const fetch = require("node-fetch");
+
 exports.handler = async function(event, context) {
-  console.log("Funktionen har anropats"); // Lägg till denna logg för att verifiera att funktionen anropas
+  console.log("Funktionen har anropats"); // Första logg för att verifiera att funktionen anropas
 
   const body = JSON.parse(event.body);
   const answers = body.answers || [];
+
+  console.log("Mottagna svar från användaren:", answers); // Logga svaren från användaren för att säkerställa att vi får rätt data
 
   const prompt = `
     Du är en klimatrådgivare. Här är svaren från en bostadsrättsförening:
@@ -32,10 +36,21 @@ exports.handler = async function(event, context) {
     });
 
     const data = await res.json();
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ result: data.choices?.[0]?.message?.content || "Inget svar." })
-    };
+
+    // Logga hela svaret från OpenAI för felsökning
+    console.log("Svar från OpenAI:", data);
+
+    if (data.choices && data.choices.length > 0) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ result: data.choices[0].message.content || "Inget svar." })
+      };
+    } else {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "Ingen respons från OpenAI" })
+      };
+    }
   } catch (err) {
     console.error("Fel i AI-funktionen:", err);
     return {
