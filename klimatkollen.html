@@ -204,7 +204,6 @@
         container.style.display = "none";
         thinkingOverlay.style.display = "flex";
 
-        // Timeout-fallback
         const fallback = setTimeout(() => {
           console.warn("Timeout – går vidare ändå.");
           window.location.href = "steg2.html";
@@ -244,16 +243,19 @@
           timestamp: new Date(),
           answers: answers
         });
-        console.log("Svar sparade i Firestore! ID:", docRef.id);
+        console.log("✅ Svar sparade i Firestore! ID:", docRef.id);
         window.location.href = "steg2.html";
       } catch (e) {
-        console.error("Fel vid sparning:", e);
-        thinkingOverlay.innerHTML = `
+        console.error("❌ Fel vid sparning:", e);
+        document.getElementById("thinkingOverlay").innerHTML = `
           <p>🚫 Det gick inte att spara svaren.<br>Prova igen eller kontakta support.</p>
           <p style="font-size: 0.9em; color: gray;">Fel: ${e.message}</p>
         `;
       }
     }
+
+    // 🟢 GÖR FUNKTIONEN TILLGÄNGLIG FÖR FORMULÄRET
+    window.saveAllAnswersToFirestore = saveAllAnswersToFirestore;
   </script>
 </body>
 </html>
