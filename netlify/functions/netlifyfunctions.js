@@ -1,8 +1,18 @@
-const fetch = require("node-fetch");
-
 exports.handler = async function(event, context) {
-  // Enkel prompt för att testa om API-anropet fungerar
-  const prompt = "Vad är 2 + 2?";
+  console.log("Funktionen har anropats"); // Lägg till denna logg för att verifiera att funktionen anropas
+
+  const body = JSON.parse(event.body);
+  const answers = body.answers || [];
+
+  const prompt = `
+    Du är en klimatrådgivare. Här är svaren från en bostadsrättsförening:
+    ${answers.map((a, i) => `Fråga ${i + 1}: ${a}`).join("\n")}
+
+    Ge en sammanfattning i tre delar:
+    1. Risker föreningen står inför
+    2. Rekommenderade åtgärder
+    3. Tips på vad föreningen bör prioritera först.
+  `;
 
   try {
     const res = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -14,7 +24,7 @@ exports.handler = async function(event, context) {
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [
-          { role: "system", content: "Du är en AI som svarar på matematiska frågor." },
+          { role: "system", content: "Du är expert på klimatanpassning av fastigheter." },
           { role: "user", content: prompt }
         ],
         temperature: 0.7
