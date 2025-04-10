@@ -8,8 +8,8 @@
   <style>
     :root {
       --hsb-blå: #003366;
-      --hsb-mörkblå: #001a33; /* En mörkare nyans av blå */
-      --hsb-ljusblå: #6699CC; /* En ljusare nyans av blå */
+      --hsb-mörkblå: #001a33;
+      --hsb-ljusblå: #6699CC;
       --hsb-vit: #ffffff;
       --hsb-grå: #f5f5f5;
     }
@@ -18,7 +18,7 @@
       font-family: 'Saira', sans-serif;
       margin: 0;
       background-color: var(--hsb-grå);
-      color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
+      color: var(--hsb-mörkblå);
     }
 
     .container {
@@ -41,13 +41,13 @@
     .progress {
       height: 100%;
       width: 0%;
-      background-color: var(--hsb-blå); /* Använder blå för framsteg */
+      background-color: var(--hsb-blå);
       transition: width 0.3s ease;
     }
 
     h2 {
       margin-bottom: 0.5em;
-      color: var(--hsb-mörkblå); /* Använder mörkare blå för rubrik */
+      color: var(--hsb-mörkblå);
     }
 
     .options {
@@ -64,22 +64,18 @@
       background-color: #fff;
       cursor: pointer;
       transition: background 0.2s ease, color 0.2s ease;
-      min-width: 200px; /* Gör klickområdet större på dator */
-      color: var(--hsb-mörkblå); /* Använder mörkare blå för text i kort */
+      min-width: 200px;
+      color: var(--hsb-mörkblå);
     }
 
     .option-card:hover {
-      background-color: var(--hsb-ljusblå); /* Ljusare blå vid hover */
+      background-color: var(--hsb-ljusblå);
       color: var(--hsb-mörkblå);
     }
 
     .option-card input[type="radio"]:checked + .option-card {
-      background-color: var(--hsb-mörkblå); /* Mörkblå bakgrund vid val */
-      color: var(--hsb-vit); /* Vit text vid val */
-    }
-
-    .option-card input[type="radio"]:focus + .option-card {
-      outline: 2px solid var(--hsb-ljusblå); /* Ljusare blå fokusstil */
+      background-color: var(--hsb-mörkblå);
+      color: var(--hsb-vit);
     }
 
     input[type="radio"] {
@@ -89,7 +85,7 @@
     button {
       margin-top: 2em;
       padding: 0.75em 1.5em;
-      background-color: var(--hsb-mörkblå); /* Alltid mörkblå bakgrund */
+      background-color: var(--hsb-mörkblå);
       color: white;
       border: none;
       border-radius: 6px;
@@ -98,45 +94,29 @@
     }
 
     button:hover {
-      background-color: var(--hsb-ljusblå); /* Ljusare blå vid hover på knapp */
-    }
-
-    .thank-you {
-      text-align: center;
-      padding: 2em;
-    }
-
-    .thank-you h2 {
-      font-size: 1.5em;
-      color: var(--hsb-mörkblå); /* Använder mörkare blå för rubrik */
-    }
-
-    .thank-you p {
-      font-size: 1.1em;
-      color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
+      background-color: var(--hsb-ljusblå);
     }
 
     .thinking-overlay {
-      position: fixed; /* Stannar på skärmen även om man scrollar */
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(255, 255, 255, 0.9); /* Lätt transparent vit bakgrund */
-      display: none; /* Initialt dold */
+      background-color: rgba(255, 255, 255, 0.9);
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 1000; /* Se till att den ligger över annat innehåll */
+      z-index: 1000;
       font-size: 1.2em;
-      color: var(--hsb-mörkblå); /* Använder mörkare blå för text */
+      color: var(--hsb-mörkblå);
     }
 
     .thinking-animation {
       font-size: 3em;
       margin-bottom: 1em;
-      color: var(--hsb-blå); /* Använder blå för animation */
-      /* Enkel roterande animation */
+      color: var(--hsb-blå);
       animation: rotate 2s linear infinite;
     }
 
@@ -213,21 +193,54 @@
       const selected = form.querySelector(`input[name="question${currentIndex}"]:checked`);
       if (!selected) return;
       const answer = selected.value;
-      localStorage.setItem(`question-${currentIndex}`, answer); // Lagra svaret lokalt
+      localStorage.setItem(`question-${currentIndex}`, answer);
       currentIndex++;
       if (currentIndex < questions.length) {
         renderQuestion(currentIndex);
       } else {
-        // När alla frågor är besvarade, visa "tänker"-skärmen och navigera sedan
         container.style.display = "none";
         thinkingOverlay.style.display = "flex";
-        setTimeout(() => {
+        saveAllAnswersToFirestore().then(() => {
           window.location.href = "steg2.html";
-        }, 3000); // Vänta 3 sekunder innan navigering
+        });
       }
     });
 
     renderQuestion(currentIndex);
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAmG3ZuxR8A6WNjPUwa3EDA79rLjwYqS_4",
+      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
+      projectId: "hsbsodertorn-1e7a5",
+      storageBucket: "hsbsodertorn-1e7a5.firebasestorage.app",
+      messagingSenderId: "34372808211",
+      appId: "1:34372808211:web:15aba46a06cf7605ce59e6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function saveAllAnswersToFirestore() {
+      const answers = {};
+      for (let i = 0; i < 13; i++) {
+        answers[`question_${i + 1}`] = localStorage.getItem(`question-${i}`) || "Ej besvarad";
+      }
+
+      try {
+        await addDoc(collection(db, "climate_responses"), {
+          timestamp: new Date(),
+          answers: answers
+        });
+        console.log("Svar sparade i Firestore!");
+      } catch (e) {
+        console.error("Fel vid sparning:", e);
+      }
+    }
   </script>
 </body>
 </html>
