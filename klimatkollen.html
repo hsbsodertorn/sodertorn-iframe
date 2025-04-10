@@ -111,6 +111,8 @@
       z-index: 1000;
       font-size: 1.2em;
       color: var(--hsb-mörkblå);
+      text-align: center;
+      padding: 2em;
     }
 
     .thinking-animation {
@@ -195,14 +197,20 @@
       const answer = selected.value;
       localStorage.setItem(`question-${currentIndex}`, answer);
       currentIndex++;
+
       if (currentIndex < questions.length) {
         renderQuestion(currentIndex);
       } else {
         container.style.display = "none";
         thinkingOverlay.style.display = "flex";
-        saveAllAnswersToFirestore().then(() => {
+
+        // Timeout-fallback
+        const fallback = setTimeout(() => {
+          console.warn("Timeout – går vidare ändå.");
           window.location.href = "steg2.html";
-        });
+        }, 8000);
+
+        saveAllAnswersToFirestore().then(() => clearTimeout(fallback));
       }
     });
 
@@ -232,13 +240,18 @@
       }
 
       try {
-        await addDoc(collection(db, "climate_responses"), {
+        const docRef = await addDoc(collection(db, "climate_responses"), {
           timestamp: new Date(),
           answers: answers
         });
-        console.log("Svar sparade i Firestore!");
+        console.log("Svar sparade i Firestore! ID:", docRef.id);
+        window.location.href = "steg2.html";
       } catch (e) {
         console.error("Fel vid sparning:", e);
+        thinkingOverlay.innerHTML = `
+          <p>🚫 Det gick inte att spara svaren.<br>Prova igen eller kontakta support.</p>
+          <p style="font-size: 0.9em; color: gray;">Fel: ${e.message}</p>
+        `;
       }
     }
   </script>
