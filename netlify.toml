@@ -1,3 +1,3 @@
 [build]
-  publish = "/opt/build/repo"  # Detta gör att den publicerar roten av ditt repository
-  functions = "netlify/functions"  # Detta anger var dina funktioner finns
+  publish = "/"  # För att publicera från root-mappen
+  functions = "netlify/functions"  # För att ange funktionen för Netlify
