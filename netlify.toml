@@ -1,2 +1,3 @@
-[functions]
-  directory = "netlify/functions"
+[build]
+  command = "npm install && npm run build"
+  publish = "public"
