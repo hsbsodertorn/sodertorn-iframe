@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="sv">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,14 +8,14 @@
   <style>
     :root {
       --hsb-blå: #003366;
-      --hsb-mörkblå: #001a33; /* En mörkare nyans av blå */
-      --hsb-ljusblå: #6699CC; /* En ljusare nyans av blå */
-      --hsb-ocra: #d7a900; /* Behåller ockra för accent om det behövs */
+      --hsb-mörkblå: #001a33;
+      --hsb-ljusblå: #6699CC;
       --hsb-vit: #ffffff;
       --hsb-grå: #f5f5f5;
       --font-rubrik: 'Saira', sans-serif;
       --font-brödtext: 'ITC New Baskerville Std', serif;
     }
+
     body {
       font-family: var(--font-brödtext);
       color: var(--hsb-blå);
@@ -25,13 +24,14 @@
       margin: 0;
       padding: 20px;
     }
-    h2,
-    h3 {
+
+    h2, h3 {
       font-family: var(--font-rubrik);
-      color: var(--hsb-mörkblå); /* Mörkare blå för rubriker */
+      color: var(--hsb-mörkblå);
       text-align: center;
       margin-bottom: 1.5em;
     }
+
     .container {
       max-width: 600px;
       margin: 2em auto;
@@ -40,34 +40,39 @@
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     .result-section {
       margin-bottom: 1.5em;
       padding: 1.5em;
       border: 2px solid var(--hsb-blå);
       border-radius: 8px;
-      background-color: var(--hsb-blå); /* Blå bakgrund för identifierade problem */
-      color: var(--hsb-vit); /* Vit text för identifierade problem */
+      background-color: var(--hsb-blå);
+      color: var(--hsb-vit);
     }
+
     .result-section h3 {
-      color: var(--hsb-vit); /* Vit rubrik i identifierade problem */
+      color: var(--hsb-vit);
       font-family: var(--font-rubrik);
       margin-top: 0;
       margin-bottom: 0.75em;
       text-align: center;
-      border-bottom: 2px solid var(--hsb-ljusblå); /* Ljusare blå understrykning */
+      border-bottom: 2px solid var(--hsb-ljusblå);
       padding-bottom: 0.5em;
     }
+
     .result-section ul {
       list-style-type: disc;
       padding-left: 1.5em;
     }
+
     .cta-container {
       text-align: center;
       margin-top: 2em;
     }
+
     .contact-button {
       display: inline-block;
-      background-color: var(--hsb-blå); /* Samma blå som de andra fönstrena */
+      background-color: var(--hsb-blå);
       color: var(--hsb-vit);
       border: none;
       padding: 1em 2em;
@@ -79,47 +84,39 @@
       transition: background-color 0.3s ease;
       min-width: 200px;
     }
+
     .contact-button:hover {
       background-color: var(--hsb-ljusblå);
     }
-    /* Nyckeltalsstyling */
+
     .key-figure-container {
       display: flex;
-      flex-direction: column; /* Staplar på mindre skärmar som standard */
-      align-items: center; /* Centrerar innehållet */
+      flex-direction: column;
+      align-items: center;
       margin-top: 2em;
       padding: 1.5em;
-      background-color: var(--hsb-vit); /* Vit bakgrund */
+      background-color: var(--hsb-vit);
       border-radius: 8px;
-      color: var(--hsb-mörkblå); /* Mörkare blå text */
+      color: var(--hsb-mörkblå);
       text-align: center;
     }
+
     .key-figure h4 {
       font-family: var(--font-rubrik);
       margin-bottom: 0.5em;
       font-size: 1.2em;
     }
+
     .key-figure .risk-count {
-      font-size: 4em; /* Större siffra */
+      font-size: 4em;
       font-weight: bold;
       margin-bottom: 0.2em;
-      font-family: 'Saira', sans-serif; /* Använder Saira för siffran */
+      font-family: 'Saira', sans-serif;
     }
-    .key-figure .risk-text {
-      font-size: 1.1em;
-      /* Ta bort denna rad */
-      display: none;
-    }
-    .key-figure-start-text {
-      font-size: 1.2em;
-      margin-bottom: 1em;
-      text-align: center;
-      /* Ta bort denna klass helt om du inte använder den någon annanstans */
-      display: none;
-    }
+
     @media (min-width: 600px) {
       .key-figure-container {
-        flex-direction: row; /* Lägger i rad på större skärmar */
+        flex-direction: row;
         justify-content: space-around;
       }
       .key-figure {
@@ -141,10 +138,9 @@
 
   <script>
     const resultDiv = document.getElementById("resultDiv");
-    const numberOfQuestions = 13; // Antalet frågor i steg 1
+    const numberOfQuestions = 13;
     const answers = [];
 
-    // Hämta svaren från localStorage
     for (let i = 0; i < numberOfQuestions; i++) {
       const answer = localStorage.getItem(`question-${i}`);
       if (answer) {
@@ -160,35 +156,35 @@
       let riskCount = 0;
 
       if (answers[0] === "Kustnära/låglänt område" || answers[2].includes("Ja")) {
-        output += `<div class="result-section"><h3>🌧️ Hög risk för översvämning vid skyfall</h3><ul>
+        output += `<div class="result-section"><h3>🌧️ Hög risk för översvämning</h3><ul>
         <li>Installera backventiler</li><li>Anlägg regnrabatter</li><li>Säkerställ dränering</li><li>Rensa brunnar</li></ul></div>`;
         riskCount++;
       }
       if (answers[3] === "Stuprör till kommunalt system" && !answers[4].includes("Ja")) {
-        output += `<div class="result-section"><h3>💧 Bristfällig hantering av dagvatten</h3><ul><li>Se över möjligheter till lokal dagvattenhantering.</li><li>Installera backventiler.</li></ul></div>`;
+        output += `<div class="result-section"><h3>💧 Bristfällig hantering av dagvatten</h3><ul><li>Se över lokal dagvattenhantering.</li><li>Installera backventiler.</li></ul></div>`;
         riskCount++;
       }
       if (answers[5] === "Nej" && answers[6].includes("Nej")) {
-        output += `<div class="result-section"><h3>☀️ Hög risk för överhettning</h3><ul>
-        <li>Installera markiser eller annan solavskärmning.</li><li>Plantera träd eller annan växtlighet för skugga.</li><li>Utred möjligheten till gröna tak.</li></ul></div>`;
+        output += `<div class="result-section"><h3>☀️ Risk för överhettning</h3><ul>
+        <li>Installera solskydd</li><li>Plantera träd för skugga</li><li>Överväg gröna tak</li></ul></div>`;
         riskCount++;
       }
       if (answers[7].includes("Ja") && answers[8] === "Nej") {
-        output += `<div class="result-section"><h3>🐭 Ökad risk för skadedjur</h3><ul>
-        <li>Installera råttstopp.</li><li>Se över sophantering och täta eventuella ingångar.</li></ul></div>`;
+        output += `<div class="result-section"><h3>🐭 Risk för skadedjur</h3><ul>
+        <li>Installera råttstopp</li><li>Förbättra sophantering</li></ul></div>`;
         riskCount++;
       }
       if (answers[9].includes("Nej") || answers[10].includes("Ja, men inte åtgärdat")) {
-        output += `<div class="result-section"><h3>⚠️ Identifierade underhållsbehov</h3><ul>
-        <li>Se till att tak och skorsten besiktigas regelbundet.</li><li>Åtgärda riskträd snarast.</li></ul></div>`;
+        output += `<div class="result-section"><h3>⚠️ Underhållsbehov</h3><ul>
+        <li>Besiktiga tak/skorsten</li><li>Åtgärda riskträd</li></ul></div>`;
         riskCount++;
       }
       if (answers[11].includes("Nej")) {
-        output += `<div class="result-section"><h3>📝 Avsaknad av klimatanpassningsplan</h3><ul><li>Upprätta eller uppdatera underhållsplanen med tydliga klimatanpassningsåtgärder.</li></ul></div>`;
+        output += `<div class="result-section"><h3>📝 Saknar klimatanpassningsplan</h3><ul><li>Uppdatera underhållsplanen</li></ul></div>`;
         riskCount++;
       }
       if (answers[12].includes("Nej")) {
-        output += `<div class="result-section"><h3>🗣️ Låg medvetenhet i styrelsen</h3><ul><li>Boka en workshop för klimatanpassning i styrelsen.</li><li>Diskutera klimatrisker och åtgärder regelbundet.</li></ul></div>`;
+        output += `<div class="result-section"><h3>🗣️ Låg medvetenhet i styrelsen</h3><ul><li>Diskutera klimatrisker regelbundet</li></ul></div>`;
         riskCount++;
       }
 
@@ -198,25 +194,42 @@
             <h4>Identifierade risker</h4>
             <p class="risk-count">${riskCount}</p>
           </div>
-        </div>
-      `;
+        </div>`;
 
       const recommendedSteps = `<div class="result-section" style="background-color: #fff; color: var(--hsb-blå); border-color: var(--hsb-blå);">
       <h3 style="color: var(--hsb-mörkblå);">Nästa steg</h3><ul>
-        <li>Kontakta oss för en djupare analys och skräddarsydda rekommendationer.</li>
-        <li>Utforska möjligheter till finansiering och bidrag för klimatanpassningsåtgärder.</li>
+        <li>Kontakta oss för en djupare analys.</li>
+        <li>Se över bidrag för klimatanpassning.</li>
       </ul></div>`;
 
       return keyFiguresHTML + output + recommendedSteps;
     }
 
-    // Visa analysen om alla svar har hämtats
     if (answers.length === numberOfQuestions) {
       resultDiv.innerHTML = generateAnalysis(answers);
-      // Rensa localStorage efter att svaren har hämtats (valfritt)
       for (let i = 0; i < numberOfQuestions; i++) {
         localStorage.removeItem(`question-${i}`);
       }
+
+      // 🔍 Skicka till AI-funktionen i Netlify
+      fetch("/.netlify/functions/netlifyfunctions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers })
+      })
+        .then(res => res.json())
+        .then(data => {
+          const aiHTML = `
+            <div class="result-section" style="background-color:#fff; color: var(--hsb-blå); border-color: var(--hsb-ljusblå);">
+              <h3 style="color: var(--hsb-mörkblå);">🤖 AI-genererad klimatanalys</h3>
+              <p style="white-space: pre-line;">${data.result}</p>
+            </div>
+          `;
+          resultDiv.innerHTML += aiHTML;
+        })
+        .catch(err => {
+          console.error("AI-anropet misslyckades:", err);
+        });
     }
   </script>
 </body>
