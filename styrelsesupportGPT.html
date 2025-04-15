@@ -16,6 +16,7 @@
       flex-direction: column;
       overflow: hidden;
       position: relative;
+      margin: 20px auto;
     }
     #messages {
       flex: 1;
@@ -25,6 +26,7 @@
     }
     .message {
       margin-bottom: 12px;
+      white-space: pre-line;
     }
     .user { text-align: right; color: #00558c; }
     .bot { text-align: left; color: #333; }
@@ -55,7 +57,7 @@
 
 <div id="chatbox">
   <div id="messages">
-    <div class="message bot">Hej! Jag är HSB Södertörns AI-assistent. Vad vill du ha hjälp med?</div>
+    <div class="message bot">Hej! Jag är HSB Södertörns AI-assistent 🤖 Vad vill du ha hjälp med idag?</div>
   </div>
   <div id="inputArea">
     <input type="text" id="userInput" placeholder="Skriv din fråga här..." />
@@ -72,7 +74,6 @@
     addMessage(message, "user");
     input.value = "";
 
-    // Skicka meddelandet till OpenAI API (pseudo – byt ut med backend)
     const response = await getAIResponse(message);
     addMessage(response, "bot");
   }
@@ -87,15 +88,30 @@
   }
 
   async function getAIResponse(userInput) {
-    // Här ska ni anropa er backend som skickar frågan till OpenAI:s API
-    // Detta är en mock-funktion för demo
-    if (userInput.toLowerCase().includes("felanmälan")) {
-      return "Du kan göra en felanmälan via vår portal: https://hsb.se/sodertorn/kontakt/felanmalan";
-    } else if (userInput.toLowerCase().includes("parkering")) {
-      return "För parkeringsfrågor, kontakta din brf-styrelse eller vår kundservice.";
-    } else {
-      return "Jag är inte helt säker – men jag kan koppla dig vidare till vår kundservice om du vill?";
+    const lowerInput = userInput.toLowerCase();
+
+    if (lowerInput.includes("felanmälan")) {
+      return `Självklart! Du kan göra en felanmälan direkt via vår portal:  
+👉 https://hsb.se/sodertorn/kontakt/felanmalan  
+Om det gäller något akut, som en vattenläcka eller strömavbrott, kan du även ringa vår jour: 08-608 68 00.  
+Behöver du hjälp med att fylla i felanmälan?`;
     }
+
+    if (lowerInput.includes("parkering")) {
+      return `Bra att du frågar! För parkeringsfrågor rekommenderar jag att du kontaktar din brf-styrelse direkt, eftersom varje förening har olika avtal.  
+Du kan också höra av dig till vår kundservice så hjälper vi dig vidare.  
+Vill du att jag visar kontaktuppgifterna?`;
+    }
+
+    if (lowerInput.includes("kontakt") || lowerInput.includes("mejla")) {
+      return `Du kan alltid kontakta vår kundservice via:  
+📞 Telefon: 08-608 68 00  
+📧 E-post: info.sodertorn@hsb.se  
+Vill du att jag skickar dig vidare till kontaktformuläret?`;
+    }
+
+    return `Tack för din fråga! Jag är inte helt säker på svaret just nu, men jag kan hjälpa dig att hitta rätt.  
+Vill du att jag kopplar dig vidare till vår kundservice eller guidar dig vidare? 😊`;
   }
 </script>
 
