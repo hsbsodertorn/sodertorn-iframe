@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HSB Södertörn Chatt</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; }
+    #chatbox {
+      width: 100%;
+      max-width: 400px;
+      height: 600px;
+      border: 2px solid #00558c;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    #messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      background: #f5f5f5;
+    }
+    .message {
+      margin-bottom: 12px;
+    }
+    .user { text-align: right; color: #00558c; }
+    .bot { text-align: left; color: #333; }
+    #inputArea {
+      display: flex;
+      padding: 12px;
+      background: #fff;
+      border-top: 1px solid #ccc;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-right: 8px;
+    }
+    button {
+      background: #00558c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chatbox">
+  <div id="messages">
+    <div class="message bot">Hej! Jag är HSB Södertörns AI-assistent. Vad vill du ha hjälp med?</div>
+  </div>
+  <div id="inputArea">
+    <input type="text" id="userInput" placeholder="Skriv din fråga här..." />
+    <button onclick="sendMessage()">Skicka</button>
+  </div>
+</div>
+
+<script>
+  async function sendMessage() {
+    const input = document.getElementById("userInput");
+    const message = input.value.trim();
+    if (!message) return;
+
+    addMessage(message, "user");
+    input.value = "";
+
+    // Skicka meddelandet till OpenAI API (pseudo – byt ut med backend)
+    const response = await getAIResponse(message);
+    addMessage(response, "bot");
+  }
+
+  function addMessage(text, sender) {
+    const messages = document.getElementById("messages");
+    const div = document.createElement("div");
+    div.className = "message " + sender;
+    div.innerText = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  async function getAIResponse(userInput) {
+    // Här ska ni anropa er backend som skickar frågan till OpenAI:s API
+    // Detta är en mock-funktion för demo
+    if (userInput.toLowerCase().includes("felanmälan")) {
+      return "Du kan göra en felanmälan via vår portal: https://hsb.se/sodertorn/kontakt/felanmalan";
+    } else if (userInput.toLowerCase().includes("parkering")) {
+      return "För parkeringsfrågor, kontakta din brf-styrelse eller vår kundservice.";
+    } else {
+      return "Jag är inte helt säker – men jag kan koppla dig vidare till vår kundservice om du vill?";
+    }
+  }
+</script>
+
+</body>
+</html>
