@@ -166,7 +166,6 @@
   async function getAIResponse(userInput) {
     const lowerInput = userInput.toLowerCase();
 
-    // standardsvar
     if (lowerInput.includes("felanmälan")) {
       return `Självklart! Du kan göra en felanmälan direkt via vår portal:\n👉 https://hsb.se/sodertorn/kontakt/felanmalan\nOm det gäller något akut, som en vattenläcka eller strömavbrott, kan du även ringa vår jour: 08-608 68 00.`;
     }
@@ -201,6 +200,7 @@
           }
         }
 
+        // om inga nyckelord matchar men tag på toppnivå gör det
         if (data.tags && data.tags.some(tag => lowerInput.includes(tag.toLowerCase()))) {
           return `ℹ️ ${data.kategori}:\n${data.sammanfattning}`;
         }
