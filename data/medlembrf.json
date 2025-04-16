@@ -19,91 +19,70 @@
   ],
   "delar": [
     {
-      "id": "hsb-ledamot",
       "titel": "HSB-ledamot",
-      "kategori": "styrelsestöd",
-      "nyckelord": ["styrelse", "rådgivning", "strategi", "beslut"],
       "beskrivning": "Tillgång till en erfaren HSB-ledamot som deltar i styrelsearbetet och ger strategiskt stöd.",
+      "nyckelord": ["styrelse", "rådgivning", "strategi", "beslut", "hsb-ledamot"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/hsb-ledamot/"
     },
     {
-      "id": "juridisk-radgivning",
       "titel": "Juridisk rådgivning",
-      "kategori": "juridik",
-      "nyckelord": ["juridik", "rådgivning", "avtal", "tvister"],
       "beskrivning": "Kvalificerad juridisk rådgivning i allt från komplexa frågor till vägledning vid tvister eller avtalsförhandlingar.",
+      "nyckelord": ["juridik", "rådgivning", "avtal", "tvister", "juridisk rådgivning"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/juridisk-radgivning/"
     },
     {
-      "id": "utbildningar",
       "titel": "Utbildningar och stöd",
-      "kategori": "utbildning",
-      "nyckelord": ["utbildning", "styrelse", "kompetensutveckling"],
       "beskrivning": "Omfattande utbildningsprogram för styrelsemedlemmar, inklusive kurser och seminarier inom föreningsjuridik och ekonomi.",
+      "nyckelord": ["utbildning", "styrelse", "kurser", "kompetens", "seminarier"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/utbildning/"
     },
     {
-      "id": "samarbetsavtal",
       "titel": "Erbjudanden och samarbetsavtal",
-      "kategori": "ekonomi",
-      "nyckelord": ["erbjudanden", "samarbetsavtal", "leverantörer"],
-      "beskrivning": "Tillgång till förmånliga samarbetsavtal med utvalda leverantörer för att minska kostnader inom olika områden.",
+      "beskrivning": "Förmånliga samarbetsavtal med leverantörer för att minska kostnader inom olika områden.",
+      "nyckelord": ["erbjudanden", "samarbetsavtal", "rabatter", "leverantörer"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/erbjudanden-och-samarbetsavtal/"
     },
     {
-      "id": "medlemstidning",
-      "titel": "Medlemstidning - HSB Uppdraget",
-      "kategori": "information",
-      "nyckelord": ["medlemstidning", "information", "inspiration"],
+      "titel": "Medlemstidning – HSB Uppdraget",
       "beskrivning": "Tidningen HSB Uppdraget ger förtroendevalda inspiration, praktiska tips och aktuell information.",
+      "nyckelord": ["hsb uppdraget", "tidning", "inspiration", "information", "styrelse"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/medlemstidning/"
     },
     {
-      "id": "gdpr",
       "titel": "GDPR-stöd",
-      "kategori": "juridik",
-      "nyckelord": ["gdpr", "personuppgifter", "dataskydd"],
       "beskrivning": "Stöd för att säkerställa korrekt hantering av personuppgifter enligt GDPR.",
+      "nyckelord": ["gdpr", "personuppgifter", "dataskydd", "register"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/gdpr/"
     },
     {
-      "id": "stammopool",
       "titel": "Stämmopool",
-      "kategori": "möten",
-      "nyckelord": ["stämmopool", "möten", "ordförande", "sekreterare"],
-      "beskrivning": "Tillgång till erfarna mötesordförande och sekreterare som stöd vid stämmor och viktiga möten.",
+      "beskrivning": "Erfarna mötesordförande och sekreterare som stöd vid stämmor och viktiga möten.",
+      "nyckelord": ["stämmopool", "möte", "ordförande", "sekreterare"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/stammopool/"
     },
     {
-      "id": "byta-stadgar",
       "titel": "Byta stadgar",
-      "kategori": "juridik",
-      "nyckelord": ["stadgar", "ändring", "juridik"],
-      "beskrivning": "Stöd och juridisk rådgivning för att modernisera och anpassa era stadgar enligt gällande lagkrav.",
+      "beskrivning": "Stöd och juridisk rådgivning för att modernisera och anpassa era stadgar enligt lagkrav.",
+      "nyckelord": ["stadgar", "ändra stadgar", "stadgebyte", "juridik"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/byta-stadgar/"
     },
     {
-      "id": "kommunikation",
       "titel": "Kommunikation",
-      "kategori": "information",
-      "nyckelord": ["kommunikation", "boendekommunikation", "digitala verktyg"],
-      "beskrivning": "Hjälp med att förbättra kommunikationen inom föreningen, inklusive digitala verktyg och boendekommunikation.",
+      "beskrivning": "Förbättrad boendekommunikation och användning av digitala verktyg – inklusive brf-hemsidor.",
+      "nyckelord": ["kommunikation", "boendekommunikation", "hemsida", "verktyg"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/kommunikation/"
     },
     {
-      "id": "paverka",
       "titel": "Påverka",
-      "kategori": "demokrati",
-      "nyckelord": ["påverkan", "demokrati", "beslut"],
-      "beskrivning": "Möjlighet att delta i påverkansarbete och vara en del av beslut som formar HSB:s framtid.",
+      "beskrivning": "Möjlighet att delta i påverkansarbete och påverka HSB:s framtid.",
+      "nyckelord": ["påverkan", "demokrati", "beslut", "inflytande"],
       "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/paverka/"
     },
     {
-      "id": "varumarke",
       "titel": "Varumärket HSB",
-      "kategori": "branding",
-      "nyckelord": ["varumärke", "trovärdighet", "attraktionskraft"],
-      "beskrivning": "HSB är ett starkt och välkänt varumärke som ger er förening ökad trovärdighet och attraktionskraft.",
-      "lank": "https://www.h
-::contentReference[oaicite:2]{index=2}
- 
+      "beskrivning": "HSB är ett starkt varumärke som ger trovärdighet och attraktionskraft till er förening.",
+      "nyckelord": ["varumärke", "profil", "hsb", "trovärdighet", "attraktion"],
+      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/varumarke/"
+    }
+  ]
+}
