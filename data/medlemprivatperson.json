@@ -1,7 +1,18 @@
 {
   "kategori": "medlem-privatperson",
-  "sammanfattning": "Som medlem i HSB Södertörn får du tillgång till juridisk rådgivning, medlemstidningen Hemma i HSB, bosparande med förtur till bostäder, och möjlighet att påverka HSB:s framtid.",
-  "tags": ["medlemskap", "privatperson", "bospar", "juridik", "erbjudanden", "påverka", "medlemstidning", "förmåner"],
+  "sammanfattning": "Som medlem i HSB Södertörn får du tillgång till juridisk rådgivning, medlemstidningen Hemma i HSB, bosparande med förtur till bostäder och möjlighet att påverka HSB:s framtid.",
+  "tags": [
+    "medlemskap",
+    "privatperson",
+    "bospar",
+    "juridik",
+    "erbjudanden",
+    "påverka",
+    "medlemstidning",
+    "förmåner",
+    "utbildning",
+    "frågor"
+  ],
   "delar": [
     {
       "titel": "Medlemserbjudanden",
@@ -11,7 +22,7 @@
     },
     {
       "titel": "Bosparande",
-      "beskrivning": "Genom att bospara i HSB får du möjlighet att spara till kontantinsatsen och förtur till HSBs hyresrätter och nybyggda bostäder.",
+      "beskrivning": "Genom att bospara i HSB får du möjlighet att spara till kontantinsatsen och förtur till HSB:s hyresrätter och nybyggda bostäder.",
       "nyckelord": ["bospar", "bosparande", "spara", "förtur", "bostad"],
       "lank": "https://www.hsb.se/sodertorn/medlem/privatperson/bospara/"
     },
