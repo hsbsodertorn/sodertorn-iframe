@@ -1,0 +1,45 @@
+{
+  "kategori": "bosparande",
+  "sammanfattning": "HSB Bospar är ett enkelt och smart sätt att spara till en framtida bostad. Som bosparare får du förtur till HSBs nybyggda bostäder och hyresrätter, samtidigt som du bygger upp en kontantinsats.",
+  "tags": [
+    "bospar", "bospara", "förtur", "sparande", "kontantinsats", "medlemskap", "boende", "framtida bostad", "ungdomsspar"
+  ],
+  "delar": [
+    {
+      "titel": "Förtur till bostad",
+      "beskrivning": "Som bosparare får du förtur till HSBs nybyggda bostadsrätter och hyresrätter i hela landet. Din bosparpoäng ökar varje månad du sparar.",
+      "nyckelord": ["förtur", "bosparpoäng", "bostadskö", "hyresrätt", "bostadsrätt"],
+      "lank": "https://www.hsb.se/bospara/fordelar/"
+    },
+    {
+      "titel": "Spara till kontantinsats",
+      "beskrivning": "Du sparar långsiktigt och bygger upp en kontantinsats för framtida bostad. HSB Bospar passar såväl unga som vuxna.",
+      "nyckelord": ["kontantinsats", "långsiktigt sparande", "sparande", "framtid", "ekonomi"],
+      "lank": "https://www.hsb.se/bospara/sa-fungerar-det/"
+    },
+    {
+      "titel": "Enkelt att komma igång",
+      "beskrivning": "Att bli bosparare är enkelt. Du väljer själv hur mycket du vill spara varje månad och följer utvecklingen i ditt digitala sparande.",
+      "nyckelord": ["starta bospar", "kom igång", "digitalt", "enkelhet", "månadssparande"],
+      "lank": "https://www.hsb.se/bospara/bli-bosparare/"
+    },
+    {
+      "titel": "Bospara för barn och unga",
+      "beskrivning": "HSB Bospar är perfekt för barnsparande. Ge dina barn ett försprång till framtida boende.",
+      "nyckelord": ["barnspar", "ungdomsspar", "barn", "boendestart", "framtid"],
+      "lank": "https://www.hsb.se/bospara/bospara-till-barn/"
+    },
+    {
+      "titel": "HSB Bosparkonto via Danske Bank",
+      "beskrivning": "Ditt bosparande sker genom ett konto i Danske Bank med trygg ränta och insättningsgaranti.",
+      "nyckelord": ["danske bank", "bosparkonto", "ränta", "insättningsgaranti"],
+      "lank": "https://www.hsb.se/bospara/sa-fungerar-det/"
+    },
+    {
+      "titel": "Frågor och svar om bospar",
+      "beskrivning": "Här hittar du svar på vanliga frågor om hur bospar fungerar, poängsystemet och hur du kommer igång.",
+      "nyckelord": ["frågor", "faq", "bosparsystem", "hjälp"],
+      "lank": "https://www.hsb.se/bospara/fragor-och-svar/"
+    }
+  ]
+}
