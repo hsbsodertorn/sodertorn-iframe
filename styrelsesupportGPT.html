@@ -15,7 +15,6 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      position: relative;
       margin: 40px auto;
       background: white;
     }
@@ -31,6 +30,7 @@
     }
     .user { text-align: right; color: #00558c; }
     .bot { text-align: left; color: #333; }
+    .bot a { color: #00558c; text-decoration: underline; }
     #inputArea {
       display: flex;
       padding: 12px;
@@ -61,12 +61,18 @@
     <div class="message bot">Hej! Jag är HSB Södertörns AI-assistent 🤖 Vad vill du ha hjälp med idag?</div>
   </div>
   <div id="inputArea">
-    <input type="text" id="userInput" placeholder="Skriv din fråga här..." />
+    <input type="text" id="userInput" placeholder="Skriv din fråga här..." onkeydown="handleKey(event)" />
     <button onclick="sendMessage()">Skicka</button>
   </div>
 </div>
 
 <script>
+  function handleKey(event) {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  }
+
   async function sendMessage() {
     const input = document.getElementById("userInput");
     const message = input.value.trim();
@@ -76,26 +82,48 @@
     input.value = "";
 
     const response = await getAIResponse(message);
-    addMessage(response, "bot");
+    typeMessage(response, "bot");
   }
 
   function addMessage(text, sender) {
     const messages = document.getElementById("messages");
     const div = document.createElement("div");
     div.className = "message " + sender;
-    div.innerText = text;
+    div.innerHTML = convertLinks(text);
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
+  }
+
+  function typeMessage(text, sender) {
+    const messages = document.getElementById("messages");
+    const div = document.createElement("div");
+    div.className = "message " + sender;
+    messages.appendChild(div);
+
+    let i = 0;
+    function typeChar() {
+      if (i < text.length) {
+        const nextChar = text[i++];
+        div.innerHTML = convertLinks(text.substring(0, i));
+        messages.scrollTop = messages.scrollHeight;
+        setTimeout(typeChar, 12);
+      }
+    }
+    typeChar();
+  }
+
+  function convertLinks(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, function(url) {
+      return `<a href="${url}" target="_blank">${url}</a>`;
+    });
   }
 
   async function getAIResponse(userInput) {
     const lowerInput = userInput.toLowerCase();
 
-    // manuella svar först
     if (lowerInput.includes("felanmälan")) {
-      return `Självklart! Du kan göra en felanmälan direkt via vår portal:  
-👉 https://hsb.se/sodertorn/kontakt/felanmalan  
-Om det gäller något akut, som en vattenläcka eller strömavbrott, kan du även ringa vår jour: 08-608 68 00.`;
+      return `Självklart! Du kan göra en felanmälan direkt via vår portal:\n👉 https://hsb.se/sodertorn/kontakt/felanmalan\nOm det gäller något akut, som en vattenläcka eller strömavbrott, kan du även ringa vår jour: 08-608 68 00.`;
     }
 
     if (lowerInput.includes("parkering")) {
@@ -103,27 +131,19 @@ Om det gäller något akut, som en vattenläcka eller strömavbrott, kan du äve
     }
 
     if (lowerInput.includes("kontakt") || lowerInput.includes("mejla")) {
-      return `📞 08-608 68 00  
-📧 info.sodertorn@hsb.se  
-Vill du att jag visar kontaktformuläret?`;
+      return `📞 08-608 68 00\n📧 info.sodertorn@hsb.se\nVill du att jag visar kontaktformuläret?`;
     }
 
-    // ladda innehåll från forvaltning.json
     try {
       const res = await fetch("data/forvaltning.json");
       const data = await res.json();
-
-      // kolla om frågan matchar taggar
       const matches = data.tags.some(tag => lowerInput.includes(tag.toLowerCase()));
       if (!matches) {
         return `Tack för din fråga! Jag är inte säker på svaret just nu, men jag kan hjälpa dig att hitta rätt. Vill du prata med kundservice? 😊`;
       }
 
-      // plocka fram matchad info som exempel (GPT-anrop senare)
       const förstaTjanst = data.tjanster[0];
-      return `Här är vad jag kan berätta:  
-HSB Södertörn erbjuder ${förstaTjanst.beskrivning.toLowerCase()}  
-Läs mer här: ${förstaTjanst.lank}`;
+      return `Här är vad jag kan berätta:\nHSB Södertörn erbjuder ${förstaTjanst.beskrivning.toLowerCase()}\nLäs mer här: ${förstaTjanst.lank}`;
     } catch (error) {
       console.error("Fel vid hämtning av data:", error);
       return "Jag försökte hämta information från vår interna databas, men något gick fel. Försök igen om en stund eller kontakta kundservice.";
