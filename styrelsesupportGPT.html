@@ -5,73 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HSB Styrelsesupport GPT</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #e9eef2;
-    }
+    body { font-family: sans-serif; margin: 0; padding: 0; background: #f0f0f0; }
     #chatbox {
       width: 100%;
-      max-width: 420px;
-      height: 640px;
+      max-width: 400px;
+      height: 600px;
       border: 2px solid #00558c;
-      border-radius: 16px;
+      border-radius: 12px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      margin: 60px auto;
+      margin: 40px auto;
       background: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     #messages {
       flex: 1;
-      padding: 20px;
+      padding: 16px;
       overflow-y: auto;
-      background: #f9fafb;
+      background: #f5f5f5;
     }
     .message {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       white-space: pre-line;
-      line-height: 1.4;
     }
-    .user {
-      text-align: right;
-      color: #00558c;
-    }
-    .bot {
-      text-align: left;
-      color: #1a1a1a;
-    }
-    .bot a {
-      color: #00558c;
-      text-decoration: underline;
+    .user { text-align: right; color: #00558c; }
+    .bot { text-align: left; color: #333; }
+    .bot a { color: #00558c; text-decoration: underline; }
+    .disclaimer {
+      font-style: italic;
+      font-size: 0.85em;
+      border-top: 1px solid #ccc;
+      margin-top: 8px;
+      padding-top: 8px;
     }
     #inputArea {
       display: flex;
-      padding: 16px;
+      padding: 12px;
       background: #fff;
-      border-top: 1px solid #ddd;
-      gap: 10px;
+      border-top: 1px solid #ccc;
     }
     input {
       flex: 1;
-      padding: 12px 14px;
-      border-radius: 8px;
+      padding: 10px;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      font-size: 15px;
+      margin-right: 8px;
     }
     button {
       background: #00558c;
       color: white;
       border: none;
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-size: 15px;
+      border-radius: 6px;
+      padding: 10px 16px;
       cursor: pointer;
     }
   </style>
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
@@ -99,9 +87,9 @@
     window.saveChatLog = async (conversationId, fraga, svar) => {
       try {
         await addDoc(collection(db, "chattlogg"), {
-          conversationId: conversationId,
-          fraga: fraga,
-          svar: svar,
+          conversationId,
+          fraga,
+          svar,
           tid: serverTimestamp()
         });
       } catch (err) {
@@ -111,9 +99,10 @@
   </script>
 </head>
 <body>
+
 <div id="chatbox">
   <div id="messages">
-    <div class="message bot">👋 Hej! Välkommen till Styrelsesupport GPT. Vad vill du ha hjälp med idag?</div>
+    <div class="message bot">Hej! Välkommen till Styrelsesupport GPT 🤖 Vad vill du ha hjälp med idag?</div>
   </div>
   <div id="inputArea">
     <input type="text" id="userInput" placeholder="Skriv din fråga här..." onkeydown="handleKey(event)" />
@@ -125,9 +114,7 @@
   const conversationId = crypto.randomUUID();
 
   function handleKey(event) {
-    if (event.key === "Enter") {
-      sendMessage();
-    }
+    if (event.key === "Enter") sendMessage();
   }
 
   async function sendMessage() {
@@ -150,7 +137,7 @@
     const messages = document.getElementById("messages");
     const div = document.createElement("div");
     div.className = "message " + sender;
-    div.innerHTML = convertLinks(text);
+    div.innerHTML = convertLinks(text) + getDisclaimer(sender);
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
@@ -164,9 +151,9 @@
     let i = 0;
     function typeChar() {
       if (i < text.length) {
-        div.innerHTML = convertLinks(text.substring(0, ++i));
+        div.innerHTML = convertLinks(text.substring(0, ++i)) + getDisclaimer(sender);
         messages.scrollTop = messages.scrollHeight;
-        setTimeout(typeChar, 10);
+        setTimeout(typeChar, 12);
       }
     }
     typeChar();
@@ -179,23 +166,37 @@
     });
   }
 
+  function getDisclaimer(sender) {
+    if (sender !== "bot") return "";
+    return `
+      <div class="disclaimer">
+        Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.
+      </div>
+    `;
+  }
+
   async function getAIResponse(userInput) {
     const lowerInput = userInput.toLowerCase();
 
     if (lowerInput.includes("felanmälan")) {
-      return `🔧 Självklart! Du kan göra en felanmälan direkt:
+      return `Du gör enklast en felanmälan via:
 👉 https://hsb.se/sodertorn/kontakt/felanmalan
-⚠️ Akuta ärenden? Ring jouren: 08-608 68 00.`;
-    }
-
-    if (lowerInput.includes("parkering")) {
-      return `🚗 För parkeringsfrågor – kontakta din brf-styrelse eller kundservice: 08-608 68 00.`;
+Vid akuta ärenden (t.ex. värmestopp eller vattenläcka) ring jouren: 08-608 68 00.`;
     }
 
     if (lowerInput.includes("kontakt") || lowerInput.includes("mejla")) {
-      return `📞 08-608 68 00
+      return `Kontakta oss direkt:
+📞 08-608 68 00
 📧 info.sodertorn@hsb.se
 Vill du att jag visar kontaktformuläret?`;
+    }
+
+    // Undvik att ge ut summor eller personuppgifter
+    if (lowerInput.includes("kronor") || lowerInput.includes("sek") || lowerInput.includes("personnummer")) {
+      return `Jag kan tyvärr inte ge ut kostnadsuppskattningar eller hantera personuppgifter här. Kontakta oss istället så hjälper vi dig personligen:
+📞 08-608 68 00
+📧 info.sodertorn@hsb.se
+Tips: Ha gärna information om ärendet redo. Vill du ha en checklista?`;
     }
 
     try {
@@ -216,23 +217,25 @@ Vill du att jag visar kontaktformuläret?`;
             d.nyckelord?.some(n => lowerInput.includes(n.toLowerCase()))
           );
           if (match) {
-            return `🟦 *${match.titel}*
-${match.beskrivning}
-🔗 Läs mer: ${match.lank}`;
+            return `${match.beskrivning}
+Vill du veta mer om detta?
+Läs mer: ${match.lank}`;
           }
         }
 
         if (data.tags && data.tags.some(tag => lowerInput.includes(tag.toLowerCase()))) {
-          return `ℹ️ ${data.sammanfattning}`;
+          return `${data.sammanfattning}
+Vill du att jag visar några exempel på vad det kan handla om?`;
         }
       }
 
-      return "❓ Jag hittade inget exakt svar – men jag kan hjälpa dig vidare. Vill du kontakta kundservice?";
+      return "Jag hittar inget direkt svar, men jag kan hjälpa dig vidare. Vill du prata med kundservice eller få exempel på relaterade frågor?";
     } catch (error) {
       console.error("Fel vid databassökning:", error);
-      return "⚠️ Jag försökte söka i vår databas men något gick fel. Försök igen eller kontakta kundservice.";
+      return "Jag försökte söka i vår databas men något gick fel. Försök igen eller kontakta kundservice.";
     }
   }
 </script>
+
 </body>
 </html>
