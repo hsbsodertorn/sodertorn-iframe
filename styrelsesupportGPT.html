@@ -53,6 +53,44 @@
       cursor: pointer;
     }
   </style>
+
+  <!-- 🔥 Firebase config och Firestore-logik -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAmG3ZuxR8A6WNjPUwa3EDA79rLjwYqS_4",
+      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
+      projectId: "hsbsodertorn-1e7a5",
+      storageBucket: "hsbsodertorn-1e7a5.firebasestorage.app",
+      messagingSenderId: "34372808211",
+      appId: "1:34372808211:web:85e0c908917ff232ce59e6",
+      measurementId: "G-LTWGETNT98"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    window.saveChatLog = async (fraga, svar) => {
+      try {
+        await addDoc(collection(db, "chattlogg"), {
+          fraga: fraga,
+          svar: svar,
+          tid: serverTimestamp()
+        });
+      } catch (err) {
+        console.error("Fel vid loggning i Firebase:", err);
+      }
+    };
+  </script>
 </head>
 <body>
 
@@ -83,6 +121,11 @@
 
     const response = await getAIResponse(message);
     typeMessage(response, "bot");
+
+    // 🔴 logga till firebase
+    if (window.saveChatLog) {
+      window.saveChatLog(message, response);
+    }
   }
 
   function addMessage(text, sender) {
@@ -103,8 +146,7 @@
     let i = 0;
     function typeChar() {
       if (i < text.length) {
-        const nextChar = text[i++];
-        div.innerHTML = convertLinks(text.substring(0, i));
+        div.innerHTML = convertLinks(text.substring(0, ++i));
         messages.scrollTop = messages.scrollHeight;
         setTimeout(typeChar, 12);
       }
