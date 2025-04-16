@@ -79,9 +79,10 @@
     const analytics = getAnalytics(app);
     const db = getFirestore(app);
 
-    window.saveChatLog = async (fraga, svar) => {
+    window.saveChatLog = async (conversationId, fraga, svar) => {
       try {
         await addDoc(collection(db, "chattlogg"), {
+          conversationId: conversationId,
           fraga: fraga,
           svar: svar,
           tid: serverTimestamp()
@@ -105,6 +106,9 @@
 </div>
 
 <script>
+  // Skapar unikt ID för varje chattsession
+  const conversationId = crypto.randomUUID();
+
   function handleKey(event) {
     if (event.key === "Enter") {
       sendMessage();
@@ -122,9 +126,9 @@
     const response = await getAIResponse(message);
     typeMessage(response, "bot");
 
-    // 🔴 logga till firebase
+    // logga till firebase med conversationId
     if (window.saveChatLog) {
-      window.saveChatLog(message, response);
+      window.saveChatLog(conversationId, message, response);
     }
   }
 
