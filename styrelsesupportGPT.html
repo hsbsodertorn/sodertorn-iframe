@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HSB Södertörn Chatt</title>
   <style>
-    body { font-family: sans-serif; margin: 0; padding: 0; }
+    body { font-family: sans-serif; margin: 0; padding: 0; background: #f0f0f0; }
     #chatbox {
       width: 100%;
       max-width: 400px;
@@ -16,7 +16,8 @@
       flex-direction: column;
       overflow: hidden;
       position: relative;
-      margin: 20px auto;
+      margin: 40px auto;
+      background: white;
     }
     #messages {
       flex: 1;
@@ -90,28 +91,43 @@
   async function getAIResponse(userInput) {
     const lowerInput = userInput.toLowerCase();
 
+    // manuella svar först
     if (lowerInput.includes("felanmälan")) {
       return `Självklart! Du kan göra en felanmälan direkt via vår portal:  
 👉 https://hsb.se/sodertorn/kontakt/felanmalan  
-Om det gäller något akut, som en vattenläcka eller strömavbrott, kan du även ringa vår jour: 08-608 68 00.  
-Behöver du hjälp med att fylla i felanmälan?`;
+Om det gäller något akut, som en vattenläcka eller strömavbrott, kan du även ringa vår jour: 08-608 68 00.`;
     }
 
     if (lowerInput.includes("parkering")) {
-      return `Bra att du frågar! För parkeringsfrågor rekommenderar jag att du kontaktar din brf-styrelse direkt, eftersom varje förening har olika avtal.  
-Du kan också höra av dig till vår kundservice så hjälper vi dig vidare.  
-Vill du att jag visar kontaktuppgifterna?`;
+      return `För parkeringsfrågor: kontakta din brf-styrelse direkt, eller ring vår kundservice: 08-608 68 00.`;
     }
 
     if (lowerInput.includes("kontakt") || lowerInput.includes("mejla")) {
-      return `Du kan alltid kontakta vår kundservice via:  
-📞 Telefon: 08-608 68 00  
-📧 E-post: info.sodertorn@hsb.se  
-Vill du att jag skickar dig vidare till kontaktformuläret?`;
+      return `📞 08-608 68 00  
+📧 info.sodertorn@hsb.se  
+Vill du att jag visar kontaktformuläret?`;
     }
 
-    return `Tack för din fråga! Jag är inte helt säker på svaret just nu, men jag kan hjälpa dig att hitta rätt.  
-Vill du att jag kopplar dig vidare till vår kundservice eller guidar dig vidare? 😊`;
+    // ladda innehåll från forvaltning.json
+    try {
+      const res = await fetch("data/forvaltning.json");
+      const data = await res.json();
+
+      // kolla om frågan matchar taggar
+      const matches = data.tags.some(tag => lowerInput.includes(tag.toLowerCase()));
+      if (!matches) {
+        return `Tack för din fråga! Jag är inte säker på svaret just nu, men jag kan hjälpa dig att hitta rätt. Vill du prata med kundservice? 😊`;
+      }
+
+      // plocka fram matchad info som exempel (GPT-anrop senare)
+      const förstaTjanst = data.tjanster[0];
+      return `Här är vad jag kan berätta:  
+HSB Södertörn erbjuder ${förstaTjanst.beskrivning.toLowerCase()}  
+Läs mer här: ${förstaTjanst.lank}`;
+    } catch (error) {
+      console.error("Fel vid hämtning av data:", error);
+      return "Jag försökte hämta information från vår interna databas, men något gick fel. Försök igen om en stund eller kontakta kundservice.";
+    }
   }
 </script>
 
