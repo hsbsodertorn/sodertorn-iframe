@@ -166,6 +166,7 @@
   async function getAIResponse(userInput) {
     const lowerInput = userInput.toLowerCase();
 
+    // standardsvar
     if (lowerInput.includes("felanmälan")) {
       return `Självklart! Du kan göra en felanmälan direkt via vår portal:\n👉 https://hsb.se/sodertorn/kontakt/felanmalan\nOm det gäller något akut, som en vattenläcka eller strömavbrott, kan du även ringa vår jour: 08-608 68 00.`;
     }
@@ -178,26 +179,38 @@
       return `📞 08-608 68 00\n📧 info.sodertorn@hsb.se\nVill du att jag visar kontaktformuläret?`;
     }
 
-    // ny medlemskapskontroll
-    if (lowerInput.includes("medlemskap") || lowerInput.includes("hsb-ledamot") || lowerInput.includes("stämmopool") || lowerInput.includes("stadgar")) {
-      try {
-        const res = await fetch("sodertorn-iframe/data/medlembrf.json");
-        const data = await res.json();
-        const match = data.delar.find(del => 
-          del.nyckelord.some(tag => lowerInput.includes(tag.toLowerCase()))
-        );
-        if (match) {
-          return `📘 ${match.titel}:\n${match.beskrivning}\n🔗 Läs mer: ${match.lank}`;
-        } else {
-          return `Medlemskap i HSB Södertörn ger bland annat juridiskt stöd, HSB-ledamot, och utbildningar för styrelsen.\nVill du läsa mer? 👉 https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/`;
-        }
-      } catch (error) {
-        console.error("Fel vid hämtning av medlemsdata:", error);
-        return "Jag försökte hämta information om medlemskapet, men något gick fel. Försök igen eller kontakta kundservice.";
-      }
-    }
+    // 🔍 sök igenom alla json-filer
+    try {
+      const dataFiles = [
+        "forvaltning.json",
+        "medlembrf.json",
+        "boendeservice.json",
+        "storingar.json"
+        // lägg till fler filnamn om du vill
+      ];
 
-    return "Tack för din fråga! Jag är inte helt säker på svaret just nu, men jag kan guida dig vidare eller koppla dig till vår kundservice 😊";
+      for (const file of dataFiles) {
+        const res = await fetch(`sodertorn-iframe/data/${file}`);
+        const data = await res.json();
+
+        if (data.tags && data.tags.some(tag => lowerInput.includes(tag.toLowerCase()))) {
+          if (data.delar && Array.isArray(data.delar)) {
+            const match = data.delar.find(d =>
+              d.nyckelord?.some(n => lowerInput.includes(n.toLowerCase()))
+            ) || data.delar[0];
+
+            return `📘 ${match.titel} (${data.kategori}):\n${match.beskrivning}\n🔗 Läs mer: ${match.lank}`;
+          }
+
+          return `ℹ️ ${data.kategori}:\n${data.sammanfattning}`;
+        }
+      }
+
+      return "Jag har inte hittat något exakt svar, men jag kan hjälpa dig vidare. Vill du att jag kopplar dig till kundservice? 😊";
+    } catch (error) {
+      console.error("Fel vid databassökning:", error);
+      return "Jag försökte söka i vår databas men något gick fel. Försök igen eller kontakta vår kundservice.";
+    }
   }
 </script>
 
