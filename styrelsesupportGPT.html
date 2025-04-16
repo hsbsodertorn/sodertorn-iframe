@@ -106,7 +106,6 @@
 </div>
 
 <script>
-  // Skapar unikt ID för varje chattsession
   const conversationId = crypto.randomUUID();
 
   function handleKey(event) {
@@ -126,7 +125,6 @@
     const response = await getAIResponse(message);
     typeMessage(response, "bot");
 
-    // logga till firebase med conversationId
     if (window.saveChatLog) {
       window.saveChatLog(conversationId, message, response);
     }
@@ -180,20 +178,26 @@
       return `📞 08-608 68 00\n📧 info.sodertorn@hsb.se\nVill du att jag visar kontaktformuläret?`;
     }
 
-    try {
-      const res = await fetch("data/forvaltning.json");
-      const data = await res.json();
-      const matches = data.tags.some(tag => lowerInput.includes(tag.toLowerCase()));
-      if (!matches) {
-        return `Tack för din fråga! Jag är inte säker på svaret just nu, men jag kan hjälpa dig att hitta rätt. Vill du prata med kundservice? 😊`;
+    // ny medlemskapskontroll
+    if (lowerInput.includes("medlemskap") || lowerInput.includes("hsb-ledamot") || lowerInput.includes("stämmopool") || lowerInput.includes("stadgar")) {
+      try {
+        const res = await fetch("sodertorn-iframe/data/medlembrf.json");
+        const data = await res.json();
+        const match = data.delar.find(del => 
+          del.nyckelord.some(tag => lowerInput.includes(tag.toLowerCase()))
+        );
+        if (match) {
+          return `📘 ${match.titel}:\n${match.beskrivning}\n🔗 Läs mer: ${match.lank}`;
+        } else {
+          return `Medlemskap i HSB Södertörn ger bland annat juridiskt stöd, HSB-ledamot, och utbildningar för styrelsen.\nVill du läsa mer? 👉 https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/`;
+        }
+      } catch (error) {
+        console.error("Fel vid hämtning av medlemsdata:", error);
+        return "Jag försökte hämta information om medlemskapet, men något gick fel. Försök igen eller kontakta kundservice.";
       }
-
-      const förstaTjanst = data.tjanster[0];
-      return `Här är vad jag kan berätta:\nHSB Södertörn erbjuder ${förstaTjanst.beskrivning.toLowerCase()}\nLäs mer här: ${förstaTjanst.lank}`;
-    } catch (error) {
-      console.error("Fel vid hämtning av data:", error);
-      return "Jag försökte hämta information från vår interna databas, men något gick fel. Försök igen om en stund eller kontakta kundservice.";
     }
+
+    return "Tack för din fråga! Jag är inte helt säker på svaret just nu, men jag kan guida dig vidare eller koppla dig till vår kundservice 😊";
   }
 </script>
 
