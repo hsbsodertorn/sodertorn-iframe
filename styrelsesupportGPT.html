@@ -112,6 +112,7 @@
 
 <script>
   const conversationId = crypto.randomUUID();
+  const messageHistory = [];
 
   function handleKey(event) {
     if (event.key === "Enter") sendMessage();
@@ -124,8 +125,10 @@
 
     addMessage(message, "user");
     input.value = "";
+    messageHistory.push({ role: "user", content: message });
 
     const response = await getAIResponse(message);
+    messageHistory.push({ role: "assistant", content: response });
     typeMessage(response, "bot");
 
     if (window.saveChatLog) {
@@ -179,23 +182,15 @@
     const lowerInput = userInput.toLowerCase();
 
     if (lowerInput.includes("felanmälan")) {
-      return `Du gör enklast en felanmälan via:
-👉 https://hsb.se/sodertorn/kontakt/felanmalan
-Vid akuta ärenden (t.ex. värmestopp eller vattenläcka) ring jouren: 08-608 68 00.`;
+      return `Du gör enklast en felanmälan via:\n👉 https://hsb.se/sodertorn/kontakt/felanmalan\nVid akuta ärenden (t.ex. värmestopp eller vattenläcka) ring jouren: 08-608 68 00.`;
     }
 
     if (lowerInput.includes("kontakt") || lowerInput.includes("mejla")) {
-      return `Kontakta oss direkt:
-📞 08-608 68 00
-📧 info.sodertorn@hsb.se
-Vill du att jag visar kontaktformuläret?`;
+      return `Kontakta oss direkt:\n📞 08-608 68 00\n📧 info.sodertorn@hsb.se\nVill du att jag visar kontaktformuläret?`;
     }
 
     if (lowerInput.includes("kronor") || lowerInput.includes("sek") || lowerInput.includes("personnummer")) {
-      return `Jag kan tyvärr inte ge ut kostnadsuppskattningar eller hantera personuppgifter här. Kontakta oss istället så hjälper vi dig personligen:
-📞 08-608 68 00
-📧 info.sodertorn@hsb.se
-Tips: Ha gärna information om ärendet redo. Vill du ha en checklista?`;
+      return `Jag kan tyvärr inte ge ut kostnadsuppskattningar eller hantera personuppgifter här. Kontakta oss istället så hjälper vi dig personligen:\n📞 08-608 68 00\n📧 info.sodertorn@hsb.se\nTips: Ha gärna information om ärendet redo. Vill du ha en checklista?`;
     }
 
     try {
@@ -216,22 +211,37 @@ Tips: Ha gärna information om ärendet redo. Vill du ha en checklista?`;
             d.nyckelord?.some(n => lowerInput.includes(n.toLowerCase()))
           );
           if (match) {
-            return `${match.beskrivning}
-Vill du veta mer om detta?
-Läs mer: ${match.lank}`;
+            return `${match.beskrivning}\nVill du veta mer om detta?\nLäs mer: ${match.lank}`;
           }
         }
 
         if (data.tags && data.tags.some(tag => lowerInput.includes(tag.toLowerCase()))) {
-          return `${data.sammanfattning}
-Vill du att jag visar några exempel på vad det kan handla om?`;
+          return `${data.sammanfattning}\nVill du att jag visar några exempel på vad det kan handla om?`;
         }
       }
 
-      return "Jag hittar inget direkt svar, men jag kan hjälpa dig vidare. Vill du prata med kundservice eller få exempel på relaterade frågor?";
+      const aiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: "gpt-4",
+          messages: [
+            { role: "system", content: "Du är Styrelsesupport GPT, en AI-assistent från HSB Södertörn." },
+            ...messageHistory
+          ],
+          temperature: 0.5
+        })
+      });
+
+      const aiJson = await aiRes.json();
+      return aiJson.choices?.[0]?.message?.content || "Jag försökte svara via AI men något gick fel.";
+
     } catch (error) {
-      console.error("Fel vid databassökning:", error);
-      return "Jag försökte söka i vår databas men något gick fel. Försök igen eller kontakta kundservice.";
+      console.error("Fel vid AI- eller databassökning:", error);
+      return "Jag försökte söka i vår databas och med AI men något gick fel. Försök igen eller kontakta kundservice.";
     }
   }
 </script>
