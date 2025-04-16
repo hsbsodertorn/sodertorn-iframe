@@ -1,0 +1,65 @@
+{
+  "sammanfattning": "HSB Södertörn erbjuder heltäckande fastighetsförvaltning i Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby och Hemse. Vi tillhandahåller teknisk och ekonomisk förvaltning, fastighetsservice, projektledning och hållbarhetslösningar anpassade för bostadsrättsföreningar.",
+  "tags": [
+    "förvaltning", "teknisk", "ekonomisk", "fastighetsservice",
+    "projektledning", "budget", "bokföring", "styrelseservice",
+    "trädgård", "underhåll", "OVK", "värmesystem", "snöröjning", "HSB"
+  ],
+  "titel": "HSB Södertörns fastighetsförvaltning",
+  "ingress": "Rätt fastighetsförvaltning gör skillnad. HSB Södertörn erbjuder skräddarsydda förvaltningstjänster med fokus på kvalitet, närhet och hållbarhet.",
+  "beskrivning": "Vi hanterar allt från lampbyten till årsredovisningar och arbetar proaktivt med hållbarhet, ekonomi och utveckling. Med kontor i södra Stockholm och på Gotland är vi nära våra kunder.",
+  "tjanster": [
+    {
+      "namn": "Ekonomisk förvaltning",
+      "beskrivning": "Vi erbjuder bokföring, budget, årsredovisning, avgiftshantering, inkasso, löner, prognoser och låneadministration.",
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/ekonomisk-forvaltning/"
+    },
+    {
+      "namn": "Teknisk förvaltning",
+      "beskrivning": "Vi sköter underhållsplanering, besiktningar, skador, tillsyn, garantier och trygghetscertifiering.",
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/teknisk-forvaltning/"
+    },
+    {
+      "namn": "Fastighetsservice",
+      "beskrivning": "Vi erbjuder jourberedskap, rondering, reparationer, VVS och el-service samt boendeservice.",
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/fastighetsskotsel/"
+    },
+    {
+      "namn": "Mark och trädgård",
+      "beskrivning": "Skötsel av grönytor, lekplatser, vinterväghållning och utveckling av utemiljön.",
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/mark-tradgard/"
+    },
+    {
+      "namn": "Energieffektivisering",
+      "beskrivning": "Energideklarationer, åtgärdsplaner, driftoptimering, OVK, värmesystem och smart energistyrning.",
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/energitjanster2/"
+    },
+    {
+      "namn": "Fastighetsutveckling",
+      "beskrivning": "Balkong- och fasadrenovering, upphandlingar, bostadsrättsbildningar, energiTrygg och underhållsplaner.",
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/fastighetsutveckling/"
+    },
+    {
+      "namn": "Projektledning",
+      "beskrivning": "Planering, samordning, upphandling och kvalitetskontroll av fastighetsprojekt.",
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/fastighetsutveckling/"
+    },
+    {
+      "namn": "Styrelseservice – Mitt HSB",
+      "beskrivning": "Digital plattform med verktyg för ekonomi, dokument, ärenden och medlemsadministration.",
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/medlem/"
+    }
+  ],
+  "varfor_valja_oss": [
+    "All kompetens under ett tak – ekonomer, jurister, förvaltare och byggspecialister.",
+    "Lokal närvaro med kontor i era områden.",
+    "Flexibla och anpassade tjänsteavtal.",
+    "Proaktiv rådgivning för framtidssäkring.",
+    "Ekologiskt och ekonomiskt hållbar förvaltning."
+  ],
+  "kontakt": {
+    "text": "Vill du veta mer? Vi håller gärna en presentation eller bokar ett möte!",
+    "epost": "forvaltning@hsbsodertorn.se",
+    "telefon": "08-608 68 00"
+  }
+}
