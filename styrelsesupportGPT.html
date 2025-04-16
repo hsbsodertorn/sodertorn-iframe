@@ -54,7 +54,7 @@
     }
   </style>
 
-  <!-- 🔥 Firebase config och Firestore-logik -->
+  <!-- 🔥 Firebase config -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
@@ -179,7 +179,6 @@
       return `📞 08-608 68 00\n📧 info.sodertorn@hsb.se\nVill du att jag visar kontaktformuläret?`;
     }
 
-    // 🔍 sök igenom alla json-filer
     try {
       const dataFiles = [
         "forvaltning.json",
@@ -187,22 +186,22 @@
         "medlemprivatperson.json",
         "boendeservice.json",
         "storingar.json"
-        // lägg till fler filnamn om du vill
       ];
 
       for (const file of dataFiles) {
         const res = await fetch(`sodertorn-iframe/data/${file}`);
         const data = await res.json();
 
-        if (data.tags && data.tags.some(tag => lowerInput.includes(tag.toLowerCase()))) {
-          if (data.delar && Array.isArray(data.delar)) {
-            const match = data.delar.find(d =>
-              d.nyckelord?.some(n => lowerInput.includes(n.toLowerCase()))
-            ) || data.delar[0];
-
+        if (data.delar && Array.isArray(data.delar)) {
+          const match = data.delar.find(d =>
+            d.nyckelord?.some(n => lowerInput.includes(n.toLowerCase()))
+          );
+          if (match) {
             return `📘 ${match.titel} (${data.kategori}):\n${match.beskrivning}\n🔗 Läs mer: ${match.lank}`;
           }
+        }
 
+        if (data.tags && data.tags.some(tag => lowerInput.includes(tag.toLowerCase()))) {
           return `ℹ️ ${data.kategori}:\n${data.sammanfattning}`;
         }
       }
