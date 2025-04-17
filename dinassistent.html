@@ -15,6 +15,7 @@
       align-items: center;
       min-height: 100vh;
     }
+
     #chatbox {
       width: 100%;
       max-width: 400px;
@@ -27,6 +28,19 @@
       background: #fff;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 0;
+      }
+      #chatbox {
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+
     #messages {
       flex: 1;
       padding: 16px;
@@ -184,6 +198,13 @@
       typeWriter();
     });
   }
+
+  document.getElementById("userInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendMessage();
+    }
+  });
 </script>
 
 </body>
