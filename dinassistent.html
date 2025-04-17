@@ -86,23 +86,24 @@
     @media (max-width: 600px) {
       body {
         padding: 0;
-        display: block;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
       }
       #chatbox {
         max-width: 100%;
-        height: 100vh;
+        height: auto;
         border-radius: 0;
         box-shadow: none;
+        margin-top: 20px;
       }
       #messages {
-        flex: 1;
-        height: auto;
-        max-height: calc(100vh - 140px);
+        max-height: 60vh;
+        overflow-y: auto;
         padding: 12px;
       }
       #inputArea {
-        position: relative;
-        bottom: 0;
+        position: static;
         width: 100%;
         border-top: 1px solid #ccc;
       }
@@ -117,7 +118,7 @@
   </div>
   <div id="inputArea">
     <input type="text" id="userInput" placeholder="Skriv din fråga här..." />
-    <button onclick="sendMessage()">📤</button>
+    <button onclick="sendMessage()">Skicka</button>
   </div>
 </div>
 
