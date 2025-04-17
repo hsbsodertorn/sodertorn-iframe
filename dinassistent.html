@@ -34,9 +34,10 @@
 
     #inputArea {
       display: flex;
-      padding: 12px;
+      padding: 12px 16px;
       background: #fff;
       border-top: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     .message {
@@ -67,8 +68,8 @@
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #ccc;
-      margin-right: 8px;
       outline: none;
+      box-sizing: border-box;
     }
     button {
       background: #00558c;
@@ -78,6 +79,7 @@
       padding: 10px 16px;
       cursor: pointer;
       font-weight: bold;
+      margin-left: 8px;
     }
 
     @media (max-width: 600px) {
@@ -98,8 +100,7 @@
         padding: 12px;
       }
       #inputArea {
-        position: static;
-        width: 100%;
+        padding: 12px;
         border-top: 1px solid #ccc;
       }
     }
