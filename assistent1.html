@@ -9,48 +9,51 @@
       --hsb-blue: #003366;
       --hsb-white: #ffffff;
       --hsb-grey: #5F7D8B;
-      --font-headline: 'Arial Narrow', Arial, sans-serif;
-      --font-body: 'Saira', Arial, sans-serif;
+      --light-grey: #f9f9f9; /* Ny färg för bakgrunden i meddelandefältet */
+      --input-border: #dcdcdc; /* Ny färg för input-fältets border */
+      --font-body: 'Arial', sans-serif; /* Ändrat till ett mer standard typsnitt */
     }
 
     body {
       margin: 0;
-      padding: 0;
+      padding: 20px; /* Lite mer padding runt hela */
       font-family: var(--font-body);
-      background-color: var(--hsb-white);
+      background-color: var(--light-grey); /* Ljusgrå bakgrund för hela sidan */
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh; /* Se till att bakgrunden täcker hela skärmen */
     }
 
     #chatbox {
       width: 100%;
-      max-width: 400px;
-      height: 600px;
-      border: 2px solid var(--hsb-blue);
-      border-radius: 12px;
+      max-width: 450px; /* Något bredare */
+      height: auto; /* Anpassa höjden efter innehållet */
+      border: 1px solid var(--hsb-blue); /* Tunnare border */
+      border-radius: 8px; /* Mjukare hörn */
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+      box-shadow: 0 2px 8px rgba(0, 51, 102, 0.1); /* Subtilare skugga */
       background-color: var(--hsb-white);
     }
 
     #messages {
       flex: 1;
-      padding: 16px;
+      padding: 10px 15px; /* Justerad padding */
       overflow-y: auto;
-      background-color: #f5f5f5;
+      background-color: var(--light-grey); /* Ljusgrå bakgrund för meddelanden */
+      display: flex;
+      flex-direction: column;
     }
 
     .message {
       max-width: 80%;
-      padding: 10px 16px;
-      margin-bottom: 12px;
-      border-radius: 20px;
-      font-size: 0.95rem;
-      line-height: 1.4;
+      padding: 8px 12px; /* Mindre padding inuti meddelanden */
+      margin-bottom: 8px; /* Mindre marginal mellan meddelanden */
+      border-radius: 16px; /* Mer rundade hörn */
+      font-size: 0.9rem; /* Något mindre text */
+      line-height: 1.3;
       word-wrap: break-word;
     }
 
@@ -59,34 +62,43 @@
       color: var(--hsb-white);
       margin-left: auto;
       text-align: right;
+      border-bottom-right-radius: 4px;
+      border-top-right-radius: 4px;
+      border-top-left-radius: 16px;
+      border-bottom-left-radius: 16px;
     }
 
     .bot {
-      background-color: #e0e0e0;
-      color: #000;
+      background-color: var(--hsb-white); /* Vit bakgrund för botens meddelanden */
+      color: #333; /* Mörkare textfärg */
       margin-right: auto;
       text-align: left;
+      border: 1px solid var(--input-border); /* Tunn border runt botens meddelanden */
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 16px;
+      border-bottom-right-radius: 16px;
     }
 
     .bot strong {
-      display: block;
+      display: inline; /* Gör strong-elementet inline */
       font-weight: bold;
-      margin-bottom: 4px;
+      margin-right: 4px; /* Lite marginal efter "🤖 HSB Assistent:" */
     }
 
     #inputArea {
       display: flex;
-      padding: 12px;
+      padding: 10px 15px; /* Justerad padding */
       background-color: var(--hsb-white);
-      border-top: 1px solid #ccc;
+      border-top: 1px solid var(--input-border); /* Ljusgrå border */
     }
 
     #userInput {
       flex: 1;
-      padding: 10px;
+      padding: 8px 12px; /* Justerad padding */
       border-radius: 20px;
-      border: 1px solid var(--hsb-blue);
-      font-size: 0.95rem;
+      border: 1px solid var(--input-border); /* Ljusgrå border */
+      font-size: 0.9rem;
       outline: none;
     }
 
@@ -95,12 +107,13 @@
       color: var(--hsb-white);
       border: none;
       border-radius: 20px;
-      padding: 10px 16px;
+      padding: 8px 16px; /* Justerad padding */
       margin-left: 8px;
       font-weight: bold;
       cursor: pointer;
       font-family: var(--font-body);
       transition: background 0.3s ease;
+      font-size: 0.9rem; /* Något mindre text */
     }
 
     button:hover {
@@ -109,13 +122,12 @@
 
     @media (max-width: 480px) {
       #chatbox {
-        height: 100vh;
         border-radius: 0;
       }
 
       #userInput,
       button {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
     }
   </style>
@@ -124,7 +136,7 @@
 
 <div id="chatbox">
   <div id="messages">
-    <div class="message bot" id="initialBotMessage"><strong>🤖 Hej!</strong> Jag är HSB Södertörns AI-assistent. Vad vill du ha hjälp med?</div>
+    <div class="message bot" id="initialBotMessage"><strong>🤖 HSB Assistent:</strong> Hej! Jag är HSB Södertörns AI-assistent. Vad vill du ha hjälp med?</div>
   </div>
   <div id="inputArea">
     <input type="text" id="userInput" placeholder="Skriv din fråga här..." />
@@ -199,7 +211,7 @@
   async function displayInitialBotMessage() {
     const initialMessageElement = document.getElementById("initialBotMessage");
     const fullText = initialMessageElement.textContent;
-    initialMessageElement.innerHTML = '<strong>🤖 Hej!</strong> <span id="initialTypingText"></span>';
+    initialMessageElement.innerHTML = '<strong>🤖 HSB Assistent:</strong> <span id="initialTypingText"></span>';
     const typingTextElement = document.getElementById("initialTypingText");
     let i = 0;
     const speed = 50;
