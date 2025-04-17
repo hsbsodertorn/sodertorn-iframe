@@ -62,6 +62,12 @@
       display: inline;
       font-weight: bold;
       margin-right: 4px;
+      color: #00558c;
+    }
+    .bot-header {
+      font-weight: bold;
+      color: #00558c;
+      margin-bottom: 4px;
     }
     input {
       flex: 1;
@@ -110,7 +116,10 @@
 
 <div id="chatbox">
   <div id="messages">
-    <div class="message bot" id="initialBotMessage"><strong>🤖 HSB Assistent:</strong> Hej! Jag är HSB Södertörns AI-assistent. Vad vill du ha hjälp med idag?</div>
+    <div class="message bot" id="initialBotMessage">
+      <div class="bot-header">🤖 HSB Södertörns Assistent</div>
+      <div id="initialTypingText"></div>
+    </div>
   </div>
   <div id="inputArea">
     <input type="text" id="userInput" placeholder="Skriv din fråga här..." />
@@ -144,7 +153,7 @@
     const messages = document.getElementById("messages");
     const div = document.createElement("div");
     div.className = "message bot";
-    div.innerHTML = '<strong>🤖 HSB Assistent:</strong> <span id="typingText"></span>';
+    div.innerHTML = '<div class="bot-header">🤖 HSB Södertörns Assistent</div><span id="typingText"></span>';
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
 
@@ -190,9 +199,7 @@
   displayInitialBotMessage();
 
   async function displayInitialBotMessage() {
-    const initialMessageElement = document.getElementById("initialBotMessage");
-    const fullText = initialMessageElement.textContent;
-    initialMessageElement.innerHTML = '<strong>🤖 HSB Assistent:</strong> <span id="initialTypingText"></span>';
+    const fullText = "Hej! Jag är HSB Södertörns AI-assistent. Vad vill du ha hjälp med idag?";
     const typingTextElement = document.getElementById("initialTypingText");
     let i = 0;
     const speed = 50;
