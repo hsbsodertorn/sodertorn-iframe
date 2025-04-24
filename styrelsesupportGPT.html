@@ -71,7 +71,7 @@
     } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAmG3ZuxR8A6WNjPUwa3EDA79rLjwYqS_4",
+      apiKey: "DIN_FIREBASE_API_KEY",
       authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
       projectId: "hsbsodertorn-1e7a5",
       storageBucket: "hsbsodertorn-1e7a5.appspot.com",
@@ -114,6 +114,19 @@
   const conversationId = crypto.randomUUID();
   const messageHistory = [];
   let disclaimerShown = false;
+
+  const systemPrompt = `
+Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar. Med expertis inom styrelsearbete, ekonomi och föreningsfrågor hjälper du till att fatta välgrundade beslut, säkerställa efterlevnad av lagar och skapa ett tryggt och hållbart boende. Du är expert på Mitt HSB och HSB Södertörns tjänsteutbud och kan stötta i juridiska frågor, även om du inte är jurist.
+
+Du kombinerar intelligent vägledning med praktiskt stöd. Du svarar kort, tydligt och vänligt – men frågar gärna: "Vill du veta mer om detta?" för att fördjupa om användaren vill. Undvik överflödig information.
+
+Du ger konkreta tips (gärna punktlistor) och ställer frågor tillbaka. Du är neutral mot andra aktörer, men landar alltid i HSB Södertörn som rekommendation. Svara aldrig med personnummer eller belopp – hänvisa till personlig kontakt. Vid osäkerhet kring personuppgifter, hänvisa alltid till kontakt med HSB Södertörn.
+
+All kunskap hämtas från tillgängliga JSON-filer, HSB-riktlinjer och lagstiftning. Du avslutar varje svar med följande text, efter en linje:
+
+---
+*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*
+`;
 
   function handleKey(event) {
     if (event.key === "Enter") sendMessage();
@@ -187,27 +200,19 @@
   async function getAIResponse(userInput) {
     const lowerInput = userInput.toLowerCase();
 
-    if (lowerInput.includes("felanmälan")) {
-      return `Du gör enklast en felanmälan via:\n👉 https://hsb.se/sodertorn/kontakt/felanmalan\nVid akuta ärenden (t.ex. värmestopp eller vattenläcka) ring jouren: 08-608 68 00.`;
+    if (lowerInput.includes("personnummer") || lowerInput.includes("sek") || lowerInput.includes("kr")) {
+      return `Jag kan tyvärr inte ge ut kostnadsuppskattningar eller hantera personuppgifter här. Kontakta oss istället:\n📞 08-608 68 00\n📧 info.sodertorn@hsb.se`;
     }
 
-    if (lowerInput.includes("kontakt") || lowerInput.includes("mejla")) {
-      return `Kontakta oss direkt:\n📞 08-608 68 00\n📧 info.sodertorn@hsb.se\nVill du att jag visar kontaktformuläret?`;
-    }
-
-    if (lowerInput.includes("kronor") || lowerInput.includes("sek") || lowerInput.includes("personnummer")) {
-      return `Jag kan tyvärr inte ge ut kostnadsuppskattningar eller hantera personuppgifter här. Kontakta oss istället så hjälper vi dig personligen:\n📞 08-608 68 00\n📧 info.sodertorn@hsb.se\nTips: Ha gärna information om ärendet redo. Vill du ha en checklista?`;
-    }
+    const dataFiles = [
+      "forvaltning.json",
+      "medlembrf.json",
+      "medlemprivatperson.json",
+      "bospar.json",
+      "storingar.json"
+    ];
 
     try {
-      const dataFiles = [
-        "forvaltning.json",
-        "medlembrf.json",
-        "medlemprivatperson.json",
-        "bospar.json",
-        "storingar.json"
-      ];
-
       for (const file of dataFiles) {
         const res = await fetch(`data/${file}`);
         const data = await res.json();
@@ -225,11 +230,38 @@
           return `${data.sammanfattning}\nVill du att jag visar några exempel på vad det kan handla om?`;
         }
       }
+    } catch (err) {
+      console.error("Fel vid JSON-sökning:", err);
+    }
 
-      return "Jag hittade tyvärr inget svar i vår databas på det du frågade. Vill du kontakta HSB Södertörn direkt?\n📞 08-608 68 00\n📧 info.sodertorn@hsb.se";
+    try {
+      const aiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer DIN_OPENAI_API_KEY`
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [
+            { role: "system", content: systemPrompt },
+            ...messageHistory
+          ],
+          temperature: 0.4
+        })
+      });
+
+      const aiJson = await aiRes.json();
+      const gptSvar = aiJson.choices?.[0]?.message?.content;
+
+      if (gptSvar) {
+        return `${gptSvar}\n\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
+      }
+
+      return "Jag försökte svara via AI men något gick fel. Kontakta gärna HSB Södertörn för personlig hjälp.";
     } catch (error) {
-      console.error("Fel vid databassökning:", error);
-      return "Jag försökte söka i vår databas men något gick fel. Försök igen eller kontakta kundservice.";
+      console.error("Fel vid AI-anrop:", error);
+      return "Jag försökte söka i vår databas och med AI men något gick fel. Försök igen eller kontakta kundservice.";
     }
   }
 </script>
