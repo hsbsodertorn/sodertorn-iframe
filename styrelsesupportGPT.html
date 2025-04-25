@@ -31,13 +31,6 @@
     .user { text-align: right; color: #00558c; }
     .bot { text-align: left; color: #333; }
     .bot a { color: #00558c; text-decoration: underline; }
-    .disclaimer {
-      font-style: italic;
-      font-size: 0.85em;
-      border-top: 1px solid #ccc;
-      margin-top: 8px;
-      padding-top: 8px;
-    }
     #inputArea {
       display: flex;
       padding: 12px;
@@ -58,6 +51,14 @@
       border-radius: 6px;
       padding: 10px 16px;
       cursor: pointer;
+    }
+    .external-disclaimer {
+      max-width: 400px;
+      margin: 0 auto 40px;
+      font-size: 0.85em;
+      font-style: italic;
+      text-align: center;
+      color: #555;
     }
   </style>
   <script type="module">
@@ -110,16 +111,19 @@
   </div>
 </div>
 
+<div class="external-disclaimer">
+  Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt.<br>
+  Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR.<br>
+  Kontakta HSB Södertörn på 08-608 68 00 eller
+  <a href="mailto:info.sodertorn@hsb.se">info.sodertorn@hsb.se</a> vid frågor.
+</div>
+
 <script>
   const conversationId = crypto.randomUUID();
   const messageHistory = [];
-  let disclaimerShown = false;
 
   const systemPrompt = `
-Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn... (kortad för läsbarhet)
----
-*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt...*
-`;
+Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar...`;
 
   function handleKey(event) {
     if (event.key === "Enter") sendMessage();
@@ -147,7 +151,7 @@ Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn...
     const messages = document.getElementById("messages");
     const div = document.createElement("div");
     div.className = "message " + sender;
-    div.innerHTML = convertLinks(text) + getDisclaimer(sender);
+    div.innerHTML = convertLinks(text);
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
@@ -158,11 +162,10 @@ Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn...
     div.className = "message " + sender;
     messages.appendChild(div);
 
-    const fullText = text + getDisclaimer(sender);
     let i = 0;
     function typeChar() {
-      if (i < fullText.length) {
-        div.innerHTML = convertLinks(fullText.substring(0, ++i));
+      if (i < text.length) {
+        div.innerHTML = convertLinks(text.substring(0, ++i));
         messages.scrollTop = messages.scrollHeight;
         setTimeout(typeChar, 12);
       }
@@ -175,19 +178,6 @@ Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn...
     return text.replace(urlRegex, function(url) {
       return `<a href="${url}" target="_blank">${url}</a>`;
     });
-  }
-
-  function getDisclaimer(sender) {
-    if (sender !== "bot" || disclaimerShown) return "";
-    disclaimerShown = true;
-    return `
-      <div class="disclaimer">
-        Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt.<br>
-        Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR.<br>
-        Kontakta HSB Södertörn på 08-608 68 00 eller 
-        <a href="mailto:info.sodertorn@hsb.se">info.sodertorn@hsb.se</a> vid frågor.
-      </div>
-    `;
   }
 
   async function getAIResponse(userInput) {
@@ -238,7 +228,7 @@ Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn...
       const gptSvar = aiJson.choices?.[0]?.message?.content;
 
       if (gptSvar) {
-        return `${gptSvar}\n\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
+        return gptSvar;
       }
 
       return "Jag försökte svara via AI men något gick fel. Kontakta gärna HSB Södertörn för personlig hjälp.";
