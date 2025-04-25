@@ -235,19 +235,16 @@ All kunskap hämtas från tillgängliga JSON-filer, HSB-riktlinjer och lagstiftn
     }
 
     try {
-      const aiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+      const aiRes = await fetch("/.netlify/functions/styrelsesupport-gpt", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer DIN_OPENAI_API_KEY`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "gpt-3.5-turbo",
           messages: [
             { role: "system", content: systemPrompt },
             ...messageHistory
-          ],
-          temperature: 0.4
+          ]
         })
       });
 
