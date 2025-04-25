@@ -116,16 +116,9 @@
   let disclaimerShown = false;
 
   const systemPrompt = `
-Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar. Med expertis inom styrelsearbete, ekonomi och föreningsfrågor hjälper du till att fatta välgrundade beslut, säkerställa efterlevnad av lagar och skapa ett tryggt och hållbart boende. Du är expert på Mitt HSB och HSB Södertörns tjänsteutbud och kan stötta i juridiska frågor, även om du inte är jurist.
-
-Du kombinerar intelligent vägledning med praktiskt stöd. Du svarar kort, tydligt och vänligt – men frågar gärna: "Vill du veta mer om detta?" för att fördjupa om användaren vill. Undvik överflödig information.
-
-Du ger konkreta tips (gärna punktlistor) och ställer frågor tillbaka. Du är neutral mot andra aktörer, men landar alltid i HSB Södertörn som rekommendation. Svara aldrig med personnummer eller belopp – hänvisa till personlig kontakt. Vid osäkerhet kring personuppgifter, hänvisa alltid till kontakt med HSB Södertörn.
-
-All kunskap hämtas från tillgängliga JSON-filer, HSB-riktlinjer och lagstiftning. Du avslutar varje svar med följande text, efter en linje:
-
+Du är Styrelsesupport GPT, en digital assistent utvecklad av HSB Södertörn... (kortad för läsbarhet)
 ---
-*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*
+*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt...*
 `;
 
   function handleKey(event) {
@@ -198,12 +191,6 @@ All kunskap hämtas från tillgängliga JSON-filer, HSB-riktlinjer och lagstiftn
   }
 
   async function getAIResponse(userInput) {
-    const lowerInput = userInput.toLowerCase();
-
-    if (lowerInput.includes("personnummer") || lowerInput.includes("sek") || lowerInput.includes("kr")) {
-      return `Jag kan tyvärr inte ge ut kostnadsuppskattningar eller hantera personuppgifter här. Kontakta oss istället:\n📞 08-608 68 00\n📧 info.sodertorn@hsb.se`;
-    }
-
     const dataFiles = [
       "forvaltning.json",
       "medlembrf.json",
@@ -212,26 +199,24 @@ All kunskap hämtas från tillgängliga JSON-filer, HSB-riktlinjer och lagstiftn
       "storingar.json"
     ];
 
-    try {
-      for (const file of dataFiles) {
+    let sammanfattadData = "";
+
+    for (const file of dataFiles) {
+      try {
         const res = await fetch(`data/${file}`);
         const data = await res.json();
 
         if (data.delar && Array.isArray(data.delar)) {
-          const match = data.delar.find(d =>
-            d.nyckelord?.some(n => lowerInput.includes(n.toLowerCase()))
+          const relevanta = data.delar.filter(d =>
+            d.nyckelord?.some(n => userInput.toLowerCase().includes(n.toLowerCase()))
           );
-          if (match) {
-            return `${match.beskrivning}\nVill du veta mer om detta?\nLäs mer: ${match.lank}`;
+          for (const r of relevanta) {
+            sammanfattadData += `\n- ${r.titel}: ${r.beskrivning}`;
           }
         }
-
-        if (data.tags && data.tags.some(tag => lowerInput.includes(tag.toLowerCase()))) {
-          return `${data.sammanfattning}\nVill du att jag visar några exempel på vad det kan handla om?`;
-        }
+      } catch (e) {
+        console.warn("Fel vid laddning av databas:", file);
       }
-    } catch (err) {
-      console.error("Fel vid JSON-sökning:", err);
     }
 
     try {
@@ -242,8 +227,9 @@ All kunskap hämtas från tillgängliga JSON-filer, HSB-riktlinjer och lagstiftn
         },
         body: JSON.stringify({
           messages: [
-            { role: "system", content: systemPrompt },
-            ...messageHistory
+            { role: "system", content: systemPrompt + "\nIntern databas:\n" + sammanfattadData },
+            ...messageHistory,
+            { role: "user", content: userInput }
           ]
         })
       });
