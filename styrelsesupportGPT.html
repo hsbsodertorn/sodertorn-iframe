@@ -121,6 +121,16 @@ Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att s
     if (event.key === "Enter") sendMessage();
   }
 
+  function tvattaText(text) {
+    return text
+      .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, "[namn]")
+      .replace(/[0-9]{6}-[0-9]{4}/g, "[personnummer]")
+      .replace(/\b\d{10}\b/g, "[telefonnummer]")
+      .replace(/\b\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}\b/g, "[epost]")
+      .replace(/\d{3}\s?\d{2}\s?\d{2}/g, "[postnummer]")
+      .replace(/\d{2,4}\s?[A-Za-zÅÄÖa-zåäö]{2,}/g, "[adress]");
+  }
+
   async function sendMessage() {
     const input = document.getElementById("userInput");
     const message = input.value.trim();
@@ -136,8 +146,11 @@ Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att s
     messageHistory.push({ role: "assistant", content: response });
     typeMessage(response, "bot");
 
+    const tvattadFraga = tvattaText(message);
+    const tvattatSvar = tvattaText(response);
+
     if (window.saveChatLog) {
-      window.saveChatLog(conversationId, message, response);
+      window.saveChatLog(conversationId, tvattadFraga, tvattatSvar);
     }
   }
 
