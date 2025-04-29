@@ -5,18 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HSB Styrelsesupport GPT</title>
   <style>
-    body { font-family: sans-serif; margin: 0; padding: 0; background: #f0f0f0; }
+    body {
+      font-family: sans-serif; margin: 0; padding: 0; background: #f0f0f0;
+      display: flex; justify-content: center; align-items: center; min-height: 100vh;
+    }
     #chatbox {
-      width: 100%;
+      width: 95%;
       max-width: 400px;
-      height: 600px;
+      height: 90vh;
       border: 2px solid #00558c;
       border-radius: 12px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      margin: 40px auto;
       background: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     #messages {
       flex: 1;
@@ -27,6 +30,7 @@
     .message {
       margin-bottom: 12px;
       white-space: pre-line;
+      word-break: break-word;
     }
     .user { text-align: right; color: #00558c; }
     .bot { text-align: left; color: #333; }
@@ -36,32 +40,32 @@
       padding: 12px;
       background: #fff;
       border-top: 1px solid #ccc;
+      gap: 8px;
     }
     input {
       flex: 1;
-      padding: 10px;
-      border-radius: 6px;
+      padding: 14px;
+      border-radius: 8px;
       border: 1px solid #ccc;
-      margin-right: 8px;
+      font-size: 16px;
     }
     button {
       background: #00558c;
       color: white;
       border: none;
-      border-radius: 6px;
-      padding: 10px 16px;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 16px;
       cursor: pointer;
+    }
+    button:hover {
+      background: #004070;
     }
   </style>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "DIN_FIREBASE_API_KEY",
@@ -92,7 +96,6 @@
   </script>
 </head>
 <body>
-
 <div id="chatbox">
   <div id="messages">
     <div class="message bot">Hej! Välkommen till Styrelsesupport GPT 🤖 Vad vill du ha hjälp med idag?</div>
@@ -107,18 +110,12 @@
   const conversationId = crypto.randomUUID();
   const messageHistory = [];
 
-  const systemPrompt = `
-Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar. Med expertis inom styrelsearbete, ekonomi och föreningsfrågor hjälper Styrelsesupport er att fatta välgrundade beslut, säkerställa efterlevnad av lagar och riktlinjer, och skapa ett tryggt och hållbart boende. Styrelsesupport är även expert på Mitt HSB och HSB Södertörns tjänsteutbud och kan stötta i juridiska frågor även om styrelsesupport inte är en jurist.
-
-Du svarar kort på de meddelanden som du tar emot men ger gärna mer information om ett ämne om intresse visas. Detta kan du fråga: Vill du veta mer om detta? Undvik emojis förutom när du säger hej och hej då. Du är en förlängning av vårt kundcenter och våra medarbetare.
-
-Du får aldrig ge belopp eller personnummer. Vid frågor som rör GDPR, ekonomi eller känslig information – hänvisa till personlig kontakt med HSB Södertörn.
-
-Du avslutar varje svar med:
-
+  const disclaimerText = `
 ---
-*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*
-`;
+*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
+
+  const systemPrompt = `
+Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar...${disclaimerText}`;
 
   function handleKey(event) {
     if (event.key === "Enter") sendMessage();
@@ -133,13 +130,19 @@ Du avslutar varje svar med:
     input.value = "";
     messageHistory.push({ role: "user", content: message });
 
-    const response = await getAIResponse(message);
+    const responseRaw = await getAIResponse(message);
+    const response = cleanResponse(responseRaw);
+
     messageHistory.push({ role: "assistant", content: response });
     typeMessage(response, "bot");
 
     if (window.saveChatLog) {
       window.saveChatLog(conversationId, message, response);
     }
+  }
+
+  function cleanResponse(text) {
+    return text.replace(disclaimerText, '').trim();
   }
 
   function addMessage(text, sender) {
@@ -176,14 +179,7 @@ Du avslutar varje svar med:
   }
 
   async function getAIResponse(userInput) {
-    const dataFiles = [
-      "forvaltning.json",
-      "medlembrf.json",
-      "medlemprivatperson.json",
-      "bospar.json",
-      "storingar.json"
-    ];
-
+    const dataFiles = ["forvaltning.json", "medlembrf.json", "medlemprivatperson.json", "bospar.json", "storingar.json"];
     let sammanfattadData = "";
 
     for (const file of dataFiles) {
@@ -207,9 +203,7 @@ Du avslutar varje svar med:
     try {
       const aiRes = await fetch("/.netlify/functions/styrelsesupport-gpt", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: [
             { role: "system", content: systemPrompt + "\nIntern databas:\n" + sammanfattadData },
@@ -222,17 +216,14 @@ Du avslutar varje svar med:
       const aiJson = await aiRes.json();
       const gptSvar = aiJson.choices?.[0]?.message?.content;
 
-      if (gptSvar) {
-        return gptSvar;
-      }
+      if (gptSvar) return gptSvar;
+      return "Jag försökte svara via AI men något gick fel. Kontakta HSB Södertörn för personlig hjälp.";
 
-      return "Jag försökte svara via AI men något gick fel. Kontakta gärna HSB Södertörn för personlig hjälp.";
     } catch (error) {
       console.error("Fel vid AI-anrop:", error);
       return "Jag försökte söka i vår databas och med AI men något gick fel. Försök igen eller kontakta kundservice.";
     }
   }
 </script>
-
 </body>
 </html>
