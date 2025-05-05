@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HSB Styrelsesupport GPT</title>
   <style>
+    /* 🔵 Ram runt hela innehållet i iframen */
     body {
       font-family: sans-serif;
       margin: 0;
@@ -13,16 +14,15 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
+      border: 2px solid #00558c;
+      box-sizing: border-box;
     }
 
     #chatbox {
-      width: 100vw;
-      height: 100vh;
-      border: none;
-      border-radius: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
       background: white;
     }
 
@@ -30,7 +30,7 @@
       flex: 1;
       padding: 16px;
       overflow-y: auto;
-      background: white;
+      background: white; /* vit bakgrund för meddelandeytan */
     }
 
     .message {
@@ -43,7 +43,6 @@
     .bot { text-align: left; color: #333; }
     .bot a { color: #00558c; text-decoration: underline; }
 
-    /* 👇 Uppdaterad inputArea + knapp enligt ChatGPT-stil */
     #inputArea {
       display: flex;
       align-items: center;
