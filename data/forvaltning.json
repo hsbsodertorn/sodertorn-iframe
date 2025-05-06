@@ -50,23 +50,24 @@
       "lank": "https://www.hsb.se/sodertorn/tillsammans/fastighetsutveckling/"
     },
     {
-      "titel": "Styrelseservice – Mitt HSB",
+      "titel": "Mitt HSB",
       "beskrivning": "Digital plattform med verktyg för ekonomi, dokument, ärenden och medlemsadministration.",
       "nyckelord": ["styrelseservice", "mitt hsb", "plattform", "ekonomi", "dokument", "ärenden", "medlemsregister"],
       "lank": "https://www.hsb.se/sodertorn/tillsammans/medlem/"
-    }
+    },
     {
-  "titel": "Kommunikation och styrelsestöd",
-  "beskrivning": "Utbildningar i kommunikation, stöd vid kommunikation och hjälp med brf-hemsidor för att stärka dialogen med boende.",
-  "nyckelord": [
-    "kommunikation",
-    "styrelsestöd",
-    "hemsida",
-    "boendeinformation",
-    "kommunikationsstöd",
-    "utbildning",
-    "intern kommunikation"
-  ],
-}
+      "titel": "Kommunikation och styrelsestöd",
+      "beskrivning": "Utbildningar i kommunikation, stöd vid kommunikation och hjälp med brf-hemsidor för att stärka dialogen med boende.",
+      "nyckelord": [
+        "kommunikation",
+        "styrelsestöd",
+        "hemsida",
+        "boendeinformation",
+        "kommunikationsstöd",
+        "utbildning",
+        "intern kommunikation"
+      ],
+      "lank": "https://www.hsb.se/sodertorn/tillsammans/kommunikation/"
+    }
   ]
 }
