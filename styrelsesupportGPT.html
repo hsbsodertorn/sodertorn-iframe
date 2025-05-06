@@ -157,6 +157,7 @@
       div.innerHTML = convertLinks(text);
       messages.appendChild(div);
       messages.scrollTop = messages.scrollHeight;
+      return div;
     }
 
     function convertLinks(text) {
@@ -177,8 +178,25 @@
       messageHistory.push({ role: "user", content: message });
 
       const response = await getAIResponse(message);
-      addMessage(response, "bot");
+      typeMessage(response, "bot");
       messageHistory.push({ role: "assistant", content: response });
+    }
+
+    function typeMessage(text, sender) {
+      const messages = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "message " + sender;
+      messages.appendChild(div);
+
+      let i = 0;
+      function typeChar() {
+        if (i < text.length) {
+          div.innerHTML = convertLinks(text.substring(0, ++i));
+          messages.scrollTop = messages.scrollHeight;
+          setTimeout(typeChar, 12);
+        }
+      }
+      typeChar();
     }
 
     async function getAIResponse(userInput) {
