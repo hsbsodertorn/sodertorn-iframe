@@ -5,6 +5,7 @@
     "build": "echo 'No build step required'"
   },
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "firebase-admin": "^11.5.0"
   }
 }
