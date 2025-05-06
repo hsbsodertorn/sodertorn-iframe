@@ -24,22 +24,21 @@
       height: 100%;
       border: 2px solid #00558c;
       border-radius: 16px;
-      overflow: hidden;
+      overflow: auto; /* Nu kan hela fönstret scrolla vid behov */
       display: flex;
       flex-direction: column;
     }
 
     #chatbox {
-      flex: 1;
       display: flex;
       flex-direction: column;
+      min-height: 100%;
       background: white;
     }
 
     #messages {
       flex: 1;
       padding: 16px;
-      overflow-y: auto;
       background: white;
     }
 
