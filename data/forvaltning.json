@@ -55,5 +55,18 @@
       "nyckelord": ["styrelseservice", "mitt hsb", "plattform", "ekonomi", "dokument", "ärenden", "medlemsregister"],
       "lank": "https://www.hsb.se/sodertorn/tillsammans/medlem/"
     }
+    {
+  "titel": "Kommunikation och styrelsestöd",
+  "beskrivning": "Utbildningar i kommunikation, stöd vid kriser och hjälp med brf-hemsidor för att stärka dialogen med boende.",
+  "nyckelord": [
+    "kommunikation",
+    "styrelsestöd",
+    "hemsida",
+    "boendeinformation",
+    "kriskommunikation",
+    "utbildning",
+    "intern kommunikation"
+  ],
+}
   ]
 }
