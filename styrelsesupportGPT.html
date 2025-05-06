@@ -6,10 +6,7 @@
   <title>HSB Styrelsesupport GPT</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0;
       padding: 0;
@@ -17,7 +14,6 @@
       font-family: 'Open Sans', sans-serif;
       background: white;
     }
-
     #wrapper {
       height: 100%;
       width: 100%;
@@ -29,14 +25,12 @@
       border-radius: 16px;
       overflow: hidden;
     }
-
     #chatbox {
       display: flex;
       flex-direction: column;
       width: 100%;
       height: 100%;
     }
-
     #messages {
       flex: 1;
       padding: 16px;
@@ -45,7 +39,6 @@
       display: flex;
       flex-direction: column;
     }
-
     .message {
       max-width: 75%;
       padding: 12px 16px;
@@ -57,21 +50,18 @@
       line-height: 1.4;
       display: inline-block;
     }
-
     .user {
       align-self: flex-end;
       background-color: #f7f7f8;
       color: #000;
       border-radius: 18px;
     }
-
     .bot {
       align-self: flex-start;
       background: none;
       color: #000;
       padding: 0;
     }
-
     #inputArea {
       display: flex;
       flex-wrap: wrap;
@@ -82,7 +72,6 @@
       gap: 12px;
       box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.04);
     }
-
     textarea {
       flex: 1;
       min-height: 48px;
@@ -96,12 +85,10 @@
       line-height: 1.4;
       font-family: 'Open Sans', sans-serif;
     }
-
     textarea:focus {
       border: 1px solid #00558c;
       outline: none;
     }
-
     button {
       background: #00558c;
       color: white;
@@ -113,7 +100,6 @@
       transition: background 0.2s ease-in-out;
       font-family: 'Open Sans', sans-serif;
     }
-
     button:hover {
       background: #004070;
     }
@@ -138,7 +124,7 @@
 
     const disclaimerText = `\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. 
+    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. 
 du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. 
 ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
@@ -176,7 +162,6 @@ ${disclaimerText}`;
       div.innerHTML = convertLinks(text);
       messages.appendChild(div);
       messages.scrollTop = messages.scrollHeight;
-      return div;
     }
 
     function convertLinks(text) {
@@ -224,6 +209,7 @@ ${disclaimerText}`;
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            conversationId,
             messages: [
               { role: "system", content: systemPrompt },
               ...messageHistory,
