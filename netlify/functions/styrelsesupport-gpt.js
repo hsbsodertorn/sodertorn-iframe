@@ -1,22 +1,28 @@
 const fetch = require("node-fetch");
 const admin = require("firebase-admin");
 
-// 🔐 Initiera Firebase endast om det inte redan är gjort
-if (!admin.apps.length) {
-  try {
+// 🔐 Initiera Firebase (utan nya miljövariabler)
+try {
+  if (!admin.apps.length) {
     admin.initializeApp({
       credential: admin.credential.applicationDefault(),
     });
-    console.log("✅ Firebase admin initierat");
-  } catch (e) {
-    console.warn("⚠️ kunde inte initiera firebase-admin:", e);
+    console.log("✅ Firebase initierat via applicationDefault()");
   }
+} catch (e) {
+  console.warn("⚠️ Kunde inte initiera Firebase med default credentials:", e);
 }
 
-const db = admin.apps.length ? admin.firestore() : null;
+let db;
+try {
+  db = admin.firestore();
+} catch (e) {
+  console.warn("⚠️ Kunde inte hämta Firestore-instans:", e);
+  db = null;
+}
 
 exports.handler = async function(event, context) {
-  console.log("📨 Styrelsesupport GPT-funktion anropad");
+  console.log("📨 GPT-funktion anropad");
 
   try {
     const { messages, conversationId } = JSON.parse(event.body);
@@ -36,16 +42,10 @@ exports.handler = async function(event, context) {
     });
 
     const data = await response.json();
+    const gptSvar = data.choices?.[0]?.message?.content || "Inget svar från GPT";
 
-    if (!data.choices || !data.choices[0]?.message?.content) {
-      console.error("❌ Ogiltigt svar från OpenAI:", data);
-      throw new Error("Ogiltigt svar från GPT");
-    }
-
-    const gptSvar = data.choices[0].message.content;
     console.log("✅ GPT-svar:", gptSvar);
 
-    // 🔐 Logga i Firestore om möjligt
     if (db) {
       try {
         await db.collection("chattlogg").add({
