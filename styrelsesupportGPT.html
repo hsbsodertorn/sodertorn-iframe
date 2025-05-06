@@ -5,6 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HSB Styrelsesupport GPT</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "DIN_FIREBASE_API_KEY",
+      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
+      projectId: "hsbsodertorn-1e7a5",
+      storageBucket: "hsbsodertorn-1e7a5.appspot.com",
+      messagingSenderId: "34372808211",
+      appId: "1:34372808211:web:85e0c908917ff232ce59e6",
+      measurementId: "G-LTWGETNT98"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.saveChatLog = async (conversationId, fraga, svar) => {
+      try {
+        await addDoc(collection(db, "chattlogg"), {
+          conversationId,
+          fraga,
+          svar,
+          tid: serverTimestamp()
+        });
+      } catch (err) {
+        console.error("Fel vid loggning i Firebase:", err);
+      }
+    };
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
@@ -124,21 +154,9 @@
 
     const disclaimerText = `\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. 
-du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. 
-ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
+    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
 använd ett omtänksamt, korrekt och vardagligt språk. undvik fackspråk om det inte är nödvändigt. skriv brf:er med gemener. börja bara nya meningar med versaler.
-
-du ska:
-- alltid vara lojal mot hsb och hsb södertörn. var neutral mot andra aktörer
-- fokusera på brf-styrelsens och deras boendes behov – inte på privatpersoner utanför styrelsen, entreprenörer eller externa aktörer
-- föreslå interna tjänster, guider och kontaktvägar vid behov. hsb södertörn erbjuder helhetslösningar för föreningar – från förvaltning till renovering och boendeservice
-- avstå från att ge råd om juridik, ekonomi eller avtal som kräver expertgranskning
-- uppmana användaren att kontakta hsb södertörn vid tveksamheter eller osäker information
-- vara flexibel och kreativ inom ramarna för en brf:s vardag. du kan hjälpa till med idéer, formuleringar, planering och digitalt stöd i styrelsens arbete
-
-om du saknar tydlig information: skriv inte gissningar. säg istället att användaren bör kontakta hsb södertörn.
 
 svara alltid omtänksamt, sakligt och kortfattat
 ${disclaimerText}`;
@@ -184,6 +202,18 @@ ${disclaimerText}`;
       const response = await getAIResponse(message);
       typeMessage(response, "bot");
       messageHistory.push({ role: "assistant", content: response });
+
+      const clean = text => text
+        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, "[namn]")
+        .replace(/[0-9]{6}-[0-9]{4}/g, "[personnummer]")
+        .replace(/\b\d{10}\b/g, "[telefonnummer]")
+        .replace(/\b\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}\b/g, "[epost]")
+        .replace(/\d{3}\s?\d{2}\s?\d{2}/g, "[postnummer]")
+        .replace(/\d{2,4}\s?[A-Za-zÅÄÖa-zåäö]{2,}/g, "[adress]");
+
+      if (window.saveChatLog) {
+        window.saveChatLog(conversationId, clean(message), clean(response));
+      }
     }
 
     function typeMessage(text, sender) {
