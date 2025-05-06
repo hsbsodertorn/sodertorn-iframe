@@ -1,129 +1,122 @@
-Jag vill att du lägger till det i den här koden:<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HSB Styrelsesupport GPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
     }
 
-```
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: sans-serif;
-  background: white;
-}
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: white;
+    }
 
-#wrapper {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: white;
-  border: 2px solid #00558c;
-  border-radius: 16px;
-  overflow: hidden;
-}
+    #wrapper {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      border: 2px solid #00558c;
+      border-radius: 16px;
+      overflow: hidden;
+    }
 
-#chatbox {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
+    #chatbox {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
 
-#messages {
-  flex: 1;
-  padding: 16px;
-  overflow-y: auto;
-  background: white;
-  display: flex;
-  flex-direction: column;
-}
+    #messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
 
-.message {
-  max-width: 75%;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  border-radius: 20px;
-  white-space: pre-line;
-  word-break: break-word;
-  font-size: 16px;
-  line-height: 1.4;
-  display: inline-block;
-}
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-radius: 20px;
+      white-space: pre-line;
+      word-break: break-word;
+      font-size: 16px;
+      line-height: 1.4;
+      display: inline-block;
+    }
 
-.user {
-  align-self: flex-end;
-  background-color: #d6e9f7; /* ljusblå HSB-färg */
-  color: #00558c;
-  border-bottom-right-radius: 4px;
-}
+    .user {
+      align-self: flex-end;
+      background-color: #f7f7f8;
+      color: #000;
+      border-radius: 18px;
+    }
 
-.bot {
-  align-self: flex-start;
-  background-color: #f0f0f0;
-  color: #333;
-  border-bottom-left-radius: 4px;
-}
+    .bot {
+      align-self: flex-start;
+      background: none;
+      color: #000;
+      padding: 0;
+    }
 
-.bot a {
-  color: #00558c;
-  text-decoration: underline;
-}
+    #inputArea {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 12px 16px;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+      gap: 12px;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.04);
+    }
 
-#inputArea {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  padding: 12px 16px;
-  background: white;
-  border-top: 1px solid #e0e0e0;
-  gap: 12px;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.04);
-}
+    textarea {
+      flex: 1;
+      min-height: 48px;
+      max-height: 200px;
+      padding: 14px 20px;
+      border-radius: 24px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      resize: none;
+      overflow: hidden;
+      line-height: 1.4;
+      font-family: 'Open Sans', sans-serif;
+    }
 
-textarea {
-  flex: 1;
-  min-height: 48px;
-  max-height: 200px;
-  padding: 14px 20px;
-  border-radius: 24px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  resize: none;
-  overflow: hidden;
-  line-height: 1.4;
-  font-family: sans-serif;
-}
+    textarea:focus {
+      border: 1px solid #00558c;
+      outline: none;
+    }
 
-textarea:focus {
-  border: 1px solid #00558c;
-  outline: none;
-}
+    button {
+      background: #00558c;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 14px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+      font-family: 'Open Sans', sans-serif;
+    }
 
-button {
-  background: #00558c;
-  color: white;
-  border: none;
-  border-radius: 24px;
-  padding: 14px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-}
-
-button:hover {
-  background: #004070;
-}
-```
-
+    button:hover {
+      background: #004070;
+    }
   </style>
 </head>
 <body>
@@ -143,12 +136,9 @@ button:hover {
     const conversationId = crypto.randomUUID();
     const messageHistory = [];
 
-    const disclaimerText = `
----
-*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
+    const disclaimerText = `\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-    const systemPrompt = `
-Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar...${disclaimerText}`;
+    const systemPrompt = `Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar. ${disclaimerText}`;
 
     function autoResize(textarea) {
       textarea.style.height = 'auto';
@@ -162,14 +152,21 @@ Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att s
       }
     }
 
-    function tvattaText(text) {
-      return text
-        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, "[namn]")
-        .replace(/[0-9]{6}-[0-9]{4}/g, "[personnummer]")
-        .replace(/\b\d{10}\b/g, "[telefonnummer]")
-        .replace(/\b\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}\b/g, "[epost]")
-        .replace(/\d{3}\s?\d{2}\s?\d{2}/g, "[postnummer]")
-        .replace(/\d{2,4}\s?[A-Za-zÅÄÖa-zåäö]{2,}/g, "[adress]");
+    function addMessage(text, sender) {
+      const messages = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "message " + sender;
+      div.innerHTML = convertLinks(text);
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div;
+    }
+
+    function convertLinks(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, function(url) {
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
     }
 
     async function sendMessage() {
@@ -182,31 +179,9 @@ Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att s
       autoResize(input);
       messageHistory.push({ role: "user", content: message });
 
-      const responseRaw = await getAIResponse(message);
-      const response = cleanResponse(responseRaw);
-
-      messageHistory.push({ role: "assistant", content: response });
+      const response = await getAIResponse(message);
       typeMessage(response, "bot");
-
-      const tvattadFraga = tvattaText(message);
-      const tvattatSvar = tvattaText(response);
-
-      if (window.saveChatLog) {
-        window.saveChatLog(conversationId, tvattadFraga, tvattatSvar);
-      }
-    }
-
-    function cleanResponse(text) {
-      return text.replace(disclaimerText, '').trim();
-    }
-
-    function addMessage(text, sender) {
-      const messages = document.getElementById("messages");
-      const div = document.createElement("div");
-      div.className = "message " + sender;
-      div.innerHTML = convertLinks(text);
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
+      messageHistory.push({ role: "assistant", content: response });
     }
 
     function typeMessage(text, sender) {
@@ -226,43 +201,15 @@ Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att s
       typeChar();
     }
 
-    function convertLinks(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, function(url) {
-        return `<a href="${url}" target="_blank">${url}</a>`;
-      });
-    }
-
     async function getAIResponse(userInput) {
-      const dataFiles = ["forvaltning.json", "medlembrf.json", "medlemprivatperson.json", "bospar.json", "storingar.json"];
-      let sammanfattadData = "";
-
-      for (const file of dataFiles) {
-        try {
-          const res = await fetch(`data/${file}`);
-          const data = await res.json();
-
-          if (data.delar && Array.isArray(data.delar)) {
-            const relevanta = data.delar.filter(d =>
-              d.nyckelord?.some(n => userInput.toLowerCase().includes(n.toLowerCase()))
-            );
-            for (const r of relevanta) {
-              sammanfattadData += `\n- ${r.titel}: ${r.beskrivning}`;
-            }
-          }
-        } catch (e) {
-          console.warn("Fel vid laddning av databas:", file);
-        }
-      }
-
       try {
         const aiRes = await fetch("/.netlify/functions/styrelsesupport-gpt", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             messages: [
-              { role: "system", content: systemPrompt + "\nIntern databas:\n" + sammanfattadData },
-              ...messageHistory.filter(m => m.role !== "system"),
+              { role: "system", content: systemPrompt },
+              ...messageHistory,
               { role: "user", content: userInput }
             ]
           })
@@ -270,16 +217,12 @@ Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att s
 
         const aiJson = await aiRes.json();
         const gptSvar = aiJson.choices?.[0]?.message?.content;
-
-        if (gptSvar) return gptSvar;
-        return "Jag försökte svara via AI men något gick fel. Kontakta HSB Södertörn för personlig hjälp.";
-
+        return gptSvar || "Jag försökte svara via AI men något gick fel. Kontakta HSB Södertörn för personlig hjälp.";
       } catch (error) {
         console.error("Fel vid AI-anrop:", error);
-        return "Jag försökte söka i vår databas och med AI men något gick fel. Försök igen eller kontakta kundservice.";
+        return "Jag försökte söka med AI men något gick fel. Försök igen eller kontakta kundservice.";
       }
     }
   </script>
-
 </body>
 </html>
