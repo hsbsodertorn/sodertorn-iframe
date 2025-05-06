@@ -1,11 +1,22 @@
 {
   "name": "netlify-functions",
   "version": "1.0.0",
+  "description": "HSB Södertörns AI-assistent och Netlify Functions-projekt",
+  "main": "index.js",
   "scripts": {
     "build": "echo 'No build step required'"
   },
   "dependencies": {
     "node-fetch": "^2.6.1",
     "firebase-admin": "^11.5.0"
-  }
+  },
+  "keywords": [
+    "hsb",
+    "netlify",
+    "ai",
+    "styrelsesupport",
+    "firebase"
+  ],
+  "author": "HSB Södertörn",
+  "license": "MIT"
 }
