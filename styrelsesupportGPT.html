@@ -115,32 +115,6 @@
     button:hover {
       background: #004070;
     }
-
-    #uploadOptions, #micControls {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    #uploadOptions label, #micControls button {
-      cursor: pointer;
-      font-size: 20px;
-      color: #00558c;
-      background: transparent;
-      border: none;
-      padding: 8px;
-      border-radius: 50%;
-      transition: background 0.2s;
-    }
-
-    #uploadOptions label:hover, #micControls button:hover {
-      background: #e6f0f8;
-      color: #004070;
-    }
-
-    #uploadOptions input[type="file"] {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -152,14 +126,6 @@
       <div id="inputArea">
         <textarea id="userInput" placeholder="Skriv din fråga här..." oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
         <button onclick="sendMessage()">Skicka</button>
-        <div id="uploadOptions">
-          <label title="Bifoga bild">🖼️<input type="file" accept="image/*" onchange="handleFileUpload(event, 'bild')" /></label>
-          <label title="Ladda upp dokument">📎<input type="file" accept=".pdf,.doc,.docx,.txt" onchange="handleFileUpload(event, 'dokument')" /></label>
-        </div>
-        <div id="micControls">
-          <button id="startMic" title="Spela in">🎙️</button>
-          <button id="stopMic" title="Stoppa" disabled>⏹️</button>
-        </div>
       </div>
     </div>
   </div>
@@ -168,8 +134,9 @@
     const conversationId = crypto.randomUUID();
     const messageHistory = [];
 
-    const disclaimerText = `\n---\n*Denna information ...*`;
-    const systemPrompt = `...${disclaimerText}`;
+    const disclaimerText = `\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
+
+    const systemPrompt = `Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar. ${disclaimerText}`;
 
     function autoResize(textarea) {
       textarea.style.height = 'auto';
@@ -187,56 +154,55 @@
       const messages = document.getElementById("messages");
       const div = document.createElement("div");
       div.className = "message " + sender;
-      div.innerHTML = text;
+      div.innerHTML = convertLinks(text);
       messages.appendChild(div);
       messages.scrollTop = messages.scrollHeight;
+    }
+
+    function convertLinks(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, function(url) {
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
     }
 
     async function sendMessage() {
       const input = document.getElementById("userInput");
       const message = input.value.trim();
       if (!message) return;
+
       addMessage(message, "user");
       input.value = "";
       autoResize(input);
-      addMessage("Svar från AI...", "bot");
+      messageHistory.push({ role: "user", content: message });
+
+      const response = await getAIResponse(message);
+      addMessage(response, "bot");
+      messageHistory.push({ role: "assistant", content: response });
     }
 
-    function handleFileUpload(event, typ) {
-      const file = event.target.files[0];
-      if (file) {
-        addMessage(`${typ === 'bild' ? '🖼️' : '📎'} ${file.name}`, "user");
+    async function getAIResponse(userInput) {
+      try {
+        const aiRes = await fetch("/.netlify/functions/styrelsesupport-gpt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: [
+              { role: "system", content: systemPrompt },
+              ...messageHistory,
+              { role: "user", content: userInput }
+            ]
+          })
+        });
+
+        const aiJson = await aiRes.json();
+        const gptSvar = aiJson.choices?.[0]?.message?.content;
+        return gptSvar || "Jag försökte svara via AI men något gick fel. Kontakta HSB Södertörn för personlig hjälp.";
+      } catch (error) {
+        console.error("Fel vid AI-anrop:", error);
+        return "Jag försökte söka med AI men något gick fel. Försök igen eller kontakta kundservice.";
       }
     }
-
-    let mediaRecorder;
-    let audioChunks = [];
-
-    const startBtn = document.getElementById("startMic");
-    const stopBtn = document.getElementById("stopMic");
-
-    startBtn.addEventListener("click", async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder = new MediaRecorder(stream);
-      audioChunks = [];
-      mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(audioChunks, { type: "audio/webm" });
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        audio.controls = true;
-        document.getElementById("messages").appendChild(audio);
-      };
-      mediaRecorder.start();
-      startBtn.disabled = true;
-      stopBtn.disabled = false;
-    });
-
-    stopBtn.addEventListener("click", () => {
-      mediaRecorder.stop();
-      startBtn.disabled = false;
-      stopBtn.disabled = true;
-    });
   </script>
 </body>
 </html>
