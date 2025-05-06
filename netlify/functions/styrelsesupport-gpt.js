@@ -1,12 +1,13 @@
 const fetch = require("node-fetch");
 const admin = require("firebase-admin");
 
-// initiera firebase endast om det inte redan är initierat
+// 🔐 Initiera Firebase endast om det inte redan är gjort
 if (!admin.apps.length) {
   try {
     admin.initializeApp({
       credential: admin.credential.applicationDefault(),
     });
+    console.log("✅ Firebase admin initierat");
   } catch (e) {
     console.warn("⚠️ kunde inte initiera firebase-admin:", e);
   }
@@ -15,7 +16,7 @@ if (!admin.apps.length) {
 const db = admin.apps.length ? admin.firestore() : null;
 
 exports.handler = async function(event, context) {
-  console.log("📨 styrelsesupport GPT-funktion anropad");
+  console.log("📨 Styrelsesupport GPT-funktion anropad");
 
   try {
     const { messages, conversationId } = JSON.parse(event.body);
@@ -35,11 +36,16 @@ exports.handler = async function(event, context) {
     });
 
     const data = await response.json();
-    const gptSvar = data.choices?.[0]?.message?.content || "Inget svar från GPT";
 
+    if (!data.choices || !data.choices[0]?.message?.content) {
+      console.error("❌ Ogiltigt svar från OpenAI:", data);
+      throw new Error("Ogiltigt svar från GPT");
+    }
+
+    const gptSvar = data.choices[0].message.content;
     console.log("✅ GPT-svar:", gptSvar);
 
-    // 🔒 försök spara i Firestore om det är tillgängligt
+    // 🔐 Logga i Firestore om möjligt
     if (db) {
       try {
         await db.collection("chattlogg").add({
@@ -48,9 +54,9 @@ exports.handler = async function(event, context) {
           svar: gptSvar,
           tid: new Date()
         });
-        console.log("📝 sparat i Firestore");
+        console.log("📝 Loggat i Firestore");
       } catch (logError) {
-        console.warn("⚠️ kunde inte logga till Firestore:", logError);
+        console.warn("⚠️ Kunde inte logga till Firestore:", logError);
       }
     } else {
       console.warn("⚠️ Firestore saknas – loggning hoppades över");
@@ -62,7 +68,7 @@ exports.handler = async function(event, context) {
     };
 
   } catch (error) {
-    console.error("❌ Fel i styrelsesupportGPT.js:", error);
+    console.error("❌ Fel i styrelsesupport-gpt.js:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Kunde inte hämta AI-svar" })
