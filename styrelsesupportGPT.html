@@ -115,6 +115,11 @@
     button:hover {
       background: #004070;
     }
+
+    #fileUpload {
+      font-size: 14px;
+      color: #00558c;
+    }
   </style>
 </head>
 <body>
@@ -125,6 +130,7 @@
       </div>
       <div id="inputArea">
         <textarea id="userInput" placeholder="Skriv din fråga här..." oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+        <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.txt" onchange="handleFileUpload(event)">
         <button onclick="sendMessage()">Skicka</button>
       </div>
     </div>
@@ -197,6 +203,13 @@
         }
       }
       typeChar();
+    }
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        addMessage(`📎 ${file.name}`, "user");
+      }
     }
 
     async function getAIResponse(userInput) {
