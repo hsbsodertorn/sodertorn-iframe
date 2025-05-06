@@ -56,7 +56,7 @@
     #inputArea {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: flex-end;
       padding: 12px 16px;
       background: white;
       border-top: 1px solid #e0e0e0;
@@ -64,19 +64,24 @@
       box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.04);
     }
 
-    input {
+    textarea {
       flex: 1;
       min-width: 0;
+      min-height: 48px;
+      max-height: 200px;
       padding: 14px 20px;
       border-radius: 24px;
       border: 1px solid #ccc;
       font-size: 16px;
-      outline: none;
-      background-color: #fff;
+      line-height: 1.4;
+      resize: none;
+      overflow: hidden;
+      font-family: sans-serif;
     }
 
-    input:focus {
+    textarea:focus {
       border: 1px solid #00558c;
+      outline: none;
     }
 
     button {
@@ -133,7 +138,7 @@
         <div class="message bot">Hej! Välkommen till Styrelsesupport GPT 🤖 Vad vill du ha hjälp med idag?</div>
       </div>
       <div id="inputArea">
-        <input type="text" id="userInput" placeholder="Skriv din fråga här..." onkeydown="handleKey(event)" />
+        <textarea id="userInput" placeholder="Skriv din fråga här..." oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
         <button onclick="sendMessage()">Skicka</button>
       </div>
     </div>
@@ -150,8 +155,16 @@
     const systemPrompt = `
 Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar...${disclaimerText}`;
 
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = (textarea.scrollHeight + 2) + 'px';
+    }
+
     function handleKey(event) {
-      if (event.key === "Enter") sendMessage();
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
     }
 
     function tvattaText(text) {
@@ -171,6 +184,7 @@ Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att s
 
       addMessage(message, "user");
       input.value = "";
+      autoResize(input);
       messageHistory.push({ role: "user", content: message });
 
       const responseRaw = await getAIResponse(message);
