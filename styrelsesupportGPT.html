@@ -59,27 +59,22 @@
 
     .user {
       align-self: flex-end;
-      background-color: #d6e9f7; /* ljusblå HSB-färg */
-      color: #00558c;
-      border-bottom-right-radius: 4px;
+      background-color: #f7f7f8;
+      color: #000;
+      border-radius: 18px;
     }
 
     .bot {
       align-self: flex-start;
-      background-color: #f0f0f0;
-      color: #333;
-      border-bottom-left-radius: 4px;
-    }
-
-    .bot a {
-      color: #00558c;
-      text-decoration: underline;
+      background: none;
+      color: #000;
+      padding: 0;
     }
 
     #inputArea {
       display: flex;
       flex-wrap: wrap;
-      align-items: flex-end;
+      align-items: center;
       padding: 12px 16px;
       background: white;
       border-top: 1px solid #e0e0e0;
@@ -120,6 +115,32 @@
     button:hover {
       background: #004070;
     }
+
+    #uploadOptions, #micControls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    #uploadOptions label, #micControls button {
+      cursor: pointer;
+      font-size: 20px;
+      color: #00558c;
+      background: transparent;
+      border: none;
+      padding: 8px;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    #uploadOptions label:hover, #micControls button:hover {
+      background: #e6f0f8;
+      color: #004070;
+    }
+
+    #uploadOptions input[type="file"] {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -131,6 +152,14 @@
       <div id="inputArea">
         <textarea id="userInput" placeholder="Skriv din fråga här..." oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
         <button onclick="sendMessage()">Skicka</button>
+        <div id="uploadOptions">
+          <label title="Bifoga bild">🖼️<input type="file" accept="image/*" onchange="handleFileUpload(event, 'bild')" /></label>
+          <label title="Ladda upp dokument">📎<input type="file" accept=".pdf,.doc,.docx,.txt" onchange="handleFileUpload(event, 'dokument')" /></label>
+        </div>
+        <div id="micControls">
+          <button id="startMic" title="Spela in">🎙️</button>
+          <button id="stopMic" title="Stoppa" disabled>⏹️</button>
+        </div>
       </div>
     </div>
   </div>
@@ -139,12 +168,8 @@
     const conversationId = crypto.randomUUID();
     const messageHistory = [];
 
-    const disclaimerText = `
----
-*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
-
-    const systemPrompt = `
-Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att stödja och stärka styrelser i bostadsrättsföreningar...${disclaimerText}`;
+    const disclaimerText = `\n---\n*Denna information ...*`;
+    const systemPrompt = `...${disclaimerText}`;
 
     function autoResize(textarea) {
       textarea.style.height = 'auto';
@@ -158,123 +183,60 @@ Styrelsesupport är en digital assistent utvecklad av HSB Södertörn för att s
       }
     }
 
-    function tvattaText(text) {
-      return text
-        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, "[namn]")
-        .replace(/[0-9]{6}-[0-9]{4}/g, "[personnummer]")
-        .replace(/\b\d{10}\b/g, "[telefonnummer]")
-        .replace(/\b\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}\b/g, "[epost]")
-        .replace(/\d{3}\s?\d{2}\s?\d{2}/g, "[postnummer]")
-        .replace(/\d{2,4}\s?[A-Za-zÅÄÖa-zåäö]{2,}/g, "[adress]");
+    function addMessage(text, sender) {
+      const messages = document.getElementById("messages");
+      const div = document.createElement("div");
+      div.className = "message " + sender;
+      div.innerHTML = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
     }
 
     async function sendMessage() {
       const input = document.getElementById("userInput");
       const message = input.value.trim();
       if (!message) return;
-
       addMessage(message, "user");
       input.value = "";
       autoResize(input);
-      messageHistory.push({ role: "user", content: message });
+      addMessage("Svar från AI...", "bot");
+    }
 
-      const responseRaw = await getAIResponse(message);
-      const response = cleanResponse(responseRaw);
-
-      messageHistory.push({ role: "assistant", content: response });
-      typeMessage(response, "bot");
-
-      const tvattadFraga = tvattaText(message);
-      const tvattatSvar = tvattaText(response);
-
-      if (window.saveChatLog) {
-        window.saveChatLog(conversationId, tvattadFraga, tvattatSvar);
+    function handleFileUpload(event, typ) {
+      const file = event.target.files[0];
+      if (file) {
+        addMessage(`${typ === 'bild' ? '🖼️' : '📎'} ${file.name}`, "user");
       }
     }
 
-    function cleanResponse(text) {
-      return text.replace(disclaimerText, '').trim();
-    }
+    let mediaRecorder;
+    let audioChunks = [];
 
-    function addMessage(text, sender) {
-      const messages = document.getElementById("messages");
-      const div = document.createElement("div");
-      div.className = "message " + sender;
-      div.innerHTML = convertLinks(text);
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-    }
+    const startBtn = document.getElementById("startMic");
+    const stopBtn = document.getElementById("stopMic");
 
-    function typeMessage(text, sender) {
-      const messages = document.getElementById("messages");
-      const div = document.createElement("div");
-      div.className = "message " + sender;
-      messages.appendChild(div);
+    startBtn.addEventListener("click", async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(audioChunks, { type: "audio/webm" });
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        audio.controls = true;
+        document.getElementById("messages").appendChild(audio);
+      };
+      mediaRecorder.start();
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+    });
 
-      let i = 0;
-      function typeChar() {
-        if (i < text.length) {
-          div.innerHTML = convertLinks(text.substring(0, ++i));
-          messages.scrollTop = messages.scrollHeight;
-          setTimeout(typeChar, 12);
-        }
-      }
-      typeChar();
-    }
-
-    function convertLinks(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, function(url) {
-        return `<a href="${url}" target="_blank">${url}</a>`;
-      });
-    }
-
-    async function getAIResponse(userInput) {
-      const dataFiles = ["forvaltning.json", "medlembrf.json", "medlemprivatperson.json", "bospar.json", "storingar.json"];
-      let sammanfattadData = "";
-
-      for (const file of dataFiles) {
-        try {
-          const res = await fetch(`data/${file}`);
-          const data = await res.json();
-
-          if (data.delar && Array.isArray(data.delar)) {
-            const relevanta = data.delar.filter(d =>
-              d.nyckelord?.some(n => userInput.toLowerCase().includes(n.toLowerCase()))
-            );
-            for (const r of relevanta) {
-              sammanfattadData += `\n- ${r.titel}: ${r.beskrivning}`;
-            }
-          }
-        } catch (e) {
-          console.warn("Fel vid laddning av databas:", file);
-        }
-      }
-
-      try {
-        const aiRes = await fetch("/.netlify/functions/styrelsesupport-gpt", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            messages: [
-              { role: "system", content: systemPrompt + "\nIntern databas:\n" + sammanfattadData },
-              ...messageHistory.filter(m => m.role !== "system"),
-              { role: "user", content: userInput }
-            ]
-          })
-        });
-
-        const aiJson = await aiRes.json();
-        const gptSvar = aiJson.choices?.[0]?.message?.content;
-
-        if (gptSvar) return gptSvar;
-        return "Jag försökte svara via AI men något gick fel. Kontakta HSB Södertörn för personlig hjälp.";
-
-      } catch (error) {
-        console.error("Fel vid AI-anrop:", error);
-        return "Jag försökte söka i vår databas och med AI men något gick fel. Försök igen eller kontakta kundservice.";
-      }
-    }
+    stopBtn.addEventListener("click", () => {
+      mediaRecorder.stop();
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+    });
   </script>
 </body>
 </html>
