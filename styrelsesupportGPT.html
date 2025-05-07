@@ -112,13 +112,13 @@
       40% { opacity: 1; }
     }
     .link-button {
-      display: inline-block;
-      margin-top: 12px;
+      display: inline;
+      margin: 0 0 0 8px;
       background: #00558c;
       color: white;
-      padding: 12px 20px;
-      border-radius: 24px;
-      font-size: 16px;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 14px;
       text-decoration: none;
       cursor: pointer;
     }
@@ -261,14 +261,38 @@ ${disclaimerText}`;
       const key = message.toLowerCase();
       if (/\b(ärende|skicka e-post|mail|kontakta)\b/.test(key)) {
         const subject = message.substring(0,50);
-        const body = `Hej,\n\njag heter [namn] från brf:[förening].\n${message}\n\nvänligen,\n[namn]\n[telefon]\n[epost]`;
+
+        // bygg e-postutkast baserat på de senaste 5 frågorna och svaren
+        let bodyLines = [
+          'Hej,',
+          '',
+          'jag heter [namn] från brf:[förening].',
+          '',
+          'här är de senaste 5 frågorna och svaren:'
+        ];
+        // ta de sista 10 historikposter (5 par)
+        const recent = messageHistory.slice(-10);
+        for (let i = 0; i < recent.length; i += 2) {
+          const q = recent[i];
+          const a = recent[i+1];
+          if (q && a) {
+            bodyLines.push('');
+            bodyLines.push(`fråga: ${q.content}`);
+            bodyLines.push(`svar: ${a.content}`);
+          }
+        }
+        bodyLines.push('', 'vänligen,', '[namn]', '[telefon]', '[epost]');
+        const body = bodyLines.join('\n');
+
         const mailLink = createMailLink(subject, body);
         const btn = document.createElement('a');
         btn.href = mailLink;
         btn.textContent = 'skicka e-post till hsb';
         btn.className = 'link-button';
         btn.target = '_blank';
-        document.getElementById('messages').appendChild(btn);
+        // lägg knappen inline efter senaste bot-svar
+        const msgs = document.getElementById('messages');
+        msgs.appendChild(btn);
       }
 
       // logga
@@ -318,8 +342,7 @@ ${disclaimerText}`;
               {role:"system",content:systemPrompt+`\n${ap}`},
               ...messageHistory,
               {role:"user",content:userInput},
-              {role:"system",content:`databas träffar:\n${JSON.stringify(contextData).slice(0,4000)}`}]
-          })
+              {role:"system",content:`databas träffar:\n${JSON.stringify(contextData).slice(0,4000)}`}]})
         });
         const js=await r.json();
         return js.choices?.[0]?.message?.content||"något gick fel i ai-anropet.";
