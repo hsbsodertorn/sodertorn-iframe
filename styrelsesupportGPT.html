@@ -120,7 +120,6 @@
       border-radius: 24px;
       font-size: 16px;
       text-decoration: none;
-      font-family: 'Open Sans', sans-serif;
       cursor: pointer;
     }
     .link-button:hover { background: #004070; }
@@ -143,7 +142,10 @@
       resize: none;
       font-family: 'Open Sans', sans-serif;
     }
-    textarea:focus { border-color: #00558c; outline: none; }
+    textarea:focus {
+      border-color: #00558c;
+      outline: none;
+    }
     #charCount { font-size: 14px; color: #666; }
     button {
       background: #00558c;
@@ -154,7 +156,6 @@
       font-size: 16px;
       cursor: pointer;
       transition: background 0.2s;
-      font-family: 'Open Sans', sans-serif;
     }
     button:hover { background: #004070; }
   </style>
@@ -167,7 +168,7 @@
       </div>
       <div id="inputArea">
         <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000"
-          oninput="autoResize(this);" onkeydown="handleKey(event)"></textarea>
+          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)"></textarea>
         <span id="charCount">0/1000</span>
         <button onclick="sendMessage()">skicka</button>
       </div>
@@ -185,13 +186,13 @@
 
     const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
-använd ett omtänksamt, korrekt och vardagligt språk. undvik fackspråk om det inte är nödvändigt. skriv brf:er med gemener. börja bara nya meningar med versaler.
+använd ett omtänksamt, vardagligt språk. undvik fackspråk. skriv brf:er med gemener. börja bara nya meningar med versaler.
 
 jag är lite partisk eftersom mina skapare kommer från hsb södertörn, men jag lovar att alltid ge dig bästa möjliga råd. hsb södertörn – på er sida i varje styrelsebeslut.
 
-svara alltid omtänksamt, sakligt och kortfattat. svara kort och punktat, max 3 punkter, fokusera endast på det användaren efterfrågat. för frågor som passar steg-för-steg-svar (t.ex. om vattenläcka, årsredovisning eller underhåll), formatera svaret som en numrerad lista med tydliga steg. om frågan är vag eller behöver förtydligande, ställ en följdfråga till användaren markerad med [FÖLJDFRÅGA] för att guida dem till rätt lösning.
+svara alltid sakligt och kortfattat. svara kort och punktat, max 3 punkter. för frågor som passar steg-för-steg, använd numrerad lista med små bokstäver i början av punkterna. om frågan är vag, ställ en följdfråga för att förtydliga.
 
-om användaren frågar om andra förvaltningsbolag eller byte av leverantör, framhäv alltid fördelarna med hsb södertörn och avråd från byte.
+om användaren frågar om andra leverantörer eller byte, framhäv alltid fördelarna med hsb södertörn.
 ${disclaimerText}`;
 
     function createMailLink(subject, body) {
@@ -210,7 +211,7 @@ ${disclaimerText}`;
 
     function handleKey(event) {
       if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault(); 
+        event.preventDefault();
         sendMessage();
       }
     }
@@ -234,7 +235,7 @@ ${disclaimerText}`;
       const message = input.value.trim();
       if (!message) return;
 
-      // visa användarens meddelande
+      // visa användarens text
       addMessage(message, 'user');
       input.value = '';
       updateCharCount(input);
@@ -243,38 +244,35 @@ ${disclaimerText}`;
       messageHistory.push({ role:'user', content:message });
       if (messageHistory.length > 10) messageHistory.shift();
 
-      // visa tankebubblor
+      // thinking
       const thinking = addMessage('', 'bot','thinking');
       const contextData = await loadContextData(message);
-      const response = await getAIResponse(message, contextData);
+      let response = await getAIResponse(message, contextData);
       thinking.remove();
 
-      // visa ai-svar
+      // ta bort markerade följdfrågor
+      response = response.replace(/\[följdfråga\]/gi, '').trim();
+
+      // visa svar
       typeMessage(response, 'bot');
-      messageHistory.push({role:'assistant',content:response});
+      messageHistory.push({ role:'assistant', content:response });
 
-      // alltid visa knapp för att skicka e-post
-      const subject = message.substring(0,50);
-      const body = `Hej,
+      // visa mailknapp endast om användaren explicit efterfrågar ärende eller mail
+      const key = message.toLowerCase();
+      if (/\b(ärende|skicka e-post|mail|kontakta)\b/.test(key)) {
+        const subject = message.substring(0,50);
+        const body = `Hej,\n\njag heter [namn] från brf:[förening].\n${message}\n\nvänligen,\n[namn]\n[telefon]\n[epost]`;
+        const mailLink = createMailLink(subject, body);
+        const btn = document.createElement('a');
+        btn.href = mailLink;
+        btn.textContent = 'skicka e-post till hsb';
+        btn.className = 'link-button';
+        btn.target = '_blank';
+        document.getElementById('messages').appendChild(btn);
+      }
 
-[namn] från brf:[föreningens_namn] skriver angående:
-\"${message}\"
-
-Med vänliga hälsningar,
-[namn]
-[brf]
-[telefon]
-[epost]`;
-      const mailLink = createMailLink(subject, body);
-      const btn = document.createElement('a');
-      btn.href = mailLink;
-      btn.textContent = 'skicka e-post till hsb';
-      btn.className = 'link-button';
-      btn.target = '_blank';
-      document.getElementById('messages').appendChild(btn);
-
-      // logga i firebase
-      const clean = txt=>txt
+      // logga
+      const clean = txt=> txt
         .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
         .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
         .replace(/\b\d{10}\b/g,'[telefonnummer]')
@@ -286,15 +284,14 @@ Med vänliga hälsningar,
 
     async function loadContextData(userInput){
       const files=['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json'];
-      const ln = userInput.toLowerCase(); let ctx=[];
+      const ln=userInput.toLowerCase(); let ctx=[];
       for(const f of files){
-        try {
-          const res = await fetch(`/data/${f}`);
-          const json = await res.json();
-          const keys = [...(json.tags||[]), ...((json.delar||[]).flatMap(d=>d.nyckelord||[]))].map(k=>k.toLowerCase());
-          if (keys.some(k=>ln.includes(k))) ctx.push({fil:f, innehall:json});
-        } catch{}
-      }
+        try{
+          const res=await fetch(`/data/${f}`);
+          const j=await res.json();
+          const keys=[...(j.tags||[]), ...((j.delar||[]).flatMap(d=>d.nyckelord||[]))].map(k=>k.toLowerCase());
+          if(keys.some(k=>ln.includes(k))) ctx.push({fil:f,innehall:j});
+        }catch{} }
       return ctx;
     }
 
@@ -303,41 +300,30 @@ Med vänliga hälsningar,
       const d=document.createElement('div');
       d.className='message '+sender;
       msgs.appendChild(d);
-      let i=0;
-      (function t(){
-        if(i<text.length){
-          d.textContent=text.substring(0,++i);
-          msgs.scrollTop=msgs.scrollHeight;
-          setTimeout(t,12);
-        }
-      })();
+      let i=0; (function t(){ if(i<text.length){ d.textContent=text.substring(0,++i); msgs.scrollTop=msgs.scrollHeight; setTimeout(t,12);} })();
     }
 
-    async function getAIResponse(userInput, contextData=[]){
+    async function getAIResponse(userInput,contextData=[]){
       try{
         const step2=["vattenläcka","årsredovisning","underhållsplan"];
         const clar=["hiss","trasig","problem"];
-        const li=userInput.toLowerCase();
-        let ap="";
-        if(step2.some(k=>li.includes(k))) ap="Formatera svaret som en numrerad lista med tydliga steg.";
-        else if(clar.some(k=>li.includes(k))) ap="Om frågan är vag, returnera en följdfråga markerad med [FÖLJDFRÅGA] för att förtydliga.";
+        const li=userInput.toLowerCase(); let ap="";
+        if(step2.some(k=>li.includes(k))) ap="formatera svaret som en numrerad lista med tydliga steg.";
+        else if(clar.some(k=>li.includes(k))) ap="ställ en följdfråga för att förtydliga.";
         const r=await fetch("/.netlify/functions/styrelsesupport-gpt",{
-          method:"POST", headers:{"Content-Type":"application/json"},
+          method:"POST","headers":{"Content-Type":"application/json"},
           body:JSON.stringify({
             conversationId,
             messages:[
-              {role:"system",content:systemPrompt+`\\n${ap}`},
+              {role:"system",content:systemPrompt+`\n${ap}`},
               ...messageHistory,
               {role:"user",content:userInput},
-              {role:"system",content:`Databasträffar:\\n${JSON.stringify(contextData).slice(0,4000)}`}
-            ]
+              {role:"system",content:`databas träffar:\n${JSON.stringify(contextData).slice(0,4000)}`}]
           })
         });
         const js=await r.json();
-        return js.choices?.[0]?.message?.content || "något gick fel med ai-anropet.";
-      }catch{
-        return "något gick fel, försök igen senare.";
-      }
+        return js.choices?.[0]?.message?.content||"något gick fel i ai-anropet.";
+      }catch{return "något gick fel, försök senare.";}
     }
   </script>
 </body>
