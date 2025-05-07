@@ -133,15 +133,6 @@
     .link-button:hover {
       background: #004070;
     }
-    /* BORTKOMMENTERAD CSS
-    .related-questions {
-      margin-top: 12px;
-    }
-    .related-questions .link-button {
-      margin-right: 8px;
-      margin-bottom: 8px;
-    }
-    */
     #inputArea {
       display: flex;
       flex-wrap: wrap;
@@ -207,9 +198,11 @@
     const messageHistory = [];
     let dialogState = null;
 
-    const disclaimerText = `\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
+    const disclaimerText = `
+---
+*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
+    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
 använd ett omtänksamt, korrekt och vardagligt språk. undvik fackspråk om det inte är nödvändigt. skriv brf:er med gemener. börja bara nya meningar med versaler.
 
@@ -217,10 +210,17 @@ jag är lite partisk eftersom mina skapare kommer från hsb södertörn, men jag
 
 svara alltid omtänksamt, sakligt och kortfattat. svara kort och punktat, max 3 punkter, fokusera endast på det användaren efterfrågat. för frågor som passar steg-för-steg-svar (t.ex. om vattenläcka, årsredovisning eller underhåll), formatera svaret som en numrerad lista med tydliga steg. om frågan är vag eller behöver förtydligande, ställ en följdfråga till användaren markerad med [FÖLJDFRÅGA] för att guida dem till rätt lösning.
 
-om användaren frågar om andra förvaltningsbolag eller byte av leverantör, framhäv alltid fördelarna med hsb södertörn och avråd från byte.  
+om användaren frågar om andra förvaltningsbolag eller byte av leverantör, framhäv alltid fördelarna med hsb södertörn och avråd från byte.
 ${disclaimerText}`;
 
-
+    // Funktion för att generera förskrivet mailto-link
+    function createMailLink(subject, body) {
+      const params = new URLSearchParams({
+        subject,
+        body
+      });
+      return `mailto:info.sodertorn@hsb.se?${params.toString()}`;
+    }
 
     function autoResize(textarea) {
       textarea.style.height = 'auto';
@@ -276,6 +276,7 @@ ${disclaimerText}`;
       const message = input.value.trim();
       if (!message) return;
 
+      // Visa användarens meddelande
       addMessage(message, "user");
       input.value = "";
       updateCharCount(input);
@@ -284,25 +285,41 @@ ${disclaimerText}`;
       messageHistory.push({ role: "user", content: message });
       if (messageHistory.length > 10) messageHistory.shift();
 
+      // Visa tankebubblor
       const thinkingMsg = addMessage("", "bot", "thinking");
       const contextData = await loadContextData(message);
       const response = await getAIResponse(message, contextData);
       thinkingMsg.remove();
 
-      if (dialogState && dialogState.waitingForAnswer) {
-        dialogState.userResponse = message;
-        const nextResponse = await handleDecisionTree(dialogState, message);
-        typeMessage(nextResponse, "bot");
-        messageHistory.push({ role: "assistant", content: nextResponse });
-      } else if (response.startsWith("[FÖLJDFRÅGA]")) {
-        dialogState = { waitingForAnswer: true, question: response };
-        typeMessage(response.replace("[FÖLJDFRÅGA]", ""), "bot-question");
-        messageHistory.push({ role: "assistant", content: response });
-      } else {
-        typeMessage(response, "bot");
-        messageHistory.push({ role: "assistant", content: response });
+      // Visa AI-svaret
+      typeMessage(response, "bot");
+      messageHistory.push({ role: "assistant", content: response });
+
+      // Om användaren vill lägga ett ärende om köplats, ge mailtolänk
+      if (message.toLowerCase().includes('köplats') || response.toLowerCase().includes('anmäl köplats')) {
+        const subject = 'Parkering – köplats';
+        const bodyTemplate = `Hej,
+
+Jag heter [namn] och företräder brf:[bostadsrättsföreningens_namn].
+Jag vill anmäla intresse för en köplats i garaget.
+
+Namn: [namn]
+Brf: [bostadsrättsföreningens_namn]
+Lägenhet: [lägenhetsnummer]
+Telefon: [telefonnummer]
+E-post: [epost]
+
+Tack på förhand!`;
+        const mailLink = createMailLink(subject, bodyTemplate);
+        const linkBtn = document.createElement('a');
+        linkBtn.href = mailLink;
+        linkBtn.textContent = 'Anmäl köplats via e-post';
+        linkBtn.className = 'link-button';
+        linkBtn.target = '_blank';
+        document.getElementById('messages').appendChild(linkBtn);
       }
 
+      // Logga i Firebase
       const clean = text => text
         .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, "[namn]")
         .replace(/[0-9]{6}-[0-9]{4}/g, "[personnummer]")
@@ -327,10 +344,6 @@ ${disclaimerText}`;
           div.textContent = text.substring(0, ++i);
           messages.scrollTop = messages.scrollHeight;
           setTimeout(typeChar, 12);
-        } else {
-          if (sender === "bot") {
-            // showRelatedQuestions(text, div); <-- fortfarande bortkommenterat
-          }
         }
       }
       typeChar();
