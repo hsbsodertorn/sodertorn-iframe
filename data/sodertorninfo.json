@@ -1,1 +1,48 @@
+{
+  "kategori": "kontakt och information",
+  "sammanfattning": "Här hittar du kontaktuppgifter, öppettider och adresser till HSB Södertörns huvudkontor och förvaltningskontor i Huddinge, Hallunda, Nynäshamn, Tullinge och på Gotland. Vi erbjuder både drop-in och förbokade besök.",
+  "tags": [
+    "kontakt", "öppettider", "besök", "förbokning", "hsb södertörn", 
+    "huddinge", "hallunda", "nynäshamn", "tullinge", "hemse", 
+    "gotland", "kontakta oss", "kundservice", "kontor", "växel"
+  ],
+  "delar": [
+    {
+      "titel": "Allmän information om besök",
+      "beskrivning": "Vårt besökskontor i Hallunda har drop-in alla vardagar 09.00–12.00, samt torsdagar även 16.00–18.00. I Nynäshamn, Tullinge och på Hemse gäller drop-in tisdagar 14.30–16.30. Övrig tid kräver förbokning via formuläret på webben.",
+      "nyckelord": ["besök", "drop-in", "förbokning", "formulär", "hallunda", "nynäshamn", "tullinge", "hemse", "gotland"],
+      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
+    },
+    {
+      "titel": "Huvudkontor Huddinge",
+      "beskrivning": "Besöksadress: Huddinge Stationsväg 5, 141 35 Huddinge. Postadress: Box 1084, 141 22 Huddinge. Här hittar du ledning, administration och viss kundservice.",
+      "nyckelord": ["huddinge", "huvudkontor", "besöksadress", "postadress", "ledning", "hsb södertörn"],
+      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
+    },
+    {
+      "titel": "Förvaltningskontor Hallunda",
+      "beskrivning": "Adress: Kornvägen 18, 145 68 Norsborg. Öppet för drop-in måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00.",
+      "nyckelord": ["hallunda", "norsborg", "drop-in", "förvaltningskontor", "besök", "torsdag", "kundservice"],
+      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
+    },
+    {
+      "titel": "Förvaltningskontor Nynäshamn",
+      "beskrivning": "Adress: Lövlundsvägen 5, 149 30 Nynäshamn. Drop-in för boende på tisdagar 14.30–16.30. Övrig tid bokas i förväg.",
+      "nyckelord": ["nynäshamn", "drop-in", "tisdag", "förvaltningskontor", "förbokning"],
+      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
+    },
+    {
+      "titel": "Förvaltningskontor Tullinge",
+      "beskrivning": "Adress: Kvällsvägen 14–16, 146 31 Tullinge. Drop-in för boende på tisdagar 14.30–16.30. Övrig tid bokas i förväg.",
+      "nyckelord": ["tullinge", "drop-in", "tisdag", "förvaltningskontor", "förbokning"],
+      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
+    },
+    {
+      "titel": "Förvaltningskontor Hemse (Gotland)",
+      "beskrivning": "Adress: Storgatan 41, 623 50 Hemse. Drop-in för boende på tisdagar 14.30–16.30. Övrig tid bokas i förväg.",
+      "nyckelord": ["hemse", "gotland", "drop-in", "tisdag", "förvaltningskontor", "förbokning"],
+      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
+    }
+  ]
+}
 
