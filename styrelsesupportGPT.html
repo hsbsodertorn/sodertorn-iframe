@@ -9,45 +9,41 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-    // Hämta Firebase-konfiguration från en endpoint för att undvika hårdkodning
-    async function getFirebaseConfig() {
-      try {
-        const res = await fetch('/.netlify/functions/get-firebase-config');
-        return await res.json();
-      } catch (err) {
-        console.error("Fel vid hämtning av Firebase-konfig:", err);
-        showError("Kunde inte ladda chatten. Försök igen senare.");
-        return null;
-      }
-    }
+    // Hårdkodad Firebase-konfiguration som en tillfällig lösning
+    const firebaseConfig = {
+      apiKey: "DIN_FIREBASE_API_KEY",
+      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
+      projectId: "hsbsodertorn-1e7a5",
+      storageBucket: "hsbsodertorn-1e7a5.appspot.com",
+      messagingSenderId: "34372808211",
+      appId: "1:34372808211:web:85e0c908917ff232ce59e6",
+      measurementId: "G-LTWGETNT98"
+    };
 
-    const firebaseConfig = await getFirebaseConfig();
-    if (firebaseConfig) {
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-      // Kö för att hantera loggning vid tillfälliga fel
-      const logQueue = [];
-      window.saveChatLog = async (conversationId, fraga, svar) => {
-        const logEntry = {
-          conversationId,
-          fraga,
-          svar,
-          tid: serverTimestamp()
-        };
-        logQueue.push(logEntry);
-        while (logQueue.length > 0) {
-          try {
-            await addDoc(collection(db, "chattlogg"), logQueue[0]);
-            logQueue.shift();
-          } catch (err) {
-            console.error("Fel vid loggning i Firebase:", err);
-            showError("Kunde inte spara chatten. Försök igen.");
-            break;
-          }
-        }
+    // Kö för att hantera loggning vid tillfälliga fel
+    const logQueue = [];
+    window.saveChatLog = async (conversationId, fraga, svar) => {
+      const logEntry = {
+        conversationId,
+        fraga,
+        svar,
+        tid: serverTimestamp()
       };
-    }
+      logQueue.push(logEntry);
+      while (logQueue.length > 0) {
+        try {
+          await addDoc(collection(db, "chattlogg"), logQueue[0]);
+          logQueue.shift();
+        } catch (err) {
+          console.error("Fel vid loggning i Firebase:", err);
+          showError("Kunde inte spara chatten. Försök igen.");
+          break;
+        }
+      }
+    };
   </script>
 
   <style>
@@ -187,7 +183,7 @@
   <div id="wrapper">
     <div id="chatbox">
       <div id="messages" aria-live="polite">
-        <div class="message bot">Hej! Välkommen till styrelsesupport gpt 🤖 vad vill du ha hjälp med idag?</div>
+        <div class="message bot">Hej! Välkommen till styrelsesupport gpt 🤖 Vad vill du ha hjälp med idag?</div>
       </div>
       <div id="inputArea">
         <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000"
@@ -304,6 +300,12 @@ använd följande skrivregler:
       return div;
     }
 
+    // Funktion för att tillämpa skrivregler på AI-svar
+    function applySkrivregler(text) {
+      // Börja meningar med versaler, enstaka ord med gemener
+      return text.replace(/(^|\.\s+)([a-zåäö])/g, (match, p1, p2) => p1 + p2.toUpperCase());
+    }
+
     async function sendMessage() {
       const input = document.getElementById('userInput');
       const message = input.value.trim();
@@ -323,6 +325,7 @@ använd följande skrivregler:
       thinking.remove();
 
       response = response.replace(/\[följdfråga\]/gi, '').trim();
+      response = applySkrivregler(response); // Tillämpa skrivregler
       typeMessage(response, 'bot');
       messageHistory.push({ role:'assistant', content:response });
 
@@ -364,7 +367,9 @@ använd följande skrivregler:
         .replace(/\b\w+@[^\s]+\b/g,'[epost]')
         .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]')
         .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g,'[adress]');
-      if (window.saveChatLog) window.saveChatLog(conversationId, clean(message), clean(response));
+      if (window.saveChatLog) {
+        window.saveChatLog(conversationId, clean(message), clean(response));
+      }
     }
 
     async function loadContextData(userInput) {
@@ -389,13 +394,13 @@ använd följande skrivregler:
       messages.appendChild(div);
       if (sender === 'bot') {
         let i = 0;
-        const chunkSize = 10; // Skriv i större chunkar för bättre prestanda
+        const chunkSize = 10;
         function type() {
           if (i < text.length) {
             div.innerHTML = text.substring(0, i + chunkSize);
             i += chunkSize;
             messages.scrollTop = messages.scrollHeight;
-            setTimeout(type, 50); // Långsammare intervall för att minska DOM-uppdateringar
+            setTimeout(type, 50);
           }
         }
         type();
@@ -408,7 +413,7 @@ använd följande skrivregler:
     async function getAIResponse(userInput, contextData = []) {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
         const step2 = ["vattenläcka", "årsredovisning", "underhållsplan"];
         const clar = ["hiss", "trasig", "problem"];
         const li = userInput.toLowerCase();
