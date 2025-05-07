@@ -86,19 +86,12 @@
       color: #000;
       border-radius: 18px;
     }
-    .bot {
+    .bot, .bot-question {
       align-self: flex-start;
       background: #e8f0fe;
       color: #000;
       padding: 12px 16px;
       border-radius: 18px;
-    }
-    .bot-question {
-      align-self: flex-start;
-      background: #e8f0fe;
-      color: #000;
-      border-radius: 18px;
-      padding: 12px 16px;
     }
     .thinking {
       display: inline-flex;
@@ -130,18 +123,14 @@
       font-family: 'Open Sans', sans-serif;
       cursor: pointer;
     }
-    .link-button:hover {
-      background: #004070;
-    }
+    .link-button:hover { background: #004070; }
     #inputArea {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       padding: 12px 16px;
-      background: white;
       border-top: 1px solid #e0e0e0;
       gap: 12px;
-      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.04);
     }
     textarea {
       flex: 1;
@@ -152,18 +141,10 @@
       border: 1px solid #ccc;
       font-size: 16px;
       resize: none;
-      overflow: hidden;
-      line-height: 1.4;
       font-family: 'Open Sans', sans-serif;
     }
-    textarea:focus {
-      border: 1px solid #00558c;
-      outline: none;
-    }
-    #charCount {
-      font-size: 14px;
-      color: #666;
-    }
+    textarea:focus { border-color: #00558c; outline: none; }
+    #charCount { font-size: 14px; color: #666; }
     button {
       background: #00558c;
       color: white;
@@ -172,27 +153,27 @@
       padding: 14px 20px;
       font-size: 16px;
       cursor: pointer;
-      transition: background 0.2s ease-in-out;
+      transition: background 0.2s;
       font-family: 'Open Sans', sans-serif;
     }
-    button:hover {
-      background: #004070;
-    }
+    button:hover { background: #004070; }
   </style>
 </head>
 <body>
   <div id="wrapper">
     <div id="chatbox">
       <div id="messages">
-        <div class="message bot">Hej! Välkommen till Styrelsesupport GPT 🤖 Vad vill du ha hjälp med idag?</div>
+        <div class="message bot">Hej! Välkommen till styrelsesupport gpt 🤖 vad vill du ha hjälp med idag?</div>
       </div>
       <div id="inputArea">
-        <textarea id="userInput" placeholder="Skriv din fråga här..." maxlength="1000" oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)"></textarea>
+        <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000"
+          oninput="autoResize(this);" onkeydown="handleKey(event)"></textarea>
         <span id="charCount">0/1000</span>
-        <button onclick="sendMessage()">Skicka</button>
+        <button onclick="sendMessage()">skicka</button>
       </div>
     </div>
   </div>
+
   <script>
     const conversationId = crypto.randomUUID();
     const messageHistory = [];
@@ -200,9 +181,9 @@
 
     const disclaimerText = `
 ---
-*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
+*denna information från styrelsesupport gpt är vägledande och bör granskas kritiskt. vi tar inget ansvar för svarens riktighet. ladda inte upp känslig information som kan bryta mot gdpr. kontakta hsb södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
+    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
 använd ett omtänksamt, korrekt och vardagligt språk. undvik fackspråk om det inte är nödvändigt. skriv brf:er med gemener. börja bara nya meningar med versaler.
 
@@ -213,34 +194,30 @@ svara alltid omtänksamt, sakligt och kortfattat. svara kort och punktat, max 3 
 om användaren frågar om andra förvaltningsbolag eller byte av leverantör, framhäv alltid fördelarna med hsb södertörn och avråd från byte.
 ${disclaimerText}`;
 
-    // Funktion för att generera förskrivet mailto-link
     function createMailLink(subject, body) {
-      const params = new URLSearchParams({
-        subject,
-        body
-      });
+      const params = new URLSearchParams({ subject, body });
       return `mailto:info.sodertorn@hsb.se?${params.toString()}`;
     }
 
     function autoResize(textarea) {
       textarea.style.height = 'auto';
-      textarea.style.height = (textarea.scrollHeight + 2) + 'px';
+      textarea.style.height = `${textarea.scrollHeight + 2}px`;
     }
 
     function updateCharCount(textarea) {
-      document.getElementById("charCount").textContent = `${textarea.value.length}/1000`;
+      document.getElementById('charCount').textContent = `${textarea.value.length}/1000`;
     }
 
     function handleKey(event) {
-      if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault(); 
         sendMessage();
       }
     }
 
-    function addMessage(text, sender, extraClass = '') {
-      const messages = document.getElementById("messages");
-      const div = document.createElement("div");
+    function addMessage(text, sender, extraClass='') {
+      const messages = document.getElementById('messages');
+      const div = document.createElement('div');
       div.className = `message ${sender} ${extraClass}`;
       if (extraClass === 'thinking') {
         div.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
@@ -252,148 +229,114 @@ ${disclaimerText}`;
       return div;
     }
 
-    async function loadContextData(userInput) {
-      const dataFiles = ['bospar.json', 'forvaltning.json', 'medlembrf.json', 'medlemprivatperson.json', 'sodertorninfo.json'];
-      const lowercaseInput = userInput.toLowerCase();
-      const context = [];
-      for (const file of dataFiles) {
-        try {
-          const res = await fetch(`/data/${file}`);
-          const json = await res.json();
-          const allKeywords = [...(json.tags || []), ...((json.delar || []).flatMap(d => d.nyckelord || []))].map(k => k.toLowerCase());
-          if (allKeywords.some(keyword => lowercaseInput.includes(keyword))) {
-            context.push({ fil: file, innehall: json });
-          }
-        } catch (e) {
-          console.warn(`Kunde inte läsa eller tolka ${file}:`, e);
-        }
-      }
-      return context;
-    }
-
     async function sendMessage() {
-      const input = document.getElementById("userInput");
+      const input = document.getElementById('userInput');
       const message = input.value.trim();
       if (!message) return;
 
-      // Visa användarens meddelande
-      addMessage(message, "user");
-      input.value = "";
+      // visa användarens meddelande
+      addMessage(message, 'user');
+      input.value = '';
       updateCharCount(input);
       autoResize(input);
 
-      messageHistory.push({ role: "user", content: message });
+      messageHistory.push({ role:'user', content:message });
       if (messageHistory.length > 10) messageHistory.shift();
 
-      // Visa tankebubblor
-      const thinkingMsg = addMessage("", "bot", "thinking");
+      // visa tankebubblor
+      const thinking = addMessage('', 'bot','thinking');
       const contextData = await loadContextData(message);
       const response = await getAIResponse(message, contextData);
-      thinkingMsg.remove();
+      thinking.remove();
 
-      // Visa AI-svaret
-      typeMessage(response, "bot");
-      messageHistory.push({ role: "assistant", content: response });
+      // visa ai-svar
+      typeMessage(response, 'bot');
+      messageHistory.push({role:'assistant',content:response});
 
-      // Om användaren vill lägga ett ärende om köplats, ge mailtolänk
-      if (message.toLowerCase().includes('köplats') || response.toLowerCase().includes('anmäl köplats')) {
-        const subject = 'Parkering – köplats';
-        const bodyTemplate = `Hej,
+      // alltid visa knapp för att skicka e-post
+      const subject = message.substring(0,50);
+      const body = `Hej,
 
-Jag heter [namn] och företräder brf:[bostadsrättsföreningens_namn].
-Jag vill anmäla intresse för en köplats i garaget.
+[namn] från brf:[föreningens_namn] skriver angående:
+\"${message}\"
 
-Namn: [namn]
-Brf: [bostadsrättsföreningens_namn]
-Lägenhet: [lägenhetsnummer]
-Telefon: [telefonnummer]
-E-post: [epost]
+Med vänliga hälsningar,
+[namn]
+[brf]
+[telefon]
+[epost]`;
+      const mailLink = createMailLink(subject, body);
+      const btn = document.createElement('a');
+      btn.href = mailLink;
+      btn.textContent = 'skicka e-post till hsb';
+      btn.className = 'link-button';
+      btn.target = '_blank';
+      document.getElementById('messages').appendChild(btn);
 
-Tack på förhand!`;
-        const mailLink = createMailLink(subject, bodyTemplate);
-        const linkBtn = document.createElement('a');
-        linkBtn.href = mailLink;
-        linkBtn.textContent = 'Anmäl köplats via e-post';
-        linkBtn.className = 'link-button';
-        linkBtn.target = '_blank';
-        document.getElementById('messages').appendChild(linkBtn);
-      }
-
-      // Logga i Firebase
-      const clean = text => text
-        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, "[namn]")
-        .replace(/[0-9]{6}-[0-9]{4}/g, "[personnummer]")
-        .replace(/\b\d{10}\b/g, "[telefonnummer]")
-        .replace(/\b\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}\b/g, "[epost]")
-        .replace(/\d{3}\s?\d{2}\s?\d{2}/g, "[postnummer]")
-        .replace(/\d{2,4}\s?[A-Za-zÅÄÖa-zåäö]{2,}/g, "[adress]");
-
-      if (window.saveChatLog) {
-        window.saveChatLog(conversationId, clean(message), clean(response));
-      }
+      // logga i firebase
+      const clean = txt=>txt
+        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
+        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
+        .replace(/\b\d{10}\b/g,'[telefonnummer]')
+        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
+        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]')
+        .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g,'[adress]');
+      if (window.saveChatLog) window.saveChatLog(conversationId, clean(message), clean(response));
     }
 
-    function typeMessage(text, sender) {
-      const messages = document.getElementById("messages");
-      const div = document.createElement("div");
-      div.className = "message " + sender;
-      messages.appendChild(div);
-      let i = 0;
-      function typeChar() {
-        if (i < text.length) {
-          div.textContent = text.substring(0, ++i);
-          messages.scrollTop = messages.scrollHeight;
-          setTimeout(typeChar, 12);
-        }
+    async function loadContextData(userInput){
+      const files=['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json'];
+      const ln = userInput.toLowerCase(); let ctx=[];
+      for(const f of files){
+        try {
+          const res = await fetch(`/data/${f}`);
+          const json = await res.json();
+          const keys = [...(json.tags||[]), ...((json.delar||[]).flatMap(d=>d.nyckelord||[]))].map(k=>k.toLowerCase());
+          if (keys.some(k=>ln.includes(k))) ctx.push({fil:f, innehall:json});
+        } catch{}
       }
-      typeChar();
+      return ctx;
     }
 
-    async function handleDecisionTree(state, userResponse) {
-      const lowercaseResponse = userResponse.toLowerCase();
-      if (state.question.includes("hiss")) {
-        if (lowercaseResponse.includes("akut") || lowercaseResponse.includes("helt")) {
-          return `1. Kontakta hissjouren omedelbart (t.ex. [Hissjourens nummer från kontextdata]).\n2. Informera medlemmarna om stoppet.\n3. Boka service via HSBs portal.\n${disclaimerText}`;
-        } else {
-          return `1. Kontrollera om felet är tillfälligt (t.ex. strömavbrott).\n2. Kontakta fastighetsskötaren för en kontroll.\n3. Rapportera felet till HSB.\n${disclaimerText}`;
+    function typeMessage(text,sender){
+      const msgs=document.getElementById('messages');
+      const d=document.createElement('div');
+      d.className='message '+sender;
+      msgs.appendChild(d);
+      let i=0;
+      (function t(){
+        if(i<text.length){
+          d.textContent=text.substring(0,++i);
+          msgs.scrollTop=msgs.scrollHeight;
+          setTimeout(t,12);
         }
-      }
-      dialogState = null;
-      return "Tack för förtydligandet! Hur kan jag hjälpa dig vidare?";
+      })();
     }
 
-    async function getAIResponse(userInput, contextData = []) {
-      try {
-        const stepByStepKeywords = ["vattenläcka", "årsredovisning", "underhållsplan"];
-        const needsClarificationKeywords = ["hiss", "trasig", "problem"];
-        const lowercaseInput = userInput.toLowerCase();
-
-        let additionalPrompt = "";
-        if (stepByStepKeywords.some(keyword => lowercaseInput.includes(keyword))) {
-          additionalPrompt = "Formatera svaret som en numrerad lista med tydliga steg.";
-        } else if (needsClarificationKeywords.some(keyword => lowercaseInput.includes(keyword))) {
-          additionalPrompt = "Om frågan är vag, returnera en följdfråga markerad med [FÖLJDFRÅGA] för att förtydliga.";
-        }
-
-        const aiRes = await fetch("/.netlify/functions/styrelsesupport-gpt", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+    async function getAIResponse(userInput, contextData=[]){
+      try{
+        const step2=["vattenläcka","årsredovisning","underhållsplan"];
+        const clar=["hiss","trasig","problem"];
+        const li=userInput.toLowerCase();
+        let ap="";
+        if(step2.some(k=>li.includes(k))) ap="Formatera svaret som en numrerad lista med tydliga steg.";
+        else if(clar.some(k=>li.includes(k))) ap="Om frågan är vag, returnera en följdfråga markerad med [FÖLJDFRÅGA] för att förtydliga.";
+        const r=await fetch("/.netlify/functions/styrelsesupport-gpt",{
+          method:"POST", headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
             conversationId,
-            messages: [
-              { role: "system", content: systemPrompt + `\n${additionalPrompt}` },
+            messages:[
+              {role:"system",content:systemPrompt+`\\n${ap}`},
               ...messageHistory,
-              { role: "user", content: userInput },
-              { role: "system", content: `Databasträffar:\n${JSON.stringify(contextData).slice(0, 4000)}` }
+              {role:"user",content:userInput},
+              {role:"system",content:`Databasträffar:\\n${JSON.stringify(contextData).slice(0,4000)}`}
             ]
           })
         });
-        const aiJson = await aiRes.json();
-        const gptSvar = aiJson.choices?.[0]?.message?.content;
-        return gptSvar || "Jag försökte svara via AI men något gick fel. Kontakta HSB Södertörn för personlig hjälp.";
-      } catch (error) {
-        console.error("Fel vid AI-anrop:", error);
-        return "Jag försökte söka med AI men något gick fel. Försök igen eller kontakta kundservice.";
+        const js=await r.json();
+        return js.choices?.[0]?.message?.content || "något gick fel med ai-anropet.";
+      }catch{
+        return "något gick fel, försök igen senare.";
       }
     }
   </script>
