@@ -92,6 +92,10 @@
       color: #000;
       padding: 0;
     }
+    .thinking {
+      font-style: italic;
+      color: #888;
+    }
     #inputArea {
       display: flex;
       flex-wrap: wrap;
@@ -119,6 +123,10 @@
       border: 1px solid #00558c;
       outline: none;
     }
+    #charCount {
+      font-size: 14px;
+      color: #666;
+    }
     button {
       background: #00558c;
       color: white;
@@ -142,7 +150,8 @@
         <div class="message bot">Hej! Välkommen till Styrelsesupport GPT 🤖 Vad vill du ha hjälp med idag?</div>
       </div>
       <div id="inputArea">
-        <textarea id="userInput" placeholder="Skriv din fråga här..." oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+        <textarea id="userInput" placeholder="Skriv din fråga här..." maxlength="1000" oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)"></textarea>
+        <span id="charCount">0/1000</span>
         <button onclick="sendMessage()">Skicka</button>
       </div>
     </div>
@@ -166,6 +175,11 @@ ${disclaimerText}`;
       textarea.style.height = (textarea.scrollHeight + 2) + 'px';
     }
 
+    function updateCharCount(textarea) {
+      const charCount = document.getElementById("charCount");
+      charCount.textContent = `${textarea.value.length}/1000`;
+    }
+
     function handleKey(event) {
       if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
@@ -173,13 +187,14 @@ ${disclaimerText}`;
       }
     }
 
-    function addMessage(text, sender) {
+    function addMessage(text, sender, extraClass = '') {
       const messages = document.getElementById("messages");
       const div = document.createElement("div");
-      div.className = "message " + sender;
+      div.className = `message ${sender} ${extraClass}`;
       div.innerHTML = convertLinks(text);
       messages.appendChild(div);
       messages.scrollTop = messages.scrollHeight;
+      return div;
     }
 
     function convertLinks(text) {
@@ -196,12 +211,21 @@ ${disclaimerText}`;
 
       addMessage(message, "user");
       input.value = "";
+      updateCharCount(input);
       autoResize(input);
+
       messageHistory.push({ role: "user", content: message });
+      if (messageHistory.length > 10) messageHistory.shift();
+
+      const thinkingMsg = addMessage("Tänker...", "bot", "thinking");
 
       const response = await getAIResponse(message);
+      thinkingMsg.remove();
+
       typeMessage(response, "bot");
+
       messageHistory.push({ role: "assistant", content: response });
+      if (messageHistory.length > 10) messageHistory.shift();
 
       const clean = text => text
         .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, "[namn]")
