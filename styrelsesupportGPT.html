@@ -199,22 +199,11 @@ ${disclaimerText}`;
       }
     }
 
-    function convertLinks(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, (url) => {
-        let label = "Öppna länk";
-        if (url.includes("kontakta-oss")) label = "Kontakta oss";
-        else if (url.includes("hallunda")) label = "Läs mer om vårt lokalkontor i Hallunda";
-        else if (url.includes("mitt")) label = "Logga in på Mitt HSB";
-        return `<a href="${url}" class="link-button" target="_blank" rel="noopener noreferrer">${label}</a>`;
-      });
-    }
-
     function addMessage(text, sender, extraClass = '') {
       const messages = document.getElementById("messages");
       const div = document.createElement("div");
       div.className = `message ${sender} ${extraClass}`;
-      div.innerHTML = convertLinks(text);
+      div.textContent = text;
       messages.appendChild(div);
       messages.scrollTop = messages.scrollHeight;
       return div;
@@ -283,7 +272,7 @@ ${disclaimerText}`;
       let i = 0;
       function typeChar() {
         if (i < text.length) {
-          div.innerHTML = convertLinks(text.substring(0, ++i));
+          div.textContent = text.substring(0, ++i);
           messages.scrollTop = messages.scrollHeight;
           setTimeout(typeChar, 12);
         }
