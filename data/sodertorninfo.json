@@ -45,11 +45,13 @@
     },
     {
       "titel": "Vanliga frågor och svar",
-      "beskrivning": "Här hittar du svar på vanliga frågor om medlemskap, avier, bospar, köhantering, andrahandsuthyrning, avgifter och kontaktvägar. Du kan också få hjälp med e-faktura, autogiro, Kivra samt ansökningar och blanketter för medlemskap, utträde och överlåtelser.",
+      "beskrivning": "Här hittar du svar på vanliga frågor om medlemskap, avier, bospar, köhantering, andrahandsuthyrning, avgifter och kontaktvägar. Du får också vägledning om e-faktura, autogiro, Kivra, samt ansökningar och blanketter för medlemskap, utträde, överlåtelser och felanmälan. Informationen täcker även betalmetoder, hur man hittar OCR-nummer, avslutar medlemskap, prioritering i kö, vad en överlåtelse- eller pantsättningsavgift innebär, samt hur digitala tjänster fungerar i Mitt HSB.",
       "nyckelord": [
         "faq", "vanliga frågor", "avier", "bospar", "köhantering", "andrahandsuthyrning", "avgift", "medlemskap",
         "autogiro", "e-faktura", "mitt hsb", "kivra", "medlemsavi", "utträde", "blanketter", "överlåtelse",
-        "kundservice", "kontaktformulär", "betalning", "OCR", "köplats", "förmåner", "bostad", "ansökningar"
+        "kundservice", "kontaktformulär", "betalning", "OCR", "köplats", "förmåner", "bostad", "ansökningar",
+        "felanmälan", "kontrakt", "hyresavi", "digitalt avtal", "notifiering", "objektsnummer", "säga upp",
+        "andrahandsblankett", "överföringsbelopp", "mottagare", "bank", "kontonummer"
       ],
       "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
     }
