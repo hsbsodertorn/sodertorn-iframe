@@ -205,8 +205,37 @@ ${disclaimerText}`;
     }
 
     async function loadContextData(userInput) {
-      const fileMap = [
-        { file: 'bospar.json', keywords: ['bospar', 'bospara', 'bosparande'] },
+  const dataFiles = [
+    'bospar.json',
+    'forvaltning.json',
+    'medlembrf.json',
+    'medlemprivatperson.json',
+    'sodertorninfo.json'
+  ];
+
+  const lowercaseInput = userInput.toLowerCase();
+  const context = [];
+
+  for (const file of dataFiles) {
+    try {
+      const res = await fetch(`/data/${file}`);
+      const json = await res.json();
+
+      const allKeywords = [
+        ...(json.tags || []),
+        ...((json.delar || []).flatMap(d => d.nyckelord || []))
+      ].map(k => k.toLowerCase());
+
+      if (allKeywords.some(keyword => lowercaseInput.includes(keyword))) {
+        context.push({ fil: file, innehall: json });
+      }
+    } catch (e) {
+      console.warn(`Kunde inte läsa eller tolka ${file}:`, e);
+    }
+  }
+
+  return context;
+},
         { file: 'forvaltning.json', keywords: ['förvaltning', 'budget', 'ekonomi'] },
         { file: 'medlembrf.json', keywords: ['styrelse', 'brf', 'medlemskap'] },
         { file: 'medlemprivatperson.json', keywords: ['privatperson', 'bostadskö', 'medlem'] },
