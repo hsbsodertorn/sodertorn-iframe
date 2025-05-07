@@ -42,7 +42,16 @@
       "beskrivning": "Adress: Storgatan 41, 623 50 Hemse. Drop-in för boende på tisdagar 14.30–16.30. Övrig tid bokas i förväg.",
       "nyckelord": ["hemse", "gotland", "drop-in", "tisdag", "förvaltningskontor", "förbokning"],
       "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
+    },
+    {
+      "titel": "Vanliga frågor och svar",
+      "beskrivning": "Här hittar du svar på vanliga frågor om medlemskap, avier, bospar, köhantering, andrahandsuthyrning, avgifter och kontaktvägar. Du kan också få hjälp med e-faktura, autogiro, Kivra samt ansökningar och blanketter för medlemskap, utträde och överlåtelser.",
+      "nyckelord": [
+        "faq", "vanliga frågor", "avier", "bospar", "köhantering", "andrahandsuthyrning", "avgift", "medlemskap",
+        "autogiro", "e-faktura", "mitt hsb", "kivra", "medlemsavi", "utträde", "blanketter", "överlåtelse",
+        "kundservice", "kontaktformulär", "betalning", "OCR", "köplats", "förmåner", "bostad", "ansökningar"
+      ],
+      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
     }
   ]
 }
-
