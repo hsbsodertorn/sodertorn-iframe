@@ -300,6 +300,11 @@ använd följande skrivregler:
       return div;
     }
 
+    // Lägg till enkel regex-lösning för fetstil
+    function renderBold(text) {
+      return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    }
+
     // Funktion för att tillämpa skrivregler på AI-svar
     function applySkrivregler(text) {
       // Börja meningar med versaler, enstaka ord med gemener
@@ -326,6 +331,7 @@ använd följande skrivregler:
 
       response = response.replace(/\[följdfråga\]/gi, '').trim();
       response = applySkrivregler(response); // Tillämpa skrivregler
+      response = renderBold(response);      // Rendera fetstil
       typeMessage(response, 'bot');
       messageHistory.push({ role:'assistant', content:response });
 
@@ -356,7 +362,6 @@ använd följande skrivregler:
         btn.textContent = 'skicka e-post till hsb';
         btn.className = 'link-button';
         btn.target = '_blank';
-        btn.setAttribute('aria-label', 'Skicka e-post till HSB Södertörn');
         document.getElementById('messages').appendChild(btn);
       }
 
