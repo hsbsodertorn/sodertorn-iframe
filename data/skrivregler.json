@@ -1,1 +1,56 @@
 
+{
+  "skrivregler": {
+    "brf": {
+      "format": "brf:er",
+      "bokstäver": "gemener",
+      "exempel": ["brf:örnen", "brf:lys­masken"]
+    },
+    "versalisering": {
+      "börjaMening": "versal",
+      "enskildaOrd": "gemen"
+    },
+    "områden": [
+      "Huddinge",
+      "Botkyrka",
+      "Tullinge",
+      "Nynäshamn",
+      "Visby",
+      "Hemse"
+    ],
+    "viktigaBegrepp": {
+      "bostadsrättshavare": true,
+      "bostadsrättsförening": {
+        "skrivUtFörstaGången": true,
+        "förkortning": "brf"
+      },
+      "HSB": {
+        "akronym": "versal",
+        "företagsnamnInformellt": ["Affärsstöd", "Finansstöd", "Bostad"]
+      }
+    },
+    "sammansättningar": {
+      "skrivIsär": ["i alla fall", "över huvud taget", "framför allt", "nu för tiden"],
+      "skrivIHop": ["idag", "imorgon", "igår", "istället", "igång", "överallt"]
+    },
+    "förkortningar": {
+      "undvikLöptext": ["bland annat", "bland andra", "cirka", "med flera", "det vill säga", "med mera", "till exempel", "procent"],
+      "tillåtetVidBegränsatUtrymme": ["bl.a.", "m.fl.", "t.ex.", "d.v.s.", "o.s.v.", "ca", "tel", "kvm"],
+      "måttenheter": ["m", "cm", "mm", "kr"]
+    },
+    "siffror": {
+      "1–12": "bokstäver",
+      "≥13": "siffror",
+      "tusentalavgränsare": "mellanslag",
+      "procent": "mellanslagFöre"
+    },
+    "bindestreck": {
+      "långt": "pratminus (–)",
+      "kort": "nummerbindestreck (–)"
+    },
+    "engelskaOrd": {
+      "föredraSvenska": true,
+      "e-postIställetFörEmail": true
+    }
+  }
+}
