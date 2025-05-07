@@ -88,9 +88,10 @@
     }
     .bot {
       align-self: flex-start;
-      background: none;
+      background: #e8f0fe;
       color: #000;
-      padding: 0;
+      padding: 12px 16px;
+      border-radius: 18px;
     }
     .bot-question {
       align-self: flex-start;
@@ -118,7 +119,6 @@
       40% { opacity: 1; }
     }
     .link-button {
-    .link-button { /* Denna klass används eventuellt inte längre om related-questions tas bort helt */
       display: inline-block;
       margin-top: 12px;
       background: #00558c;
@@ -209,7 +209,7 @@
 
     const disclaimerText = `\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
+    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
 använd ett omtänksamt, korrekt och vardagligt språk. undvik fackspråk om det inte är nödvändigt. skriv brf:er med gemener. börja bara nya meningar med versaler.
 
@@ -324,8 +324,7 @@ ${disclaimerText}`;
           setTimeout(typeChar, 12);
         } else {
           if (sender === "bot") {
-            showRelatedQuestions(text, div);
-            // showRelatedQuestions(text, div); // <-- HÄR ÄR ÄNDRINGEN, ANROPET ÄR UTKOMMENTERAT
+            // showRelatedQuestions(text, div); <-- fortfarande bortkommenterat
           }
         }
       }
@@ -344,30 +343,6 @@ ${disclaimerText}`;
       dialogState = null;
       return "Tack för förtydligandet! Hur kan jag hjälpa dig vidare?";
     }
-
-    /* BORTKOMMENTERAD FUNKTION (används inte längre)
-    function showRelatedQuestions(message, responseDiv) {
-      const relatedQuestions = [
-        "Hur gör vi en underhållsplan?",
-        "Vad är stadgar?",
-        "Hur hanterar vi en konflikt i styrelsen?"
-      ];
-      const relatedDiv = document.createElement("div");
-      relatedDiv.className = "related-questions";
-      relatedDiv.innerHTML = "<strong>Relaterade frågor:</strong><br>";
-      relatedQuestions.forEach(q => {
-        const button = document.createElement("button");
-        button.textContent = q;
-        button.className = "link-button";
-        button.onclick = () => {
-          document.getElementById("userInput").value = q;
-          sendMessage();
-        };
-        relatedDiv.appendChild(button);
-      });
-      responseDiv.appendChild(relatedDiv);
-    }
-    */
 
     async function getAIResponse(userInput, contextData = []) {
       try {
