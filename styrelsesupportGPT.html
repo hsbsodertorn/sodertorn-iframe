@@ -204,6 +204,31 @@ ${disclaimerText}`;
       });
     }
 
+    async function loadContextData(userInput) {
+      const fileMap = [
+        { file: 'bospar.json', keywords: ['bospar', 'bospara', 'bosparande'] },
+        { file: 'forvaltning.json', keywords: ['förvaltning', 'budget', 'ekonomi'] },
+        { file: 'medlembrf.json', keywords: ['styrelse', 'brf', 'medlemskap'] },
+        { file: 'medlemprivatperson.json', keywords: ['privatperson', 'bostadskö', 'medlem'] },
+        { file: 'sodertorninfo.json', keywords: ['hsb södertörn', 'kontakt', 'kundservice'] }
+      ];
+
+      const matches = fileMap.filter(entry => entry.keywords.some(k => userInput.toLowerCase().includes(k)));
+      let context = [];
+
+      for (const match of matches) {
+        try {
+          const res = await fetch(`/data/${match.file}`);
+          const json = await res.json();
+          context.push({ fil: match.file, innehall: json });
+        } catch (e) {
+          console.warn(`Kunde inte läsa filen ${match.file}`);
+        }
+      }
+
+      return context;
+    }
+
     async function sendMessage() {
       const input = document.getElementById("userInput");
       const message = input.value.trim();
@@ -219,7 +244,9 @@ ${disclaimerText}`;
 
       const thinkingMsg = addMessage("Tänker...", "bot", "thinking");
 
-      const response = await getAIResponse(message);
+      const contextData = await loadContextData(message);
+
+      const response = await getAIResponse(message, contextData);
       thinkingMsg.remove();
 
       typeMessage(response, "bot");
@@ -257,7 +284,7 @@ ${disclaimerText}`;
       typeChar();
     }
 
-    async function getAIResponse(userInput) {
+    async function getAIResponse(userInput, contextData = []) {
       try {
         const aiRes = await fetch("/.netlify/functions/styrelsesupport-gpt", {
           method: "POST",
@@ -267,7 +294,8 @@ ${disclaimerText}`;
             messages: [
               { role: "system", content: systemPrompt },
               ...messageHistory,
-              { role: "user", content: userInput }
+              { role: "user", content: userInput },
+              { role: "system", content: `Databasträffar:\n${JSON.stringify(contextData).slice(0, 4000)}` }
             ]
           })
         });
