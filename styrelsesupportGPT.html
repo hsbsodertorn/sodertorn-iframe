@@ -9,31 +9,45 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "DIN_FIREBASE_API_KEY",
-      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
-      projectId: "hsbsodertorn-1e7a5",
-      storageBucket: "hsbsodertorn-1e7a5.appspot.com",
-      messagingSenderId: "34372808211",
-      appId: "1:34372808211:web:85e0c908917ff232ce59e6",
-      measurementId: "G-LTWGETNT98"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    window.saveChatLog = async (conversationId, fraga, svar) => {
+    // Hämta Firebase-konfiguration från en endpoint för att undvika hårdkodning
+    async function getFirebaseConfig() {
       try {
-        await addDoc(collection(db, "chattlogg"), {
+        const res = await fetch('/.netlify/functions/get-firebase-config');
+        return await res.json();
+      } catch (err) {
+        console.error("Fel vid hämtning av Firebase-konfig:", err);
+        showError("Kunde inte ladda chatten. Försök igen senare.");
+        return null;
+      }
+    }
+
+    const firebaseConfig = await getFirebaseConfig();
+    if (firebaseConfig) {
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // Kö för att hantera loggning vid tillfälliga fel
+      const logQueue = [];
+      window.saveChatLog = async (conversationId, fraga, svar) => {
+        const logEntry = {
           conversationId,
           fraga,
           svar,
           tid: serverTimestamp()
-        });
-      } catch (err) {
-        console.error("Fel vid loggning i Firebase:", err);
-      }
-    };
+        };
+        logQueue.push(logEntry);
+        while (logQueue.length > 0) {
+          try {
+            await addDoc(collection(db, "chattlogg"), logQueue[0]);
+            logQueue.shift();
+          } catch (err) {
+            console.error("Fel vid loggning i Firebase:", err);
+            showError("Kunde inte spara chatten. Försök igen.");
+            break;
+          }
+        }
+      };
+    }
   </script>
 
   <style>
@@ -159,19 +173,27 @@
       transition: background 0.2s;
     }
     button:hover { background: #004070; }
+    .error {
+      align-self: center;
+      background: #ffe6e6;
+      color: #d32f2f;
+      padding: 8px 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
   </style>
 </head>
 <body>
   <div id="wrapper">
     <div id="chatbox">
-      <div id="messages">
+      <div id="messages" aria-live="polite">
         <div class="message bot">Hej! Välkommen till styrelsesupport gpt 🤖 vad vill du ha hjälp med idag?</div>
       </div>
       <div id="inputArea">
         <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000"
-          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)"></textarea>
+          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)" aria-label="Skriv din fråga"></textarea>
         <span id="charCount">0/1000</span>
-        <button onclick="sendMessage()">skicka</button>
+        <button onclick="sendMessage()" aria-label="Skicka fråga">skicka</button>
       </div>
     </div>
   </div>
@@ -179,7 +201,7 @@
   <script>
     const conversationId = crypto.randomUUID();
     const messageHistory = [];
-    let dialogState = null;
+    const cachedContextData = new Map(); // Cache för JSON-data
 
     const disclaimerText = `
 ---
@@ -195,7 +217,6 @@ svara alltid sakligt och kortfattat. svara kort och punktat, max 3 punkter. för
 om användaren frågar om andra leverantörer eller byte, framhäv alltid fördelarna med hsb södertörn.
 ${disclaimerText}`;
 
-    // kommer uppdateras när skrivreglerna har hämtats
     let systemPrompt = baseSystemPrompt;
 
     async function loadSkrivregler() {
@@ -217,9 +238,34 @@ använd följande skrivregler:
 - ${caseRegel}`;
       } catch (err) {
         console.error('Fel vid hämtning av skrivregler:', err);
+        showError("Kunde inte ladda skrivregler. Standardformat används.");
       }
     }
     loadSkrivregler();
+
+    // Cache JSON-data vid sidladdning
+    async function preloadContextData() {
+      const files = ['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json','skrivregler.json'];
+      for (const f of files) {
+        try {
+          const res = await fetch(`/data/${f}`);
+          const j = await res.json();
+          cachedContextData.set(f, j);
+        } catch (err) {
+          console.error(`Fel vid cachning av ${f}:`, err);
+        }
+      }
+    }
+    preloadContextData();
+
+    function showError(message) {
+      const messages = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = 'message error';
+      div.textContent = message;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
 
     function createMailLink(subject, body) {
       const params = new URLSearchParams({ subject, body });
@@ -307,10 +353,11 @@ använd följande skrivregler:
         btn.textContent = 'skicka e-post till hsb';
         btn.className = 'link-button';
         btn.target = '_blank';
+        btn.setAttribute('aria-label', 'Skicka e-post till HSB Södertörn');
         document.getElementById('messages').appendChild(btn);
       }
 
-      const clean = txt=> txt
+      const clean = txt => txt
         .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
         .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
         .replace(/\b\d{10}\b/g,'[telefonnummer]')
@@ -320,74 +367,75 @@ använd följande skrivregler:
       if (window.saveChatLog) window.saveChatLog(conversationId, clean(message), clean(response));
     }
 
-    async function loadContextData(userInput){
-      const files = ['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json','skrivregler.json'];
+    async function loadContextData(userInput) {
       const ln = userInput.toLowerCase();
       let ctx = [];
-      for (const f of files) {
-        try {
-          const res = await fetch(`/data/${f}`);
-          const j = await res.json();
-          const keys = [
-            ...(j.tags||[]),
-            ...((j.delar||[]).flatMap(d=>d.nyckelord||[]))
-          ].map(k=>k.toLowerCase());
-          if (keys.some(k=>ln.includes(k))) {
-            ctx.push({fil:f, innehall:j});
-          }
-        } catch {}
+      for (const [file, data] of cachedContextData) {
+        const keys = [
+          ...(data.tags || []),
+          ...((data.delar || []).flatMap(d => d.nyckelord || []))
+        ].map(k => k.toLowerCase());
+        if (keys.some(k => ln.includes(k))) {
+          ctx.push({ fil: file, innehall: data });
+        }
       }
       return ctx;
     }
 
-    function typeMessage(text,sender){
-      const msgs = document.getElementById('messages');
-      const d = document.createElement('div');
-      d.className = 'message ' + sender;
-      msgs.appendChild(d);
+    function typeMessage(text, sender) {
+      const messages = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = `message ${sender}`;
+      messages.appendChild(div);
       if (sender === 'bot') {
-        // skriv ut med HTML så att <strong>…</strong> blir fetstil
         let i = 0;
-        (function t(){
-          if(i < text.length){
-            d.innerHTML = text.substring(0, ++i);
-            msgs.scrollTop = msgs.scrollHeight;
-            setTimeout(t, 12);
+        const chunkSize = 10; // Skriv i större chunkar för bättre prestanda
+        function type() {
+          if (i < text.length) {
+            div.innerHTML = text.substring(0, i + chunkSize);
+            i += chunkSize;
+            messages.scrollTop = messages.scrollHeight;
+            setTimeout(type, 50); // Långsammare intervall för att minska DOM-uppdateringar
           }
-        })();
+        }
+        type();
       } else {
-        let i = 0;
-        (function t(){
-          if(i < text.length){
-            d.textContent = text.substring(0, ++i);
-            msgs.scrollTop = msgs.scrollHeight;
-            setTimeout(t, 12);
-          }
-        })();
+        div.textContent = text;
+        messages.scrollTop = messages.scrollHeight;
       }
     }
 
-    async function getAIResponse(userInput,contextData=[]){
-      try{
-        const step2 = ["vattenläcka","årsredovisning","underhållsplan"];
-        const clar = ["hiss","trasig","problem"];
-        const li = userInput.toLowerCase(); let ap = "";
-        if(step2.some(k=>li.includes(k))) ap = "formatera svaret som en numrerad lista med tydliga steg.";
-        else if(clar.some(k=>li.includes(k))) ap = "ställ en följdfråga för att förtydliga.";
-        const r = await fetch("/.netlify/functions/styrelsesupport-gpt",{
-          method:"POST","headers":{"Content-Type":"application/json"},
-          body:JSON.stringify({
+    async function getAIResponse(userInput, contextData = []) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const step2 = ["vattenläcka", "årsredovisning", "underhållsplan"];
+        const clar = ["hiss", "trasig", "problem"];
+        const li = userInput.toLowerCase();
+        let ap = "";
+        if (step2.some(k => li.includes(k))) ap = "formatera svaret som en numrerad lista med tydliga steg.";
+        else if (clar.some(k => li.includes(k))) ap = "ställ en följdfråga för att förtydliga.";
+        const response = await fetch("/.netlify/functions/styrelsesupport-gpt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
             conversationId,
-            messages:[
-              {role:"system",content:systemPrompt + `\n${ap}`},
+            messages: [
+              { role: "system", content: systemPrompt + `\n${ap}` },
               ...messageHistory,
-              {role:"user",content:userInput},
-              {role:"system",content:`databas träffar:\n${JSON.stringify(contextData).slice(0,4000)}`}]})
+              { role: "user", content: userInput },
+              { role: "system", content: `databas träffar:\n${JSON.stringify(contextData).slice(0, 4000)}` }
+            ]
+          }),
+          signal: controller.signal
         });
-        const js = await r.json();
-        return js.choices?.[0]?.message?.content || "något gick fel i ai-anropet.";
-      } catch {
-        return "något gick fel, försök senare.";
+        clearTimeout(timeoutId);
+        const js = await response.json();
+        return js.choices?.[0]?.message?.content || "Något gick fel i AI-anropet.";
+      } catch (err) {
+        console.error("Fel vid AI-anrop:", err);
+        showError("Kunde inte hämta svar. Försök igen senare.");
+        return "Något gick fel, försök senare.";
       }
     }
   </script>
