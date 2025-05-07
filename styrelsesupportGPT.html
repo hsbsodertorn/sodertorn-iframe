@@ -185,7 +185,6 @@
 ---
 *denna information från styrelsesupport gpt är vägledande och bör granskas kritiskt. vi tar inget ansvar för svarens riktighet. ladda inte upp känslig information som kan bryta mot gdpr. kontakta hsb södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-    // grundprompt utan skrivregler
     const baseSystemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
 använd ett omtänksamt, vardagligt språk. undvik fackspråk.
@@ -196,10 +195,9 @@ svara alltid sakligt och kortfattat. svara kort och punktat, max 3 punkter. för
 om användaren frågar om andra leverantörer eller byte, framhäv alltid fördelarna med hsb södertörn.
 ${disclaimerText}`;
 
-    // fullständig systemprompt som inkluderar skrivregler
+    // kommer uppdateras när skrivreglerna har hämtats
     let systemPrompt = baseSystemPrompt;
 
-    // hämta skrivregler från JSON och bygg in i systemPrompt
     async function loadSkrivregler() {
       try {
         const res = await fetch('/data/skrivregler.json');
@@ -207,12 +205,16 @@ ${disclaimerText}`;
         const brfRegel = `skriv brf:er med ${rules.skrivregler.brf.bokstäver}`;
         const versalRegel = `börja bara nya meningar med versaler och enstaka ord med gemener`;
         const omraden = `områden: ${rules.skrivregler.områden.join(', ')}`;
+        const fetstilRegel = `i rubriker använd **fetstil** via markdown eller HTML-taggar`;
+        const caseRegel = `följ alltid skrivreglerna för stora och små bokstäver`;
         systemPrompt = `${baseSystemPrompt}
 
 använd följande skrivregler:
 - ${brfRegel}
 - ${versalRegel}
-- skriv alltid ut våra områden enligt listan: ${omraden}`;
+- ${omraden}
+- ${fetstilRegel}
+- ${caseRegel}`;
       } catch (err) {
         console.error('Fel vid hämtning av skrivregler:', err);
       }
@@ -246,6 +248,8 @@ använd följande skrivregler:
       div.className = `message ${sender} ${extraClass}`;
       if (extraClass === 'thinking') {
         div.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      } else if (sender === 'bot') {
+        div.innerHTML = text;
       } else {
         div.textContent = text;
       }
@@ -337,21 +341,40 @@ använd följande skrivregler:
     }
 
     function typeMessage(text,sender){
-      const msgs=document.getElementById('messages');
-      const d=document.createElement('div');
-      d.className='message '+sender;
+      const msgs = document.getElementById('messages');
+      const d = document.createElement('div');
+      d.className = 'message ' + sender;
       msgs.appendChild(d);
-      let i=0; (function t(){ if(i<text.length){ d.textContent=text.substring(0,++i); msgs.scrollTop=msgs.scrollHeight; setTimeout(t,12);} })();
+      if (sender === 'bot') {
+        // skriv ut med HTML så att <strong>…</strong> blir fetstil
+        let i = 0;
+        (function t(){
+          if(i < text.length){
+            d.innerHTML = text.substring(0, ++i);
+            msgs.scrollTop = msgs.scrollHeight;
+            setTimeout(t, 12);
+          }
+        })();
+      } else {
+        let i = 0;
+        (function t(){
+          if(i < text.length){
+            d.textContent = text.substring(0, ++i);
+            msgs.scrollTop = msgs.scrollHeight;
+            setTimeout(t, 12);
+          }
+        })();
+      }
     }
 
     async function getAIResponse(userInput,contextData=[]){
       try{
-        const step2=["vattenläcka","årsredovisning","underhållsplan"];
-        const clar=["hiss","trasig","problem"];
-        const li=userInput.toLowerCase(); let ap="";
-        if(step2.some(k=>li.includes(k))) ap="formatera svaret som en numrerad lista med tydliga steg.";
-        else if(clar.some(k=>li.includes(k))) ap="ställ en följdfråga för att förtydliga.";
-        const r=await fetch("/.netlify/functions/styrelsesupport-gpt",{
+        const step2 = ["vattenläcka","årsredovisning","underhållsplan"];
+        const clar = ["hiss","trasig","problem"];
+        const li = userInput.toLowerCase(); let ap = "";
+        if(step2.some(k=>li.includes(k))) ap = "formatera svaret som en numrerad lista med tydliga steg.";
+        else if(clar.some(k=>li.includes(k))) ap = "ställ en följdfråga för att förtydliga.";
+        const r = await fetch("/.netlify/functions/styrelsesupport-gpt",{
           method:"POST","headers":{"Content-Type":"application/json"},
           body:JSON.stringify({
             conversationId,
@@ -361,9 +384,11 @@ använd följande skrivregler:
               {role:"user",content:userInput},
               {role:"system",content:`databas träffar:\n${JSON.stringify(contextData).slice(0,4000)}`}]})
         });
-        const js=await r.json();
-        return js.choices?.[0]?.message?.content||"något gick fel i ai-anropet.";
-      }catch{return "något gick fel, försök senare.";}
+        const js = await r.json();
+        return js.choices?.[0]?.message?.content || "något gick fel i ai-anropet.";
+      } catch {
+        return "något gick fel, försök senare.";
+      }
     }
   </script>
 </body>
