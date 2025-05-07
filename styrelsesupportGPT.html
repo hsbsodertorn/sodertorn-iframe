@@ -92,6 +92,13 @@
       color: #000;
       padding: 0;
     }
+    .bot-question {
+      align-self: flex-start;
+      background: #e8f0fe;
+      color: #000;
+      border-radius: 18px;
+      padding: 12px 16px;
+    }
     .thinking {
       font-style: italic;
       color: #888;
@@ -109,6 +116,13 @@
     }
     .link-button:hover {
       background: #004070;
+    }
+    .related-questions {
+      margin-top: 12px;
+    }
+    .related-questions .link-button {
+      margin-right: 8px;
+      margin-bottom: 8px;
     }
     #inputArea {
       display: flex;
@@ -173,6 +187,7 @@
   <script>
     const conversationId = crypto.randomUUID();
     const messageHistory = [];
+    let dialogState = null; // För interaktiva beslutsträd
 
     const disclaimerText = `\n---\n*Denna information från Styrelsesupport GPT är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet. Ladda inte upp känslig information som kan bryta mot GDPR. Kontakta HSB Södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
@@ -180,7 +195,8 @@
 
 använd ett omtänksamt, korrekt och vardagligt språk. undvik fackspråk om det inte är nödvändigt. skriv brf:er med gemener. börja bara nya meningar med versaler.
 
-svara alltid omtänksamt, sakligt och kortfattat
+svara alltid omtänksamt, sakligt och kortfattat. för frågor som passar steg-för-steg-svar (t.ex. om vattenläcka, årsredovisning, eller underhåll), formatera svaret som en numrerad lista med tydliga steg. om frågan är vag eller behöver förtydligande, ställ en följdfråga till användaren för att guida dem till rätt lösning.
+
 ${disclaimerText}`;
 
     function autoResize(textarea) {
@@ -246,10 +262,22 @@ ${disclaimerText}`;
       const response = await getAIResponse(message, contextData);
       thinkingMsg.remove();
 
-      typeMessage(response, "bot");
-
-      messageHistory.push({ role: "assistant", content: response });
-      if (messageHistory.length > 10) messageHistory.shift();
+      // Hantera dialogflöde för beslutsträd
+      if (dialogState && dialogState.waitingForAnswer) {
+        dialogState.userResponse = message;
+        const nextResponse = await handleDecisionTree(dialogState, message);
+        typeMessage(nextResponse, "bot");
+        messageHistory.push({ role: "assistant", content: nextResponse });
+      } else if (response.startsWith("[FÖLJDFRÅGA]")) {
+        // AI har returnerat en följdfråga för beslutsträd
+        dialogState = { waitingForAnswer: true, question: response };
+        typeMessage(response.replace("[FÖLJDFRÅGA]", ""), "bot-question");
+        messageHistory.push({ role: "assistant", content: response });
+      } else {
+        // Vanligt svar, inkludera relaterade frågor
+        typeMessage(response, "bot");
+        messageHistory.push({ role: "assistant", content: response });
+      }
 
       const clean = text => text
         .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, "[namn]")
@@ -275,20 +303,73 @@ ${disclaimerText}`;
           div.textContent = text.substring(0, ++i);
           messages.scrollTop = messages.scrollHeight;
           setTimeout(typeChar, 12);
+        } else {
+          if (sender === "bot") {
+            showRelatedQuestions(text, div); // Lägg till relaterade frågor
+          }
         }
       }
       typeChar();
     }
 
+    async function handleDecisionTree(state, userResponse) {
+      // Enkel logik för beslutsträd (kan utökas)
+      const lowercaseResponse = userResponse.toLowerCase();
+      if (state.question.includes("hiss")) {
+        if (lowercaseResponse.includes("akut") || lowercaseResponse.includes("helt")) {
+          return `1. Kontakta hissjouren omedelbart (t.ex. [Hissjourens nummer från kontextdata]).\n2. Informera medlemmarna om stoppet.\n3. Boka service via HSBs portal.\n${disclaimerText}`;
+        } else {
+          return `1. Kontrollera om felet är tillfälligt (t.ex. strömavbrott).\n2. Kontakta fastighetsskötaren för en kontroll.\n3. Rapportera felet till HSB.\n${disclaimerText}`;
+        }
+      }
+      // Återställ dialogState
+      dialogState = null;
+      return "Tack för förtydligandet! Hur kan jag hjälpa dig vidare?";
+    }
+
+    function showRelatedQuestions(message, responseDiv) {
+      const relatedQuestions = [
+        "Hur gör vi en underhållsplan?",
+        "Vad är stadgar?",
+        "Hur hanterar vi en konflikt i styrelsen?"
+      ]; // Ersätt med AI-genererade eller kontextbaserade frågor
+      const relatedDiv = document.createElement("div");
+      relatedDiv.className = "related-questions";
+      relatedDiv.innerHTML = "<strong>Relaterade frågor:</strong><br>";
+      relatedQuestions.forEach(q => {
+        const button = document.createElement("button");
+        button.textContent = q;
+        button.className = "link-button";
+        button.onclick = () => {
+          document.getElementById("userInput").value = q;
+          sendMessage();
+        };
+        relatedDiv.appendChild(button);
+      });
+      responseDiv.appendChild(relatedDiv);
+    }
+
     async function getAIResponse(userInput, contextData = []) {
       try {
+        // Lista med nyckelord för steg-för-steg-svar
+        const stepByStepKeywords = ["vattenläcka", "årsredovisning", "underhållsplan"];
+        const needsClarificationKeywords = ["hiss", "trasig", "problem"];
+        const lowercaseInput = userInput.toLowerCase();
+
+        let additionalPrompt = "";
+        if (stepByStepKeywords.some(keyword => lowercaseInput.includes(keyword))) {
+          additionalPrompt = "Formatera svaret som en numrerad lista med tydliga steg.";
+        } else if (needsClarificationKeywords.some(keyword => lowercaseInput.includes(keyword))) {
+          additionalPrompt = "Om frågan är vag, returnera en följdfråga markerad med [FÖLJDFRÅGA] för att förtydliga.";
+        }
+
         const aiRes = await fetch("/.netlify/functions/styrelsesupport-gpt", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             conversationId,
             messages: [
-              { role: "system", content: systemPrompt },
+              { role: "system", content: systemPrompt + `\n${additionalPrompt}` },
               ...messageHistory,
               { role: "user", content: userInput },
               { role: "system", content: `Databasträffar:\n${JSON.stringify(contextData).slice(0, 4000)}` }
