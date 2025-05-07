@@ -35,6 +35,7 @@
       }
     };
   </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
@@ -184,16 +185,39 @@
 ---
 *denna information från styrelsesupport gpt är vägledande och bör granskas kritiskt. vi tar inget ansvar för svarens riktighet. ladda inte upp känslig information som kan bryta mot gdpr. kontakta hsb södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-    const systemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
+    // grundprompt utan skrivregler
+    const baseSystemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
-använd ett omtänksamt, vardagligt språk. undvik fackspråk. skriv brf:er med gemener. börja bara nya meningar med versaler.
-
+använd ett omtänksamt, vardagligt språk. undvik fackspråk.
 jag är lite partisk eftersom mina skapare kommer från hsb södertörn, men jag lovar att alltid ge dig bästa möjliga råd. hsb södertörn – på er sida i varje styrelsebeslut.
 
 svara alltid sakligt och kortfattat. svara kort och punktat, max 3 punkter. för frågor som passar steg-för-steg, använd numrerad lista med små bokstäver i början av punkterna. om frågan är vag, ställ en följdfråga för att förtydliga.
 
 om användaren frågar om andra leverantörer eller byte, framhäv alltid fördelarna med hsb södertörn.
 ${disclaimerText}`;
+
+    // fullständig systemprompt som inkluderar skrivregler
+    let systemPrompt = baseSystemPrompt;
+
+    // hämta skrivregler från JSON och bygg in i systemPrompt
+    async function loadSkrivregler() {
+      try {
+        const res = await fetch('/data/skrivregler.json');
+        const rules = await res.json();
+        const brfRegel = `skriv brf:er med ${rules.skrivregler.brf.bokstäver}`;
+        const versalRegel = `börja bara nya meningar med versaler och enstaka ord med gemener`;
+        const omraden = `områden: ${rules.skrivregler.områden.join(', ')}`;
+        systemPrompt = `${baseSystemPrompt}
+
+använd följande skrivregler:
+- ${brfRegel}
+- ${versalRegel}
+- skriv alltid ut våra områden enligt listan: ${omraden}`;
+      } catch (err) {
+        console.error('Fel vid hämtning av skrivregler:', err);
+      }
+    }
+    loadSkrivregler();
 
     function createMailLink(subject, body) {
       const params = new URLSearchParams({ subject, body });
@@ -235,7 +259,6 @@ ${disclaimerText}`;
       const message = input.value.trim();
       if (!message) return;
 
-      // visa användarens text
       addMessage(message, 'user');
       input.value = '';
       updateCharCount(input);
@@ -244,25 +267,18 @@ ${disclaimerText}`;
       messageHistory.push({ role:'user', content:message });
       if (messageHistory.length > 10) messageHistory.shift();
 
-      // thinking
       const thinking = addMessage('', 'bot','thinking');
       const contextData = await loadContextData(message);
       let response = await getAIResponse(message, contextData);
       thinking.remove();
 
-      // ta bort markerade följdfrågor
       response = response.replace(/\[följdfråga\]/gi, '').trim();
-
-      // visa svar
       typeMessage(response, 'bot');
       messageHistory.push({ role:'assistant', content:response });
 
-      // visa mailknapp endast om användaren explicit efterfrågar ärende eller mail
       const key = message.toLowerCase();
       if (/\b(ärende|skicka e-post|mail|kontakta)\b/.test(key)) {
         const subject = message.substring(0,50);
-
-        // bygg e-postutkast baserat på de senaste 5 frågorna och svaren
         let bodyLines = [
           'Hej,',
           '',
@@ -270,15 +286,12 @@ ${disclaimerText}`;
           '',
           'här är de senaste 5 frågorna och svaren:'
         ];
-        // ta de sista 10 historikposter (5 par)
         const recent = messageHistory.slice(-10);
         for (let i = 0; i < recent.length; i += 2) {
           const q = recent[i];
           const a = recent[i+1];
           if (q && a) {
-            bodyLines.push('');
-            bodyLines.push(`fråga: ${q.content}`);
-            bodyLines.push(`svar: ${a.content}`);
+            bodyLines.push('', `fråga: ${q.content}`, `svar: ${a.content}`);
           }
         }
         bodyLines.push('', 'vänligen,', '[namn]', '[telefon]', '[epost]');
@@ -290,12 +303,9 @@ ${disclaimerText}`;
         btn.textContent = 'skicka e-post till hsb';
         btn.className = 'link-button';
         btn.target = '_blank';
-        // lägg knappen inline efter senaste bot-svar
-        const msgs = document.getElementById('messages');
-        msgs.appendChild(btn);
+        document.getElementById('messages').appendChild(btn);
       }
 
-      // logga
       const clean = txt=> txt
         .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
         .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
@@ -307,15 +317,22 @@ ${disclaimerText}`;
     }
 
     async function loadContextData(userInput){
-      const files=['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json'];
-      const ln=userInput.toLowerCase(); let ctx=[];
-      for(const f of files){
-        try{
-          const res=await fetch(`/data/${f}`);
-          const j=await res.json();
-          const keys=[...(j.tags||[]), ...((j.delar||[]).flatMap(d=>d.nyckelord||[]))].map(k=>k.toLowerCase());
-          if(keys.some(k=>ln.includes(k))) ctx.push({fil:f,innehall:j});
-        }catch{} }
+      const files = ['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json','skrivregler.json'];
+      const ln = userInput.toLowerCase();
+      let ctx = [];
+      for (const f of files) {
+        try {
+          const res = await fetch(`/data/${f}`);
+          const j = await res.json();
+          const keys = [
+            ...(j.tags||[]),
+            ...((j.delar||[]).flatMap(d=>d.nyckelord||[]))
+          ].map(k=>k.toLowerCase());
+          if (keys.some(k=>ln.includes(k))) {
+            ctx.push({fil:f, innehall:j});
+          }
+        } catch {}
+      }
       return ctx;
     }
 
@@ -339,7 +356,7 @@ ${disclaimerText}`;
           body:JSON.stringify({
             conversationId,
             messages:[
-              {role:"system",content:systemPrompt+`\n${ap}`},
+              {role:"system",content:systemPrompt + `\n${ap}`},
               ...messageHistory,
               {role:"user",content:userInput},
               {role:"system",content:`databas träffar:\n${JSON.stringify(contextData).slice(0,4000)}`}]})
