@@ -117,7 +117,7 @@
       0%, 80%, 100% { opacity: 0; }
       40% { opacity: 1; }
     }
-    .link-button {
+    .link-button { /* Denna klass används eventuellt inte längre om related-questions tas bort helt */
       display: inline-block;
       margin-top: 12px;
       background: #00558c;
@@ -132,6 +132,7 @@
     .link-button:hover {
       background: #004070;
     }
+    /* BORTKOMMENTERAD CSS
     .related-questions {
       margin-top: 12px;
     }
@@ -139,6 +140,7 @@
       margin-right: 8px;
       margin-bottom: 8px;
     }
+    */
     #inputArea {
       display: flex;
       flex-wrap: wrap;
@@ -321,7 +323,7 @@ ${disclaimerText}`;
           setTimeout(typeChar, 12);
         } else {
           if (sender === "bot") {
-            showRelatedQuestions(text, div);
+            // showRelatedQuestions(text, div); // <-- HÄR ÄR ÄNDRINGEN, ANROPET ÄR UTKOMMENTERAT
           }
         }
       }
@@ -341,6 +343,7 @@ ${disclaimerText}`;
       return "Tack för förtydligandet! Hur kan jag hjälpa dig vidare?";
     }
 
+    /* BORTKOMMENTERAD FUNKTION (används inte längre)
     function showRelatedQuestions(message, responseDiv) {
       const relatedQuestions = [
         "Hur gör vi en underhållsplan?",
@@ -362,6 +365,7 @@ ${disclaimerText}`;
       });
       responseDiv.appendChild(relatedDiv);
     }
+    */
 
     async function getAIResponse(userInput, contextData = []) {
       try {
