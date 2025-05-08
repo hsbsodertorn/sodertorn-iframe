@@ -1,1 +1,836 @@
-
+{
+  "0BFRcgEcenWBvoKE9dl1": {
+    "tid": "2025-05-07T10:55:02.471000+00:00",
+    "conversationId": "bf46439b-bd2e-494c-9502-32fe2b1db39d",
+    "fraga": "kan du hjälpa mig?",
+    "svar": "Jag kan hjälpa dig med information om HSB Bospar, som är ett sätt att spara till en framtida bostad med förtur till HSBs nybyggda bostäder. Vill du veta mer om detta sparande och fördelarna med det?"
+  },
+  "1HoA2TuM7OzxTispNxvG": {
+    "tid": "2025-05-07T11:17:30.810000+00:00",
+    "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
+    "fraga": "kan du skcika mailet?",
+    "svar": "tyvärr kan jag inte skicka mailet åt dig. men jag kan hjälpa dig att skriva det och ge dig vägledning om vad du kan inkludera i mailet. vill du ha hjälp med att formulera mailet?"
+  },
+  "2jfkQUGYQkNd8py8izgP": {
+    "tid": "2025-05-07T07:58:05.273000+00:00",
+    "conversationId": "73ac7c33-604d-4219-98f8-2d05ea6f51b9",
+    "fraga": "hallunda",
+    "svar": "Jag försökte söka med AI men något gick fel. Försök igen eller kontakta kundservice."
+  },
+  "3Whzx8WGWqydmjMsIzXZ": {
+    "tid": "2025-05-07T08:44:28.893000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "vad tycker du om stökiga grannar?",
+    "svar": "Som en AI-assistent har jag ingen personlig åsikt eller känslor. Men generellt sett är det förståeligt att stökiga grannar kan vara störande och påverka trivseln i bostadsområdet. Det är viktigt att hantera sådana situationer på ett respektfullt sätt och försöka hitta konstruktiva lösningar tillsammans med styrelsen och övriga boende. Har du några specifika frågor eller behöver ytterligare hjälp med detta?"
+  },
+  "49yGaj0iNpOygpIrb5Yd": {
+    "tid": "2025-05-07T08:41:09.767000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "hallunda öppetider",
+    "svar": "Förvaltningskontoret i Hallunda har öppet för drop-in måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00. Du hittar kontoret på Kornvägen 18, 145 [adress]."
+  },
+  "4JjYoISxSkk5s3eVjvQi": {
+    "tid": "2025-05-07T09:07:03.451000+00:00",
+    "conversationId": "2877ec7a-ac3c-4abc-b726-b12c9eeaf660",
+    "fraga": "vad tycker du om riksbyggen?",
+    "svar": "Som en AI-assistent har jag ingen åsikt eller känslor. [namn] är en annan stor aktör inom förvaltning av bostadsrättsföreningar och har en lång erfarenhet inom området. Det är alltid bra att jämföra olika förvaltningsbolag och se vilket som passar bäst för er förening. Har du några specifika frågor om Riksbyggen eller om förvaltning av er bostadsrättsförening?"
+  },
+  "4aBztCKUlAnIq8w6tvCe": {
+    "tid": "2025-05-07T11:15:26.251000+00:00",
+    "conversationId": "93d8a15a-ae97-4338-a6c1-88e2f103f410",
+    "fraga": "huddinge då",
+    "svar": "HSB Södertörns huvudkontor i Huddinge har besöksadressen [namn] 5, 141 [adress]. Du kan kontakta dem för att få mer information eller boka tid för ett besök. Besök deras hemsida för kontaktuppgifter och öppettider: [HSB Södertörn - Kontakta oss](https://www.hsb.se/sodertorn/kontakta-oss/)"
+  },
+  "5BePA9p8HsZoXuNrk9Oh": {
+    "tid": "2025-05-07T08:44:45.971000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "hur skulle du skriva en sådan lapp?",
+    "svar": "För att skriva en lapp till stökiga grannar kan du följa dessa steg:\n\n1. INLEDNING: Börja med en vänlig och respektfull inledning, till exempel \"Hej grannar\" eller \"Till de boende i trapphuset\".\n2. BESKRIV PROBLEMET: Beskriv kortfattat och sakligt problemet med stöket i trapphuset, exempelvis \"Vi har märkt att det förekommer störande beteende och stök i trapphuset\".\n3. KONSEKVENSER: Påpeka eventuella konsekvenser av det stökiga beteendet, till exempel att det påverkar trivseln för alla boende.\n4. UPPMANING TILL FÖRÄNDRING: Uppmana till förändring och bättre beteende, exempelvis \"Vi ber er att vara hänsynsfulla mot era grannar och respektera gemensamma utrymmen\".\n5. KONTAKTINFORMATION: Avsluta med kontaktinformation till styrelsen eller en kontaktperson för eventuella frågor eller vidare diskussion.\n\nKom ihåg att vara tydlig, artig och konstruktiv i din kommunikation för att öka chanserna till en positiv respons från dina grannar."
+  },
+  "6j8zEece0BMZgpPu21o6": {
+    "tid": "2025-05-07T12:42:41.955000+00:00",
+    "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
+    "fraga": "vilket tycker du är viktigast?",
+    "svar": "Jag skulle säga att att vara vänlig och respektfull är det viktigaste när du skriver en lapp till dina grannar. Att kommunicera på ett vänligt sätt kan bidra till en positiv dialog och främja ett gott grannsamarbete."
+  },
+  "6slnswPq5SS7vqXIALnt": {
+    "tid": "2025-05-07T08:46:16.682000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "vem kan jag ringa?",
+    "svar": "Du kan ringa till HSB Södertörn på telefonnummer 08-[postnummer] för att få hjälp och vägledning angående stambyte i er bostadsrättsförening. De kan ge er mer information om processen, svara på era frågor och hjälpa er med eventuella frågor eller bekymmer ni har angående stambytet."
+  },
+  "79O0UmsIt3r70soaSY78": {
+    "tid": "2025-05-06T15:31:39.665000+00:00",
+    "conversationId": "fbfd6873-853f-47aa-8f3f-2c91a70a91c9",
+    "fraga": "Man har HSB normalstadgar 2023",
+    "svar": "Om er bostadsrättsförening följer HSB normalstadgar [adress] det vara bra att titta närmare på paragrafen som reglerar rösträtt på stämman. Normalt sett brukar stadgarna innehålla bestämmelser om vilka som har rätt att rösta på stämman och under vilka förutsättningar. Om det inte finns tydliga regler i stadgarna kan det vara värt att kontakta HSB för att få vägledning och klarhet kring frågan. Det är viktigt att följa stadgarna och föreningens regler för att säkerställa att rösträtten utövas korrekt."
+  },
+  "7CokEYq6nOvNiSSPMbs9": {
+    "tid": "2025-05-07T12:41:19.886000+00:00",
+    "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
+    "fraga": "vad bör jag tänka på när jag skriver en lapp till mina granar",
+    "svar": "När du skriver en lapp till dina grannar kan det vara bra att tänka på följande:\n\na. VAR VÄNLIG OCH RESPEKTFULL: Använd en vänlig ton och var respektfull i ditt språkval.\nB. VAR SPECIFIK OCH TYDLIG: Beskriv tydligt vad du vill kommunicera eller vilket ärende det gäller.\nC. ERBJUD LÖSNINGAR: Om det är ett problem, försök att föreslå lösningar eller kompromisser för att underlätta situationen.\n\nOm du behöver mer specifik rådgivning eller har en annan fråga är du välkommen att fråga!"
+  },
+  "7QmtVsDrMlq5MEEn183X": {
+    "tid": "2025-05-07T12:15:05.743000+00:00",
+    "conversationId": "f2b79eb6-0afe-48af-b504-e922b2f57185",
+    "fraga": "Vilka steg ska jag följa om det uppstår en vattenläcka",
+    "svar": "För att hantera en vattenläcka i er brf, följ dessa steg:\n\na. Lokalisera och stäng av vattenläckan så snabbt som möjligt.\nb. Kontakta en VVS-installatör för att åtgärda läckan och utföra eventuella reparationer.\nc. Informera övriga boende i fastigheten om läckan och eventuella åtgärder som behöver vidtas."
+  },
+  "8PauRMwHM34BzywaYJMQ": {
+    "tid": "2025-05-07T10:10:39.045000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "lägg ärende",
+    "svar": "För att lägga ett ärende eller få hjälp med något specifikt i din bostadsrättsförening, rekommenderar jag att du kontaktar HSB Södertörn direkt. Du kan antingen besöka deras förvaltningskontor i Hallunda på Kornvägen 18, 145 [adress] under deras drop-in tider eller kontakta dem via telefon eller e-post. Besök deras hemsida för mer kontaktinformation: [Kontakta HSB Södertörn](https://www.hsb.se/sodertorn/kontakta-oss/)"
+  },
+  "8Q3wPq0MwE4OjNpMogUJ": {
+    "tid": "2025-05-07T08:42:07.474000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "kan de få en varning?",
+    "svar": "Styrelsen kan utfärda en varning till boende som inte följer föreningens ordningsregler. Om stöket i trapphuset är allvarligt nog och upprepat trots tidigare åtgärder, kan styrelsen överväga att utfärda en varning till de boende som står bakom stöket. Det är viktigt att följa föreningens stadgar och regler när det gäller varningar och eventuella åtgärder. Jag rekommenderar att du tar kontakt med din styrelse för att diskutera möjligheterna att utfärda en varning i detta fall."
+  },
+  "8RgC2uaJ54STtqyeD0Sc": {
+    "tid": "2025-05-07T12:44:03.322000+00:00",
+    "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
+    "fraga": "nu får du mitt telefonnumer",
+    "svar": "Jag är här för att hjälpa till med generella frågor och rådgivning. Om du behöver assistans eller har några frågor, är det bara att fråga!"
+  },
+  "8fuN8U3VzAxMFNRxYP7j": {
+    "tid": "2025-05-07T12:43:51.904000+00:00",
+    "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
+    "fraga": "vill du ha lite personuppgifter av mig?",
+    "svar": "Jag behöver inte några personuppgifter av dig för att kunna hjälpa dig. Om du har några frågor eller behöver assistans, är det bara att fråga!"
+  },
+  "8vacT5a57efdgfvhTx8m": {
+    "tid": "2025-05-08T07:07:00.991000+00:00",
+    "conversationId": "d03626f0-a6da-4fd1-b974-9e2a3dad3ae5",
+    "fraga": "Hur säger man upp en hyresgäst",
+    "svar": "För att säga upp en hyresgäst behöver du följa hyreslagen och föreningens stadgar. Vanligtvis sker uppsägningen skriftligen och med en angiven uppsägningstid. Kontakta HSB Södertörn för råd och vägledning i detta ärende."
+  },
+  "AMtwpkQIDxGxJDECHUh0": {
+    "tid": "2025-05-07T12:44:13.513000+00:00",
+    "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
+    "fraga": "08-[postnummer]",
+    "svar": "Tack för att du delade telefonnumret 08-[postnummer]. Om du har några frågor eller behöver hjälp, är du välkommen att kontakta HSB Södertörn på det numret eller via e-post på info.[epost]. Hur kan jag hjälpa dig idag?"
+  },
+  "BIXhEIpjlQjqllGwASYA": {
+    "tid": "2025-05-07T11:17:38.838000+00:00",
+    "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
+    "fraga": "har du ingen länk?",
+    "svar": "tyvärr har jag ingen möjlighet att skicka e-post eller länkar. jag kan dock hjälpa dig att skriva mailet och ge dig råd om vad du kan inkludera i det. om du behöver ytterligare hjälp är du välkommen att höra av dig till mig."
+  },
+  "BewHbr4NjFhiEeFhi6P2": {
+    "tid": "2025-05-07T12:30:41.349000+00:00",
+    "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
+    "fraga": "hallå",
+    "svar": "hej! vad kan jag hjälpa dig med idag?"
+  },
+  "C0fJCQ7wzHPwM2zNro7W": {
+    "tid": "2025-05-07T07:42:41.290000+00:00",
+    "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
+    "fraga": "huddinge",
+    "svar": "För mer information om HSB Södertörns kontor i Huddinge och andra kontaktuppgifter kan du besöka deras hemsida. Här hittar du adresser, öppettider och annan relevant information: [HSB Södertörn - Kontakta oss](https://www.hsb.se/sodertorn/kontakta-oss/)"
+  },
+  "Cnov3HlQOHOhhdvkpWce": {
+    "tid": "2025-05-07T10:07:15.266000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "hej",
+    "svar": "Hej! Vad kan jag hjälpa dig med idag?"
+  },
+  "CpX57MLSlOZaeR6hfRZZ": {
+    "tid": "2025-05-07T08:21:40.474000+00:00",
+    "conversationId": "e9e4d41e-11f0-4e61-95bd-3ba5140a7a53",
+    "fraga": "hallunda",
+    "svar": "Förvaltningskontoret i Hallunda har öppet för drop-in måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00. Adressen är Kornvägen 18, 145 [adress]. Du kan också boka besök i förväg via formuläret på webben. Läs mer här: [HSB Södertörn - Kontakta oss](https://www.hsb.se/sodertorn/kontakta-oss/)"
+  },
+  "DOx01JGRZpsERjFtJU9h": {
+    "tid": "2025-05-07T09:07:38.856000+00:00",
+    "conversationId": "2877ec7a-ac3c-4abc-b726-b12c9eeaf660",
+    "fraga": "jag vill byta från hsb till riksbyggen  hjälp",
+    "svar": "För att byta från HSB till Riksbyggen som förvaltningsbolag behöver ni som styrelse fatta ett beslut och sedan kontakta Riksbyggen för att inleda processen. Här är några steg som kan vara till hjälp:\n\n1. Fatta ett beslut i er styrelse om att byta förvaltningsbolag från HSB till Riksbyggen.\n2. [namn] för att diskutera era behov och önskemål samt få information om hur processen för byte av förvaltningsbolag går till.\n3. Samla in nödvändig dokumentation och information från HSB som kan behövas för att underlätta övergången till Riksbyggen.\n\nOm ni behöver ytterligare hjälp eller har specifika frågor kring bytet är det bra att kontakta både Riksbyggen och HSB för att få relevant information och stöd i processen. Lycka till med ert beslut att byta förvaltningsbolag!"
+  },
+  "E1dEbJZSGTCyp99YSaHL": {
+    "tid": "2025-05-08T10:25:36.955000+00:00",
+    "conversationId": "824ac5cb-bb66-447b-9abf-db1e8fe0fa05",
+    "fraga": "När jag skickar kallelse i styrelsestöd följer bara rubrikerna   i dagordningen med inte undertext som lagts in i den skapadedagordningen. V",
+    "svar": "Tack för din fråga! För att lösa problemet med att undertexten inte följer med i kallelsen, kan du prova följande:\n\na. Se till att du sparar dagordningen korrekt med både rubriker och undertexter.\nB. Kontrollera att systemet du använder för att skicka kallelsen stödjer att inkludera både rubriker och undertexter.\nC. Om problemet kvarstår, kontakta supporten för det system du använder för att skicka kallelser för ytterligare hjälp."
+  },
+  "EmlLlScyQLOLLtgI5imi": {
+    "tid": "2025-05-07T12:37:39.677000+00:00",
+    "conversationId": "444886c8-9d12-4771-9aa8-ba9cae378913",
+    "fraga": "jag tänkte att vi skulle ta fram lite förslag på hur vi kan minska energiförbrukning i vår brf",
+    "svar": "Förslag för att minska energiförbrukningen i er BRF:\n\n- **Genomför en energideklaration** för att få en överblick över er energiförbrukning och identifiera områden för förbättring.\n- **Upprätta en åtgärdsplan** baserat på energideklarationen för att prioritera åtgärder som kan minska energiförbrukningen.\n- **Investera i energieffektiviseringsteknik** såsom smart energistyrning, bättre isolering eller energisnåla vitvaror för att minska er energiförbrukning på lång sikt."
+  },
+  "ExZeE5nCjM61rlMCuyud": {
+    "tid": "2025-05-07T20:35:45.095000+00:00",
+    "conversationId": "8cf3290a-40a6-4083-8a9c-1e1fa09832bc",
+    "fraga": "Vad menas egentligen med en ”stam”?",
+    "svar": "En \"stam\" i en bostadsrättsförening (brf) hänvisar vanligtvis till de huvudledningar som transporterar avloppsvatten och avfall från flera lägenheter eller enheter till huvudavloppssystemet. Stammar är en del av fastighetens avloppssystem och är viktiga för att säkerställa att avloppsvattnet transporteras effektivt och säkert."
+  },
+  "EzNcTaXI3krLLTyfkJ5U": {
+    "tid": "2025-05-07T08:41:04.052000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "hej din gamle",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "F5ADd5TBIvshoPviotVK": {
+    "tid": "2025-05-07T08:41:28.768000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "jag har problem med stök i trapphuset",
+    "svar": "Det låter jobbigt med stök i trapphuset. Har du redan pratat med dina grannar om problemet eller behöver du tips på hur du kan hantera det?"
+  },
+  "FTBZ604kkXKuCVWcFetW": {
+    "tid": "2025-05-07T07:09:41.064000+00:00",
+    "conversationId": "67cca21f-244b-458c-8b2d-fb1cf7e7d04d",
+    "fraga": "hje",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "GubwV9Tk61zIVrRdxQvl": {
+    "tid": "2025-05-07T10:09:40.480000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "hallunda",
+    "svar": "Förvaltningskontoret i Hallunda har drop-in öppet måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00. Adressen är Kornvägen 18, 145 [adress]. Om du behöver mer information eller har andra frågor är du välkommen att kontakta HSB Södertörn."
+  },
+  "H5lr4BVGND1EyqiyYwBN": {
+    "tid": "2025-05-07T10:54:52.067000+00:00",
+    "conversationId": "bf46439b-bd2e-494c-9502-32fe2b1db39d",
+    "fraga": "kan jag lägga ett ärende till hsb om det?",
+    "svar": "Ja, du kan definitivt lägga ett ärende till HSB angående din önskan om en parkeringsplats. Kontakta HSB Södertörn direkt på 08-[postnummer] eller via e-post på info.[epost] för att få hjälp med din förfrågan. De kan vägleda dig genom processen och ge dig mer information om tillgängliga alternativ. Lycka till!"
+  },
+  "HN57ubsBSLDFnNDu75Nt": {
+    "tid": "2025-05-07T08:41:42.837000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "hur kan jag få hjälp av styrelsen?",
+    "svar": "För att få hjälp av styrelsen med stök i trapphuset kan du följa dessa steg:\n\n1. KONTAKTA STYRELSEN: Ta kontakt med din bostadsrättsförening styrelse och informera dem om problemet med stöket i trapphuset.\n2. BESKRIV SITUATIONEN: Var tydlig och beskriv i detalj vad som pågår i trapphuset och hur det påverkar dig och andra boende.\n3. BE OM ÅTGÄRDER: Be styrelsen att vidta åtgärder för att lösa problemet, exempelvis genom att sätta upp information eller öka tillsynen.\n4. FÖLJ UPP: Följ upp med styrelsen för att se till att åtgärder vidtas och att stöket minskar i trapphuset.\n\nGenom att kommunicera med styrelsen kan ni tillsammans arbeta för att förbättra trivseln och ordningen i trapphuset."
+  },
+  "He7NuEUkuXRGD3yDGJMH": {
+    "tid": "2025-05-07T07:53:29.623000+00:00",
+    "conversationId": "9ae3e413-da16-49b3-8d01-9cb669a0f0cd",
+    "fraga": "hej",
+    "svar": "Jag försökte söka med AI men något gick fel. Försök igen eller kontakta kundservice."
+  },
+  "Hwcr0isWgGUh4x0gpMsG": {
+    "tid": "2025-05-07T12:17:24.550000+00:00",
+    "conversationId": "252b9fcf-db2c-4447-ade2-e68810876e34",
+    "fraga": "Hur kan du hjälpa mig?",
+    "svar": "Jag kan hjälpa dig med frågor om bostadsrättsföreningar, styrelsearbete, underhåll, ekonomi, och mycket mer. Bara fråga på!"
+  },
+  "J19HW96aC3G5MaSpo5xi": {
+    "tid": "2025-05-07T10:07:29.012000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "är du en kod?",
+    "svar": "Ja, jag är en AI-assistent som är programmerad för att hjälpa dig med frågor om styrelsearbete i bostadsrättsföreningar. Hur kan jag assistera dig idag?"
+  },
+  "JGlQV5tPyAdOeCgWPCIo": {
+    "tid": "2025-05-07T12:44:23.502000+00:00",
+    "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
+    "fraga": "08-[postnummer]",
+    "svar": "Tyvärr har jag ingen information om telefonnumret 08-[postnummer]. Om du har frågor eller behöver hjälp, är du välkommen att kontakta HSB Södertörn på telefonnummer 08-[postnummer] eller via e-post på info.[epost]. Hur kan jag hjälpa dig idag?"
+  },
+  "JRo2B3iwkJBaq7JRedt2": {
+    "tid": "2025-05-07T09:02:10.465000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "vad rekomenderar du?",
+    "svar": "Som digital assistent kan jag inte ge personliga rekommendationer, men jag kan föreslå att du följer stegen jag tidigare nämnde för att jämföra och fatta ett informerat beslut mellan Riksbyggen och HSB. Genom att göra en noggrann jämförelse baserad på era behov och önskemål kan ni välja det företag som passar bäst för er bostadsrättsförening. Om du behöver ytterligare hjälp eller har andra frågor är du välkommen att berätta så att jag kan assistera dig på bästa sätt."
+  },
+  "JhXOM09BAJTBbdgmyWqg": {
+    "tid": "2025-05-07T20:35:07.688000+00:00",
+    "conversationId": "8cf3290a-40a6-4083-8a9c-1e1fa09832bc",
+    "fraga": "Ok tack! En annan fråga: vi ska stambyta i vår brf. Hur tar vi reda på var stammarna går?",
+    "svar": "För att ta reda på var stammarna går i er bostadsrättsförening (brf) kan ni göra följande:\n\na. KONTAKTA ETT PROFESSIONELLT FÖRETAG FÖR RÖRINSPEKTION\nb. BE OM EN RÖRINSPEKTION FÖR ATT KARTLÄGGA STAMMARNAS PLACERING\nc. FÅ EN RAPPORT ELLER KARTA SOM VISAR STAMMARNAS LAYOUT"
+  },
+  "JvZuMRqTJgKassj5MmAX": {
+    "tid": "2025-05-07T10:08:06.118000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "om min styrelse ska på disco i göteborg då?",
+    "svar": "Det låter som en rolig idé! Om din styrelse planerar att gå på disco i Göteborg kan det vara bra att:\n\n1. Kolla upp olika diskotek i Göteborg för att hitta ett som passar era önskemål och behov.\n2. Se till att boka biljetter i förväg om det behövs för att säkra er plats.\n3. Ha roligt och njut av er tid tillsammans som styrelse utanför det vanliga arbetsrelaterade sammanhanget!"
+  },
+  "KNyZqFePUrbQS5TJD2Yj": {
+    "tid": "2025-05-07T07:42:30.094000+00:00",
+    "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
+    "fraga": "var kan jag läsa mer?",
+    "svar": "För att läsa mer om regler och stadgar kring att hyra ut i andra hand i er bostadsrättsförening kan du ta del av föreningens stadgar och eventuella tilläggsregler. Dessa dokument brukar finnas tillgängliga för medlemmarna och kan ge dig mer detaljerad information om vad som gäller i er specifika förening. Du kan även kontakta styrelsen eller förvaltningskontoret för att få mer information och vägledning kring reglerna för att hyra ut i er bostadsrättsförening."
+  },
+  "KVayefX4zXe5cVhiGf8N": {
+    "tid": "2025-05-07T12:37:16.971000+00:00",
+    "conversationId": "444886c8-9d12-4771-9aa8-ba9cae378913",
+    "fraga": "hej",
+    "svar": "Hej! hur kan jag hjälpa dig idag?"
+  },
+  "KcdAVn7vmpdm6WPLMwiM": {
+    "tid": "2025-05-07T20:30:39.292000+00:00",
+    "conversationId": "8cf3290a-40a6-4083-8a9c-1e1fa09832bc",
+    "fraga": "Vi vill asfaltera om vid vårt cykelställ. Hur gör man bäst tillväga för att få det gjort?",
+    "svar": "För att asfaltera om vid ert cykelställ kan ni följa dessa steg:\n\na. KONTAKTA FLERA LEVERANTÖRER FÖR OFFERTER\nb. TA IN OFFERTER OCH JÄMFÖR PRISER OCH VILLKOR\nc. GODKÄNN OFFERT FRÅN VALD LEVERANTÖR OCH PLANERA ARBETET"
+  },
+  "KlNMOIqB2HjLQthkrODu": {
+    "tid": "2025-05-07T14:21:05.325000+00:00",
+    "conversationId": "3fe5887d-28b1-4da3-b9fe-e2d8d3a0c4af",
+    "fraga": "Vad är en HSB-ledamot?",
+    "svar": "En HSB-ledamot är en erfaren person som är knuten till HSB och som kan delta i styrelsearbetet för att ge strategiskt stöd och vägledning. HSB-ledamoten har kunskap om HSB:s riktlinjer, stadgar och arbetssätt, vilket kan vara till stor nytta för styrelsen i en bostadsrättsförening. Genom att ha en HSB-ledamot i styrelsen kan föreningen dra nytta av expertis och erfarenhet inom HSB:s ramverk och arbetssätt."
+  },
+  "L8gvHe7H4R1FnFA7vQuS": {
+    "tid": "2025-05-07T11:05:51.127000+00:00",
+    "conversationId": "93d8a15a-ae97-4338-a6c1-88e2f103f410",
+    "fraga": "hej jag vill ha en bilplats",
+    "svar": "För att få en bilplats i er bostadsrättsförening behöver du kontakta styrelsen eller förvaltaren för att höra om det finns lediga platser. Vanligtvis finns det en kö eller en köavgift för att få tillgång till en bilplats. Kontakta styrelsen för mer information!"
+  },
+  "LcGuU57gID5hcAbKWjlL": {
+    "tid": "2025-05-06T15:29:20.549000+00:00",
+    "conversationId": "fbfd6873-853f-47aa-8f3f-2c91a70a91c9",
+    "fraga": "Ska det stå i stadgarna eller kan föreningen bestämma det ändå",
+    "svar": "En bostadsrättsförening kan ha regler och bestämmelser som reglerar vem som har rätt att rösta på stämman, även om det inte uttryckligen står i stadgarna. Det är viktigt att följa föreningens interna regler och praxis när det gäller rösträtt på stämman. Om du är osäker på vad som gäller i er förening rekommenderas det att du kontaktar styrelsen eller förvaltaren för att få klarhet i frågan. Det är alltid bra att vara informerad om föreningens specifika regler kring rösträtt på stämman."
+  },
+  "MzENd9pnxaGeXyso9Lqn": {
+    "tid": "2025-05-07T08:54:25.668000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "vad har du för info?",
+    "svar": "Tyvärr har jag ingen specifik information om kostnader för stambyte i er bostadsrättsförening. Kostnaden kan variera beroende på flera faktorer som nämndes tidigare. För att få en mer exakt uppfattning rekommenderar jag att ni kontaktar er styrelse eller HSB Södertörn för mer detaljerad information baserat på er specifika situation. Har du några andra frågor eller behöver mer hjälp?"
+  },
+  "OTO9THgJwK9jwUrwHQzu": {
+    "tid": "2025-05-07T08:39:19.749000+00:00",
+    "conversationId": "71dc395c-3697-4b17-93ff-e77ae6bf9f64",
+    "fraga": "huddinge",
+    "svar": "Huvudkontoret för HSB Södertörn i Huddinge ligger på [namn] 5, 141 [adress]. Du kan besöka dem där för ledning, administration och viss kundservice. Om du behöver mer information, kan du besöka deras [kontaktsida](https://www.hsb.se/sodertorn/kontakta-oss/). Hur kan jag hjälpa dig vidare?"
+  },
+  "OrWNA4UUw0OfafJqMIUt": {
+    "tid": "2025-05-07T07:57:20.769000+00:00",
+    "conversationId": "8e1a50ff-8fdc-474b-9d9f-408592bd7ced",
+    "fraga": "hej",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "PD2ktlZTCAiF0nFzj0fY": {
+    "tid": "2025-05-07T07:42:00.743000+00:00",
+    "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
+    "fraga": "vad gäller i  vanliga fall?",
+    "svar": "I vanliga fall gäller att man som medlem i en bostadsrättsförening behöver styrelsens godkännande för att hyra ut sin lägenhet i andra hand. Det finns regler och stadgar som styr detta och det är viktigt att följa dem för att undvika eventuella problem. Om du överväger att säga upp ett hyreskontrakt i din bostadsrättsförening är det bäst att först kontakta styrelsen för att få rätt information och vägledning i enlighet med föreningens regler och stadgar."
+  },
+  "Pxt0ULsdiCY5GrhKv4JS": {
+    "tid": "2025-05-07T11:06:20.227000+00:00",
+    "conversationId": "93d8a15a-ae97-4338-a6c1-88e2f103f410",
+    "fraga": "jag skickar ett mail",
+    "svar": "Bra initiativ att skicka ett mail! Glöm inte att tydligt ange ditt ärende och dina kontaktuppgifter så att HSB Södertörn lätt kan återkoppla till dig. Om du har några specifika frågor eller önskemål angående bilplatsen kan du också inkludera dem i mailet för att underlätta kommunikationen. Lycka till!"
+  },
+  "ROEhPOORK0tcigH3r9Oq": {
+    "tid": "2025-05-07T10:08:17.446000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "ge 3 alternativ",
+    "svar": "Tyvärr har jag inte tillgång till specifika uppgifter om diskotek i Göteborg. Jag rekommenderar att du söker på nätet eller frågar lokala invånare för att få tips om bra ställen att besöka. Ha så kul på ert discoäventyr!"
+  },
+  "Rj9HSh6BnQXTAIR0lLUD": {
+    "tid": "2025-05-07T07:59:21.800000+00:00",
+    "conversationId": "f7d8023c-2690-4f43-bfc7-615875bb45ac",
+    "fraga": "det läcker vatten",
+    "svar": "Jag förstår att det läcker vatten i din bostadsrättsförening. För att hantera situationen på bästa sätt, följ dessa steg:\n\n1. Lokalisera läckan så noggrant som möjligt. Undersök om det kommer från ett specifikt ställe eller om det är en allmän läcka.\n2. Stäng av vattnet till den drabbade delen av fastigheten om möjligt för att minska skadan.\n3. Kontakta en auktoriserad VVS-installatör eller fastighetsskötare för att åtgärda läckan så snart som möjligt.\n4. Informera styrelsen om läckan och de åtgärder som vidtagits.\n\nOm du behöver mer specifik hjälp, tveka inte att berätta mer om situationen så att jag kan ge dig mer anpassade råd."
+  },
+  "RxWd7RYwTxAw8rPQmwD6": {
+    "tid": "2025-05-08T07:08:52.822000+00:00",
+    "conversationId": "d03626f0-a6da-4fd1-b974-9e2a3dad3ae5",
+    "fraga": "Hur länge kan man överklaga ett stämmoprotokoll",
+    "svar": "Jag beklagar, men jag har tyvärr inte tillgång till specifik information om tidsramar för att överklaga ett stämmoprotokoll. För att få korrekt och aktuell information rekommenderar jag att du kontaktar HSB Södertörn direkt för råd och vägledning i detta ärende."
+  },
+  "SZTAlLzdnpWbtW0URCRp": {
+    "tid": "2025-05-07T12:16:04.664000+00:00",
+    "conversationId": "f2b79eb6-0afe-48af-b504-e922b2f57185",
+    "fraga": "kan du formulkera mailet",
+    "svar": "Jag kan hjälpa dig att formulera ett mail till HSB Södertörn. Här är ett förslag på hur du kan börja mailet:\n\nÄmne: Fråga angående vår bostadsrättsförening\n\nHej HSB Södertörn,\n\nJag hoppas att ni har det bra. Jag är en medlem i [namn på er brf] och har en fråga angående [beskriv ärendet kortfattat]. Skulle ni kunna hjälpa mig med detta?\n\nTack på förhand och ha en fin dag!\n\nMed vänliga hälsningar,\n[Ditt namn]"
+  },
+  "SuHnOIOC8nJJc7HR4ZAT": {
+    "tid": "2025-05-07T09:00:32.474000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "generll info",
+    "svar": "Jag är här för att hjälpa dig med frågor som rör din bostadsrättsförening. Berätta gärna mer om vad du behöver hjälp med så att jag kan ge dig relevant information."
+  },
+  "SuTf6slYdPcdoou2wRg4": {
+    "tid": "2025-05-07T14:20:27.028000+00:00",
+    "conversationId": "3fe5887d-28b1-4da3-b9fe-e2d8d3a0c4af",
+    "fraga": "Vad är bra att tänka på som ny styrelseledamot?",
+    "svar": "När du är ny styrelseledamot är det bra att tänka på följande:\n\na. <strong>Förstå föreningens stadgar och regler</strong>: Ta dig tid att läsa och förstå föreningens stadgar och regler för att kunna agera inom ramen för föreningens regelverk.\n\nB. <strong>Ha en öppen dialog med övriga styrelseledamöter</strong>: Kommunikation och samarbete är nyckeln till en framgångsrik styrelse. Ha en öppen dialog och diskutera olika frågor tillsammans.\n\nC. <strong>Engagera dig och ta del av utbildningar</strong>: Var engagerad i föreningens verksamhet och ta del av eventuella utbildningar som erbjuds för att öka din kunskap och kompetens som styrelseledamot."
+  },
+  "TJL6uQTh4jM1Zl9iEjL6": {
+    "tid": "2025-05-07T09:01:38.502000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "bättre än hsb?",
+    "svar": "Jag kan inte jämföra Riksbyggen och HSB direkt, men båda företagen är etablerade och respekterade inom bostadssektorn. Båda erbjuder olika tjänster för bostadsrättsföreningar, fastighetsförvaltning och byggande. Det bästa valet kan bero på dina specifika behov och önskemål. Om du vill ha mer information om skillnaderna mellan Riksbyggen och HSB eller har andra frågor är du välkommen att berätta så kan jag försöka hjälpa dig vidare."
+  },
+  "TJXguHfWxZGRFTN3OWkQ": {
+    "tid": "2025-05-07T08:54:44.575000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "generell info? Vad vill du berätta om?",
+    "svar": "HSB Södertörn erbjuder heltäckande fastighetsförvaltning i Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby och Hemse. Vi tillhandahåller teknisk och ekonomisk förvaltning, fastighetsservice, projektledning och hållbarhetslösningar anpassade för bostadsrättsföreningar. Här är några områden där vi kan hjälpa till:\n\n- **Ekonomisk förvaltning:** Vi erbjuder bokföring, budget, årsredovisning, avgiftshantering, inkasso, löner, prognoser och låneadministration. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/ekonomisk-forvaltning/)\n- **Teknisk förvaltning:** Vi sköter underhållsplanering, besiktningar, skador, tillsyn, garantier och trygghetscertifiering. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/teknisk-forvaltning/)\n- **Fastighetsservice:** Vi erbjuder jourberedskap, rondering, reparationer, VVS och el-service samt boendeservice. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/fastighetsskotsel/)\n- **Mark och trädgård:** Skötsel av grönytor, lekplatser, vinterväghållning och utveckling av utemiljön. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/mark-tradgard/)\n- **Energieffektivisering:** Energideklarationer, åtgärdsplaner, driftoptimering, OVK, värmesystem och smart energistyrning. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/energitjanster2/)\n- **Fastighetsutveckling:** Balkong- och fasadrenovering, upphandlingar, bostadsrättsbildningar, energiTrygg och underhållsplaner. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/fastighetsutveckling/)\n- **Projektledning:** Planering, samordning, upphandling och kvalitetskontroll av fastighetsprojekt. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/fastighetsutveckling/)\n- **Mitt HSB:** Digital plattform med verktyg för ekonomi, dokument, ärenden och medlemsadministration. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/medlem/)\n- **Kommunikation och styrelsestöd:** Utbildningar i kommunikation, stöd vid kommunikation och hjälp med brf-hemsidor för att stärka dialogen med boende. [Läs mer här](https://www.hsb.se/sodertorn/tillsammans/kommunikation/)\n\nOm du har några specifika frågor eller behöver hjälp inom något av dessa områden är du välkommen att kontakta oss för mer information och vägledning."
+  },
+  "TKN4G1ABpejo32ja7srI": {
+    "tid": "2025-05-07T07:57:33.960000+00:00",
+    "conversationId": "8e1a50ff-8fdc-474b-9d9f-408592bd7ced",
+    "fraga": "Hur hanterar vi en konflikt i styrelsen?",
+    "svar": "Att hantera en konflikt i styrelsen kan vara utmanande, men det är viktigt att ta itu med problemet på ett konstruktivt sätt för att upprätthålla en god arbetsmiljö och effektivt samarbete. Här är några steg som kan vara till hjälp:\n\n1. KOMMUNICERA: Ta upp konflikten öppet och ärligt med de berörda parterna. Se till att lyssna aktivt och ge varje person möjlighet att uttrycka sina åsikter och känslor.\n\n2. FOKUSERA PÅ LÖSNINGAR: Försök att hitta gemensamma lösningar som gynnar alla inblandade. Undvik att peka ut skyldiga och istället fokusera på att hitta en väg framåt.\n\n3. ANVÄND MEDLING: Om konflikten är svårhanterlig kan det vara en bra idé att involvera en neutral part, som en medlare, för att underlätta samtalet och hjälpa till att nå en överenskommelse.\n\n4. SÄTT GRÄNSER: Om konflikten leder till oacceptabelt beteende eller stör arbetsmiljön, måste tydliga gränser sättas och konsekvenser fastställas om dessa gränser inte respekteras.\n\n5. FÖLJ UPP: Efter att en lösning har nåtts är det viktigt att följa upp och se till att alla parter håller sig till den överenskomna planen för att undvika framtida konflikter.\n\nKom ihåg att varje konflikt är unik och kräver individuell hantering. Om ni känner er osäkra på hur ni ska gå vidare, kan det vara bra att söka extern hjälp eller rådgivning."
+  },
+  "TVarvC7D0RUOe23fXJe7": {
+    "tid": "2025-05-07T07:09:24.454000+00:00",
+    "conversationId": "dc8d9803-35de-469f-a408-8ba4f423d709",
+    "fraga": "hej",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "TXvC124ruB1UsSR3kDYD": {
+    "tid": "2025-05-07T11:16:42.625000+00:00",
+    "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
+    "fraga": "hej min vän",
+    "svar": "hej! hur kan jag hjälpa dig idag?"
+  },
+  "Tml0XPtufMXCvyNEEmON": {
+    "tid": "2025-05-07T11:17:22.907000+00:00",
+    "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
+    "fraga": "hur lägger jag mailet? kan du hjälpa?",
+    "svar": "jag kan hjälpa dig att skriva mailet till HSB. vad vill du att mailet ska innehålla? vilken information behöver du förmedla till dem?"
+  },
+  "UlyhwACToOpCtpZ4etBu": {
+    "tid": "2025-05-07T12:30:30.475000+00:00",
+    "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
+    "fraga": "hej",
+    "svar": "hej! vad kan jag hjälpa dig med idag?"
+  },
+  "Vrxv0nxuAjrLpk5zFUES": {
+    "tid": "2025-05-07T12:18:28.857000+00:00",
+    "conversationId": "252b9fcf-db2c-4447-ade2-e68810876e34",
+    "fraga": "Gör den åt mig",
+    "svar": "För att skapa en dagordning åt dig inför ett styrelsemöte, kan du använda följande mall:\n\n1. ÖPPNING\n- Välkomsthälsning\n- Godkännande av dagordning\n\n2. GENOMGÅNG AV FÖREGÅENDE PROTOKOLL\n- Eventuella åtgärder från föregående möte\n\n3. EKONOMI\n- Ekonomisk uppföljning\n- Beslut om budget eller ekonomiska frågor\n\n4. FASTIGHET OCH UNDERHÅLL\n- Status på fastigheten\n- Eventuella underhållsprojekt eller renoveringar\n\n5. ÖVRIGA ÄRENDEN\n- Eventuella övriga ärenden som behöver diskuteras\n\n6. AVSLUTNING\n- Sammanfattning av beslut\n- Nästa mötesdatum\n\nDu kan anpassa och fylla i detaljer utifrån din förenings specifika behov. Lycka till med ditt styrelsemöte!"
+  },
+  "W2ejwH2xkbpL1woJs3GT": {
+    "tid": "2025-05-08T10:29:05.966000+00:00",
+    "conversationId": "824ac5cb-bb66-447b-9abf-db1e8fe0fa05",
+    "fraga": "Jag använder styrelsestöd i MittHSB",
+    "svar": "I MittHSB kan du använda styrelsestöd för att underlätta arbetet i din bostadsrättsförening. För att inkludera både rubriker och undertexter i kallelsen:\n\nA. Kontrollera att du sparar dagordningen korrekt i MittHSB och att både rubriker och undertexter är tydligt angivna.\nB. Om funktionen inte fungerar som förväntat, kontakta MittHSB:s support för att få hjälp med att lösa problemet.\nC. Se till att du har den senaste versionen av MittHSB för att dra nytta av eventuella uppdateringar som kan ha åtgärdat problemet."
+  },
+  "W67rW4bpbPmazxa6w9Ta": {
+    "tid": "2025-05-06T11:30:12.785000+00:00",
+    "conversationId": "c155b9af-283c-4e50-91f7-537a686910ac",
+    "fraga": "hej",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "WYRAfv33RnX4of3aTy2U": {
+    "tid": "2025-05-07T12:30:55.946000+00:00",
+    "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
+    "fraga": "lömskt",
+    "svar": "Jag är här för att hjälpa till med frågor om bostadsrättsföreningar i Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby och Hemse. Vad kan jag assistera dig med idag?"
+  },
+  "WeAuqB5b9KbkIS3pn2F7": {
+    "tid": "2025-05-07T14:17:15.989000+00:00",
+    "conversationId": "3fe5887d-28b1-4da3-b9fe-e2d8d3a0c4af",
+    "fraga": "Vilka utbildningar tillhör diplomutbildningarna?",
+    "svar": "HSB Södertörn erbjuder diplomutbildningar inom förvaltning, teknik, fastighetsservice, mark och trädgård, energieffektivisering, fastighetsutveckling, projektledning samt Mitt HSB-plattformen för medlemsadministration. Du kan läsa mer om diplomutbildningarna på följande länk: [Diplomutbildningar](https://www.hsb.se/sodertorn/tillsammans/)."
+  },
+  "WhRdfpyy632c9Amx8Ghx": {
+    "tid": "2025-05-07T10:10:03.862000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "köplats bil",
+    "svar": "För att få information om din köplats för en bilplats, rekommenderar jag att du kontaktar HSB Södertörn direkt. Du kan besöka deras förvaltningskontor i Hallunda på Kornvägen 18, 145 [adress] under deras drop-in tider eller kontakta dem via telefon eller e-post för att få den informationen. Besök deras hemsida för mer kontaktinformation: [Kontakta HSB Södertörn](https://www.hsb.se/sodertorn/kontakta-oss/)"
+  },
+  "WknGdzvqK5tx3m0L3Zeb": {
+    "tid": "2025-05-07T09:01:01.153000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "finns lediga?",
+    "svar": "Tyvärr har jag inte tillgång till aktuell information om specifika lediga hyresrätter på Gotland. För att hitta lediga hyresrätter rekommenderar jag att du kontakta lokala hyresvärdar eller besöka olika bostadssajter som förmedlar hyresrätter på Gotland. Lycka till med din sökning! Om du har några andra frågor eller behöver hjälp med något annat är du välkommen att berätta."
+  },
+  "XA2VVNNGupsPfes1YYuR": {
+    "tid": "2025-05-07T12:30:49.803000+00:00",
+    "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
+    "fraga": "tjena",
+    "svar": "hej! hur kan jag hjälpa dig idag?"
+  },
+  "XQHCQQLGcSbk4WCbj0Ds": {
+    "tid": "2025-05-07T10:54:35.745000+00:00",
+    "conversationId": "bf46439b-bd2e-494c-9502-32fe2b1db39d",
+    "fraga": "hej jag vill ha en parkeringsplats",
+    "svar": "Hej! För att få en parkeringsplats i er bostadsrättsförening behöver du kontakta styrelsen eller förvaltaren för att se om det finns någon tillgänglig plats att hyra. De kan hjälpa dig med ansökningsprocessen och eventuella kostnader. Lycka till!"
+  },
+  "XYMr5F9zyqHHn9jH03mE": {
+    "tid": "2025-05-07T09:07:16.683000+00:00",
+    "conversationId": "2877ec7a-ac3c-4abc-b726-b12c9eeaf660",
+    "fraga": "är dom bättre än hsb?",
+    "svar": "Som AI-assistent är jag neutral och kan inte jämföra eller bedöma vilket företag som är \"bättre\". Både HSB och Riksbyggen är etablerade och respekterade företag inom förvaltning av bostadsrättsföreningar, och det kan vara bra att jämföra deras erbjudanden och se vilket som passar bäst för er förening. Om du har specifika frågor eller kriterier som är viktiga för er förening kan jag hjälpa dig att hitta relevant information för att underlätta jämförelsen. Har du några specifika frågor eller önskemål om jämförelsen mellan HSB och Riksbyggen?"
+  },
+  "ZCMfKA780c64Jrzim3fH": {
+    "tid": "2025-05-06T13:57:18.649000+00:00",
+    "conversationId": "1c9f9565-6976-47c9-a6e1-247039ce1c79",
+    "fraga": "Vilket stöd kan jag få ifrån HSB Södertörn?",
+    "svar": "Som styrelseledamot i en bostadsrättsförening kan du få olika typer av stöd från HSB Södertörn, bland annat:\n\n1. **Juridisk rådgivning:** Du kan få juridisk rådgivning kring frågor som rör föreningens stadgar, regler och lagar.\n\n2. **Ekonomisk rådgivning:** HSB Södertörn kan ge ekonomisk rådgivning och hjälp med budgetering, bokföring och ekonomiska frågor.\n\n3. **Teknisk rådgivning:** Om ni behöver hjälp med tekniska frågor kring fastigheten eller underhåll kan ni få stöd och rådgivning från HSB Södertörn.\n\n4. **Utbildningar och seminarier:** HSB Södertörn erbjuder utbildningar och seminarier för styrelsemedlemmar för att öka kunskapen och kompetensen inom olika områden.\n\n5. **Praktisk hjälp:** Vid behov kan HSB Södertörn även erbjuda praktisk hjälp och stöd i olika ärenden som rör föreningen.\n\nTveka inte att kontakta HSB Södertörn för att få mer information om vilket stöd och hjälp de kan erbjuda er som styrelse i er bostadsrättsförening."
+  },
+  "ZVueEnQNbptxymb4HHoe": {
+    "tid": "2025-05-07T09:00:40.238000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "all info",
+    "svar": "Jag behöver lite mer information för att kunna hjälpa dig på bästa sätt. Vad specifikt behöver du hjälp med eller vill veta mer om? Berätta gärna så kan jag ge dig relevant information."
+  },
+  "ZgocTBomTBl3AQHjy4En": {
+    "tid": "2025-05-06T13:55:47.504000+00:00",
+    "conversationId": "1c9f9565-6976-47c9-a6e1-247039ce1c79",
+    "fraga": "Jag har nyvald i min styrelse. vad borde jag tänka på?",
+    "svar": "Grattis till din nyvalda styrelse! Några saker att tänka på är att se till att alla i styrelsen förstår sina roller och ansvar, att ha tydliga kommunikationskanaler inom styrelsen och gentemot medlemmarna, samt att sätta upp tydliga mål och planer för föreningens framtid. Glöm inte heller att följa föreningens stadgar och beslut. Lycka till!"
+  },
+  "a084dOrMZGH7ZchtvAvB": {
+    "tid": "2025-05-07T11:11:16.750000+00:00",
+    "conversationId": "93d8a15a-ae97-4338-a6c1-88e2f103f410",
+    "fraga": "halluinda",
+    "svar": "Det verkar som att det blev lite fel i stavningen. Hur kan jag hjälpa dig idag?"
+  },
+  "bMfX1tBALY478rFNDNmM": {
+    "tid": "2025-05-07T08:27:04.222000+00:00",
+    "conversationId": "86acb021-8111-45a0-adce-235c0a7b785a",
+    "fraga": "var på hemsidan?",
+    "svar": "På HSB Södertörns hemsida hittar du information om förvaltning, teknisk förvaltning, ekonomisk förvaltning, fastighetsservice, mark och trädgård, energieffektivisering, fastighetsutveckling, projektledning, Mitt HSB samt kommunikation och styrelsestöd. För att hitta specifik information om förvaltning kan du besöka följande länk: [Förvaltning på HSB Södertörns hemsida](https://www.hsb.se/sodertorn/tillsammans/forvaltning/). Hur kan jag hjälpa dig mer idag?"
+  },
+  "bPQkzwgYkPc7wmlR1y68": {
+    "tid": "2025-05-07T12:26:20.011000+00:00",
+    "conversationId": "24559d70-c6c4-483e-8920-6d0875c89496",
+    "fraga": "jag vill ha hjälp med ett brev",
+    "svar": "Vad behöver du hjälp med i brevet? Är det något specifikt du vill ha hjälp med att formulera eller strukturera?"
+  },
+  "bQnPcZ6gclhiHQ2ILRhp": {
+    "tid": "2025-05-07T11:00:39.715000+00:00",
+    "conversationId": "7faef5a4-a87d-4d1d-8db5-6e43f4c87dba",
+    "fraga": "hej jag vill ha en parkeringsplats",
+    "svar": "För att få en parkeringsplats i er bostadsrättsförening kan du följa dessa steg:\n\n1. KONTAKTA STYRELSEN: Ta kontakt med din brf:s styrelse för att höra om det finns lediga parkeringsplatser och hur du går tillväga för att ansöka om en.\n\n2. ANSÖK OM PARKERINGSPLATS: Fyll i en ansökan om parkeringsplats enligt de riktlinjer som styrelsen har. Se till att lämna in alla nödvändiga dokument och uppgifter i ansökan.\n\n3. FÖLJ UPP: Håll koll på processen och följ upp med styrelsen om du inte får besked inom rimlig tid.\n\nLycka till med din ansökan om en parkeringsplats! [FÖLJDFRÅGA]Har du redan kontaktat styrelsen angående en parkeringsplats?"
+  },
+  "c3I2Wn6VyhViU4BoWQxT": {
+    "tid": "2025-05-06T13:56:43.215000+00:00",
+    "conversationId": "1c9f9565-6976-47c9-a6e1-247039ce1c79",
+    "fraga": "har du några tips på vad jag i min roll som styrelse ledamot ska tänka på för att göra ett bra jobb?",
+    "svar": "Absolut! Här är några tips för att göra ett bra jobb som styrelseledamot:\n\n1. **Känn till föreningens stadgar och regler:** Det är viktigt att ha god kännedom om föreningens stadgar och regler för att kunna fatta beslut och agera på rätt sätt.\n\n2. **Var engagerad och närvarande:** Delta aktivt i styrelsemöten och föreningsaktiviteter för att vara delaktig och kunna bidra med dina åsikter och idéer.\n\n3. **Kommunicera öppet och tydligt:** Ha en öppen och tydlig kommunikation med övriga styrelsemedlemmar, föreningens medlemmar och eventuella externa parter för att undvika missförstånd.\n\n4. **Fatta välgrundade beslut:** Ta dig tid att sätta dig in i ärenden och fatta beslut utifrån bästa för föreningen som helhet.\n\n5. **Samarbete och lyssnande:** Samarbeta väl med övriga styrelsemedlemmar och lyssna på olika åsikter för att kunna komma fram till de bästa besluten.\n\n6. **Uppdatera dig:** Håll dig uppdaterad om aktuella frågor inom bostadsrättsföreningar och se till att din kunskap är relevant och aktuell.\n\nGenom att följa dessa tips kan du bidra till att göra ett bra jobb som styrelseledamot och vara till nytta för din förening. Lycka till!"
+  },
+  "c6W9NdzNNdCwsHaM5fm1": {
+    "tid": "2025-05-07T09:01:24.112000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "vad tycker du om riksbyggen?",
+    "svar": "Som digital assistent har jag ingen åsikt eller känslor, men jag kan berätta att Riksbyggen är en av Sveriges största bostadsutvecklare och förvaltare av bostadsrättsföreningar. De erbjuder olika tjänster inom fastighetsförvaltning, byggande och förvaltning av bostäder. Många bostadsrättsföreningar samarbetar med Riksbyggen för att sköta sin fastighetsförvaltning. Om du har specifika frågor om Riksbyggen eller deras tjänster är du välkommen att berätta så kan jag försöka hjälpa dig vidare."
+  },
+  "cahJoy7GwdcrNVOvbTmd": {
+    "tid": "2025-05-07T12:26:05.170000+00:00",
+    "conversationId": "24559d70-c6c4-483e-8920-6d0875c89496",
+    "fraga": "hej",
+    "svar": "hej! hur kan jag hjälpa dig idag?"
+  },
+  "dH2peSJq98WpGGes4X3A": {
+    "tid": "2025-05-07T08:45:40.500000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "okej en snäll lapp",
+    "svar": "Absolut! Här är ett förslag på en vänlig lapp till tvättstugan:\n\nHej grannar,\n\nVi vill påminna om vikten av att vara hänsynsfulla och ta hand om tvättstugan gemensamt. Kom ihåg att plocka undan efter er och respektera bokningstider så att alla kan använda tvättstugan på ett smidigt sätt.\n\nTack för er förståelse och samarbete!\n\nMed vänliga hälsningar,  \nStyrelsen i [BRF:NAMN]"
+  },
+  "eOXRmTBL7IV0TNtikzjD": {
+    "tid": "2025-05-07T07:59:10.989000+00:00",
+    "conversationId": "f7d8023c-2690-4f43-bfc7-615875bb45ac",
+    "fraga": "hej",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "eamwzUNgJfnv8Fr62Ytb": {
+    "tid": "2025-05-07T09:00:49.895000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "hyresrätter på gotland",
+    "svar": "[namn] finns det hyresrätter tillgängliga för uthyrning. För att hitta lediga hyresrätter på Gotland kan du kontakta lokala hyresvärdar eller besöka olika bostadssajter som förmedlar hyresrätter. Om du behöver mer specifik information eller hjälp med något annat, är du välkommen att berätta mer så att jag kan assistera dig på bästa sätt."
+  },
+  "ewk8Mniz13JQdQgkIF3y": {
+    "tid": "2025-05-07T09:09:54.207000+00:00",
+    "conversationId": "da738762-77af-4ae3-9474-892af0a69a34",
+    "fraga": "hjälp mig att byta",
+    "svar": "För att underlätta bytet från HSB till Nabo kan följande steg vara till hjälp:\n\n1. [namn] för att få information om deras tjänster och villkor.\n2. Undersök om det finns några kontrakt eller avtal med HSB som behöver sägas upp eller omförhandlas.\n3. Se över eventuella konsekvenser av bytet, såsom eventuella kostnader eller övergångsperioder.\n\nOm du behöver mer specifik vägledning eller har andra frågor är du välkommen att berätta mer så att jag kan ge dig mer anpassade råd."
+  },
+  "fQTxr38GUkEDm1VzBYJ2": {
+    "tid": "2025-05-07T12:17:11.990000+00:00",
+    "conversationId": "252b9fcf-db2c-4447-ade2-e68810876e34",
+    "fraga": "Hej",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "fu4z0Ei3rmpqFcaDEpql": {
+    "tid": "2025-05-06T13:55:24.782000+00:00",
+    "conversationId": "1c9f9565-6976-47c9-a6e1-247039ce1c79",
+    "fraga": "tack och när öppnar det igen?",
+    "svar": "Kontoret i Hallunda öppnar igen klockan [adress]."
+  },
+  "gYbNyMgiHjLR7LjnGt18": {
+    "tid": "2025-05-06T13:55:13.162000+00:00",
+    "conversationId": "1c9f9565-6976-47c9-a6e1-247039ce1c79",
+    "fraga": "Jag undrar över när kontoret i Hallunda stänger idag?",
+    "svar": "Kontoret i Hallunda stänger klockan [adress]."
+  },
+  "gm2MLZdOYVzJPuG2KkWu": {
+    "tid": "2025-05-06T15:27:10.772000+00:00",
+    "conversationId": "fbfd6873-853f-47aa-8f3f-2c91a70a91c9",
+    "fraga": "Gift par.  en äger lgh och är medlem i brf kan den andra rösta på stämman?",
+    "svar": "Ja, även om en av er äger lägenheten och är medlem i bostadsrättsföreningen kan den andra personen i det gifta paret rösta på stämman. Det är vanligt att ägare av en bostadsrätt delegerar sin rösträtt till sin make/maka eller annan person genom en fullmakt. Det är viktigt att följa föreningens stadgar och regler kring fullmakter för att säkerställa att rösträtten utövas på rätt sätt."
+  },
+  "gtcZ56i6SQ4Ed1vJpZzO": {
+    "tid": "2025-05-07T12:18:07.862000+00:00",
+    "conversationId": "252b9fcf-db2c-4447-ade2-e68810876e34",
+    "fraga": "Hur gör jag dagordning",
+    "svar": "För att skapa en dagordning inför ett styrelsemöte kan du följa dessa steg:\n\na. ÖPPNING\n- Välkomsthälsning\n- Godkännande av dagordning\n\nb. GENOMGÅNG AV FÖREGÅENDE PROTOKOLL\n- Eventuella åtgärder från föregående möte\n\nc. EKONOMI\n- Ekonomisk uppföljning\n- Beslut om budget eller ekonomiska frågor\n\nd. FASTIGHET OCH UNDERHÅLL\n- Status på fastigheten\n- Eventuella underhållsprojekt eller renoveringar\n\ne. ÖVRIGA ÄRENDEN\n- Eventuella övriga ärenden som behöver diskuteras\n\nf. AVSLUTNING\n- Sammanfattning av beslut\n- Nästa mötesdatum\n\nDet är viktigt att anpassa dagordningen efter er förening och dess behov. Lycka till med att skapa en strukturerad och effektiv dagordning inför ert styrelsemöte!"
+  },
+  "hNlrdLvrSkTVkW4AhGG9": {
+    "tid": "2025-05-07T11:16:54.151000+00:00",
+    "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
+    "fraga": "jag vill veta mer om p-platser",
+    "svar": "absolut! vad vill du veta om p-platserna i er brf? är det något specifikt du undrar över?"
+  },
+  "hVm9ZByq4yjWpSM7bpiR": {
+    "tid": "2025-05-07T12:26:39.663000+00:00",
+    "conversationId": "24559d70-c6c4-483e-8920-6d0875c89496",
+    "fraga": "skriv en text till mina grannar om att jag ska ha fest",
+    "svar": "För att skapa en trevlig stämning och undvika eventuella missförstånd är det viktigt att kommunicera öppet med dina grannar om din fest. Här är ett förslag till text:\n\n\"Hej grannar!\n\nJag vill bara meddela er att jag kommer att ha en fest hemma på [datum] från [tidpunkt]. Jag vill be om ursäkt i förväg för eventuellt ökat ljud under kvällen. Om det skulle bli för högljutt eller störande, tveka inte att höra av er till mig så ska jag se till att åtgärda det.\n\nTack för er förståelse och hoppas att ni har överseende med eventuella olägenheter.\n\nMed vänliga hälsningar,\n[Ditt namn]\"\n\nKom ihåg att vara respektfull och öppen för eventuella synpunkter från dina grannar. Ha en trevlig fest!"
+  },
+  "iSmmiv7CvLJEaWz6GGjr": {
+    "tid": "2025-05-07T07:41:21.958000+00:00",
+    "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
+    "fraga": "hur kan jag lösa mitt problem med en boende?",
+    "svar": "Om du har ett problem med en boende i er bostadsrättsförening kan det vara bra att först försöka lösa det genom att ha en öppen och konstruktiv dialog med personen. Försök att förstå varandra och komma fram till en gemensam lösning. Om problemet kvarstår kan styrelsen vara till hjälp genom att agera som en neutral part och försöka medla i situationen. Ibland kan det även vara lämpligt att involvera en juridisk expert för att få ytterligare vägledning och stöd i frågan. Det är viktigt att hantera konflikter på ett respektfullt sätt för att upprätthålla en trivsam boendemiljö för alla."
+  },
+  "ljfiCpPUhunxCmIglrer": {
+    "tid": "2025-05-07T08:45:26.062000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "skriv nu en arg lapp till tvättstugan",
+    "svar": "Jag är här för att hjälpa till på ett konstruktivt och respektfullt sätt. Att skriva arga lappar kan ibland eskalera problem istället för att lösa dem. Om du vill kan jag hjälpa dig att formulera en mer neutralt och sakligt meddelande till tvättstugan istället. Hur vill du att vi ska gå vidare?"
+  },
+  "m6YUNudXxxYvH9zOZ7NX": {
+    "tid": "2025-05-07T07:36:49.946000+00:00",
+    "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
+    "fraga": "hallunda",
+    "svar": "Förvaltningskontoret i Hallunda ligger på Kornvägen 18, 145 [adress]. Öppettiderna för drop-in är måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00. Vid behov av andra tider kan det vara bra att förboka besöket via formuläret på webben. Här kan du få hjälp och service relaterat till er bostadsrättsförening. Läs mer här: [HSB Södertörn - Kontakta oss](https://www.hsb.se/sodertorn/kontakta-oss/)"
+  },
+  "mD1bLQu4JQ24q7ucoqXB": {
+    "tid": "2025-05-07T14:19:40.096000+00:00",
+    "conversationId": "3fe5887d-28b1-4da3-b9fe-e2d8d3a0c4af",
+    "fraga": "Hur många HSB brf:er finns i HSB Södertörn?",
+    "svar": "HSB Södertörn förvaltar ett antal bostadsrättsföreningar i områdena Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby och Hemse. För att få exakt antal HSB BRF:er i HSB Södertörn rekommenderar jag att du kontaktar HSB Södertörn direkt på 08-[postnummer] eller info.[epost] för den senaste informationen."
+  },
+  "mObhqMrGZML8pVuyWo00": {
+    "tid": "2025-05-07T12:30:25.914000+00:00",
+    "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
+    "fraga": "hej",
+    "svar": "hej! hur kan jag hjälpa dig idag?"
+  },
+  "mlRcEVU1nT4nYaI0n4QK": {
+    "tid": "2025-05-06T15:27:47.092000+00:00",
+    "conversationId": "fbfd6873-853f-47aa-8f3f-2c91a70a91c9",
+    "fraga": "Utan fullmakt?",
+    "svar": "Om den person som inte äger lägenheten och inte är medlem i bostadsrättsföreningen vill rösta på stämman utan fullmakt kan det vara bra att kontakta föreningen för att få information om deras regler och stadgar kring detta. Vissa föreningar tillåter att en make/maka eller sambo deltar och röstar på stämman även utan formell fullmakt, medan andra föreningar kräver att en fullmakt lämnas in i förväg. Det bästa är att dubbelkolla med föreningen för att vara säker på vad som gäller i ert specifika fall."
+  },
+  "n8OWyImjD74N7sBuirSp": {
+    "tid": "2025-05-07T11:06:04.674000+00:00",
+    "conversationId": "93d8a15a-ae97-4338-a6c1-88e2f103f410",
+    "fraga": "eller hsb i min förenings fall vet jag",
+    "svar": "Om du är medlem i en bostadsrättsförening som förvaltas av HSB Södertörn kan du kontakta dem för att höra om möjligheten att få en bilplats. HSB Södertörn erbjuder olika tjänster och stöd för bostadsrättsföreningar, inklusive hantering av bilplatser. Kontakta dem för mer information om tillgänglighet och eventuella kostnader."
+  },
+  "nmgxz4x1SQrDMLMdI9lM": {
+    "tid": "2025-05-07T12:17:44.285000+00:00",
+    "conversationId": "252b9fcf-db2c-4447-ade2-e68810876e34",
+    "fraga": "Vad ska jag tänka på i för mitt styrelsemöte?",
+    "svar": "När du förbereder dig inför ett styrelsemöte är det bra att tänka på följande:\n\nA. DAGORDNING: Se till att dagordningen är tydlig och att ni har alla nödvändiga punkter med.\n\nB. FÖRBEREDELSER: Gå igenom eventuella handlingar och underlag i förväg för att kunna bidra konstruktivt under mötet.\n\nC. MÅL: Ha tydliga mål för mötet och se till att ni arbetar mot att uppnå dem.\n\nLycka till med ditt styrelsemöte!"
+  },
+  "nqnxG6H8Gyk3wubnWk1E": {
+    "tid": "2025-05-07T09:01:11.096000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "länk?",
+    "svar": "Tyvärr kan jag inte generera länkar till specifika bostadssajter för att hitta lediga hyresrätter. Men du kan söka på internet efter bostadssajter som förmedlar hyresrätter på Gotland. Populära sajter inkluderar Hemnet, Blocket och BostadsPortal. Besök gärna dessa sajter för att söka efter lediga hyresrätter på Gotland. Om du behöver ytterligare hjälp eller har andra frågor är du välkommen att berätta!"
+  },
+  "oEMdbpIe2ChL3t7EpiBV": {
+    "tid": "2025-05-07T12:41:04.666000+00:00",
+    "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
+    "fraga": "hej mannen",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "oHR9LCKfrkazQHEA9Ajl": {
+    "tid": "2025-05-07T09:01:51.515000+00:00",
+    "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
+    "fraga": "vad ska jag välja?",
+    "svar": "När det gäller valet mellan Riksbyggen och HSB kan det vara bra att göra lite research och jämföra vad de erbjuder i form av tjänster, priser, kundnöjdhet och eventuella referenser. Här är några steg som kan hjälpa dig att fatta ett beslut:\n\n1. Gör en lista över dina behov och önskemål när det gäller fastighetsförvaltning och bostadsrättsföreningen.\n2. Kontakta både Riksbyggen och HSB för att få mer information om deras tjänster, priser och villkor.\n3. Be om referenser från andra bostadsrättsföreningar som samarbetar med dem.\n4. Jämför det du har lärt dig och fundera över vilket företag som passar bäst för din bostadsrättsförening.\n\nGenom att göra denna jämförelse kan du fatta ett informerat beslut om vilket företag som passar bäst för er situation. Lycka till med ditt val! Om du behöver mer hjälp eller har andra frågor är du välkommen att berätta."
+  },
+  "oNd5q55NdV6ltKDruDGL": {
+    "tid": "2025-05-06T12:52:01.783000+00:00",
+    "conversationId": "b9ad52c2-c25a-4670-9742-a88a0a6c46de",
+    "fraga": "När måste vi ändra från K2 till K3?",
+    "svar": "Beslutet att byta från K2 till K3-regelverket beror på er bostadsrättsförenings storlek och omsättning. [namn] allmänna råd rekommenderas mindre föreningar att använda K2 medan större föreningar bör använda K3. Jag rekommenderar att ni kontaktar er revisor för att diskutera vilket regelverk som passar er bäst."
+  },
+  "oVMOiiTO4rhdIPclUuye": {
+    "tid": "2025-05-07T12:43:19.939000+00:00",
+    "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
+    "fraga": "kan du hjälpa mig? jag vill be lasse på 1an att sticka åt Helv*te på ett trevligt sätt",
+    "svar": "Jag förstår att du kanske är frustrerad, men det är viktigt att kommunicera på ett respektfullt sätt. Här är ett förslag på hur du kan formulera det på ett mer konstruktivt sätt:\n\n\"[namn] på 1an, jag uppskattar om du kunde vara vänlig och respektera vårt gemensamma boende genom att vara lite mer hänsynsfull mot grannarna. Tack på förhand!\"\n\nDet är alltid bäst att försöka lösa konflikter på ett lugnt och vänligt sätt. Om du behöver ytterligare hjälp eller har andra frågor är du välkommen att fråga!"
+  },
+  "owcuuYnQ2CJan7hp5QCX": {
+    "tid": "2025-05-06T15:32:27.622000+00:00",
+    "conversationId": "fbfd6873-853f-47aa-8f3f-2c91a70a91c9",
+    "fraga": "Tack",
+    "svar": "Varsågod! Om du har fler frågor är du alltid välkommen att höra av dig. Ha en fortsatt trevlig dag!"
+  },
+  "pO5KDh3nuttUkUQ7hEjd": {
+    "tid": "2025-05-07T20:32:05.030000+00:00",
+    "conversationId": "8cf3290a-40a6-4083-8a9c-1e1fa09832bc",
+    "fraga": "Ok tack, kan man göra det som medlem i brf?",
+    "svar": "Som medlem i en bostadsrättsförening (brf) är det vanligt att styrelsen ansvarar för att fatta beslut och hantera sådana projekt. Ni kan som medlemmar föreslå och diskutera behovet av att asfaltera om vid cykelstället med styrelsen. Kontakta styrelsen för att ta upp frågan och se hur ni tillsammans kan gå vidare med projektet."
+  },
+  "pd6eVCsE8Ph06VWxxsSR": {
+    "tid": "2025-05-07T08:45:01.015000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "skriv lappen",
+    "svar": "Hej grannar,\n\nVi har märkt att det förekommer störande beteende och stök i trapphuset. Detta påverkar trivseln för alla boende i föreningen. Vi ber er att vara hänsynsfulla mot era grannar och respektera gemensamma utrymmen.\n\nVänligen,  \nStyrelsen i [BRF:NAMN]  \nKontakt: [KONTAKTINFORMATION]"
+  },
+  "pgsxZbKKotydZRUlh8uR": {
+    "tid": "2025-05-07T08:26:47.184000+00:00",
+    "conversationId": "86acb021-8111-45a0-adce-235c0a7b785a",
+    "fraga": "hallunda",
+    "svar": "Förvaltningskontoret i Hallunda ligger på Kornvägen 18, 145 [adress]. Öppettiderna för drop-in är måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00. Om du behöver boka tid utanför dessa tider kan du göra det via formuläret på HSB Södertörns hemsida. Hur kan jag hjälpa dig mer idag?"
+  },
+  "pisrflAj9UhuaTcBtdZF": {
+    "tid": "2025-05-07T08:00:31.928000+00:00",
+    "conversationId": "f7d8023c-2690-4f43-bfc7-615875bb45ac",
+    "fraga": "Hur hanterar vi en konflikt i styrelsen?",
+    "svar": "Att hantera en konflikt i styrelsen kan vara utmanande, men det finns sätt att lösa det på ett konstruktivt sätt. Här är några tips:\n\n1. Kommunikation: Främja öppen och ärlig kommunikation i styrelsen. Ge alla möjlighet att uttrycka sina åsikter och lyssna aktivt på varandra.\n2. Konflikthantering: Identifiera och definiera konflikten tydligt. Försök att förstå varför konflikten har uppstått och vilka olika perspektiv som finns.\n3. Medling: Om möjligt, överväg att använda en neutral part för att medla i konflikten och hjälpa till att hitta en lösning som alla kan acceptera.\n4. Respekt: Ha respekt för varandras åsikter och kom ihåg att ni alla har samma mål - att sköta föreningen på bästa sätt.\n5. Beslut: Försök att komma fram till gemensamma beslut som gynnar föreningen som helhet, även om det kräver kompromisser från alla inblandade.\n\nOm du har specifika detaljer om konflikten kan jag ge mer anpassade råd för att hjälpa er att lösa den på bästa sätt."
+  },
+  "pjF7t0DEBBRcBWlsykJW": {
+    "tid": "2025-05-07T07:32:24.246000+00:00",
+    "conversationId": "f95d163c-df92-4b50-b5c1-3976de4f986e",
+    "fraga": "hallunda",
+    "svar": "HSB Södertörns förvaltningskontor i Hallunda ligger på Kornvägen 18, 145 [adress]. Kontoret har öppet för drop-in måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00. Om du behöver boka tid utanför dessa tider, kan du göra det via formuläret på deras webbplats. Mer information finns på [HSB Södertörns kontaktsida](https://www.hsb.se/sodertorn/kontakta-oss/)."
+  },
+  "qd8DqdArne1Q6UTUotbT": {
+    "tid": "2025-05-07T08:46:29.472000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "kostar det mycket?",
+    "svar": "Kostnaden för ett stambyte kan variera beroende på flera faktorer såsom storlek på fastigheten, omfattning av arbetet, val av entreprenör och eventuella bidrag från föreningen. Det är vanligt att stambyten är en stor investering för en bostadsrättsförening och kostnaden fördelas oftast på medlemmarna genom en höjning av månadsavgiften eller genom en extra avgift. För att få en mer exakt uppfattning om kostnaden och hur den påverkar er förening, rekommenderar jag att ni kontaktar er styrelse eller HSB Södertörn för mer detaljerad information baserat på er specifika situation."
+  },
+  "r222H3lkA9T9kP44vsit": {
+    "tid": "2025-05-07T08:10:17.918000+00:00",
+    "conversationId": "4efe3ac6-ac83-4524-812e-45037123debb",
+    "fraga": "hej på dig min gamle vän",
+    "svar": "Hej på dig! Hur kan jag hjälpa dig idag?"
+  },
+  "r3p2dws6KGstUoMayGdy": {
+    "tid": "2025-05-07T14:13:44.192000+00:00",
+    "conversationId": "3fe5887d-28b1-4da3-b9fe-e2d8d3a0c4af",
+    "fraga": "Vilka utbildningar erbjuder ni?",
+    "svar": "HSB Södertörn erbjuder utbildningar inom kommunikation och styrelsestöd för att stärka dialogen med boende. Du kan läsa mer om utbildningarna på följande länk: [Kommunikation och styrelsestöd](https://www.hsb.se/sodertorn/tillsammans/kommunikation/)."
+  },
+  "r8Zf64liftdyWOWRnYOP": {
+    "tid": "2025-05-06T13:58:49.631000+00:00",
+    "conversationId": "1c9f9565-6976-47c9-a6e1-247039ce1c79",
+    "fraga": "Tack för hjälpen. mnu hörde jag precis att en av tvättmaskinerna gått sönder vad ska jag göra?",
+    "svar": "Om en tvättmaskin har gått sönder i er bostadsrättsförening så är det viktigt att agera snabbt för att åtgärda problemet. Här är några steg du kan följa:\n\n1. **Informera styrelsen:** Meddela genast styrelsen om att en tvättmaskin har gått sönder så att de kan vidta åtgärder.\n\n2. **Kontakta leverantören:** Om ni har avtal med en leverantör för tvättmaskinerna, kontakta dem för att rapportera felet och begära reparation eller utbyte.\n\n3. **Upprätta en skadeanmälan:** Om det behövs, upprätta en skadeanmälan hos leverantören eller försäkringsbolaget beroende på försäkringsvillkoren.\n\n4. **Informera medlemmarna:** Om tvättmaskinen inte kan användas under en längre tid, se till att informera föreningens medlemmar om detta och ge alternativa lösningar om möjligt.\n\n5. **Följ upp:** Se till att följa upp reparationen eller utbytet av tvättmaskinen för att säkerställa att problemet åtgärdas på bästa sätt.\n\nGenom att agera snabbt och effektivt kan ni minimera besväret för föreningens medlemmar och se till att tvättmöjligheterna återställs så fort som möjligt."
+  },
+  "rJZpn3ytA5mgkA5Zw2Nm": {
+    "tid": "2025-05-07T08:38:58.422000+00:00",
+    "conversationId": "71dc395c-3697-4b17-93ff-e77ae6bf9f64",
+    "fraga": "hallunda",
+    "svar": "Vad kan jag hjälpa dig med angående Hallunda?"
+  },
+  "rQ48GnESLqTFCdCSvydD": {
+    "tid": "2025-05-07T08:46:04.449000+00:00",
+    "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
+    "fraga": "behöver hjälp med stambyte",
+    "svar": "När det gäller stambyte i er bostadsrättsförening kan jag hjälpa er med information och vägledning. Vad behöver du hjälp med specifikt angående stambytet? Har ni redan påbörjat processen eller behöver ni råd om hur ni ska gå vidare? Berätta gärna mer så att jag kan ge dig mer precisa svar och stöd."
+  },
+  "rojxmEQt7IAPaXzAUHh2": {
+    "tid": "2025-05-07T09:09:35.850000+00:00",
+    "conversationId": "da738762-77af-4ae3-9474-892af0a69a34",
+    "fraga": "vill byta från hsb till nabo",
+    "svar": "Jag förstår att du funderar på att byta från HSB till Nabo. Innan du fattar beslut kan det vara bra att tänka på följande:\n\n1. Fördelar med att vara ansluten till HSB Södertörn, som erbjuder heltäckande fastighetsförvaltning och stöd inom ekonomi, teknik, service, mark och trädgård, energieffektivisering, fastighetsutveckling, projektledning samt kommunikation och styrelsestöd.\n2. Eventuella konsekvenser av att byta förvaltningsbolag, inklusive eventuella skillnader i service och support som erbjuds av Nabo jämfört med HSB Södertörn.\n3. Om du har specifika önskemål eller behov som du inte känner att HSB Södertörn uppfyller, kan det vara bra att tydliggöra detta för att se om det går att åtgärda inom ramen för det befintliga avtalet.\n\nOm du har fler frågor eller funderingar är du välkommen att berätta mer så att jag kan ge dig mer anpassade råd."
+  },
+  "sSLJka1MgSqChWgGjSKr": {
+    "tid": "2025-05-08T07:44:20.263000+00:00",
+    "conversationId": "649bce9d-3296-4066-aebb-fd30ef957ace",
+    "fraga": "En styrelsemedlem undrar följande:\nI vintras bytte vi ut samtliga termostater och ventiler i alla hus. I samband med det upptäcktes en läcka i ett av husen, och man var tvungen att stänga av värmen i två stammar i det huset. Då blev det väldigt kallt i berörda lägenheter.\n\nDe boende i de lägenheterna hade möjlighet att låna mindre elektriska radiatorer. Dessa drog väldigt mycket el och vi lovade att de skulle bli ersatta av oss för den elen som översteg normal förbrukning. Mot uppvisande av bevis för det naturligtvis. T ex faktura för motsvarande period året innan.\n\nMen, hur administrerar vi detta på smidigaste sätt? Kanske har någon hos er varit med om liknande fråga?",
+    "svar": "För att administrera ersättningen för den extra elförbrukningen på ett smidigt sätt kan ni göra följande:\n\na. Be de berörda att samla in fakturor för elkonsumtionen under den period då de använde de elektriska radiatorerna.\nB. Skapa en enkel mall eller dokument där de boende kan fylla i sina uppgifter och bifoga sina fakturor.\nC. Utse en kontaktperson i styrelsen som ansvarar för att samla in och hantera ersättningsärendena.\n\nOm ni behöver ytterligare hjälp eller råd kring detta, är ni välkomna att kontakta HSB Södertörn för support och vägledning."
+  },
+  "tIL2zfaVxdmwVvwwO09y": {
+    "tid": "2025-05-07T11:17:06.529000+00:00",
+    "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
+    "fraga": "jag vill ha en p plats. vill maila hsb",
+    "svar": "för att få en p-plats i er bostadsrättsförening behöver du kontakta er styrelse direkt. du kan antingen skicka ett mail till styrelsen eller delta på nästa föreningsstämma för att ta upp frågan om en p-plats. om du behöver hjälp med att kontakta styrelsen eller har frågor om processen är du välkommen att höra av dig till mig för mer vägledning."
+  },
+  "uMfefCgcgGCsUlSMJc8z": {
+    "tid": "2025-05-06T13:59:20.034000+00:00",
+    "conversationId": "1c9f9565-6976-47c9-a6e1-247039ce1c79",
+    "fraga": "Vad kan HSB Södertörn hjälpa till med?",
+    "svar": "HSB Södertörn kan hjälpa till med en rad olika frågor och ärenden som rör bostadsrättsföreningar. Här är några exempel på hur HSB Södertörn kan vara till hjälp:\n\n1. **Juridisk rådgivning:** HSB Södertörn kan ge juridisk rådgivning kring frågor som rör föreningens stadgar, regler och lagar.\n\n2. **Ekonomisk rådgivning:** HSB Södertörn kan bistå med ekonomisk rådgivning och hjälp med budgetering, bokföring och ekonomiska frågor.\n\n3. **Teknisk support:** Vid tekniska frågor kring fastigheten eller underhåll kan HSB Södertörn erbjuda teknisk support och rådgivning.\n\n4. **Utbildningar och seminarier:** HSB Södertörn arrangerar utbildningar och seminarier för styrelsemedlemmar för att öka kunskapen och kompetensen inom olika områden.\n\n5. **Föreningsutveckling:** HSB Södertörn kan stödja föreningen i dess utveckling och hjälpa till med strategiska frågor och långsiktig planering.\n\n6. **Praktisk hjälp:** Vid behov kan HSB Södertörn även erbjuda praktisk hjälp och stöd i olika ärenden som rör föreningen.\n\nDessa är bara några exempel på hur HSB Södertörn kan vara till hjälp för bostadsrättsföreningar. Tveka inte att kontakta dem för att få mer information och stöd i era frågor och ärenden."
+  },
+  "uuNBid6WUyAk8HkQtm62": {
+    "tid": "2025-05-07T08:39:07.810000+00:00",
+    "conversationId": "71dc395c-3697-4b17-93ff-e77ae6bf9f64",
+    "fraga": "besökt",
+    "svar": "Om du vill besöka förvaltningskontoret i Hallunda, så har de drop-in måndag till fredag mellan 09.00–12.00, samt torsdagar även 16.00–18.00. Adressen är Kornvägen 18, 145 [adress]. Hoppas detta hjälper!"
+  },
+  "vITmQM57Sg2nOqUFHOkc": {
+    "tid": "2025-05-07T11:11:23.980000+00:00",
+    "conversationId": "93d8a15a-ae97-4338-a6c1-88e2f103f410",
+    "fraga": "hallunda",
+    "svar": "Om du behöver besöka HSB Södertörns förvaltningskontor i Hallunda, kan du göra det under deras drop-in tider som är måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00. Adressen är Kornvägen 18, 145 [adress]. Du kan också kontakta dem via deras hemsida för att boka tid i förväg. Besök deras hemsida för mer information: [HSB Södertörn - Kontakta oss](https://www.hsb.se/sodertorn/kontakta-oss/)"
+  },
+  "wBhr1E8Afm5OhVAPrTf6": {
+    "tid": "2025-05-07T07:41:44.268000+00:00",
+    "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
+    "fraga": "kan jag säga upp ett hyreskontrakt i min brf?",
+    "svar": "I en bostadsrättsförening är det vanligt att man inte kan hyra ut sin lägenhet i andra hand utan styrelsens godkännande. Om du har ett hyreskontrakt som inte är godkänt av styrelsen kan det vara en överträdelse av föreningens stadgar och regler. Det är viktigt att du kontaktar styrelsen för att diskutera situationen och se om det går att lösa på ett korrekt sätt. Om du vill säga upp ett hyreskontrakt i din bostadsrättsförening är det bäst att först rådgöra med styrelsen för att få rätt vägledning och information om vilka regler som gäller i er förening."
+  },
+  "wEWGoppuE59WvQm0uosm": {
+    "tid": "2025-05-07T11:21:49.910000+00:00",
+    "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
+    "fraga": "vad kan du mer göra?",
+    "svar": "jag kan hjälpa dig med en mängd olika frågor och ärenden som rör din bostadsrättsförening. några exempel på vad jag kan hjälpa dig med är:\n\na. svara på frågor om stadgar och regler i er bostadsrättsförening\nb. ge råd om underhållsfrågor och renoveringar\nc. hjälpa dig att förstå ekonomin i er förening\nd. ge tips om hur ni kan förbättra er boendemiljö\n\nom du har några specifika frågor eller funderingar är det bara att fråga mig, så ska jag göra mitt bästa för att hjälpa dig!"
+  },
+  "wrzDaLGAKqRDwxjKmjS8": {
+    "tid": "2025-05-07T12:15:29.786000+00:00",
+    "conversationId": "f2b79eb6-0afe-48af-b504-e922b2f57185",
+    "fraga": "vems ansvar är det",
+    "svar": "I en bostadsrättsförening är det normalt sett föreningens ansvar att hantera vattenläckor som uppstår i fastigheten. Det är viktigt att föreningen har en bra försäkring som täcker sådana händelser. Om läckan orsakats av en enskild medlems felaktiga hantering kan det dock bli aktuellt med individuellt ansvar. Kontrollera föreningens stadgar för att få klarhet i ansvarsfördelningen."
+  },
+  "xgYYZ8OZBWdoKik61bQo": {
+    "tid": "2025-05-07T10:07:01.838000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "hej",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "xkDTqGB95OYPIY5FfkqM": {
+    "tid": "2025-05-06T15:30:22.712000+00:00",
+    "conversationId": "fbfd6873-853f-47aa-8f3f-2c91a70a91c9",
+    "fraga": "Om styrelsen inte vet",
+    "svar": "Om styrelsen inte har information om vilka regler som gäller för rösträtt på stämman i er bostadsrättsförening, kan det vara bra att kontakta förvaltaren eller revisorerna för att få klarhet i frågan. Förvaltaren eller revisorerna bör ha god kännedom om föreningens stadgar och regler, och kan hjälpa till att tolka och förklara vad som gäller i ert specifika fall. Det är viktigt att följa föreningens regler för att säkerställa att rösträtten utövas på rätt sätt."
+  },
+  "xmehyqM6nfMpNw3tSjV7": {
+    "tid": "2025-05-08T10:27:23.883000+00:00",
+    "conversationId": "824ac5cb-bb66-447b-9abf-db1e8fe0fa05",
+    "fraga": "Hur sparar jag korrekt och vilka system stöder.",
+    "svar": "För att spara dagordningen korrekt och se vilka system som stöder detta kan du:\n\na. När du skapar dagordningen, se till att spara den i ett format som behåller både rubriker och undertexter intakta.\nB. Använd gärna ett dokumentprogram som [namn] eller [namn] för att skapa och spara dagordningen.\nC. Kontrollera att det system du använder för att skicka kallelser stöder att inkludera både rubriker och undertexter genom att läsa systemets dokumentation eller kontakta deras support för information.\n\nOm du behöver ytterligare hjälp eller har fler frågor är du välkommen att kontakta mig!"
+  },
+  "y4w6T65uXotf0BZUGKc2": {
+    "tid": "2025-05-08T07:08:04.815000+00:00",
+    "conversationId": "d03626f0-a6da-4fd1-b974-9e2a3dad3ae5",
+    "fraga": "Hur länge kan man överklaga ett protokoll",
+    "svar": "1. Enligt lag kan beslut som fattats av styrelsen normalt överklagas inom tre veckor från det att protokollet har justerats.\n2. Om du vill överklaga ett protokoll, se till att göra det inom den angivna tidsramen för att din överklagan ska vara giltig.\n3. Kontakta HSB Södertörn för ytterligare råd och vägledning kring överklaganden av protokoll."
+  },
+  "yNLMqP75xY4ZP9hPBiwL": {
+    "tid": "2025-05-08T07:07:24.731000+00:00",
+    "conversationId": "d03626f0-a6da-4fd1-b974-9e2a3dad3ae5",
+    "fraga": "Vem ska protokollföra",
+    "svar": "Vid styrelsemöten är det vanligt att sekreteraren i styrelsen har ansvaret för att protokollföra mötet. Det är viktigt att protokollet är korrekt och innehåller alla beslut och diskussioner som förs under mötet. Om ni behöver hjälp med protokollföring eller har frågor kring detta, kontakta HSB Södertörn för råd och stöd."
+  },
+  "yVA49oeNyeP0SrIHR0IY": {
+    "tid": "2025-05-07T12:30:35.482000+00:00",
+    "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
+    "fraga": "hej",
+    "svar": "hej! hur kan jag hjälpa dig idag?"
+  },
+  "yfPUIfnKwdJKlqntaFIx": {
+    "tid": "2025-05-07T10:07:49.941000+00:00",
+    "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
+    "fraga": "vilket disco är bäst i göteborg?",
+    "svar": "Tyvärr kan jag inte ge rekommendationer för disco i Göteborg eftersom mitt fokus ligger på att assistera med frågor relaterade till styrelsearbete i bostadsrättsföreningar. Om du har några frågor inom det området är jag mer än villig att hjälpa till!"
+  },
+  "z4jJ1KeDMC1V9injWLc7": {
+    "tid": "2025-05-07T12:15:52.051000+00:00",
+    "conversationId": "f2b79eb6-0afe-48af-b504-e922b2f57185",
+    "fraga": "jag vill maila hsb",
+    "svar": "För att maila HSB Södertörn, kan du använda följande e-postadress: info.[epost]. Berätta vad du behöver hjälp med eller vilken fråga du har, så ska jag försöka ge dig rätt vägledning."
+  },
+  "z92rcbgCsEeXH1AnMw6A": {
+    "tid": "2025-05-07T08:36:29.682000+00:00",
+    "conversationId": "71dc395c-3697-4b17-93ff-e77ae6bf9f64",
+    "fraga": "hrej",
+    "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  }
+}
