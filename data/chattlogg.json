@@ -5,6 +5,12 @@
     "fraga": "kan du hjälpa mig?",
     "svar": "Jag kan hjälpa dig med information om HSB Bospar, som är ett sätt att spara till en framtida bostad med förtur till HSBs nybyggda bostäder. Vill du veta mer om detta sparande och fördelarna med det?"
   },
+  "0CXsFgRM7dmiOp1ooGqW": {
+    "tid": "2025-05-12T11:47:33.364000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "jajemen",
+    "svar": "Hur kan jag hjälpa dig idag?"
+  },
   "1HoA2TuM7OzxTispNxvG": {
     "tid": "2025-05-07T11:17:30.810000+00:00",
     "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
@@ -77,6 +83,18 @@
     "fraga": "Vilka steg ska jag följa om det uppstår en vattenläcka",
     "svar": "För att hantera en vattenläcka i er brf, följ dessa steg:\n\na. Lokalisera och stäng av vattenläckan så snabbt som möjligt.\nb. Kontakta en VVS-installatör för att åtgärda läckan och utföra eventuella reparationer.\nc. Informera övriga boende i fastigheten om läckan och eventuella åtgärder som behöver vidtas."
   },
+  "86QsMSeMeWfS9Acv8f8N": {
+    "tid": "2025-05-12T11:47:30.433000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "nu",
+    "svar": "Hur kan jag hjälpa dig idag?"
+  },
+  "8IQe7GWGr5IDnyGmuMaY": {
+    "tid": "2025-05-12T11:47:55.641000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "ja",
+    "svar": "Hur kan jag hjälpa dig idag?"
+  },
   "8PauRMwHM34BzywaYJMQ": {
     "tid": "2025-05-07T10:10:39.045000+00:00",
     "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
@@ -113,6 +131,18 @@
     "fraga": "08-[postnummer]",
     "svar": "Tack för att du delade telefonnumret 08-[postnummer]. Om du har några frågor eller behöver hjälp, är du välkommen att kontakta HSB Södertörn på det numret eller via e-post på info.[epost]. Hur kan jag hjälpa dig idag?"
   },
+  "AT4KmOfQmkmkbpr926ja": {
+    "tid": "2025-05-12T11:48:22.460000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "vad ska vi med en sådan till?",
+    "svar": "Att använda en erfaren mötesordförande från stämmopoolen kan vara till nytta för er bostadsrättsförening på följande sätt:\n\n- <strong>PROFESSIONELLT GENOMFÖRANDE:</strong> En erfaren mötesordförande kan säkerställa att mötet genomförs på ett professionellt och effektivt sätt.\n- <strong>EXPERTIS OCH STÖD:</strong> Mötesordföranden kan erbjuda expertis och stöd för att hantera olika ärenden och frågor som kan uppstå under mötet.\n- <strong>ÖKAD EFFEKTIVITET:</strong> Genom att ha en kunnig mötesordförande kan ni öka effektiviteten och säkerställa att mötet följer rätt processer och regler.\n\nAtt använda en mötesordförande från stämmopoolen kan bidra till att era möten blir mer strukturerade och produktiva."
+  },
+  "BF3Nl28D4GMtti20eEr7": {
+    "tid": "2025-05-12T11:47:00.569000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "varför",
+    "svar": "FÖR ATT KUNNA GE DIG BÄTTRE HJÄLP, KAN DU VAR SNÄLL OCH FÖRKLARA DIN FRÅGA MER DETALJERAT?"
+  },
   "BIXhEIpjlQjqllGwASYA": {
     "tid": "2025-05-07T11:17:38.838000+00:00",
     "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
@@ -131,6 +161,12 @@
     "fraga": "huddinge",
     "svar": "För mer information om HSB Södertörns kontor i Huddinge och andra kontaktuppgifter kan du besöka deras hemsida. Här hittar du adresser, öppettider och annan relevant information: [HSB Södertörn - Kontakta oss](https://www.hsb.se/sodertorn/kontakta-oss/)"
   },
+  "CYw5LsztHw1355RVYOuU": {
+    "tid": "2025-05-12T11:46:53.351000+00:00",
+    "conversationId": "764435f9-492e-497d-9071-1f46c3f486d9",
+    "fraga": "hej",
+    "svar": "Hej! hur kan jag hjälpa dig idag?"
+  },
   "Cnov3HlQOHOhhdvkpWce": {
     "tid": "2025-05-07T10:07:15.266000+00:00",
     "conversationId": "e995f349-af9d-4e3c-b824-50cbb3636758",
@@ -148,6 +184,12 @@
     "conversationId": "2877ec7a-ac3c-4abc-b726-b12c9eeaf660",
     "fraga": "jag vill byta från hsb till riksbyggen  hjälp",
     "svar": "För att byta från HSB till Riksbyggen som förvaltningsbolag behöver ni som styrelse fatta ett beslut och sedan kontakta Riksbyggen för att inleda processen. Här är några steg som kan vara till hjälp:\n\n1. Fatta ett beslut i er styrelse om att byta förvaltningsbolag från HSB till Riksbyggen.\n2. [namn] för att diskutera era behov och önskemål samt få information om hur processen för byte av förvaltningsbolag går till.\n3. Samla in nödvändig dokumentation och information från HSB som kan behövas för att underlätta övergången till Riksbyggen.\n\nOm ni behöver ytterligare hjälp eller har specifika frågor kring bytet är det bra att kontakta både Riksbyggen och HSB för att få relevant information och stöd i processen. Lycka till med ert beslut att byta förvaltningsbolag!"
+  },
+  "DnjuXjuPiwn33MhWFgEs": {
+    "tid": "2025-05-12T11:47:50.556000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "varför",
+    "svar": "För att kunna ge dig bästa möjliga hjälp är det bra om du kan specificera din fråga eller fundering lite mer. Vad vill du veta eller diskutera angående bostadsrättsföreningar i Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby eller Hemse? Jag är här för att hjälpa dig!"
   },
   "E1dEbJZSGTCyp99YSaHL": {
     "tid": "2025-05-08T10:25:36.955000+00:00",
@@ -184,6 +226,24 @@
     "conversationId": "67cca21f-244b-458c-8b2d-fb1cf7e7d04d",
     "fraga": "hje",
     "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "GMFEGMO2Qb64atzvwZ3F": {
+    "tid": "2025-05-12T11:48:05.524000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "ordförande",
+    "svar": "<strong>Stämmopool</strong>\n\n- Stämmopoolen erbjuder erfarna mötesordförande och sekreterare för att ge stöd vid stämmor och viktiga möten i er bostadsrättsförening.\n- Dessa experter kan hjälpa till att säkerställa en effektiv och professionell genomförande av möten.\n- Genom att använda stämmopoolen kan ni få stöd och expertis för att underlätta era möten och säkerställa att de följer bästa praxis."
+  },
+  "GULGiD660q95CfdvrysP": {
+    "tid": "2025-05-12T11:47:53.695000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "nu?=",
+    "svar": "Hur kan jag hjälpa dig idag?"
+  },
+  "GrBFO5h6aKwoWmUh3Cil": {
+    "tid": "2025-05-12T11:47:12.605000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "därför",
+    "svar": "JAG FÖRSTÅR INTE RIKTIGT VAD DU MENAR. KAN DU FÖRKLARA DIN FRÅGA MER DETALJERAT?"
   },
   "GubwV9Tk61zIVrRdxQvl": {
     "tid": "2025-05-07T10:09:40.480000+00:00",
@@ -245,6 +305,12 @@
     "fraga": "om min styrelse ska på disco i göteborg då?",
     "svar": "Det låter som en rolig idé! Om din styrelse planerar att gå på disco i Göteborg kan det vara bra att:\n\n1. Kolla upp olika diskotek i Göteborg för att hitta ett som passar era önskemål och behov.\n2. Se till att boka biljetter i förväg om det behövs för att säkra er plats.\n3. Ha roligt och njut av er tid tillsammans som styrelse utanför det vanliga arbetsrelaterade sammanhanget!"
   },
+  "KG9leKxzn2FXS22iPCx0": {
+    "tid": "2025-05-12T11:47:27+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "varför",
+    "svar": "FÖR ATT KUNNA GE DIG BÄTTRE HJÄLP, KAN DU VAR SNÄLL OCH FÖRKLARA DIN FRÅGA MER DETALJERAT?"
+  },
   "KNyZqFePUrbQS5TJD2Yj": {
     "tid": "2025-05-07T07:42:30.094000+00:00",
     "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
@@ -262,6 +328,12 @@
     "conversationId": "8cf3290a-40a6-4083-8a9c-1e1fa09832bc",
     "fraga": "Vi vill asfaltera om vid vårt cykelställ. Hur gör man bäst tillväga för att få det gjort?",
     "svar": "För att asfaltera om vid ert cykelställ kan ni följa dessa steg:\n\na. KONTAKTA FLERA LEVERANTÖRER FÖR OFFERTER\nb. TA IN OFFERTER OCH JÄMFÖR PRISER OCH VILLKOR\nc. GODKÄNN OFFERT FRÅN VALD LEVERANTÖR OCH PLANERA ARBETET"
+  },
+  "KkE8fmDfDNmNK6CT3tBm": {
+    "tid": "2025-05-12T11:47:57.973000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "inte",
+    "svar": "Om du har några frågor eller behöver hjälp är det bara att säga till. Jag finns här för att assistera dig!"
   },
   "KlNMOIqB2HjLQthkrODu": {
     "tid": "2025-05-07T14:21:05.325000+00:00",
@@ -287,6 +359,12 @@
     "fraga": "vad har du för info?",
     "svar": "Tyvärr har jag ingen specifik information om kostnader för stambyte i er bostadsrättsförening. Kostnaden kan variera beroende på flera faktorer som nämndes tidigare. För att få en mer exakt uppfattning rekommenderar jag att ni kontaktar er styrelse eller HSB Södertörn för mer detaljerad information baserat på er specifika situation. Har du några andra frågor eller behöver mer hjälp?"
   },
+  "O4kinOJYPvhiXBEnRQgs": {
+    "tid": "2025-05-12T11:47:16.368000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "hej",
+    "svar": "Hej! hur kan jag hjälpa dig idag?"
+  },
   "OTO9THgJwK9jwUrwHQzu": {
     "tid": "2025-05-07T08:39:19.749000+00:00",
     "conversationId": "71dc395c-3697-4b17-93ff-e77ae6bf9f64",
@@ -298,6 +376,12 @@
     "conversationId": "8e1a50ff-8fdc-474b-9d9f-408592bd7ced",
     "fraga": "hej",
     "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "OsRmJagxuKQJ4tNLy0is": {
+    "tid": "2025-05-12T11:44:40.988000+00:00",
+    "conversationId": "c0ca212f-e76b-44ca-89d1-f15f8829f316",
+    "fraga": "va?",
+    "svar": "JAG BER OM URSÄKT, KAN DU VAR SNÄLL OCH FÖRKLARA DIN FRÅGA MER DETALJERAT?"
   },
   "PD2ktlZTCAiF0nFzj0fY": {
     "tid": "2025-05-07T07:42:00.743000+00:00",
@@ -394,6 +478,18 @@
     "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
     "fraga": "hej",
     "svar": "hej! vad kan jag hjälpa dig med idag?"
+  },
+  "V6cLmesMc6FaADc1qRfm": {
+    "tid": "2025-05-12T11:44:46.459000+00:00",
+    "conversationId": "c0ca212f-e76b-44ca-89d1-f15f8829f316",
+    "fraga": "varför caps?",
+    "svar": "JAG ANVÄNDER CAPS FÖR ATT SKILJA PÅ MINA SVAR OCH DINA FRÅGOR. DET GÖR DET ENKLARE ATT SKILJA MELLAN VÅR KONVERSATION. HOPPAS DET HJÄLPER TILL ATT GÖRA KOMMUNIKATIONEN TYDLIGARE!"
+  },
+  "Vk8jyxIKpkmDEFDcIRGv": {
+    "tid": "2025-05-12T11:44:34.178000+00:00",
+    "conversationId": "c0ca212f-e76b-44ca-89d1-f15f8829f316",
+    "fraga": "varför",
+    "svar": "FÖR ATT KUNNA GE DIG BÄTTRE HJÄLP, KAN DU VAR SNÄLL OCH FÖRKLARA DIN FRÅGA MER DETALJERAT?"
   },
   "Vrxv0nxuAjrLpk5zFUES": {
     "tid": "2025-05-07T12:18:28.857000+00:00",
@@ -527,6 +623,12 @@
     "fraga": "okej en snäll lapp",
     "svar": "Absolut! Här är ett förslag på en vänlig lapp till tvättstugan:\n\nHej grannar,\n\nVi vill påminna om vikten av att vara hänsynsfulla och ta hand om tvättstugan gemensamt. Kom ihåg att plocka undan efter er och respektera bokningstider så att alla kan använda tvättstugan på ett smidigt sätt.\n\nTack för er förståelse och samarbete!\n\nMed vänliga hälsningar,  \nStyrelsen i [BRF:NAMN]"
   },
+  "duhKSJBgHfnpMb33gNz6": {
+    "tid": "2025-05-12T11:47:47.245000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "därför",
+    "svar": "Jag är här för att hjälpa till med frågor relaterade till bostadsrättsföreningar i Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby och Hemse. Om du har några specifika frågor eller funderingar är det bara att fråga så ska jag göra mitt bästa för att assistera dig. Hur kan jag hjälpa dig idag?"
+  },
   "eOXRmTBL7IV0TNtikzjD": {
     "tid": "2025-05-07T07:59:10.989000+00:00",
     "conversationId": "f7d8023c-2690-4f43-bfc7-615875bb45ac",
@@ -556,6 +658,12 @@
     "conversationId": "1c9f9565-6976-47c9-a6e1-247039ce1c79",
     "fraga": "tack och när öppnar det igen?",
     "svar": "Kontoret i Hallunda öppnar igen klockan [adress]."
+  },
+  "fvSkROuohe5PF6NFusji": {
+    "tid": "2025-05-12T11:47:35.776000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "inte",
+    "svar": "Om du har några frågor eller behöver hjälp är det bara att säga till. Jag finns här för att assistera dig!"
   },
   "gYbNyMgiHjLR7LjnGt18": {
     "tid": "2025-05-06T13:55:13.162000+00:00",
@@ -743,11 +851,23 @@
     "fraga": "vill byta från hsb till nabo",
     "svar": "Jag förstår att du funderar på att byta från HSB till Nabo. Innan du fattar beslut kan det vara bra att tänka på följande:\n\n1. Fördelar med att vara ansluten till HSB Södertörn, som erbjuder heltäckande fastighetsförvaltning och stöd inom ekonomi, teknik, service, mark och trädgård, energieffektivisering, fastighetsutveckling, projektledning samt kommunikation och styrelsestöd.\n2. Eventuella konsekvenser av att byta förvaltningsbolag, inklusive eventuella skillnader i service och support som erbjuds av Nabo jämfört med HSB Södertörn.\n3. Om du har specifika önskemål eller behov som du inte känner att HSB Södertörn uppfyller, kan det vara bra att tydliggöra detta för att se om det går att åtgärda inom ramen för det befintliga avtalet.\n\nOm du har fler frågor eller funderingar är du välkommen att berätta mer så att jag kan ge dig mer anpassade råd."
   },
+  "sPfvg75VMkJkkRInJu4X": {
+    "tid": "2025-05-12T11:47:43.511000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "men varför?",
+    "svar": "Jag finns här för att ge dig hjälp och svara på dina frågor om bostadsrättsföreningar i Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby och Hemse. Om du har några specifika frågor eller funderingar är det bara att fråga så ska jag göra mitt bästa för att assistera dig. Hur kan jag hjälpa dig idag?"
+  },
   "sSLJka1MgSqChWgGjSKr": {
     "tid": "2025-05-08T07:44:20.263000+00:00",
     "conversationId": "649bce9d-3296-4066-aebb-fd30ef957ace",
     "fraga": "En styrelsemedlem undrar följande:\nI vintras bytte vi ut samtliga termostater och ventiler i alla hus. I samband med det upptäcktes en läcka i ett av husen, och man var tvungen att stänga av värmen i två stammar i det huset. Då blev det väldigt kallt i berörda lägenheter.\n\nDe boende i de lägenheterna hade möjlighet att låna mindre elektriska radiatorer. Dessa drog väldigt mycket el och vi lovade att de skulle bli ersatta av oss för den elen som översteg normal förbrukning. Mot uppvisande av bevis för det naturligtvis. T ex faktura för motsvarande period året innan.\n\nMen, hur administrerar vi detta på smidigaste sätt? Kanske har någon hos er varit med om liknande fråga?",
     "svar": "För att administrera ersättningen för den extra elförbrukningen på ett smidigt sätt kan ni göra följande:\n\na. Be de berörda att samla in fakturor för elkonsumtionen under den period då de använde de elektriska radiatorerna.\nB. Skapa en enkel mall eller dokument där de boende kan fylla i sina uppgifter och bifoga sina fakturor.\nC. Utse en kontaktperson i styrelsen som ansvarar för att samla in och hantera ersättningsärendena.\n\nOm ni behöver ytterligare hjälp eller råd kring detta, är ni välkomna att kontakta HSB Södertörn för support och vägledning."
+  },
+  "smBVisYl60iz7VzaZ5ym": {
+    "tid": "2025-05-12T11:47:21.963000+00:00",
+    "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
+    "fraga": "ost",
+    "svar": "Jag är här för att hjälpa till med frågor relaterade till bostadsrättsföreningar i Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby och Hemse. Om du har några specifika frågor eller funderingar kring det, är jag här för att assistera dig. Hur kan jag hjälpa dig idag?"
   },
   "tIL2zfaVxdmwVvwwO09y": {
     "tid": "2025-05-07T11:17:06.529000+00:00",
