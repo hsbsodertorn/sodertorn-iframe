@@ -1,308 +1,209 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HSB Styrelsesupport GPT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    // Behöver updateDoc för att kunna markera en rating som given på UI-elementet (valfritt)
-    import { getFirestore, collection, addDoc, serverTimestamp, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HSB Styrelsesupport GPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
+    // Hårdkodad Firebase-konfiguration som en tillfällig lösning
+    const firebaseConfig = {
+      apiKey: "DIN_FIREBASE_API_KEY",
+      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
+      projectId: "hsbsodertorn-1e7a5",
+      storageBucket: "hsbsodertorn-1e7a5.appspot.com",
+      messagingSenderId: "34372808211",
+      appId: "1:34372808211:web:85e0c908917ff232ce59e6",
+      measurementId: "G-LTWGETNT98"
+    };
 
-    // Hårdkodad Firebase-konfiguration som en tillfällig lösning
-    // **BYT UT "DIN_FIREBASE_API_KEY" MOT DIN RIKTIGA API-NYCKEL**
-    const firebaseConfig = {
-      apiKey: "DIN_FIREBASE_API_KEY", // <--- BYT UT!
-      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
-      projectId: "hsbsodertorn-1e7a5",
-      storageBucket: "hsbsodertorn-1e7a5.appspot.com",
-      messagingSenderId: "34372808211",
-      appId: "1:34372808211:web:85e0c908917ff232ce59e6",
-      measurementId: "G-LTWGETNT98"
-    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    // Kö för att hantera loggning vid tillfälliga fel
+    const logQueue = [];
+    window.saveChatLog = async (conversationId, fraga, svar) => {
+      const logEntry = {
+        conversationId,
+        fraga,
+        svar,
+        tid: serverTimestamp()
+      };
+      logQueue.push(logEntry);
+      while (logQueue.length > 0) {
+        try {
+          await addDoc(collection(db, "chattlogg"), logQueue[0]);
+          logQueue.shift();
+        } catch (err) {
+          console.error("Fel vid loggning i Firebase:", err);
+          showError("Kunde inte spara chatten. Försök igen.");
+          break;
+        }
+      }
+    };
+  </script>
 
-    // Kö för att hantera loggning vid tillfälliga fel
-    // Modifierad för att inkludera clientTimestamp i loggen
-    const logQueue = [];
-    window.saveChatLog = async (conversationId, fraga, svar, clientTimestamp) => {
-      const logEntry = {
-        conversationId,
-        fraga,
-        svar,
-        tid: serverTimestamp(),
-        clientTimestamp: clientTimestamp // Lägg till tidsstämpel från klienten
-      };
-      logQueue.push(logEntry);
-      while (logQueue.length > 0) {
-        try {
-          // Lagrar varje fråga/svar i samlingen 'chattlogg'
-          await addDoc(collection(db, "chattlogg"), logQueue[0]);
-          logQueue.shift();
-        } catch (err) {
-          console.error("Fel vid loggning i Firebase:", err);
-          showError("Kunde inte spara chatten. Försök igen.");
-          break;
-        }
-      }
-    };
-
-    // NY Funktion för att spara ett betyg för ett SPECIFIKT meddelande
-    window.saveMessageRating = async (conversationId, aiMessageClientTimestamp, ratingValue) => {
-      try {
-        await addDoc(collection(db, "messageRatings"), {
-          conversationId: conversationId,
-          // Använd clientTimestamp för att länka till rätt meddelande i chattloggen (ungefärlig länk)
-          aiMessageClientTimestamp: aiMessageClientTimestamp,
-          rating: ratingValue, // 'up' eller 'down'
-          timestamp: serverTimestamp() // När betyget gavs
-        });
-        console.log("Betyg sparat för meddelande (conv:", conversationId, "ts:", aiMessageClientTimestamp, "):", ratingValue);
-      } catch (err) {
-        console.error("Fel vid sparning av meddelandebetyg i Firebase:", err);
-        // Hantera fel, t.ex. visa ett litet felmeddelande vid ikonerna
-      }
-    };
-
-  </script>
-
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Open Sans', sans-serif;
-      background: white;
-    }
-    #wrapper {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: white;
-      border: 2px solid #00558c;
-      border-radius: 16px;
-      overflow: hidden;
-    }
-    #chatbox {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 100%;
-    }
-    #messages {
-      flex: 1;
-      padding: 16px;
-      overflow-y: auto;
-      background: white;
-      display: flex;
-      flex-direction: column;
-    }
-
-     /* Ny container för att hålla meddelande och rating-ikoner tillsammans */
-    .message-container {
-        display: flex;
-        align-items: flex-end; /* Justerar innehållet (meddelande och ikoner) i botten */
-        margin-bottom: 12px; /* Samma marginal som tidigare på .message */
-        max-width: 75%; /* Samma max-bredd som .message */
-        /* white-space och word-break behålls på .message-bubblan för mer kontroll */
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: white;
     }
-
-     .message-container.user {
-         align-self: flex-end; /* Flytta användarmeddelande-containern till höger */
-         /* justify-content: flex-end; <-- Inte nödvändigt, standard för flex-end */
-     }
-
-     .message-container.bot, .message-container.bot-question {
-         align-self: flex-start; /* Flytta bot-meddelande-containern till vänster */
-     }
-
-    .message {
-      max-width: 100%; /* Låt bubblan ta 100% av sin container (max-width 75% är på containern) */
-      padding: 12px 16px;
-      /* margin-bottom: 12px; <-- Flyttad till message-container */
-      border-radius: 20px;
-      white-space: pre-line; /* Behåll på bubblan */
-      word-break: break-word; /* Behåll på bubblan */
-      font-size: 16px;
-      line-height: 1.4;
-      display: inline-block; /* Behåll */
-         flex-shrink: 1; /* Låt meddelandet krympa om det behövs */
-    }
-    .user .message { /* Specifik stil för message-bubblan i en user-container */
-      align-self: flex-end; /* Säkerställ att bubblan är i slutet av containern */
-      background-color: #f7f7f8;
-      color: #000;
-      border-radius: 18px;
-         margin-right: 0; /* Ingen marginal till höger för användarmeddelande-bubblan */
-         margin-left: 8px; /* Lite utrymme om rating-ikonerna läggs till vänster (ej fallet här) */
-    }
-    .bot .message, .bot-question .message { /* Specifik stil för message-bubblan i en bot-container */
-      align-self: flex-start; /* Säkerställ att bubblan är i början av containern */
-      background: #e8f0fe;
-      color: #000;
-      padding: 12px 16px;
-      border-radius: 18px;
-         margin-right: 8px; /* Lite utrymme till höger för att skilja från ikoner */
-         margin-left: 0; /* Ingen marginal till vänster */
-    }
-
-    /* NY CSS FÖR RATING-IKONER */
-    .message-rating {
-        display: flex;
-        flex-direction: column; /* Ikoner under varandra */
-        align-items: center;
-        justify-content: flex-end; /* Justera ikonerna i botten av flex-containern */
-        opacity: 0; /* Dölj initialt */
-        transition: opacity 0.2s ease-in-out;
-        flex-shrink: 0; /* Förhindra att rating-diven krymper */
+    #wrapper {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      border: 2px solid #00558c;
+      border-radius: 16px;
+      overflow: hidden;
     }
-
-     /* Visa ikoner när musen är över meddelande-containern */
-    .message-container:hover .message-rating {
-        opacity: 1;
+    #chatbox {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
     }
-
-    .rating-icon {
-        width: 18px; /* Mindre storlek på ikonen */
-        height: 18px;
-        cursor: pointer;
-        margin: 2px 0; /* Litet utrymme mellan ikonerna */
-        /* Använd stroke och fill:none för utlinje-stil som på bilden */
-        fill: none;
-        stroke: #888; /* Grå färg för linjen */
-        stroke-width: 1.5; /* Tjocklek på linjen */
-        transition: stroke 0.2s, fill 0.2s;
+    #messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      background: white;
+      display: flex;
+      flex-direction: column;
     }
-
-    .rating-icon:hover {
-        stroke: #000; /* Mörkare linje vid hover */
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-radius: 20px;
+      white-space: pre-line;
+      word-break: break-word;
+      font-size: 16px;
+      line-height: 1.4;
+      display: inline-block;
     }
-
-    .rating-icon.selected {
-        /* När vald, fyll ikonen med färg */
-        /* fill: #00558c; <-- HSB Blå när vald som standard */
-        stroke: none; /* Ingen linje när ifylld */
+    .user {
+      align-self: flex-end;
+      background-color: #f7f7f8;
+      color: #000;
+      border-radius: 18px;
     }
-     .rating-icon.selected.up {
-        fill: green; /* Grön för tumme upp */
-     }
-      .rating-icon.selected.down {
-        fill: red; /* Röd för tumme ner */
-     }
-
-    .rating-icon.disabled {
-        pointer-events: none; /* Går inte att klicka på */
-        opacity: 0.5;
+    .bot, .bot-question {
+      align-self: flex-start;
+      background: #e8f0fe;
+      color: #000;
+      padding: 12px 16px;
+      border-radius: 18px;
     }
-
-
-    .thinking {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-         /* Flytta thinking-bubblan inuti containern */
-         align-self: flex-start;
-         margin-bottom: 12px;
-         max-width: 75%;
-         padding: 12px 16px; /* Lägg till padding för att se ut som en bubbla */
-         border-radius: 18px; /* Lägg till border-radius */
-         background: #e8f0fe; /* Lägg till bakgrundsfärg */
-    }
-     /* Dölj .message-rating när thinking är synlig */
-     .thinking .message-rating { display: none; }
-
-
-    .link-button {
-      display: inline;
-      margin: 0 0 12px 8px; /* Justera marginalen så den inte ligger tätt mot input */
-      background: #00558c;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.2s;
-         align-self: flex-start; /* Justera placering */
-    }
-    .link-button:hover { background: #004070; }
-    #inputArea {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      border-top: 1px solid #e0e0e0;
-      gap: 12px;
-      box-shadow: 0 -2px 4px rgba(0,0,0,0.04);
-    }
-    textarea {
-      flex: 1;
-      min-height: 48px;
-      max-height: 200px;
-      padding: 14px 20px;
-      border-radius: 24px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      resize: none;
-      font-family: 'Open Sans', sans-serif;
-    }
-    textarea:focus {
-      border-color: #00558c;
-      outline: none;
-    }
-    #charCount { font-size: 14px; color: #666; }
-    button {
-      background: #00558c;
-      color: white;
-      border: none;
-      border-radius: 24px;
-      padding: 14px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover { background: #004070; }
-    .error {
-      align-self: center;
-      background: #ffe6e6;
-      color: #d32f2f;
-      padding: 8px 16px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-    }
-  </style>
+    .thinking {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: #888;
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0; }
+      40% { opacity: 1; }
+    }
+    .link-button {
+      display: inline;
+      margin: 0 0 0 8px;
+      background: #00558c;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .link-button:hover { background: #004070; }
+    #inputArea {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-top: 1px solid #e0e0e0;
+      gap: 12px;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.04);
+    }
+    textarea {
+      flex: 1;
+      min-height: 48px;
+      max-height: 200px;
+      padding: 14px 20px;
+      border-radius: 24px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      resize: none;
+      font-family: 'Open Sans', sans-serif;
+    }
+    textarea:focus {
+      border-color: #00558c;
+      outline: none;
+    }
+    #charCount { font-size: 14px; color: #666; }
+    button {
+      background: #00558c;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 14px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #004070; }
+    .error {
+      align-self: center;
+      background: #ffe6e6;
+      color: #d32f2f;
+      padding: 8px 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+  </style>
 </head>
 <body>
-  <div id="wrapper">
-    <div id="chatbox">
-      <div id="messages" aria-live="polite">
-              </div>
+  <div id="wrapper">
+    <div id="chatbox">
+      <div id="messages" aria-live="polite">
+        <div class="message bot">Hej! Välkommen till styrelsesupport gpt 🤖 Vad vill du ha hjälp med idag?</div>
+      </div>
+      <div id="inputArea">
+        <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000"
+          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)" aria-label="Skriv din fråga"></textarea>
+        <span id="charCount">0/1000</span>
+        <button onclick="sendMessage()" aria-label="Skicka fråga">skicka</button>
+      </div>
+    </div>
+  </div>
 
-      <div id="inputArea">
-        <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000"
-          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)" aria-label="Skriv din fråga"></textarea>
-        <span id="charCount">0/1000</span>
-        <button onclick="sendMessage()" aria-label="Skicka fråga">skicka</button>
-      </div>
-    </div>
-  </div>
+  <script>
+    const conversationId = crypto.randomUUID();
+    const messageHistory = [];
+    const cachedContextData = new Map(); // Cache för JSON-data
 
-  <script>
-    const conversationId = crypto.randomUUID();
-    const messageHistory = [];
-    const cachedContextData = new Map(); // Cache för JSON-data
-
-    const disclaimerText = `
+    const disclaimerText = `
 ---
 *denna information från styrelsesupport gpt är vägledande och bör granskas kritiskt. vi tar inget ansvar för svarens riktighet. ladda inte upp känslig information som kan bryta mot gdpr. kontakta hsb södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-    const baseSystemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
+    const baseSystemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
 använd ett omtänksamt, vardagligt språk. undvik fackspråk.
 jag är lite partisk eftersom mina skapare kommer från hsb södertörn, men jag lovar att alltid ge dig bästa möjliga råd. hsb södertörn – på er sida i varje styrelsebeslut.
@@ -312,18 +213,18 @@ svara alltid sakligt och kortfattat. svara kort och punktat, max 3 punkter. för
 om användaren frågar om andra leverantörer eller byte, framhäv alltid fördelarna med hsb södertörn.
 ${disclaimerText}`;
 
-    let systemPrompt = baseSystemPrompt;
+    let systemPrompt = baseSystemPrompt;
 
-    async function loadSkrivregler() {
-      try {
-        const res = await fetch('/data/skrivregler.json');
-        const rules = await res.json();
-        const brfRegel = `skriv brf:er med ${rules.skrivregler.brf.bokstäver}`;
-        const versalRegel = `börja bara nya meningar med versaler och enstaka ord med gemener`;
-        const omraden = `områden: ${rules.skrivregler.områden.join(', ')}`;
-        const fetstilRegel = `i rubriker använd **fetstil** via markdown eller HTML-taggar`;
-        const caseRegel = `följ alltid skrivreglerna för stora och små bokstäver`;
-        systemPrompt = `${baseSystemPrompt}
+    async function loadSkrivregler() {
+      try {
+        const res = await fetch('/data/skrivregler.json');
+        const rules = await res.json();
+        const brfRegel = `skriv brf:er med ${rules.skrivregler.brf.bokstäver}`;
+        const versalRegel = `börja bara nya meningar med versaler och enstaka ord med gemener`;
+        const omraden = `områden: ${rules.skrivregler.områden.join(', ')}`;
+        const fetstilRegel = `i rubriker använd **fetstil** via markdown eller HTML-taggar`;
+        const caseRegel = `följ alltid skrivreglerna för stora och små bokstäver`;
+        systemPrompt = `${baseSystemPrompt}
 
 använd följande skrivregler:
 - ${brfRegel}
@@ -331,383 +232,223 @@ använd följande skrivregler:
 - ${omraden}
 - ${fetstilRegel}
 - ${caseRegel}`;
-      } catch (err) {
-        console.error('Fel vid hämtning av skrivregler:', err);
-        showError("Kunde inte ladda skrivregler. Standardformat används.");
-      }
-    }
-    loadSkrivregler();
-
-    // Cache JSON-data vid sidladdning
-    async function preloadContextData() {
-      const files = ['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json','skrivregler.json'];
-      for (const f of files) {
-        try {
-          const res = await fetch(`/data/${f}`);
-          const j = await res.json();
-          cachedContextData.set(f, j);
-        } catch (err) {
-          console.error(`Fel vid cachning av ${f}:`, err);
-        }
-      }
-    }
-    preloadContextData();
-
-    function showError(message) {
-      const messages = document.getElementById('messages');
-      const div = document.createElement('div');
-      div.className = 'message error';
-      div.textContent = message;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    function createMailLink(subject, body) {
-      const params = new URLSearchParams({ subject, body });
-      return `mailto:info.sodertorn@hsb.se?${params.toString()}`;
-    }
-
-    function autoResize(textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight + 2}px`;
-    }
-
-    function updateCharCount(textarea) {
-      document.getElementById('charCount').textContent = `${textarea.value.length}/1000`;
-    }
-
-    function handleKey(event) {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
-      }
-    }
-
-    // Modifierad addMessage för att hantera meddelande-containers och rating-ikoner
-    function addMessage(text, sender, extraClass='', messageClientTimestamp = null) {
-      const messages = document.getElementById('messages');
-
-      // Skapa en container för att hålla ihop meddelandebubblan och rating-ikonerna
-      const containerDiv = document.createElement('div');
-      containerDiv.className = `message-container ${sender}`; // Använd sender-klass på containern
-
-       // Lägg till tidsstämpel och conversationId som data-attribut för att länka rating om det är ett AI-meddelande
-      if(sender === 'bot' && messageClientTimestamp) {
-          containerDiv.dataset.aiTimestamp = messageClientTimestamp;
-          containerDiv.dataset.conversationId = conversationId;
+      } catch (err) {
+        console.error('Fel vid hämtning av skrivregler:', err);
+        showError("Kunde inte ladda skrivregler. Standardformat används.");
       }
+    }
+    loadSkrivregler();
 
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${sender} ${extraClass}`; // Behåll sender-klass på message-div för befintlig styling
-
-      if (extraClass === 'thinking') {
-          // För "thinking", sätt bara klassen på containern och lägg till prickarna direkt i containern
-          // Detta bibehåller den ursprungliga "thinking" looken bättre
-          containerDiv.className = `message-container thinking`; // Sätt thinking klass på containern
-          containerDiv.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-           // Ta bort onödiga meddelande-diven för thinking-state
-            messages.appendChild(containerDiv);
-            messages.scrollTop = messages.scrollHeight;
-            return containerDiv; // Returnera containern för thinking-state
-      }
-
-
-      // För vanliga meddelanden (user/bot)
-      if (sender === 'bot') {
-          messageDiv.innerHTML = text; // Använd innerHTML för bot-svar för att tillåta HTML/fetstil
-      } else { // User message
-          messageDiv.textContent = text;
-      }
-
-      containerDiv.appendChild(messageDiv); // Lägg till meddelandebubblan i containern
-
-
-      // NYTT: Lägg till rating-ikonerna EFTER bot-meddelanden i containern
-      if (sender === 'bot') {
-         const ratingDiv = document.createElement('div');
-         ratingDiv.className = 'message-rating';
-         // SVG-kod för tumme upp och tumme ner (samma som tidigare)
-         ratingDiv.innerHTML = `
-             <svg class="rating-icon up" data-rating="up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tumme upp</title><path d="M14.63,21H5.37A2.38,2.38,0,0,1,3,18.63V12.51a.5.5,0,0,1,.15-.36L7.11,8.49a2.38,2.38,0,0,1,1.69-.7h.16a.5.5,0,0,1,.46.3l1.57,3.15a.5.5,0,0,0,.32.28H16a2.4,2.4,0,0,0,2.35-2l.21-1.05a.5.5,0,0,0-.48-.56H16a.5.5,0,0,1-.5-.5.5.5,0,0,0-.5-.5H14a.5.5,0,0,1-.5-.5.5.5,0,0,0-.5-.5H12a.5.5,0,0,1-.5-.5.5.5,0,0,0-.5-.5H9.91A4.38,4.38,0,0,0,6.72,6.31L3.08,9.94a1.36,1.36,0,0,0-.05.15V4.37A2.38,2.38,0,0,1,5.37,2h9.26A2.38,2.38,0,0,1,17,4.37V8.09A.5.5,0,0,0,17.5,8.59H20A2,2,0,0,1,22,10.59v6A2,2,0,0,1,20,18.59H18.82a3.47,3.47,0,0,0-.33.19l-1.8,1.44A2.4,2.4,0,0,1,14.63,21Z"/> Tumme upp SVG
-             <svg class="rating-icon down" data-rating="down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Tumme ner</title><path d="M9.37,3H18.63A2.38,2.38,0,0,1,21,5.37v6.12a.5.5,0,0,1-.15.36L16.89,15.51a2.38,2.38,0,0,1-1.69.7h-.16a.5.5,0,0,1-.46-.3L13,12.86a.5.5,0,0,0-.32-.28H8a2.4,2.4,0,0,0-2.35,2l-.21,1.05a.5.5,0,0,0,.48.56H8a.5.5,0,0,1,.5.5.5.5,0,0,0,.5.5H10a.5.5,0,0,1,.5.5.5.5,0,0,0,.5.5H12a.5.5,0,0,1,.5.5.5.5,0,0,0,.5.5h.09A4.38,4.38,0,0,0,17.28,17.69l3.64-3.63a1.36,1.36,0,0,0,.05-.15V19.63A2.38,2.38,0,0,1,18.63,22H9.37A2.38,2.38,0,0,1,7,19.63V16.09a.5.5,0,0,0-.5-.59H4A2,2,0,0,1,2,13.59v-6A2,2,0,0,1,4,5.59H5.18a3.47,3.47,0,0,0,.33-.19l1.8-1.44A2.4,2.4,0,0,1,9.37,3Z"/> Tumme ner SVG
-         `;
-         ratingDiv.style.opacity = 0; // Dölj initialt
-         ratingDiv.style.pointerEvents = 'none'; // Inaktivera klick initialt
-         containerDiv.appendChild(ratingDiv); // Lägg till rating-diven i containern
-      }
-
-      messages.appendChild(containerDiv); // Lägg till hela containern i messages-diven
-      messages.scrollTop = messages.scrollHeight; // Rulla ner
-      // Returnera containern för att typeMessage kan manipulera dess barn (messageDiv)
-      return containerDiv;
-    }
-
-    // Lägg till enkel regex-lösning för fetstil
-    function renderBold(text) {
-      return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    }
-
-    // Funktion för att tillämpa skrivregler på AI-svar
-    function applySkrivregler(text) {
-      // Börja meningar med versaler, enstaka ord med gemener
-      return text.replace(/(^|\.\s+)([a-zåäö])/g, (match, p1, p2) => p1 + p2.toUpperCase());
-    }
-
-
-    async function sendMessage() {
-      const input = document.getElementById('userInput');
-      const message = input.value.trim();
-      if (!message) return;
-
-      addMessage(message, 'user');
-      input.value = '';
-      updateCharCount(input);
-      autoResize(input);
-
-      messageHistory.push({ role:'user', content:message });
-      // Behåll historiken till en rimlig längd för kontext
-      while (messageHistory.length > 10) messageHistory.shift();
-
-         // NYTT: Skapa thinking-containern innan AI anropas
-      const thinkingContainer = addMessage('', 'bot','thinking'); // addMessage hanterar thinking-state nu
-
-       // NYTT: Spara tidsstämpel för detta specifika AI-svar innan AI anropas
-      const aiResponseClientTimestamp = new Date().getTime();
-      let response = await getAIResponse(message, contextData);
-      // thinkingContainer.remove(); // Ta bort thinking-containern
-
-        // Hitta index för thinking-containern i messages-diven
-        const messagesDiv = document.getElementById('messages');
-        const thinkingIndex = Array.from(messagesDiv.children).indexOf(thinkingContainer);
-
-        // Skapa den faktiska meddelande-containern med AI-svaret
-        const botMessageContainer = addMessage(response, 'bot', null, aiResponseClientTimestamp);
-
-        // Ersätt thinking-containern med den nya meddelande-containern
-        if (thinkingIndex !== -1) {
-            messagesDiv.replaceChild(botMessageContainer, thinkingContainer);
-        } else {
-             // Fallback ifall thinking-containern inte hittades (bör inte hända)
-             messagesDiv.appendChild(botMessageContainer);
+    // Cache JSON-data vid sidladdning
+    async function preloadContextData() {
+      const files = ['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json','skrivregler.json'];
+      for (const f of files) {
+        try {
+          const res = await fetch(`/data/${f}`);
+          const j = await res.json();
+          cachedContextData.set(f, j);
+        } catch (err) {
+          console.error(`Fel vid cachning av ${f}:`, err);
         }
+      }
+    }
+    preloadContextData();
 
+    function showError(message) {
+      const messages = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = 'message error';
+      div.textContent = message;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
 
-      // Starta skrivanimationen på meddelande-bubblan i den nya containern
-      const botMessageDiv = botMessageContainer.querySelector('.message');
-      typeMessage(response, 'bot', botMessageDiv); // Skicka med meddelande-diven att skriva till
+    function createMailLink(subject, body) {
+      const params = new URLSearchParams({ subject, body });
+      return `mailto:info.sodertorn@hsb.se?${params.toString()}`;
+    }
 
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight + 2}px`;
+    }
 
-      messageHistory.push({ role:'assistant', content:response });
-      // Behåll historiken till en rimlig längd för kontext
-      while (messageHistory.length > 10) messageHistory.shift();
+    function updateCharCount(textarea) {
+      document.getElementById('charCount').textContent = `${textarea.value.length}/1000`;
+    }
 
+    function handleKey(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
 
-      const key = message.toLowerCase();
-      if (/\b(ärende|skicka e-post|mail|kontakta)\b/.test(key)) {
-        const subject = message.substring(0,50);
-        let bodyLines = [
-          'Hej,',
-          '',
-          'jag heter [namn] från brf:[förening].',
-          '',
-          'här är de senaste 5 frågorna och svaren:'
-        ];
-        const recent = messageHistory.slice(-10); // Ta de senaste 10 meddelandena (5 par)
-        for (let i = 0; i < recent.length; i += 2) {
-          const q = recent[i];
-          const a = recent[i+1];
-          if (q && a) {
-            bodyLines.push('', `fråga: ${q.content}`, `svar: ${a.content}`);
-          }
-        }
-        bodyLines.push('', 'vänligen,', '[namn]', '[telefon]', '[epost]');
-        const body = bodyLines.join('\n');
+    function addMessage(text, sender, extraClass='') {
+      const messages = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = `message ${sender} ${extraClass}`;
+      if (extraClass === 'thinking') {
+        div.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      } else if (sender === 'bot') {
+        div.innerHTML = text;
+      } else {
+        div.textContent = text;
+      }
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div;
+    }
 
-        const mailLink = createMailLink(subject, body);
-        const btn = document.createElement('a');
-        btn.href = mailLink;
-        btn.textContent = 'skicka e-post till hsb';
-        btn.className = 'link-button';
-        btn.target = '_blank';
-        btn.setAttribute('aria-label', 'Skicka e-post till HSB Södertörn');
-         // Wrap link-button i en container för att följa layouten och placera den korrekt
-         const linkContainer = document.createElement('div');
-         linkContainer.className = 'message-container bot'; // Använd bot-klassen för alignment
-         linkContainer.style.maxWidth = '100%'; // Låt knappen ta mer plats om den behöver
-         linkContainer.appendChild(btn);
-        document.getElementById('messages').appendChild(linkContainer);
-         // Rulla ner efter att mail-länk läggs till
-         document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-      }
+    // Lägg till enkel regex-lösning för fetstil
+    function renderBold(text) {
+      return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    }
 
-      const clean = txt => txt
-        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
-        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
-        .replace(/\b\d{10}\b/g,'[telefonnummer]')
-        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
-        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]')
-        .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g,'[adress]');
+    // Funktion för att tillämpa skrivregler på AI-svar
+    function applySkrivregler(text) {
+      // Börja meningar med versaler, enstaka ord med gemener
+      return text.replace(/(^|\.\s+)([a-zåäö])/g, (match, p1, p2) => p1 + p2.toUpperCase());
+    }
 
-      // Logga fråga/svar-paret som tidigare, inkludera clientTimestamp
-      if (window.saveChatLog) {
-        window.saveChatLog(conversationId, clean(message), clean(response), aiResponseClientTimestamp);
-      }
-    }
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      if (!message) return;
 
-    async function loadContextData(userInput) {
-      const ln = userInput.toLowerCase();
-      let ctx = [];
-      for (const [file, data] of cachedContextData) {
-        const keys = [
-          ...(data.tags || []),
-          ...((data.delar || []).flatMap(d => d.nyckelord || []))
-        ].map(k => k.toLowerCase());
-        if (keys.some(k => ln.includes(k))) {
-          ctx.push({ fil: file, innehall: data });
-        }
-      }
-      return ctx;
-    }
+      addMessage(message, 'user');
+      input.value = '';
+      updateCharCount(input);
+      autoResize(input);
 
-    // Modifierad typeMessage för att skriva texten i en specifik meddelande-div
-    // och hantera visning av rating-ikonerna efter skrivning
-    function typeMessage(text, sender, messageDivToTypeIn) {
-      // Använd den meddelande-div som skickas med som argument
-      const messageDiv = messageDivToTypeIn;
-      const messages = document.getElementById('messages'); // Behövs för scroll
+      messageHistory.push({ role:'user', content:message });
+      if (messageHistory.length > 10) messageHistory.shift();
 
-      if (sender === 'bot') { // Endast bot-meddelanden skrivs ut animerat
-        let i = 0;
-        const chunkSize = 10; // Antal tecken att skriva ut åt gången
-        const delay = 30; // Hastighet i ms mellan varje utskrift
+      const thinking = addMessage('', 'bot','thinking');
+      const contextData = await loadContextData(message);
+      let response = await getAIResponse(message, contextData);
+      thinking.remove();
 
-        function type() {
-          if (i < text.length) {
-              let nextIndex = Math.min(i + chunkSize, text.length);
-              let chunk = text.substring(0, nextIndex);
+      response = response.replace(/\[följdfråga\]/gi, '').trim();
+      response = applySkrivregler(response); // Tillämpa skrivregler
+      response = renderBold(response);      // Rendera fetstil
+      typeMessage(response, 'bot');
+      messageHistory.push({ role:'assistant', content:response });
 
-              // Enkel koll för att undvika att klippa mitt i HTML-taggar som <strong>
-              // Hitta slutet på nästa tagg om vi klipper mitt i
-              const lastOpenTag = chunk.lastIndexOf('<');
-              const lastCloseTag = chunk.lastIndexOf('>');
-              if (lastOpenTag > lastCloseTag) { // Vi har en oavslutad tagg i chunk
-                   const nextCloseTag = text.indexOf('>', nextIndex);
-                   if (nextCloseTag !== -1) {
-                       nextIndex = nextCloseTag + 1;
-                       chunk = text.substring(0, nextIndex);
-                   }
-              }
-
-            messageDiv.innerHTML = chunk; // Skriv ut hittillsvarande chunk i meddelande-diven
-            i = nextIndex; // Uppdatera index för nästa utskrift
-
-            messages.scrollTop = messages.scrollHeight; // Rulla ner
-            setTimeout(type, delay); // Schemalägg nästa utskrift
-          } else {
-              // När meddelandet är fullständigt, se till att HTML renderas korrekt en sista gång
-              messageDiv.innerHTML = text;
-
-              // NYTT: Visa rating-ikonerna efter att meddelandet är färdigskrivet
-              const containerDiv = messageDiv.parentElement; // Hitta containern
-              const ratingDiv = containerDiv.querySelector('.message-rating');
-              if(ratingDiv) {
-                 ratingDiv.style.opacity = 1; // Gör ikonerna synliga
-                 ratingDiv.style.pointerEvents = 'auto'; // Gör ikonerna klickbara
-              }
-
-              // Rulla eventuellt ner igen efter att ikonerna visas
-               messages.scrollTop = messages.scrollHeight;
+      const key = message.toLowerCase();
+      if (/\b(ärende|skicka e-post|mail|kontakta)\b/.test(key)) {
+        const subject = message.substring(0,50);
+        let bodyLines = [
+          'Hej,',
+          '',
+          'jag heter [namn] från brf:[förening].',
+          '',
+          'här är de senaste 5 frågorna och svaren:'
+        ];
+        const recent = messageHistory.slice(-10);
+        for (let i = 0; i < recent.length; i += 2) {
+          const q = recent[i];
+          const a = recent[i+1];
+          if (q && a) {
+            bodyLines.push('', `fråga: ${q.content}`, `svar: ${a.content}`);
           }
-        }
-        type(); // Starta skrivanimationen
-      } else { // Användarmeddelanden skrivs ut direkt (ingen ändring här)
-        messageDiv.textContent = text;
-        messages.scrollTop = messages.scrollHeight;
-      }
-      // Returnerar inget specifikt här, hanteringen sker via DOM-manipulation
-    }
-
-
-    async function getAIResponse(userInput, contextData = []) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 20000); // Ökad timeout till 20s
-        const step2 = ["vattenläcka", "årsredovisning", "underhållsplan"];
-        const clar = ["hiss", "trasig", "problem"];
-        const li = userInput.toLowerCase();
-        let ap = "";
-        if (step2.some(k => li.includes(k))) ap = "formatera svaret som en numrerad lista med tydliga steg.";
-        else if (clar.some(k => li.includes(k))) ap = "ställ en följdfråga för att förtydliga.";
-        const response = await fetch("/.netlify/functions/styrelsesupport-gpt", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            conversationId,
-            messages: [
-              { role: "system", content: systemPrompt + `\n${ap}` },
-              // Inkludera senaste meddelandena i historiken för kontext
-               ...messageHistory.slice(-8), // Ta de senaste 8 meddelandena (4 par)
-              { role: "user", content: userInput },
-              { role: "system", content: `databas träffar:\n${JSON.stringify(contextData).slice(0, 4000)}` } // Klipp kontextdata om för stor
-            ]
-          }),
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
-        const js = await response.json();
-        return js.choices?.[0]?.message?.content || "Något gick fel i AI-anropet.";
-      } catch (err) {
-        console.error("Fel vid AI-anrop:", err);
-        if (err.name === 'AbortError') {
-          showError("AI-anropet tog för lång tid och avbröts. Försök igen.");
-          return "Svaret tog för lång tid att generera, försök igen.";
-        }
-        showError("Kunde inte hämta svar. Försök igen senare.");
-        return "Något gick fel, försök senare.";
-      }
-    }
-
-    // NY Händelselyssnare för klick på rating-ikonerna (använder Event Delegation)
-    document.getElementById('messages').addEventListener('click', (e) => {
-        const icon = e.target.closest('.rating-icon');
-        if (!icon || icon.classList.contains('disabled')) return; // Ignorera klick om det inte är en ikon eller om den är inaktiverad
-
-        const rating = icon.dataset.rating; // 'up' eller 'down'
-        const ratingDiv = icon.parentElement; // message-rating div
-        const messageContainer = ratingDiv.parentElement; // message-container div
-
-        const aiMessageClientTimestamp = messageContainer.dataset.aiTimestamp;
-        const currentConversationId = messageContainer.dataset.conversationId;
-
-
-        if (currentConversationId && aiMessageClientTimestamp && rating) {
-            // Spara betyget i Firestore
-            window.saveMessageRating(currentConversationId, parseInt(aiMessageClientTimestamp), rating);
-
-            // Visuell feedback: markera den valda ikonen och inaktivera båda
-            ratingDiv.querySelectorAll('.rating-icon').forEach(i => {
-                i.classList.remove('selected', 'up', 'down'); // Ta bort tidigare markeringar
-                i.classList.add('disabled'); // Inaktivera alla ikoner i denna uppsättning
-            });
-            icon.classList.add('selected', rating); // Markera den klickade ikonen med 'selected' OCH 'up'/'down'
-
-             // Valfritt: Lägg till en liten text bredvid ikonerna, t.ex. "Tack!"
-             // Om du lägger till text, behöver du hantera det i addMessage och här.
-             // Exempel: ratingDiv.innerHTML += '<span style="font-size: 12px; margin-left: 5px;">Tack!</span>';
-        } else {
-            console.error("Kunde inte hitta nödvändig data för att spara betyg.");
         }
-    });
+        bodyLines.push('', 'vänligen,', '[namn]', '[telefon]', '[epost]');
+        const body = bodyLines.join('\n');
 
-    // NYTT: Lägg till det initiala välkomstmeddelandet när sidan laddas
-    document.addEventListener('DOMContentLoaded', () => {
-        // Lägg till initialt meddelande utan rating-ikoner
-        const initialMessageContainer = addMessage('Hej! Välkommen till styrelsesupport gpt 🤖 Vad vill du ha hjälp med idag?', 'bot');
-        // Eftersom detta är initialt och inte ett svar på en fråga, har det ingen tidsstämpel för loggning/ratingkoppling på samma sätt.
-        // Om du vill kunna betygsätta även startmeddelandet krävs mer specifik hantering.
-    });
+        const mailLink = createMailLink(subject, body);
+        const btn = document.createElement('a');
+        btn.href = mailLink;
+        btn.textContent = 'skicka e-post till hsb';
+        btn.className = 'link-button';
+        btn.target = '_blank';
+        btn.setAttribute('aria-label', 'Skicka e-post till HSB Södertörn');
+        document.getElementById('messages').appendChild(btn);
+      }
 
+      const clean = txt => txt
+        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
+        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
+        .replace(/\b\d{10}\b/g,'[telefonnummer]')
+        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
+        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]')
+        .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g,'[adress]');
+      if (window.saveChatLog) {
+        window.saveChatLog(conversationId, clean(message), clean(response));
+      }
+    }
 
-  </script>
+    async function loadContextData(userInput) {
+      const ln = userInput.toLowerCase();
+      let ctx = [];
+      for (const [file, data] of cachedContextData) {
+        const keys = [
+          ...(data.tags || []),
+          ...((data.delar || []).flatMap(d => d.nyckelord || []))
+        ].map(k => k.toLowerCase());
+        if (keys.some(k => ln.includes(k))) {
+          ctx.push({ fil: file, innehall: data });
+        }
+      }
+      return ctx;
+    }
+
+    function typeMessage(text, sender) {
+      const messages = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = `message ${sender}`;
+      messages.appendChild(div);
+      if (sender === 'bot') {
+        let i = 0;
+        const chunkSize = 10;
+        function type() {
+          if (i < text.length) {
+            div.innerHTML = text.substring(0, i + chunkSize);
+            i += chunkSize;
+            messages.scrollTop = messages.scrollHeight;
+            setTimeout(type, 50);
+          }
+        }
+        type();
+      } else {
+        div.textContent = text;
+        messages.scrollTop = messages.scrollHeight;
+      }
+    }
+
+    async function getAIResponse(userInput, contextData = []) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        const step2 = ["vattenläcka", "årsredovisning", "underhållsplan"];
+        const clar = ["hiss", "trasig", "problem"];
+        const li = userInput.toLowerCase();
+        let ap = "";
+        if (step2.some(k => li.includes(k))) ap = "formatera svaret som en numrerad lista med tydliga steg.";
+        else if (clar.some(k => li.includes(k))) ap = "ställ en följdfråga för att förtydliga.";
+        const response = await fetch("/.netlify/functions/styrelsesupport-gpt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            conversationId,
+            messages: [
+              { role: "system", content: systemPrompt + `\n${ap}` },
+              ...messageHistory,
+              { role: "user", content: userInput },
+              { role: "system", content: `databas träffar:\n${JSON.stringify(contextData).slice(0, 4000)}` }
+            ]
+          }),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        const js = await response.json();
+        return js.choices?.[0]?.message?.content || "Något gick fel i AI-anropet.";
+      } catch (err) {
+        console.error("Fel vid AI-anrop:", err);
+        showError("Kunde inte hämta svar. Försök igen senare.");
+        return "Något gick fel, försök senare.";
+      }
+    }
+  </script>
 </body>
 </html>
