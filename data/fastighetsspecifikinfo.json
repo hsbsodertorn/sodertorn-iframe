@@ -640,3 +640,58 @@
     }
   }
 }
+{
+  "fastighet": "Storgatan 43",
+  "ort": "Hemse, Gotland",
+  "sammanfattning": "Information för dig som bor på Storgatan 43 i Hemse. Här finns information om avfall, tvättstuga, förråd, parkering, bredband och kontaktuppgifter.",
+  "tags": [
+    "avfall",
+    "tvättstuga",
+    "förråd",
+    "nyckel",
+    "parkering",
+    "kontakt",
+    "bredband",
+    "el",
+    "återvinning",
+    "hemse",
+    "gotland"
+  ],
+  "info": {
+    "nyckel": {
+      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nyckel kan beställas mot en kostnad."
+    },
+    "avfall": {
+      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+      "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sopkärlen på fastigheten.",
+      "återvinning": {
+        "glas": "Lämnas på återvinningsstationer, t.ex. Coop Hemse eller ICA Supermarket Högbyhallen.",
+        "farligt_el_grov": "Farligt avfall, elavfall och grovavfall lämnas på ÅVC i Sindarve, infart från väg 142 mot Linde. Mindre elavfall kan även lämnas i elektronikbutiker."
+      }
+    },
+    "tvättstuga": {
+      "plats": "Källaren på Storgatan 43",
+      "bokning": "Via kalender i tvättstugan"
+    },
+    "förråd": {
+      "plats": "Förråd finns i källaren samt på gården vid Storgatan 43"
+    },
+    "parkering": {
+      "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter.",
+      "kontakt": {
+        "telefon": "08-608 68 00",
+        "epost": "info.sodertorn@hsb.se"
+      }
+    },
+    "bredband_tv_el": {
+      "leverantörer": [
+        "Globalconnect – öppen för flera leverantörer",
+        "https://privat.globalconnect.se/privat/fiber/villa/",
+        "https://www.bredbandsval.se/"
+      ]
+    },
+    "jour": {
+      "beskrivning": "Jourfirma kontaktas vid vattenläckor eller andra akuta ärenden – kontaktuppgifter finns i trapphuset."
+    }
+  }
+}
