@@ -1,1 +1,54 @@
+{
+  "fastighet": "Storgatan 31 och Apoteksgatan 1, Hemse",
+  "ort": "Hemse, Gotland",
+  "sammanfattning": "Information för dig som bor på Storgatan 31 eller Apoteksgatan 1 i Hemse. Här hittar du rutiner för avfall, tvättstuga, förråd, nycklar, parkering och kontaktuppgifter.",
+  "tags": [
+    "avfall",
+    "tvättstuga",
+    "förråd",
+    "nycklar",
+    "parkering",
+    "bredband",
+    "el",
+    "kontakt",
+    "gotland",
+    "hemse",
+    "återvinning"
+  ],
+  "info": {
+    "avfall": {
+      "sortering_krav": "Du måste sortera ditt avfall enligt Avfallsförordningen. Det gäller förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (t.ex. batterier, kemikalier, läkemedel), elavfall, restavfall samt grovavfall.",
+      "sophus": "I sophuset på gården vid Storgatan 31 kan du lämna matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar.",
+      "återvinning": {
+        "glasförpackningar": "Lämnas på återvinningsstation, t.ex. Coop Hemse eller ICA Supermarket Högbyhallen.",
+        "el_farligt_grov": "Lämnas på återvinningscentral (ÅVC) i Sindarve. Mindre elavfall kan också lämnas till butik som säljer elektronik."
+      }
+    },
+    "tvättstuga": {
+      "plats": "Källaren på Storgatan 31B.",
+      "bokning": "Sker via bokningstavlan i tvättstugan."
+    },
+    "förråd": {
+      "plats": "Finns i källarplan med ingång från både framsida och baksida."
+    },
+    "nycklar": {
+      "förlust": "Vid förlust kontaktar du HSB Kundcenter. Ny nyckel kan beställas mot en kostnad."
+    },
+    "parkering": {
+      "beskrivning": "P-platser finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter.",
+      "kontakt": {
+        "telefon": "08-608 68 00",
+        "epost": "info.sodertorn@hsb.se"
+      }
+    },
+    "bredband_tv_el": {
+      "nätägare": "Strabains fiber",
+      "operatör": "Låst till Telia",
+      "notis": "Mer information bifogas separat."
+    },
+    "jour": {
+      "beskrivning": "Jourfirma vid akuta ärenden utanför kontorstid – detaljer saknas, kompletteras vid behov."
+    }
+  }
+}
 
