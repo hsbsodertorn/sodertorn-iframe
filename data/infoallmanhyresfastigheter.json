@@ -1,1 +1,73 @@
-
+{
+  "kategori": "hyresgast_info",
+  "sammanfattning": "Som hyresgäst hos HSB Södertörn får du tillgång till tryggt boende, praktisk information, skötselråd och kontaktvägar. Vi vill att du ska trivas i ditt hem och i området.",
+  "tags": [
+    "hyresgäst",
+    "lägenhet",
+    "inflyttning",
+    "trivselregler",
+    "störningar",
+    "brandskydd",
+    "hyresbetalning",
+    "försäkring",
+    "elavtal",
+    "uppsägning",
+    "gemensamma ytor",
+    "tvättstuga",
+    "kontakt",
+    "felanmälan",
+    "hsb södertörn"
+  ],
+  "delar": [
+    {
+      "titel": "Välkommen som hyresgäst",
+      "beskrivning": "Varmt välkommen till HSB Södertörn och din nya lägenhet. Vi hoppas att du ska trivas med oss och dina nya grannar. I detta informationsmaterial får du en praktisk introduktion till dina rättigheter och skyldigheter som hyresgäst. Vi finns i kommunerna Huddinge, Botkyrka, Tullinge, Nynäshamn och på Gotland och har över 400 hyresrätter. Vi är glada att du har valt att bo med oss!",
+      "nyckelord": ["nyinflyttad", "välkommen", "hsb södertörn"]
+    },
+    {
+      "titel": "Trygghet och trivsel",
+      "beskrivning": "Trygghet är en viktig del i vår förvaltning. Vi vill att alla boende ska känna sig säkra i fastigheten. Trivsel skapas genom hänsyn – därför är det viktigt att du visar respekt för dina grannar, särskilt mellan kl 22.00 och 07.00. Du får naturligtvis leva och röra dig som vanligt, men hög ljudnivå bör undvikas under kvällstid. Du ansvarar för att hålla din lägenhet, balkong och uteplats i gott skick. Mata inte fåglar – det drar till sig skadedjur. Om dina grannar stör dig, börja med att prata direkt med dem. Hjälper inte det, kontakta HSB eller störningsjouren. Vid upprepade störningar riskerar du uppsägning.",
+      "nyckelord": ["trygghet", "trivsel", "störningar", "ansvar"]
+    },
+    {
+      "titel": "Brandskydd och säkerhet",
+      "beskrivning": "Du som hyresgäst ansvarar för att brandvarnaren fungerar. Testa den en gång i månaden och efter att du varit bortrest. Byt batteri vid behov. MSB rekommenderar även att du har en pulversläckare hemma (minst 6 kg). Det är viktigt att trapphus och källargångar hålls fria från föremål. Cyklar, barnvagnar och annat får inte blockera utrymningsvägar.",
+      "nyckelord": ["brandskydd", "brandvarnare", "säkerhet", "msb"]
+    },
+    {
+      "titel": "Hyresbetalning och avier",
+      "beskrivning": "Din hyra ska vara betald senast den sista vardagen före ny månad. Du kan betala via autogiro eller e-faktura, vilket rekommenderas. Anmäl detta via din internetbank. Väljer du att betala manuellt används de avier du får hem eller som finns i Mitt HSB. Vid försening skickas påminnelse, därefter går ärendet till inkasso. Upprepade förseningar kan leda till uppsägning.",
+      "nyckelord": ["hyra", "autogiro", "e-faktura", "inkasso"]
+    },
+    {
+      "titel": "Försäkring och elavtal",
+      "beskrivning": "Du behöver själv teckna en hemförsäkring och ett elavtal. Försäkring ordnas genom valfritt försäkringsbolag. Elavtal tecknas genom kontakt med elbolag där du uppger din adress och lägenhetsnummer.",
+      "nyckelord": ["hemförsäkring", "elavtal", "ansvar"]
+    },
+    {
+      "titel": "Uppsägning och utflytt",
+      "beskrivning": "Uppsägning ska ske skriftligt med tre månaders uppsägningstid. Exempel: säger du upp din lägenhet 15 januari så är den uppsagd till 30 april. Du betalar sista hyran i slutet av mars. Du är skyldig att visa lägenheten för nya hyresgäster. Besiktning sker både vid inflytt och utflytt. Du kan bli skyldig att återställa lägenheten om du gjort större ändringar.",
+      "nyckelord": ["uppsägning", "kontrakt", "besiktning", "visning"]
+    },
+    {
+      "titel": "Stopp i avlopp",
+      "beskrivning": "Vid stopp i handfat, diskho eller toalett – börja med att hälla i kokhett vatten och diskmedel eller bakpulver/bikarbonat. Fyll upp tvättställ med vatten och använd vaskrensare. I vissa fall kan du behöva skruva loss vattenlåset och rensa manuellt. Om inget hjälper, gör en felanmälan. Använd aldrig kaustiksoda eller frätande kemikalier. Släng aldrig annat än toalettpapper i toaletten – ha en papperskorg i badrummet. Fett ska slängas i soporna, inte i avloppet.",
+      "nyckelord": ["avlopp", "stopp", "vaskrensare", "felanmälan"]
+    },
+    {
+      "titel": "Gemensamma ytor",
+      "beskrivning": "Cykel- och barnvagnsrum finns i de flesta fastigheter. De får endast användas för cyklar och barnvagnar. Inget får förvaras i trapphus eller källare, då dessa är utrymningsvägar. Det är förbjudet att ställa skräp, möbler eller annat i dessa utrymmen. Det är inte heller tillåtet att röka i trapphus eller andra gemensamma utrymmen.",
+      "nyckelord": ["gemensamma ytor", "trapphus", "barnvagnsrum", "rökning"]
+    },
+    {
+      "titel": "Tvättstuga",
+      "beskrivning": "Tvättstugan får endast användas av HSBs hyresgäster. Städning efter användning är ett krav – torka maskiner, diska ur fack, borsta filter i torktumlare och skåp, sopa golvet och rengör golvbrunnen. Tvättstugan får bara användas under bokad tid. Mattor och skor får inte tvättas. Det är inte tillåtet att färga kläder eller hälla vatten i maskinerna. Dosera tvättmedel rätt och undvik sköljmedel.",
+      "nyckelord": ["tvättstuga", "städning", "bokning", "tvättregler"]
+    },
+    {
+      "titel": "Kontakt och service",
+      "beskrivning": "För att komma i kontakt med HSB Södertörn – använd hemsidan. Där finns både kundcenter och felanmälan. Via Mitt HSB får du tillgång till hyresavier, OCR-nummer, avtal, bosparande och mer. Lokala kontor finns i Nynäshamn, Tullinge, Hallunda och Gotland – se hemsidan för öppettider.",
+      "nyckelord": ["kontakt", "felanmälan", "mitt hsb", "kundcenter", "besöksadress"]
+    }
+  ]
+}
