@@ -33,7 +33,7 @@
     }
     #messages {
       flex: 1;
-      padding: 16px;
+      padding: 12px;
       overflow-y: auto;
       background: white;
       display: flex;
@@ -41,8 +41,8 @@
     }
     .message {
       max-width: 75%;
-      padding: 12px 16px;
-      margin-bottom: 12px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
       border-radius: 20px;
       white-space: pre-line;
       word-break: break-word;
@@ -64,7 +64,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      padding: 32px 16px 8px;
+      padding: 12px 12px 4px;
     }
     .topic-buttons button {
       background-color: white;
@@ -74,11 +74,20 @@
       font-size: 14px;
       color: #00558c;
       cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .topic-buttons button:hover {
+      background-color: #00558c;
+      color: white;
+    }
+    .topic-buttons button.active {
+      background-color: #00558c;
+      color: white;
     }
     #inputArea {
       display: flex;
       align-items: center;
-      padding: 12px 16px;
+      padding: 12px;
       border-top: 1px solid #e0e0e0;
       gap: 12px;
     }
@@ -86,7 +95,7 @@
       flex: 1;
       min-height: 48px;
       max-height: 200px;
-      padding: 14px 20px;
+      padding: 12px 16px;
       border-radius: 24px;
       border: 1px solid #ccc;
       font-size: 16px;
@@ -103,7 +112,7 @@
       color: white;
       border: none;
       border-radius: 24px;
-      padding: 14px 20px;
+      padding: 12px 16px;
       font-size: 16px;
       cursor: pointer;
     }
@@ -116,6 +125,47 @@
       padding: 0.5rem 1rem;
     }
   </style>
+  <script>
+    function insertMessage(text) {
+      const messages = document.getElementById('messages');
+
+      // Ta bort tidigare automatiska bot-meddelanden (ej det första)
+      const oldBotMessages = messages.querySelectorAll('.bot:not(:first-of-type)');
+      oldBotMessages.forEach(msg => msg.remove());
+
+      const div = document.createElement('div');
+      div.className = 'message bot';
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('.topic-buttons button');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          let question = '';
+          switch (btn.textContent.trim()) {
+            case '🛠️ Något är trasigt':
+              question = 'Vad är det som är trasigt i din lägenhet eller i huset?';
+              break;
+            case '🗝️ Inflytt & nycklar':
+              question = 'Vad vill du veta om inflyttning eller nycklar? Gäller det nycklar, förråd eller port?';
+              break;
+            case '🔇 Störningar':
+              question = 'Berätta gärna mer – vad är det som stör, och hur ofta händer det?';
+              break;
+            case '💸 Hyra & betalning':
+              question = 'Vad vill du veta om hyran eller hur du betalar den?';
+              break;
+          }
+          insertMessage(question);
+        });
+      });
+    });
+  </script>
 </head>
 <body>
   <div id="wrapper">
