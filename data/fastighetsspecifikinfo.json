@@ -1,697 +1,939 @@
-[
-  {
-    "fastighet": "Storgatan 31 och Apoteksgatan 1",
-    "ort": "Hemse, Gotland",
-    "sammanfattning": "Information för dig som bor på Storgatan 31 eller Apoteksgatan 1 i Hemse. Här hittar du rutiner för avfall, tvättstuga, förråd, nycklar, parkering och kontaktuppgifter.",
-    "tags": [
-      "avfall",
-      "tvättstuga",
-      "förråd",
-      "nyckel",
-      "parkering",
-      "bredband",
-      "el",
-      "kontakt",
-      "gotland",
-      "hemse",
-      "återvinning"
-    ],
-    "info": {
-      "avfall": {
-        "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, kemikalier, läkemedel), elavfall, restavfall, grovavfall.",
-        "insamling": "I sophuset vid Storgatan 31 lämnas matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar.",
-        "återvinning": {
-          "glas": "Lämnas på stationer t.ex. Coop Hemse eller ICA Högbyhallen.",
-          "farligt_el_grov": "Lämnas på ÅVC i Sindarve. Mindre elavfall kan lämnas i elektronikbutiker."
-        }
-      },
-      "tvättstuga": {
-        "plats": "Källaren på Storgatan 31B",
-        "bokning": "Via tavla i tvättstugan"
-      },
-      "förråd": {
-        "plats": "Källarplan med ingång från framsida och baksida"
-      },
-      "nyckel": {
-        "förlust": "Kontakta HSB Kundcenter. Ny nyckel kan beställas mot kostnad."
-      },
-      "parkering": {
-        "beskrivning": "Hyresplatser finns. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter.",
+{
+  "version": "1.0.0",
+  "last_updated": "2025-05-20",
+  "fastigheter": [
+    {
+      "fastighet": "Storgatan 31 och Apoteksgatan 1",
+      "ort": "Hemse, Gotland",
+      "sammanfattning": "Information för dig som bor på Storgatan 31 eller Apoteksgatan 1 i Hemse. Här hittar du rutiner för avfall, tvättstuga, förråd, nycklar, parkering och kontaktuppgifter.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "parkering",
+        "bredband",
+        "el",
+        "kontakt",
+        "gotland",
+        "hemse",
+        "återvinning"
+      ],
+      "info": {
         "kontakt": {
           "telefon": "08-608 68 00",
-          "epost": "info.sodertorn@hsb.se"
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, kemikalier, läkemedel), elavfall, restavfall, grovavfall.",
+          "insamling": "I sophuset vid Storgatan 31 lämnas matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar.",
+          "återvinning": {
+            "glas": {
+              "beskrivning": "Lämnas på återvinningsstationer.",
+              "platser": [
+                {
+                  "namn": "Coop Hemse",
+                  "adress": "Storgatan 10, 623 50 Hemse"
+                },
+                {
+                  "namn": "ICA Högbyhallen",
+                  "adress": "Högbygatan 23, 623 50 Hemse"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC i Sindarve, väg 142 mot Linde. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Sindarve 123, 623 50 Hemse"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Källaren på Storgatan 31B",
+          "bokning": "Via bokningstavla i tvättstugan"
+        },
+        "förråd": {
+          "plats": "Källarplan med ingång från framsida och baksida"
+        },
+        "nyckel": {
+          "beskrivning": "Vid förlust, kontakta HSB Kundcenter. Ny nyckel kan beställas mot kostnad."
+        },
+        "parkering": {
+          "beskrivning": "Hyresplatser finns. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Strabains fiber",
+          "operatör": "Telia",
+          "öppen": false,
+          "leverantörer": [
+            "Telia – kontakta operatör för anslutning"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Akuta ärenden hanteras av jourfirma via Mitt HSB. Kontakta HSB Kundcenter för detaljer."
         }
-      },
-      "bredband_tv_el": {
-        "nätägare": "Strabains fiber",
-        "operatör": "Telia",
-        "info": "Stängt nät, mer info bifogas separat."
-      },
-      "jour": {
-        "beskrivning": "Akuta ärenden hanteras av jourfirma via Mitt HSB (detaljer saknas)."
-      }
-    }
-  },
-  {
-  "fastighet": "Storgatan 41",
-  "ort": "Hemse, Gotland",
-  "sammanfattning": "Information för dig som bor på Storgatan 41 i Hemse. Här hittar du rutiner för avfall, tvättstuga, förråd, bredband, parkering och kontaktuppgifter.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "parkering",
-    "garage",
-    "bredband",
-    "el",
-    "kontakt",
-    "återvinning",
-    "gotland",
-    "hemse"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nycklar kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
-      "insamling": "Matavfall, restavfall, batterier, tidningar och plast-, metall- och pappersförpackningar lämnas i sopkärlen på fastigheten.",
-      "återvinning": {
-        "glas": "Lämnas på återvinningsstation, t.ex. Coop Hemse eller ICA Supermarket Högbyhallen.",
-        "farligt_el_grov": "Lämnas på återvinningscentral (ÅVC) i Sindarve, infart från väg 142 mot Linde. Mindre elavfall kan även lämnas i elektronikbutiker."
       }
     },
-    "tvättstuga": {
-      "plats": "Källaren på Storgatan 41",
-      "bokning": "Via kalender i tvättstugan"
-    },
-    "förråd": {
-      "plats": "Förråd till lägenheten finns på gården"
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser och garage finns att hyra som tillhör fastigheten. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter.",
-      "kontakt": {
-        "telefon": "08-608 68 00",
-        "epost": "info.sodertorn@hsb.se"
-      }
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Globalconnect – öppen för flera leverantörer",
-        "https://privat.globalconnect.se/privat/fiber/villa/",
-        "https://www.bredbandsval.se/"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Jourfirma kontaktas vid vattenläckor eller andra akuta ärenden – info finns i anslaget vid inflytt."
-    }
-  }
-}
-  {
-    "fastighet": "Silvergatan 1–11 och Vismyrsvägen 2–12",
-    "ort": "Hemse, Gotland",
-    "sammanfattning": "Information för dig som bor på Silvergatan eller Vismyrsvägen i Hemse. Här hittar du praktiska rutiner för sophantering, parkering, förråd, bredband och kontaktuppgifter.",
-    "tags": [
-      "avfall",
-      "förråd",
-      "nyckel",
-      "parkering",
-      "bredband",
-      "el",
-      "kontakt",
-      "gotland",
-      "hemse",
-      "återvinning",
-      "tvättstuga"
-    ],
-    "info": {
-      "avfall": {
-        "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
-        "insamling": "I soputrymmet vid Silvergatan/Vismyrsvägen lämnas matavfall, restavfall, batterier, tidningar, plast-, metall- och pappersförpackningar.",
-        "återvinning": {
-          "glas": "Lämnas på stationer t.ex. Coop Hemse eller ICA Högbyhallen.",
-          "farligt_el_grov": "Lämnas på ÅVC Sindarve. Mindre elavfall kan lämnas i elektronikbutiker."
-        }
-      },
-      "tvättstuga": {
-        "plats": "Ingen gemensam. Tvättmaskin finns i varje lägenhet."
-      },
-      "förråd": {
-        "plats": "Förråd finns på gården"
-      },
-      "nyckel": {
-        "förlust": "Kontakta HSB Kundcenter. Ny nyckel kan beställas mot kostnad."
-      },
-      "parkering": {
-        "beskrivning": "Hyresplatser finns. Logga in på Mitt HSB för kö, eller kontakta HSB Kundcenter.",
+    {
+      "fastighet": "Storgatan 41",
+      "ort": "Hemse, Gotland",
+      "sammanfattning": "Information för dig som bor på Storgatan 41 i Hemse. Här hittar du rutiner för avfall, tvättstuga, förråd, bredband, parkering och kontaktuppgifter.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "parkering",
+        "garage",
+        "bredband",
+        "el",
+        "kontakt",
+        "återvinning",
+        "gotland",
+        "hemse"
+      ],
+      "info": {
         "kontakt": {
           "telefon": "08-608 68 00",
-          "epost": "info.sodertorn@hsb.se"
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "Vid förlust, kontakta HSB Kundcenter. Nycklar kan beställas mot en kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
+          "insamling": "Matavfall, restavfall, batterier, tidningar och plast-, metall- och pappersförpackningar lämnas i sopkärlen på fastigheten.",
+          "återvinning": {
+            "glas": {
+              "beskrivning": "Lämnas på återvinningsstationer.",
+              "platser": [
+                {
+                  "namn": "Coop Hemse",
+                  "adress": "Storgatan 10, 623 50 Hemse"
+                },
+                {
+                  "namn": "ICA Supermarket Högbyhallen",
+                  "adress": "Högbygatan 23, 623 50 Hemse"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC i Sindarve, infart från väg 142 mot Linde. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Sindarve 123, 623 50 Hemse"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Källaren på Storgatan 41",
+          "bokning": "Via bokningstavla i tvättstugan"
+        },
+        "förråd": {
+          "plats": "Förråd till lägenheten finns på gården"
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser och garage finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Globalconnect",
+          "öppen": true,
+          "leverantörer": [
+            "Globalconnect – öppen för flera leverantörer",
+            "https://privat.globalconnect.se/privat/fiber/lagenhet/",
+            "https://www.bredbandsval.se/"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla vid entrén."
         }
-      },
-      "bredband_tv_el": {
-        "nätägare": "Globalconnect",
-        "öppen": "Ja, öppen för flera leverantörer",
-        "länkar": [
-          "https://privat.globalconnect.se/privat/fiber/villa/",
-          "https://www.bredbandsval.se/"
-        ]
-      },
-      "jour": {
-        "beskrivning": "Jourfirma kontaktas via Mitt HSB för akuta ärenden (exempelvis vattenläckor)."
+      }
+    },
+    {
+      "fastighet": "Silvergatan 1–11 och Vismyrsvägen 2–12",
+      "ort": "Hemse, Gotland",
+      "sammanfattning": "Information för dig som bor på Silvergatan eller Vismyrsvägen i Hemse. Här hittar du praktiska rutiner för sophantering, parkering, förråd, bredband och kontaktuppgifter.",
+      "tags": [
+        "avfall",
+        "förråd",
+        "nyckel",
+        "parkering",
+        "bredband",
+        "el",
+        "kontakt",
+        "gotland",
+        "hemse",
+        "återvinning"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+          "insamling": "Matavfall, restavfall, batterier, tidningar, plast-, metall- och pappersförpackningar lämnas i soputrymmet vid Silvergatan/Vismyrsvägen.",
+          "återvinning": {
+            "glas": {
+              "beskrivning": "Lämnas på återvinningsstationer.",
+              "platser": [
+                {
+                  "namn": "Coop Hemse",
+                  "adress": "Storgatan 10, 623 50 Hemse"
+                },
+                {
+                  "namn": "ICA Högbyhallen",
+                  "adress": "Högbygatan 23, 623 50 Hemse"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC i Sindarve. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Sindarve 123, 623 50 Hemse"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": null,
+          "beskrivning": "Tvättmaskin finns i varje lägenhet. Ingen gemensam tvättstuga."
+        },
+        "förråd": {
+          "plats": "Förråd finns på gården"
+        },
+        "nyckel": {
+          "beskrivning": "Vid förlust, kontakta HSB Kundcenter. Ny nyckel kan beställas mot kostnad."
+        },
+        "parkering": {
+          "beskrivning": "Hyresplatser finns. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Globalconnect",
+          "öppen": true,
+          "leverantörer": [
+            "Globalconnect – öppen för flera leverantörer",
+            "https://privat.globalconnect.se/privat/fiber/lagenhet/",
+            "https://www.bredbandsval.se/"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas via Mitt HSB för akuta ärenden som vattenläckor."
+        }
+      }
+    },
+    {
+      "fastighet": "Floravägen 15",
+      "ort": "Nynäshamn",
+      "sammanfattning": "Information för dig som bor på Floravägen 15. Här finns information om avfall, tvättstuga, bastu, överlämningslägenhet, parkering och kontaktuppgifter.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "aptus",
+        "parkering",
+        "bredband",
+        "el",
+        "kontakt",
+        "nynäshamn",
+        "återvinning",
+        "bastu",
+        "gym",
+        "överlämningslägenhet"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "För att komma in i porten krävs en Aptus-bricka. Vid förlust, kontakta HSB Kundcenter. Ny bricka kan beställas mot en kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, sprayflaskor, läkemedel, nagellack, kemikalier), elavfall, restavfall, grovavfall.",
+          "insamling": "Matavfall och restavfall lämnas i soprum i anslutning till entrén på Floravägen 15. Småel och grovavfall lämnas i grovsoprummet på Floravägen 21, där finns även förpacknings- och tidningsinsamling.",
+          "återvinning": {
+            "farligt_el_grov": {
+              "beskrivning": "Större elavfall och farligt avfall lämnas på ÅVC. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Åkervägen 11, 149 45 Nynäshamn"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Vid entrén till Floravägen 21",
+          "bokning": "Via bokningstavla i entrén eller i appen Aptus Home",
+          "extra": "Grovtvättstuga finns på Floravägen 17 – bokas via kolvar/cylinder."
+        },
+        "förråd": {
+          "plats": "Förråd finns till varje lägenhet på bottenvåningen."
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Ellevio",
+          "öppen": true,
+          "leverantörer": [
+            "Tele2 – baskanalpaket ingår",
+            "Telia – kontakta operatör för anslutning",
+            "Ellevio – valfritt via https://www.bredbandsval.se/"
+          ]
+        },
+        "överlämningslägenhet": {
+          "beskrivning": "Överlämningslägenhet finns att hyra. Kontakta Dorothy via anslagstavlan i trapphuset."
+        },
+        "gym_bastu": {
+          "beskrivning": "Gym och bastu delas med övriga fastigheter i området. Kontakta ansvarig via anslagstavlan i trapphuset."
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla i trapphuset."
+        }
+      }
+    },
+    {
+      "fastighet": "Sågstuvägen 4–30",
+      "ort": "Huddinge",
+      "sammanfattning": "Information för dig som bor på Sågstuvägen. Här hittar du information om avfallshantering, nyckelbrickor, parkering, förråd, bredband, tvättstuga och jour.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "aptus",
+        "parkering",
+        "elbil",
+        "bredband",
+        "el",
+        "kontakt",
+        "återvinning",
+        "huddinge"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "För att komma in i porten behövs en Aptus-bricka. Vid förlust, kontakta HSB Kundcenter. Ny bricka kan beställas mot en kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+          "insamling": "Matavfall och restavfall slängs i märkta behållare nära huset. Ljuskällor och småelektronik slängs i elburar vid portarna 10–12 och 14–16. Grovavfall lämnas i grovsoprummet nära porten 18–20.",
+          "återvinning": {
+            "förpackningar": {
+              "beskrivning": "Lämnas vid vändplanen på Sågstuvägen."
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Större elavfall och farligt avfall lämnas på ÅVC. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "platser": [
+                {
+                  "namn": "ÅVC Himmelsbodavägen",
+                  "adress": "Himmelsbodavägen 19, 147 92 Tumba"
+                },
+                {
+                  "namn": "ÅVC Länna",
+                  "adress": "Lännavägen 1, 142 53 Skogås"
+                }
+              ]
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Sågstuvägen 16 och 19",
+          "bokning": "Via Aptus-tavlan i tvättstugan"
+        },
+        "förråd": {
+          "plats": "Förråd finns till varje lägenhet i huset. Extra förråd kan finnas för uthyrning – anmäl intresse via Mitt HSB."
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser finns att hyra i garaget vid Sågstuvägen 3. Ställ dig i kö via Mitt HSB. Laddplats för elbil finns."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Vattenfall",
+          "öppen": true,
+          "leverantörer": [
+            "Tele2 – baskanalpaket ingår",
+            "Telia – kontakta operatör för utökat utbud",
+            "Vattenfall – välj eget elavtal"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla i trapphuset."
+        }
+      }
+    },
+    {
+      "fastighet": "Hamngatan 7",
+      "ort": "Nynäshamn",
+      "sammanfattning": "Information för dig som bor på Hamngatan 7 i Nynäshamn. Här hittar du information om avfall, tvättstuga, parkering, förråd, bredband och kontaktvägar.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "aptus",
+        "parkering",
+        "bredband",
+        "el",
+        "kontakt",
+        "återvinning",
+        "nynäshamn"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "För att komma in i porten krävs en Aptus-bricka. Vid förlust, kontakta HSB Kundcenter. Ny bricka kan beställas mot kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
+          "insamling": "Matavfall och restavfall slängs i behållare på framsidan av huset. Ljuskällor och småel slängs i kärl i uppsamlingsrum/gamla grovsoprummet vid port 7A.",
+          "återvinning": {
+            "förpackningar_tidningar": {
+              "beskrivning": "Lämnas vid återvinningsstationer.",
+              "platser": [
+                {
+                  "namn": "Alkärrsplan",
+                  "adress": "Alkärrsplan, 149 45 Nynäshamn"
+                },
+                {
+                  "namn": "Gästhamnen",
+                  "adress": "Hamngatan, 149 45 Nynäshamn"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Åkervägen 11, 149 45 Nynäshamn"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Vid entrén",
+          "bokning": "Via tavlan i entrén eller i Aptus-appen"
+        },
+        "förråd": {
+          "plats": "I källaren. Extra förråd kan finnas för uthyrning."
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Ellevio",
+          "öppen": true,
+          "leverantörer": [
+            "Tele2 – baskanalpaket ingår",
+            "Telia – kontakta operatör för utökat kanalutbud",
+            "Ellevio – välj eget elavtal via https://www.bredbandsval.se/"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla i trapphuset."
+        }
+      }
+    },
+    {
+      "fastighet": "Forelltorget 2",
+      "ort": "Huddinge",
+      "sammanfattning": "Information för dig som bor på Forelltorget 2 i Huddinge. Här hittar du information om avfallshantering, nyckelbricka, tvättstuga, bredband, förråd och kontaktvägar.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "aptus",
+        "bredband",
+        "el",
+        "kontakt",
+        "återvinning",
+        "huddinge"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "För att komma in i porten krävs en Aptus-bricka. Vid förlust, kontakta HSB Kundcenter. Ny bricka kan beställas mot kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+          "insamling": "Matavfall, restavfall, grovsopor, batterier och ljuskällor lämnas i soprum i källaren.",
+          "återvinning": {
+            "förpackningar_tidningar": {
+              "beskrivning": "Lämnas vid återvinningsstation.",
+              "adress": "Kommunalvägen, bredvid Grill Palatset, 141 61 Huddinge"
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Farligt avfall och grovavfall lämnas på ÅVC. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "platser": [
+                {
+                  "namn": "ÅVC Himmelsbodavägen",
+                  "adress": "Himmelsbodavägen 19, 147 92 Tumba"
+                },
+                {
+                  "namn": "ÅVC Hallunda torg",
+                  "adress": "Hallunda torg, 145 68 Norsborg"
+                }
+              ]
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Källaren – nås direkt via hiss",
+          "bokning": "Via Aptus-tavlan i tvättstugan"
+        },
+        "förråd": {
+          "plats": "Förråd finns i vinden eller källaren beroende på lägenhet."
+        },
+        "parkering": {
+          "beskrivning": "Inga parkeringsplatser finns att hyra i denna fastighet."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Vattenfall",
+          "öppen": true,
+          "leverantörer": [
+            "Tele2 – baskanalpaket ingår",
+            "Telia – kontakta operatör för fler kanaler",
+            "Vattenfall – välj eget elavtal"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla i trapphuset."
+        }
+      }
+    },
+    {
+      "fastighet": "Nyängsvägen 3",
+      "ort": "Huddinge",
+      "sammanfattning": "Information för dig som bor på Nyängsvägen 3 i Huddinge. Här finns information om avfall, nyckelbricka, tvättstuga, bredband, parkering, förråd och kontaktuppgifter.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "aptus",
+        "parkering",
+        "bredband",
+        "el",
+        "kontakt",
+        "återvinning",
+        "huddinge"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "För att komma in i porten krävs en Aptus-bricka. Vid förlust, kontakta HSB Kundcenter. Ny bricka kan beställas mot en kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+          "insamling": "Matavfall och restavfall lämnas i soputrymmet på baksidan av fastigheten (3a och 3b).",
+          "återvinning": {
+            "förpackningar_tidningar": {
+              "beskrivning": "Lämnas vid återvinningsstation på parkeringsplatsen framför fastigheten.",
+              "adress": "Nyängsvägen 3, 141 61 Huddinge"
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Himmelsbodavägen 19, 147 92 Tumba"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Våning 2, 3 och 3b i huset",
+          "bokning": "Via Aptus-tavlan i entrén eller via appen Aptus Home"
+        },
+        "förråd": {
+          "plats": "Förråd till lägenheten finns i bostaden. Extra förråd kan finnas för uthyrning."
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö och anmäl intresse via Mitt HSB."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Vattenfall",
+          "öppen": true,
+          "leverantörer": [
+            "Tele2 – baskanalpaket ingår",
+            "Telia – kontakta operatör för fler kanaler",
+            "Vattenfall – välj eget elavtal"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla i trapphuset."
+        }
+      }
+    },
+    {
+      "fastighet": "Jac Norrbys Gata 42–72",
+      "ort": "Hemse, Gotland",
+      "sammanfattning": "Information för dig som bor på Jac Norrbys Gata 42–72 i Hemse. Här hittar du rutiner för avfall, förråd, parkering, tvättmöjligheter, bredband och kontaktvägar.",
+      "tags": [
+        "avfall",
+        "förråd",
+        "nyckel",
+        "parkering",
+        "bredband",
+        "el",
+        "kontakt",
+        "återvinning",
+        "hemse",
+        "gotland"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "Vid förlust, kontakta HSB Kundcenter. Nyckel kan beställas mot en kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
+          "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sophuset på gården.",
+          "återvinning": {
+            "glas": {
+              "beskrivning": "Lämnas vid återvinningsstationer.",
+              "platser": [
+                {
+                  "namn": "Coop Hemse",
+                  "adress": "Storgatan 10, 623 50 Hemse"
+                },
+                {
+                  "namn": "ICA Supermarket Högbyhallen",
+                  "adress": "Högbygatan 23, 623 50 Hemse"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC i Sindarve. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Sindarve 123, 623 50 Hemse"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": null,
+          "beskrivning": "Tvättmaskin finns i varje lägenhet. Ingen gemensam tvättstuga."
+        },
+        "förråd": {
+          "plats": "Förråd finns i anslutning till respektive lägenhet."
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser eller carport finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Globalconnect",
+          "öppen": true,
+          "leverantörer": [
+            "Globalconnect – öppen för flera leverantörer",
+            "https://privat.globalconnect.se/privat/fiber/lagenhet/",
+            "https://www.bredbandsval.se/"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla vid entrén."
+        }
+      }
+    },
+    {
+      "fastighet": "Visbyvägen 9",
+      "ort": "Hemse, Gotland",
+      "sammanfattning": "Information för dig som bor på Visbyvägen 9 i Hemse. Här hittar du rutiner för avfall, förråd, parkering, bredband, tvättmöjligheter och kontaktuppgifter.",
+      "tags": [
+        "avfall",
+        "förråd",
+        "nyckel",
+        "parkering",
+        "bredband",
+        "el",
+        "kontakt",
+        "återvinning",
+        "gotland",
+        "hemse"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "Vid förlust, kontakta HSB Kundcenter. Nyckel kan beställas mot en kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
+          "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sophuset på gården (Jac Norrbys Gata).",
+          "återvinning": {
+            "glas": {
+              "beskrivning": "Lämnas vid återvinningsstationer.",
+              "platser": [
+                {
+                  "namn": "Coop Hemse",
+                  "adress": "Storgatan 10, 623 50 Hemse"
+                },
+                {
+                  "namn": "ICA Supermarket Högbyhallen",
+                  "adress": "Högbygatan 23, 623 50 Hemse"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC i Sindarve. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Sindarve 123, 623 50 Hemse"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": null,
+          "beskrivning": "Tvättmaskin finns i varje lägenhet. Ingen gemensam tvättstuga."
+        },
+        "förråd": {
+          "plats": "Förråd till lägenheten finns på gården."
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Globalconnect",
+          "öppen": true,
+          "leverantörer": [
+            "Globalconnect – öppen för flera leverantörer",
+            "https://privat.globalconnect.se/privat/fiber/lagenhet/",
+            "https://www.bredbandsval.se/"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma (Securitas) kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla i trapphuset."
+        }
+      }
+    },
+    {
+      "fastighet": "S:t Hansgatan 6",
+      "ort": "Visby, Gotland",
+      "sammanfattning": "Information för dig som bor på S:t Hansgatan 6 i Visby. Här hittar du rutiner för avfall, tvättstuga, förråd, portkod, jourkontakt och bredband.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "portkod",
+        "kontakt",
+        "bredband",
+        "el",
+        "återvinning",
+        "visby",
+        "gotland"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "För att komma in i porten krävs portkod eller lägenhetsnyckel. Koden fås vid inflytt. Vid nyckelförlust, kontakta HSB Kundcenter. Ny nyckel kan beställas mot kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+          "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sophuset på gården.",
+          "återvinning": {
+            "glas": {
+              "beskrivning": "Lämnas vid återvinningsstationer.",
+              "platser": [
+                {
+                  "namn": "Coop Öster",
+                  "adress": "Österväg 3, 621 45 Visby"
+                },
+                {
+                  "namn": "ICA Atterdags",
+                  "adress": "Stenkumlaväg 1, 621 46 Visby"
+                },
+                {
+                  "namn": "Hamnen",
+                  "adress": "Hamngatan, 621 57 Visby"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC i Västra Törnekvior. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Västra Törnekvior, 621 43 Visby"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Källaren på S:t Hansgatan 6",
+          "bokning": "Via bokningstavla i tvättstugan"
+        },
+        "förråd": {
+          "plats": "Förråd finns till vissa lägenheter i källaren"
+        },
+        "parkering": {
+          "beskrivning": "Ingen parkering tillhör fastigheten."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Visby Stadsnät",
+          "öppen": true,
+          "leverantörer": [
+            "Visby Stadsnät – öppen för flera leverantörer",
+            "https://www.bredband.se/stadsnat/visby-stadsnat",
+            "https://zmarket.se/privat/",
+            "https://www.bredbandsval.se/"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma (Securitas) kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla i trapphuset."
+        }
+      }
+    },
+    {
+      "fastighet": "Ganne väg 5–11",
+      "ort": "Gotland",
+      "sammanfattning": "Information för dig som bor på Ganne väg 5, 7, 9 och 11. Här finns information om avfall, tvättstuga, förråd, parkering, bredband och kontaktuppgifter.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "parkering",
+        "kontakt",
+        "bredband",
+        "el",
+        "återvinning",
+        "gotland"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "Vid förlust, kontakta HSB Kundcenter. Nyckel kan beställas mot en kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+          "insamling": "Matavfall, restavfall, batterier, tidningar och plast-, metall- och pappersförpackningar lämnas i sophuset på gården.",
+          "återvinning": {
+            "glas": {
+              "beskrivning": "Lämnas vid återvinningsstation.",
+              "platser": [
+                {
+                  "namn": "Tempo Katthammarsvik",
+                  "adress": "Katthammarsvik, 623 67 Gotland"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC i Hallute backe. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Hallute backe, väg 143, 623 67 Gotland"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "I gårdshuset",
+          "bokning": "Via bokningstavlan i tvättstugan"
+        },
+        "förråd": {
+          "plats": "Förråd till lägenheten finns på gården"
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Globalconnect",
+          "öppen": true,
+          "leverantörer": [
+            "Globalconnect – öppen för flera leverantörer",
+            "https://privat.globalconnect.se/privat/fiber/lagenhet/",
+            "https://www.bredbandsval.se/"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma (Securitas) kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla vid entrén."
+        }
+      }
+    },
+    {
+      "fastighet": "Storgatan 43",
+      "ort": "Hemse, Gotland",
+      "sammanfattning": "Information för dig som bor på Storgatan 43 i Hemse. Här finns information om avfall, tvättstuga, förråd, parkering, bredband och kontaktuppgifter.",
+      "tags": [
+        "avfall",
+        "tvättstuga",
+        "förråd",
+        "nyckel",
+        "parkering",
+        "kontakt",
+        "bredband",
+        "el",
+        "återvinning",
+        "hemse",
+        "gotland"
+      ],
+      "info": {
+        "kontakt": {
+          "telefon": "08-608 68 00",
+          "epost": "info.sodertorn@hsb.se",
+          "hemsida": "https://www.hsb.se"
+        },
+        "nyckel": {
+          "beskrivning": "Vid förlust, kontakta HSB Kundcenter. Nyckel kan beställas mot en kostnad."
+        },
+        "avfall": {
+          "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+          "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sopkärlen på fastigheten.",
+          "återvinning": {
+            "glas": {
+              "beskrivning": "Lämnas vid återvinningsstationer.",
+              "platser": [
+                {
+                  "namn": "Coop Hemse",
+                  "adress": "Storgatan 10, 623 50 Hemse"
+                },
+                {
+                  "namn": "ICA Supermarket Högbyhallen",
+                  "adress": "Högbygatan 23, 623 50 Hemse"
+                }
+              ]
+            },
+            "farligt_el_grov": {
+              "beskrivning": "Lämnas på ÅVC i Sindarve. Mindre elavfall kan lämnas i elektronikbutiker.",
+              "adress": "Sindarve 123, 623 50 Hemse"
+            }
+          }
+        },
+        "tvättstuga": {
+          "plats": "Källaren på Storgatan 43",
+          "bokning": "Via bokningstavla i tvättstugan"
+        },
+        "förråd": {
+          "plats": "Förråd finns i källaren samt på gården vid Storgatan 43"
+        },
+        "parkering": {
+          "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter."
+        },
+        "bredband_tv_el": {
+          "nätägare": "Globalconnect",
+          "öppen": true,
+          "leverantörer": [
+            "Globalconnect – öppen för flera leverantörer",
+            "https://privat.globalconnect.se/privat/fiber/lagenhet/",
+            "https://www.bredbandsval.se/"
+          ]
+        },
+        "jour": {
+          "beskrivning": "Jourfirma kontaktas vid akuta ärenden som vattenläckor. Se anslagstavla i trapphuset."
+        }
       }
     }
-  }
-]
-{
-  "fastighet": "Floravägen 15",
-  "ort": "Nynäshamn",
-  "sammanfattning": "Information för dig som bor på Floravägen 15. Här finns information om avfall, tvättstuga, bastu, överlämningslägenhet, parkering och kontaktuppgifter.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "aptus",
-    "parkering",
-    "bredband",
-    "el",
-    "kontakt",
-    "nynäshamn",
-    "återvinning",
-    "bastu",
-    "gym",
-    "överlämningslägenhet"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "För att komma in i porten krävs en Aptus-bricka. Vid förlust kontaktar du HSB Kundcenter. Ny bricka kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, sprayflaskor, läkemedel, nagellack, kemikalier), elavfall, restavfall, grovavfall.",
-      "insamling": "Matavfall och restavfall lämnas i soprum i anslutning till entrén på Floravägen 15. Småel och grovavfall lämnas i grovsoprummet på Floravägen 21, där finns även förpacknings- och tidningsinsamling.",
-      "återvinning": {
-        "farligt_el_grov": "Större elavfall och farligt avfall lämnas på ÅVC på Åkervägen 11 i Nynäshamn. Mindre elavfall kan lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Vid entrén till Floravägen 21",
-      "bokning": "Via bokningstavla i entrén eller i appen Aptus Home",
-      "extra": "Grovtvättstuga finns på Floravägen 17 – bokas via kolvar/cylinder."
-    },
-    "förråd": {
-      "plats": "Förråd finns till varje lägenhet på bottenvåningen."
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser finns att hyra. Logga in på Mitt HSB för att ställa dig i kö."
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Tele2 (tidigare Com Hem) – baskanalpaket ingår",
-        "Telia – kontakta operatör för anslutning",
-        "Ellevo – valfritt via bredbandsval.se"
-      ]
-    },
-    "överlämningslägenhet": {
-      "beskrivning": "I fastigheten finns en överlämningslägenhet att hyra. Kontakta ansvarig (Dorothy) – kontaktuppgifter finns i trapphuset."
-    },
-    "gym_bastu": {
-      "beskrivning": "Gym och bastu delas med övriga fastigheter i området. För tillgång, kontakta ansvarig – info finns i trapphusets anslag."
-    },
-    "jour": {
-      "beskrivning": "Jourfirma vid akuta ärenden (t.ex. vattenläckor) nås via kontaktinfo i trapphuset."
-    }
-  }
-}
-{
-  "fastighet": "Sågstuvägen 4–30",
-  "ort": "Huddinge",
-  "sammanfattning": "Information för dig som bor på Sågstuvägen. Här hittar du information om avfallshantering, nyckelbrickor, parkering, förråd, bredband, tvättstuga och jour.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "aptus",
-    "parkering",
-    "elbil",
-    "bredband",
-    "el",
-    "kontakt",
-    "återvinning",
-    "huddinge"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "För att komma in i porten behövs en Aptusbricka. Vid förlust kontaktar du HSB Kundcenter. Ny bricka kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
-      "insamling": "Matavfall och restavfall slängs i de märkta behållarna nära huset. Ljuskällor och småelektronik slängs i elburar vid portarna 10–12 och 14–16. Grovavfall lämnas i grovsoprummet nära porten 18–20.",
-      "återvinning": {
-        "förpackningar": "Lämnas vid vändplanen på Sågstuvägen.",
-        "farligt_el_grov": "Större elavfall och farligt avfall lämnas på ÅVC i Himmelsbodavägen 19 (Tumba) eller Länna. Mindre elavfall kan lämnas i butiker som säljer elektronik."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Sågstuvägen 16 och 19",
-      "bokning": "Via Aptustavlan i tvättstugan"
-    },
-    "förråd": {
-      "plats": "Förråd finns till varje lägenhet i huset. Extra förråd kan finnas för uthyrning – anmäl intresse via Mitt HSB."
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser finns att hyra i garaget vid Sågstuvägen 3. Logga in på Mitt HSB för att ställa dig i kö. Det finns även möjlighet att hyra laddplats för elbil."
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Tele2 (tidigare Comhem) – grundutbud ingår",
-        "Telia – kontakta själv för utökat utbud",
-        "Vattenfall – nätägare, välj själv elavtal"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Vid vattenläckage eller andra akuta ärenden kontaktas jourfirma – info finns i trapphuset."
-    }
-  }
-}
-{
-  "fastighet": "Hamngatan 7",
-  "ort": "Nynäshamn",
-  "sammanfattning": "Information för dig som bor på Hamngatan 7 i Nynäshamn. Här hittar du information om avfall, tvättstuga, parkering, förråd, bredband och kontaktvägar.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "aptus",
-    "parkering",
-    "bredband",
-    "el",
-    "kontakt",
-    "återvinning",
-    "nynäshamn"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "För att komma in i porten krävs en Aptusbricka. Kontakta HSB Kundcenter om du tappar din. Ny bricka kan beställas mot kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
-      "insamling": "Matavfall och restavfall slängs i behållare på framsidan av huset. Ljuskällor och småel slängs i kärl i uppsamlingsrum/gamla grovsoprummet vid port 7A.",
-      "återvinning": {
-        "förpackningar_tidningar": "Lämnas vid återvinningsstationer – närmast finns vid Alkärrsplan och Gästhamnen.",
-        "farligt_el_grov": "Lämnas på ÅVC, närmast på Åkervägen 11 i Nynäshamn. Mindre elavfall kan lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Vid entrén",
-      "bokning": "Via tavlan i entrén eller i Aptus-appen"
-    },
-    "förråd": {
-      "plats": "I källaren. Extra förråd kan finnas till uthyrning."
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser finns att hyra. Logga in på Mitt HSB för att ställa dig i kö."
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Tele2 (tidigare Comhem) – baskanalpaket ingår",
-        "Telia – kontakta själv för utökat kanalutbud",
-        "Ellevio – nätägare, välj elavtal och leverantör själv"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Jourfirma vid vattenläckage eller andra akuta ärenden – kontaktuppgifter finns i trapphuset."
-    }
-  }
-}
-{
-  "fastighet": "Forelltorget 2",
-  "ort": "Huddinge",
-  "sammanfattning": "Information för dig som bor på Forelltorget 2 i Huddinge. Här hittar du information om avfallshantering, nyckelbricka, tvättstuga, bredband, förråd och kontaktvägar.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "aptus",
-    "bredband",
-    "el",
-    "kontakt",
-    "återvinning",
-    "huddinge"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "För att komma in i porten krävs en Aptusbricka. Kontakta HSB Kundcenter vid förlust. Ny bricka kan beställas mot kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
-      "insamling": "I soprum i källaren kan du lämna matavfall, restavfall, grovsopor, batterier och ljuskällor.",
-      "återvinning": {
-        "förpackningar_tidningar": "Lämnas vid återvinningsstation på Kommunalvägen, bredvid Grill Palatset.",
-        "farligt_el_grov": "Farligt avfall och grovavfall lämnas på ÅVC (närmast Himmelsbodavägen 19 i Tumba och Hallunda torg i Norsborg). Mindre elavfall lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Källaren – nås direkt via hiss"
-    },
-    "förråd": {
-      "plats": "Förråd finns i vinden eller i källaren beroende på lägenhet."
-    },
-    "parkering": {
-      "beskrivning": "Tyvärr finns inga parkeringsplatser att hyra i denna fastighet."
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Tele2 (tidigare Comhem) – baskanalpaket ingår",
-        "Telia – kontakta för fler kanaler",
-        "Vattenfall – nätägare, välj själv elavtal och leverantör"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Jourfirma kontaktas vid akuta ärenden, t.ex. vattenläckor – info finns i trapphuset."
-    }
-  }
-}
-{
-  "fastighet": "Nyängsvägen 3",
-  "ort": "Huddinge",
-  "sammanfattning": "Information för dig som bor på Nyängsvägen 3 i Huddinge. Här finns information om avfall, nyckelbricka, tvättstuga, bredband, parkering, förråd och kontaktuppgifter.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "aptus",
-    "parkering",
-    "bredband",
-    "el",
-    "kontakt",
-    "återvinning",
-    "huddinge"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "För att komma in i porten krävs en Aptusbricka. Vid förlust kontaktar du HSB Kundcenter. Ny bricka kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
-      "insamling": "Matavfall och restavfall lämnas i soputrymmet på baksidan av fastigheten (3a och 3b).",
-      "återvinning": {
-        "förpackningar_tidningar": "Lämnas vid återvinningsstation på parkeringsplatsen framför fastigheten.",
-        "farligt_el_grov": "Lämnas på ÅVC. Närmast finns Himmelsbodavägen 19 i Tumba. Mindre elavfall kan lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Våning 2, 3 och 3b i huset",
-      "bokning": "Via Aptustavlan i entrén eller via appen Aptus Home"
-    },
-    "förråd": {
-      "plats": "Förråd till lägenheten finns i bostaden. Det finns ett begränsat antal extra förråd för uthyrning."
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser finns att hyra. Logga in på Mitt HSB för att ställa dig i kö och anmäl intresse via Mitt HSB."
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Tele2 (tidigare Comhem) – baskanalpaket ingår",
-        "Telia – kontakta själv för fler kanaler",
-        "Vattenfall – nätägare, välj själv elavtal och leverantör"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Vid akuta vattenläckor eller liknande kontaktas jourfirma – kontaktuppgifter finns i trapphuset."
-    }
-  }
-}
-{
-  "fastighet": "Jac Norrbys Gata 42–72",
-  "ort": "Hemse, Gotland",
-  "sammanfattning": "Information för dig som bor på Jac Norrbys Gata 42–72 i Hemse. Här hittar du rutiner för avfall, förråd, parkering, tvättmöjligheter, bredband och kontaktvägar.",
-  "tags": [
-    "avfall",
-    "förråd",
-    "nyckel",
-    "parkering",
-    "bredband",
-    "el",
-    "kontakt",
-    "återvinning",
-    "hemse",
-    "gotland"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nyckel kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
-      "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sophuset på gården.",
-      "återvinning": {
-        "glas": "Lämnas vid återvinningsstationer, t.ex. Coop Hemse eller ICA Supermarket Högbyhallen.",
-        "farligt_el_grov": "Farligt avfall, elavfall och grovavfall lämnas på ÅVC i Sindarve, infart från väg 142 mot Linde. Mindre elavfall kan lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Tvättmaskin finns i varje lägenhet. Det finns ingen gemensam tvättstuga."
-    },
-    "förråd": {
-      "plats": "Förråd finns i anslutning till respektive lägenhet."
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser eller carport finns att hyra. Logga in på Mitt HSB för att ställa dig i kö eller kontakta HSB Kundcenter.",
-      "kontakt": {
-        "telefon": "08-608 68 00",
-        "epost": "info.sodertorn@hsb.se"
-      }
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Globalconnect – öppen för flera leverantörer",
-        "https://privat.globalconnect.se/privat/fiber/villa/",
-        "https://www.bredbandsval.se/"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Vid akuta ärenden som vattenläckage kontaktas jourfirma – info finns på informationstavlan."
-    }
-  }
-}
-{
-  "fastighet": "Visbyvägen 9",
-  "ort": "Hemse, Gotland",
-  "sammanfattning": "Information för dig som bor på Visbyvägen 9 i Hemse. Här hittar du rutiner för avfall, förråd, parkering, bredband, tvättmöjligheter och kontaktuppgifter.",
-  "tags": [
-    "avfall",
-    "förråd",
-    "nyckel",
-    "parkering",
-    "bredband",
-    "el",
-    "kontakt",
-    "återvinning",
-    "gotland",
-    "hemse",
-    "tvättstuga"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nyckel kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
-      "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sophuset på gården (Jac Norrbys Gata).",
-      "återvinning": {
-        "glas": "Lämnas vid återvinningsstation, t.ex. Coop Hemse eller ICA Supermarket Högbyhallen.",
-        "farligt_el_grov": "Farligt avfall, elavfall och grovavfall lämnas på ÅVC i Sindarve, infart från väg 142 mot Linde. Mindre elavfall kan lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Tvättmaskin finns i varje lägenhet. Det finns ingen gemensam tvättstuga."
-    },
-    "förråd": {
-      "plats": "Förråd till lägenheten finns på gården."
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser finns att hyra. Logga in på Mitt HSB för att ställa dig i kö, eller kontakta HSB Kundcenter.",
-      "kontakt": {
-        "telefon": "08-608 68 00",
-        "epost": "info.sodertorn@hsb.se"
-      }
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Globalconnect – öppen för flera leverantörer",
-        "https://privat.globalconnect.se/privat/fiber/villa/",
-        "https://www.bredbandsval.se/"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Jourfirma (Securitas) vid akuta ärenden, t.ex. vattenläckor – kontaktuppgifter finns i trapphuset."
-    }
-  }
-}
-{
-  "fastighet": "S:t Hansgatan 6",
-  "ort": "Visby, Gotland",
-  "sammanfattning": "Information för dig som bor på S:t Hansgatan 6 i Visby. Här hittar du rutiner för avfall, tvättstuga, förråd, portkod, jourkontakt och bredband.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "portkod",
-    "kontakt",
-    "bredband",
-    "el",
-    "återvinning",
-    "visby",
-    "gotland"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "För att komma in i porten krävs portkod eller lägenhetsnyckel. Koden fås vid inflytt. Vid förlust kontaktas HSB Kundcenter – ny nyckel kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
-      "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sophuset på gården.",
-      "återvinning": {
-        "glas": "Lämnas vid återvinningsstationer, t.ex. Coop Öster, ICA Atterdags eller hamnen.",
-        "farligt_el_grov": "Lämnas på ÅVC i Västra Törnekvior, nära infart Follingboväg/väg 143. Mindre elavfall kan lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Källaren på S:t Hansgatan 6",
-      "bokning": "Via kalender i tvättstugan"
-    },
-    "förråd": {
-      "plats": "Förråd finns till vissa lägenheter i källaren"
-    },
-    "parkering": {
-      "beskrivning": "Det finns tyvärr ingen parkering tillhörande fastigheten."
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Stadsnät i Visby – öppen för flera leverantörer",
-        "https://www.bredband.se/stadsnat/visby-stadsnat",
-        "https://zmarket.se/privat/",
-        "https://www.bredbandsval.se/"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Jourfirma (Securitas) kontaktas vid akuta ärenden som vattenläckor. Kontaktuppgifter finns i trapphuset."
-    }
-  }
-}
-{
-  "fastighet": "Ganne väg 5–11",
-  "ort": "Gotland",
-  "sammanfattning": "Information för dig som bor på Ganne väg 5, 7, 9 och 11. Här finns information om avfall, tvättstuga, förråd, parkering, bredband och kontaktuppgifter.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "parkering",
-    "kontakt",
-    "bredband",
-    "el",
-    "återvinning",
-    "gotland"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nyckel kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
-      "insamling": "Matavfall, restavfall, batterier, tidningar och plast-, metall- och pappersförpackningar lämnas i sophuset på gården.",
-      "återvinning": {
-        "glas": "Lämnas vid återvinningsstation, t.ex. vid Tempo Katthammarsvik.",
-        "farligt_el_grov": "Farligt avfall, elavfall och grovavfall lämnas på ÅVC Hallute backe (infart från väg 143). Mindre elavfall kan lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "I gårdshuset",
-      "bokning": "Via tavlan i tvättstugan"
-    },
-    "förråd": {
-      "plats": "Förråd till lägenheten finns på gården"
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter.",
-      "kontakt": {
-        "telefon": "08-608 68 00",
-        "epost": "info.sodertorn@hsb.se"
-      }
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Globalconnect – öppen för flera leverantörer",
-        "https://privat.globalconnect.se/privat/fiber/villa/",
-        "https://www.bredbandsval.se/"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Jourfirma (Securitas) kontaktas vid akuta ärenden som vattenläckor – info finns på anslagstavlan."
-    }
-  }
-}
-{
-  "fastighet": "Storgatan 43",
-  "ort": "Hemse, Gotland",
-  "sammanfattning": "Information för dig som bor på Storgatan 43 i Hemse. Här finns information om avfall, tvättstuga, förråd, parkering, bredband och kontaktuppgifter.",
-  "tags": [
-    "avfall",
-    "tvättstuga",
-    "förråd",
-    "nyckel",
-    "parkering",
-    "kontakt",
-    "bredband",
-    "el",
-    "återvinning",
-    "hemse",
-    "gotland"
-  ],
-  "info": {
-    "nyckel": {
-      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nyckel kan beställas mot en kostnad."
-    },
-    "avfall": {
-      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
-      "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sopkärlen på fastigheten.",
-      "återvinning": {
-        "glas": "Lämnas på återvinningsstationer, t.ex. Coop Hemse eller ICA Supermarket Högbyhallen.",
-        "farligt_el_grov": "Farligt avfall, elavfall och grovavfall lämnas på ÅVC i Sindarve, infart från väg 142 mot Linde. Mindre elavfall kan även lämnas i elektronikbutiker."
-      }
-    },
-    "tvättstuga": {
-      "plats": "Källaren på Storgatan 43",
-      "bokning": "Via kalender i tvättstugan"
-    },
-    "förråd": {
-      "plats": "Förråd finns i källaren samt på gården vid Storgatan 43"
-    },
-    "parkering": {
-      "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter.",
-      "kontakt": {
-        "telefon": "08-608 68 00",
-        "epost": "info.sodertorn@hsb.se"
-      }
-    },
-    "bredband_tv_el": {
-      "leverantörer": [
-        "Globalconnect – öppen för flera leverantörer",
-        "https://privat.globalconnect.se/privat/fiber/villa/",
-        "https://www.bredbandsval.se/"
-      ]
-    },
-    "jour": {
-      "beskrivning": "Jourfirma kontaktas vid vattenläckor eller andra akuta ärenden – kontaktuppgifter finns i trapphuset."
-    }
-  }
+  ]
 }
