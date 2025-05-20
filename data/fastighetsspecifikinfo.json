@@ -586,3 +586,57 @@
     }
   }
 }
+{
+  "fastighet": "Ganne väg 5–11",
+  "ort": "Gotland",
+  "sammanfattning": "Information för dig som bor på Ganne väg 5, 7, 9 och 11. Här finns information om avfall, tvättstuga, förråd, parkering, bredband och kontaktuppgifter.",
+  "tags": [
+    "avfall",
+    "tvättstuga",
+    "förråd",
+    "nyckel",
+    "parkering",
+    "kontakt",
+    "bredband",
+    "el",
+    "återvinning",
+    "gotland"
+  ],
+  "info": {
+    "nyckel": {
+      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nyckel kan beställas mot en kostnad."
+    },
+    "avfall": {
+      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+      "insamling": "Matavfall, restavfall, batterier, tidningar och plast-, metall- och pappersförpackningar lämnas i sophuset på gården.",
+      "återvinning": {
+        "glas": "Lämnas vid återvinningsstation, t.ex. vid Tempo Katthammarsvik.",
+        "farligt_el_grov": "Farligt avfall, elavfall och grovavfall lämnas på ÅVC Hallute backe (infart från väg 143). Mindre elavfall kan lämnas i elektronikbutiker."
+      }
+    },
+    "tvättstuga": {
+      "plats": "I gårdshuset",
+      "bokning": "Via tavlan i tvättstugan"
+    },
+    "förråd": {
+      "plats": "Förråd till lägenheten finns på gården"
+    },
+    "parkering": {
+      "beskrivning": "Parkeringsplatser finns att hyra. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter.",
+      "kontakt": {
+        "telefon": "08-608 68 00",
+        "epost": "info.sodertorn@hsb.se"
+      }
+    },
+    "bredband_tv_el": {
+      "leverantörer": [
+        "Globalconnect – öppen för flera leverantörer",
+        "https://privat.globalconnect.se/privat/fiber/villa/",
+        "https://www.bredbandsval.se/"
+      ]
+    },
+    "jour": {
+      "beskrivning": "Jourfirma (Securitas) kontaktas vid akuta ärenden som vattenläckor – info finns på anslagstavlan."
+    }
+  }
+}
