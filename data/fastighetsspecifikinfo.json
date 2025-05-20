@@ -271,3 +271,52 @@
     }
   }
 }
+{
+  "fastighet": "Forelltorget 2",
+  "ort": "Huddinge",
+  "sammanfattning": "Information för dig som bor på Forelltorget 2 i Huddinge. Här hittar du information om avfallshantering, nyckelbricka, tvättstuga, bredband, förråd och kontaktvägar.",
+  "tags": [
+    "avfall",
+    "tvättstuga",
+    "förråd",
+    "nyckel",
+    "aptus",
+    "bredband",
+    "el",
+    "kontakt",
+    "återvinning",
+    "huddinge"
+  ],
+  "info": {
+    "nyckel": {
+      "beskrivning": "För att komma in i porten krävs en Aptusbricka. Kontakta HSB Kundcenter vid förlust. Ny bricka kan beställas mot kostnad."
+    },
+    "avfall": {
+      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+      "insamling": "I soprum i källaren kan du lämna matavfall, restavfall, grovsopor, batterier och ljuskällor.",
+      "återvinning": {
+        "förpackningar_tidningar": "Lämnas vid återvinningsstation på Kommunalvägen, bredvid Grill Palatset.",
+        "farligt_el_grov": "Farligt avfall och grovavfall lämnas på ÅVC (närmast Himmelsbodavägen 19 i Tumba och Hallunda torg i Norsborg). Mindre elavfall lämnas i elektronikbutiker."
+      }
+    },
+    "tvättstuga": {
+      "plats": "Källaren – nås direkt via hiss"
+    },
+    "förråd": {
+      "plats": "Förråd finns i vinden eller i källaren beroende på lägenhet."
+    },
+    "parkering": {
+      "beskrivning": "Tyvärr finns inga parkeringsplatser att hyra i denna fastighet."
+    },
+    "bredband_tv_el": {
+      "leverantörer": [
+        "Tele2 (tidigare Comhem) – baskanalpaket ingår",
+        "Telia – kontakta för fler kanaler",
+        "Vattenfall – nätägare, välj själv elavtal och leverantör"
+      ]
+    },
+    "jour": {
+      "beskrivning": "Jourfirma kontaktas vid akuta ärenden, t.ex. vattenläckor – info finns i trapphuset."
+    }
+  }
+}
