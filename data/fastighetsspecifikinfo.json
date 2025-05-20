@@ -53,6 +53,62 @@
     }
   },
   {
+  "fastighet": "Storgatan 41",
+  "ort": "Hemse, Gotland",
+  "sammanfattning": "Information för dig som bor på Storgatan 41 i Hemse. Här hittar du rutiner för avfall, tvättstuga, förråd, bredband, parkering och kontaktuppgifter.",
+  "tags": [
+    "avfall",
+    "tvättstuga",
+    "förråd",
+    "nyckel",
+    "parkering",
+    "garage",
+    "bredband",
+    "el",
+    "kontakt",
+    "återvinning",
+    "gotland",
+    "hemse"
+  ],
+  "info": {
+    "nyckel": {
+      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nycklar kan beställas mot en kostnad."
+    },
+    "avfall": {
+      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
+      "insamling": "Matavfall, restavfall, batterier, tidningar och plast-, metall- och pappersförpackningar lämnas i sopkärlen på fastigheten.",
+      "återvinning": {
+        "glas": "Lämnas på återvinningsstation, t.ex. Coop Hemse eller ICA Supermarket Högbyhallen.",
+        "farligt_el_grov": "Lämnas på återvinningscentral (ÅVC) i Sindarve, infart från väg 142 mot Linde. Mindre elavfall kan även lämnas i elektronikbutiker."
+      }
+    },
+    "tvättstuga": {
+      "plats": "Källaren på Storgatan 41",
+      "bokning": "Via kalender i tvättstugan"
+    },
+    "förråd": {
+      "plats": "Förråd till lägenheten finns på gården"
+    },
+    "parkering": {
+      "beskrivning": "Parkeringsplatser och garage finns att hyra som tillhör fastigheten. Ställ dig i kö via Mitt HSB eller kontakta HSB Kundcenter.",
+      "kontakt": {
+        "telefon": "08-608 68 00",
+        "epost": "info.sodertorn@hsb.se"
+      }
+    },
+    "bredband_tv_el": {
+      "leverantörer": [
+        "Globalconnect – öppen för flera leverantörer",
+        "https://privat.globalconnect.se/privat/fiber/villa/",
+        "https://www.bredbandsval.se/"
+      ]
+    },
+    "jour": {
+      "beskrivning": "Jourfirma kontaktas vid vattenläckor eller andra akuta ärenden – info finns i anslaget vid inflytt."
+    }
+  }
+}
+  {
     "fastighet": "Silvergatan 1–11 och Vismyrsvägen 2–12",
     "ort": "Hemse, Gotland",
     "sammanfattning": "Information för dig som bor på Silvergatan eller Vismyrsvägen i Hemse. Här hittar du praktiska rutiner för sophantering, parkering, förråd, bredband och kontaktuppgifter.",
