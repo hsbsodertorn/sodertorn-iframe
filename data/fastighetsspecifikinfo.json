@@ -320,3 +320,54 @@
     }
   }
 }
+{
+  "fastighet": "Nyängsvägen 3",
+  "ort": "Huddinge",
+  "sammanfattning": "Information för dig som bor på Nyängsvägen 3 i Huddinge. Här finns information om avfall, nyckelbricka, tvättstuga, bredband, parkering, förråd och kontaktuppgifter.",
+  "tags": [
+    "avfall",
+    "tvättstuga",
+    "förråd",
+    "nyckel",
+    "aptus",
+    "parkering",
+    "bredband",
+    "el",
+    "kontakt",
+    "återvinning",
+    "huddinge"
+  ],
+  "info": {
+    "nyckel": {
+      "beskrivning": "För att komma in i porten krävs en Aptusbricka. Vid förlust kontaktar du HSB Kundcenter. Ny bricka kan beställas mot en kostnad."
+    },
+    "avfall": {
+      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+      "insamling": "Matavfall och restavfall lämnas i soputrymmet på baksidan av fastigheten (3a och 3b).",
+      "återvinning": {
+        "förpackningar_tidningar": "Lämnas vid återvinningsstation på parkeringsplatsen framför fastigheten.",
+        "farligt_el_grov": "Lämnas på ÅVC. Närmast finns Himmelsbodavägen 19 i Tumba. Mindre elavfall kan lämnas i elektronikbutiker."
+      }
+    },
+    "tvättstuga": {
+      "plats": "Våning 2, 3 och 3b i huset",
+      "bokning": "Via Aptustavlan i entrén eller via appen Aptus Home"
+    },
+    "förråd": {
+      "plats": "Förråd till lägenheten finns i bostaden. Det finns ett begränsat antal extra förråd för uthyrning."
+    },
+    "parkering": {
+      "beskrivning": "Parkeringsplatser finns att hyra. Logga in på Mitt HSB för att ställa dig i kö och anmäl intresse via Mitt HSB."
+    },
+    "bredband_tv_el": {
+      "leverantörer": [
+        "Tele2 (tidigare Comhem) – baskanalpaket ingår",
+        "Telia – kontakta själv för fler kanaler",
+        "Vattenfall – nätägare, välj själv elavtal och leverantör"
+      ]
+    },
+    "jour": {
+      "beskrivning": "Vid akuta vattenläckor eller liknande kontaktas jourfirma – kontaktuppgifter finns i trapphuset."
+    }
+  }
+}
