@@ -168,3 +168,55 @@
     }
   }
 }
+{
+  "fastighet": "Sågstuvägen 4–30",
+  "ort": "Huddinge",
+  "sammanfattning": "Information för dig som bor på Sågstuvägen. Här hittar du information om avfallshantering, nyckelbrickor, parkering, förråd, bredband, tvättstuga och jour.",
+  "tags": [
+    "avfall",
+    "tvättstuga",
+    "förråd",
+    "nyckel",
+    "aptus",
+    "parkering",
+    "elbil",
+    "bredband",
+    "el",
+    "kontakt",
+    "återvinning",
+    "huddinge"
+  ],
+  "info": {
+    "nyckel": {
+      "beskrivning": "För att komma in i porten behövs en Aptusbricka. Vid förlust kontaktar du HSB Kundcenter. Ny bricka kan beställas mot en kostnad."
+    },
+    "avfall": {
+      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall, grovavfall.",
+      "insamling": "Matavfall och restavfall slängs i de märkta behållarna nära huset. Ljuskällor och småelektronik slängs i elburar vid portarna 10–12 och 14–16. Grovavfall lämnas i grovsoprummet nära porten 18–20.",
+      "återvinning": {
+        "förpackningar": "Lämnas vid vändplanen på Sågstuvägen.",
+        "farligt_el_grov": "Större elavfall och farligt avfall lämnas på ÅVC i Himmelsbodavägen 19 (Tumba) eller Länna. Mindre elavfall kan lämnas i butiker som säljer elektronik."
+      }
+    },
+    "tvättstuga": {
+      "plats": "Sågstuvägen 16 och 19",
+      "bokning": "Via Aptustavlan i tvättstugan"
+    },
+    "förråd": {
+      "plats": "Förråd finns till varje lägenhet i huset. Extra förråd kan finnas för uthyrning – anmäl intresse via Mitt HSB."
+    },
+    "parkering": {
+      "beskrivning": "Parkeringsplatser finns att hyra i garaget vid Sågstuvägen 3. Logga in på Mitt HSB för att ställa dig i kö. Det finns även möjlighet att hyra laddplats för elbil."
+    },
+    "bredband_tv_el": {
+      "leverantörer": [
+        "Tele2 (tidigare Comhem) – grundutbud ingår",
+        "Telia – kontakta själv för utökat utbud",
+        "Vattenfall – nätägare, välj själv elavtal"
+      ]
+    },
+    "jour": {
+      "beskrivning": "Vid vattenläckage eller andra akuta ärenden kontaktas jourfirma – info finns i trapphuset."
+    }
+  }
+}
