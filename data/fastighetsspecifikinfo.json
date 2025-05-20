@@ -427,3 +427,56 @@
     }
   }
 }
+{
+  "fastighet": "Jac Norrbys Gata 42–72",
+  "ort": "Hemse, Gotland",
+  "sammanfattning": "Information för dig som bor på Jac Norrbys Gata 42–72 i Hemse. Här hittar du rutiner för avfall, förråd, parkering, tvättmöjligheter, bredband och kontaktvägar.",
+  "tags": [
+    "avfall",
+    "förråd",
+    "nyckel",
+    "parkering",
+    "bredband",
+    "el",
+    "kontakt",
+    "återvinning",
+    "hemse",
+    "gotland"
+  ],
+  "info": {
+    "nyckel": {
+      "beskrivning": "Vid förlust kontaktar du HSB Kundcenter. Nyckel kan beställas mot en kostnad."
+    },
+    "avfall": {
+      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
+      "insamling": "Matavfall, restavfall, batterier, tidningar samt plast-, metall- och pappersförpackningar lämnas i sophuset på gården.",
+      "återvinning": {
+        "glas": "Lämnas vid återvinningsstationer, t.ex. Coop Hemse eller ICA Supermarket Högbyhallen.",
+        "farligt_el_grov": "Farligt avfall, elavfall och grovavfall lämnas på ÅVC i Sindarve, infart från väg 142 mot Linde. Mindre elavfall kan lämnas i elektronikbutiker."
+      }
+    },
+    "tvättstuga": {
+      "plats": "Tvättmaskin finns i varje lägenhet. Det finns ingen gemensam tvättstuga."
+    },
+    "förråd": {
+      "plats": "Förråd finns i anslutning till respektive lägenhet."
+    },
+    "parkering": {
+      "beskrivning": "Parkeringsplatser eller carport finns att hyra. Logga in på Mitt HSB för att ställa dig i kö eller kontakta HSB Kundcenter.",
+      "kontakt": {
+        "telefon": "08-608 68 00",
+        "epost": "info.sodertorn@hsb.se"
+      }
+    },
+    "bredband_tv_el": {
+      "leverantörer": [
+        "Globalconnect – öppen för flera leverantörer",
+        "https://privat.globalconnect.se/privat/fiber/villa/",
+        "https://www.bredbandsval.se/"
+      ]
+    },
+    "jour": {
+      "beskrivning": "Vid akuta ärenden som vattenläckage kontaktas jourfirma – info finns på informationstavlan."
+    }
+  }
+}
