@@ -220,3 +220,54 @@
     }
   }
 }
+{
+  "fastighet": "Hamngatan 7",
+  "ort": "Nynäshamn",
+  "sammanfattning": "Information för dig som bor på Hamngatan 7 i Nynäshamn. Här hittar du information om avfall, tvättstuga, parkering, förråd, bredband och kontaktvägar.",
+  "tags": [
+    "avfall",
+    "tvättstuga",
+    "förråd",
+    "nyckel",
+    "aptus",
+    "parkering",
+    "bredband",
+    "el",
+    "kontakt",
+    "återvinning",
+    "nynäshamn"
+  ],
+  "info": {
+    "nyckel": {
+      "beskrivning": "För att komma in i porten krävs en Aptusbricka. Kontakta HSB Kundcenter om du tappar din. Ny bricka kan beställas mot kostnad."
+    },
+    "avfall": {
+      "sortering": "Sortering enligt Avfallsförordningen: förpackningar (glas, plast, metall, papper), tidningar, farligt avfall (batterier, ljuskällor, läkemedel, sprayflaskor), elavfall, restavfall och grovavfall.",
+      "insamling": "Matavfall och restavfall slängs i behållare på framsidan av huset. Ljuskällor och småel slängs i kärl i uppsamlingsrum/gamla grovsoprummet vid port 7A.",
+      "återvinning": {
+        "förpackningar_tidningar": "Lämnas vid återvinningsstationer – närmast finns vid Alkärrsplan och Gästhamnen.",
+        "farligt_el_grov": "Lämnas på ÅVC, närmast på Åkervägen 11 i Nynäshamn. Mindre elavfall kan lämnas i elektronikbutiker."
+      }
+    },
+    "tvättstuga": {
+      "plats": "Vid entrén",
+      "bokning": "Via tavlan i entrén eller i Aptus-appen"
+    },
+    "förråd": {
+      "plats": "I källaren. Extra förråd kan finnas till uthyrning."
+    },
+    "parkering": {
+      "beskrivning": "Parkeringsplatser finns att hyra. Logga in på Mitt HSB för att ställa dig i kö."
+    },
+    "bredband_tv_el": {
+      "leverantörer": [
+        "Tele2 (tidigare Comhem) – baskanalpaket ingår",
+        "Telia – kontakta själv för utökat kanalutbud",
+        "Ellevio – nätägare, välj elavtal och leverantör själv"
+      ]
+    },
+    "jour": {
+      "beskrivning": "Jourfirma vid vattenläckage eller andra akuta ärenden – kontaktuppgifter finns i trapphuset."
+    }
+  }
+}
