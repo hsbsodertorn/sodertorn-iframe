@@ -5,164 +5,138 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hyreschatten</title>
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Saira', sans-serif;
-      background-color: #f5f5f5;
+      font-family: 'Open Sans', sans-serif;
+      background: white;
     }
-    .chat-wrapper {
-      display: flex;
-      flex-direction: column;
+    #wrapper {
       height: 100%;
       width: 100%;
-      box-sizing: border-box;
-      padding: 1rem;
-    }
-    .chatbox {
       display: flex;
-      flex-direction: column;
-      flex: 1;
-      border-radius: 8px;
-      border: 1px solid #003366;
-      background-color: #ffffff;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      border: 2px solid #00558c;
+      border-radius: 16px;
       overflow: hidden;
     }
-    .chatbox-header {
-      background-color: #ffffff;
-      padding: 1rem;
-      border-bottom: 1px solid #003366;
+    #chatbox {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
     }
-    .chatbox-header h2 {
-      font-family: 'Trade Gothic Bold Condensed No 20', sans-serif;
-      color: #003366;
-      font-size: 1.3rem;
-      margin: 0 0 0.25rem 0;
+    #messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      background: white;
+      display: flex;
+      flex-direction: column;
     }
-    .chatbox-header p {
-      font-size: 0.9rem;
-      color: #003366;
-      margin-bottom: 1rem;
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-radius: 20px;
+      white-space: pre-line;
+      word-break: break-word;
+      font-size: 16px;
+      line-height: 1.4;
+      display: inline-block;
+    }
+    .user {
+      align-self: flex-end;
+      background-color: #f7f7f8;
+      color: #000;
+    }
+    .bot {
+      align-self: flex-start;
+      background: #e8f0fe;
+      color: #000;
     }
     .topic-buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+      padding: 16px 16px 8px;
     }
     .topic-buttons button {
-      background-color: #ffffff;
-      border: 1px solid #003366;
+      background-color: white;
+      border: 1px solid #00558c;
       border-radius: 16px;
-      padding: 0.5rem 1rem;
-      font-size: 0.85rem;
-      color: #003366;
+      padding: 6px 12px;
+      font-size: 14px;
+      color: #00558c;
       cursor: pointer;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
-    .chatbox-body {
-      flex: 1;
-      background-color: #ffffff;
-      padding: 1rem;
-      overflow-y: auto;
-      border-bottom: 1px solid #003366;
-    }
-    .chat-message {
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 10px;
-      position: relative;
-    }
-    .chat-bubble {
-      background-color: #E6F0F8;
-      color: #000;
-      padding: 10px 15px;
-      border-radius: 10px;
-      max-width: 80%;
-    }
-    .feedback {
-      position: absolute;
-      bottom: -1.5rem;
-      left: 10px;
-      font-size: 1rem;
-    }
-    .chatbox-footer {
+    #inputArea {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      background-color: #ffffff;
-      padding: 0.8rem;
-      border-top: 1px solid #ccc;
+      padding: 12px 16px;
+      border-top: 1px solid #e0e0e0;
+      gap: 12px;
     }
-    .chatbox-footer input {
+    textarea {
       flex: 1;
-      padding: 10px;
-      border-radius: 20px;
+      min-height: 48px;
+      max-height: 200px;
+      padding: 14px 20px;
+      border-radius: 24px;
       border: 1px solid #ccc;
-      font-size: 0.9rem;
+      font-size: 16px;
+      resize: none;
+      font-family: 'Open Sans', sans-serif;
     }
-    .chatbox-footer button {
-      background-color: #003366;
+    textarea:focus {
+      border-color: #00558c;
+      outline: none;
+    }
+    #charCount { font-size: 14px; color: #666; }
+    button {
+      background: #00558c;
       color: white;
       border: none;
-      padding: 10px 15px;
-      border-radius: 20px;
-      font-size: 0.9rem;
+      border-radius: 24px;
+      padding: 14px 20px;
+      font-size: 16px;
       cursor: pointer;
     }
+    button:hover { background: #004070; }
     .disclaimer {
       font-size: 0.75rem;
       color: #333;
       font-style: italic;
       text-align: center;
-      margin-top: 0.5rem;
-    }
-    @media (max-width: 600px) {
-      .chatbox-header h2 {
-        font-size: 1.1rem;
-      }
-      .chatbox-footer input {
-        font-size: 0.85rem;
-      }
-      .chatbox-footer button {
-        font-size: 0.85rem;
-        padding: 8px 12px;
-      }
+      padding: 0.5rem 1rem;
     }
   </style>
 </head>
 <body>
-  <div class="chat-wrapper">
-    <div class="chatbox">
-      <div class="chatbox-header">
-        <h2>Hyreschatten</h2>
-        <p>HSB Södertörn – ställ en fråga eller välj ett ämne nedan:</p>
-        <div class="topic-buttons">
-          <button>🛠️ Något är trasigt</button>
-          <button>🗝️ Inflytt & nycklar</button>
-          <button>🔇 Störningar</button>
-          <button>💸 Hyra & betalning</button>
-        </div>
+  <div id="wrapper">
+    <div id="chatbox">
+      <div class="topic-buttons">
+        <button>🛠️ Något är trasigt</button>
+        <button>🗝️ Inflytt & nycklar</button>
+        <button>🔇 Störningar</button>
+        <button>💸 Hyra & betalning</button>
       </div>
-      <div class="chatbox-body">
-        <div class="chat-message">
-          <div class="chat-bubble">
-            Hej! Välkommen till Hyreschatten 🤖 Vad vill du ha hjälp med idag?
-          </div>
-          <div class="feedback">
-            <span style="cursor: pointer; margin-right: 5px;">👍</span>
-            <span style="cursor: pointer;">👎</span>
-          </div>
-        </div>
+      <div id="messages" aria-live="polite">
+        <div class="message bot">Hej! Välkommen till Hyreschatten 🤖 Vad vill du ha hjälp med idag?</div>
       </div>
-      <div class="chatbox-footer">
-        <input type="text" placeholder="skriv din fråga här..." maxlength="1000">
-        <button>skicka</button>
+      <div id="inputArea">
+        <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000" oninput="document.getElementById('charCount').textContent = `${this.value.length}/1000`"></textarea>
+        <span id="charCount">0/1000</span>
+        <button onclick="sendMessage()">skicka</button>
       </div>
     </div>
-    <p class="disclaimer">
-      Information från Hyreschatten är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet.
-    </p>
   </div>
+  <p class="disclaimer">
+    Information från Hyreschatten är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet.
+  </p>
 </body>
 </html>
