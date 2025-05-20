@@ -1,529 +1,193 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hyreschatten</title>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyreschatten</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: white;
+      overflow: hidden;
+    }
+    #wrapper {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      border: 2px solid #00558c;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    #chatbox {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+    #messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+    .message {
+      max-width: 75%;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      border-radius: 20px;
+      white-space: pre-line;
+      word-break: break-word;
+      font-size: 16px;
+      line-height: 1.4;
+      display: inline-block;
+    }
+    .user {
+      align-self: flex-end;
+      background-color: #f7f7f8;
+      color: #000;
+    }
+    .bot {
+      align-self: flex-start;
+      background: #e8f0fe;
+      color: #000;
+    }
+    .topic-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 12px 12px 4px;
+    }
+    .topic-buttons button {
+      background-color: white;
+      border: 1px solid #00558c;
+      border-radius: 16px;
+      padding: 6px 12px;
+      font-size: 14px;
+      color: #00558c;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .topic-buttons button:hover {
+      background-color: #00558c;
+      color: white;
+    }
+    .topic-buttons button.active {
+      background-color: #00558c;
+      color: white;
+    }
+    #inputArea {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-top: 1px solid #e0e0e0;
+      gap: 12px;
+    }
+    textarea {
+      flex: 1;
+      min-height: 48px;
+      max-height: 200px;
+      padding: 12px 16px;
+      border-radius: 24px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      resize: none;
+      font-family: 'Open Sans', sans-serif;
+    }
+    textarea:focus {
+      border-color: #00558c;
+      outline: none;
+    }
+    #charCount { font-size: 14px; color: #666; }
+    button {
+      background: #00558c;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 12px 16px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: #004070; }
+    .disclaimer {
+      font-size: 0.75rem;
+      color: #333;
+      font-style: italic;
+      text-align: center;
+      padding: 0.5rem 1rem;
+    }
+  </style>
+  <script>
+    function insertMessage(text) {
+      const messages = document.getElementById('messages');
 
-    // Hårdkodad Firebase-konfiguration - ersätt "DIN_FIREBASE_API_KEY" med din riktiga API-nyckel
-    const firebaseConfig = {
-      apiKey: "DIN_FIREBASE_API_KEY", // <--- VIKTIGT: Ersätt med din egen Firebase API-nyckel
-      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
-      projectId: "hsbsodertorn-1e7a5",
-      storageBucket: "hsbsodertorn-1e7a5.appspot.com",
-      messagingSenderId: "34372808211",
-      appId: "1:34372808211:web:85e0c908917ff232ce59e6",
-      measurementId: "G-LTWGETNT98"
-    };
+      // Ta bort tidigare automatiska bot-meddelanden (ej det första)
+      const oldBotMessages = messages.querySelectorAll('.bot:not(:first-of-type)');
+      oldBotMessages.forEach(msg => msg.remove());
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+      const div = document.createElement('div');
+      div.className = 'message bot';
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
 
-    // Kö för att hantera loggning vid tillfälliga fel
-    const logQueue = [];
-    window.saveChatLog = async (conversationId, fraga, svar) => {
-      const logEntry = {
-        conversationId,
-        fraga,
-        svar,
-        tid: serverTimestamp()
-      };
-      logQueue.push(logEntry);
-      while (logQueue.length > 0) {
-        try {
-          // Ändrat till en ny samling för hyreschatten
-          await addDoc(collection(db, "hyreschattlogg"), logQueue[0]);
-          logQueue.shift();
-        } catch (err) {
-          console.error("Fel vid loggning i Firebase:", err);
-          showError("Kunde inte spara chatten. Försök igen.");
-          break;
-        }
-      }
-    };
-  </script>
-
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Open Sans', sans-serif;
-      background: white;
-      overflow: hidden; /* För att förhindra rullningslister på hela sidan */
-    }
-    #wrapper {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: white;
-      border: 2px solid #00558c;
-      border-radius: 16px;
-      overflow: hidden; /* Viktigt för att hålla innehållet innanför de rundade hörnen */
-    }
-    #chatbox {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 100%;
-    }
-    #messages {
-      flex: 1;
-      padding: 16px; /* Ökat padding för mer luft */
-      overflow-y: auto;
-      background: white;
-      display: flex;
-      flex-direction: column;
-    }
-    .message {
-      max-width: 75%;
-      padding: 12px 16px; /* Anpassat padding */
-      margin-bottom: 12px; /* Anpassat marginal */
-      border-radius: 20px;
-      white-space: pre-line;
-      word-break: break-word;
-      font-size: 16px;
-      line-height: 1.4;
-      display: inline-block;
-    }
-    .user {
-      align-self: flex-end;
-      background-color: #f7f7f8;
-      color: #000;
-      border-radius: 18px; /* Lade till border-radius för konsekvens */
-    }
-    .bot, .bot-question { /* Behåll .bot-question om du har det någonstans, annars kan det tas bort */
-      align-self: flex-start;
-      background: #e8f0fe;
-      color: #000;
-      padding: 12px 16px;
-      border-radius: 18px; /* Lade till border-radius för konsekvens */
-    }
-    .thinking {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .dot {
-      width: 8px;
-      height: 8px;
-      background-color: #888;
-      border-radius: 50%;
-      animation: blink 1.4s infinite;
-    }
-    .dot:nth-child(2) { animation-delay: 0.2s; }
-    .dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes blink {
-      0%, 80%, 100% { opacity: 0; }
-      40% { opacity: 1; }
-    }
-    .link-button {
-      display: inline-block; /* Ändrade till inline-block för att hantera marginaler bättre */
-      margin: 0 0 12px 0; /* Anpassade marginalen så den inte ligger för tätt */
-      background: #00558c;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.2s;
-      align-self: flex-start; /* Ser till att knappen ligger till vänster */
-    }
-    .link-button:hover { background: #004070; }
-
-    .topic-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      padding: 12px 16px 4px; /* Ökat padding på sidorna */
-      border-bottom: 1px solid #e0e0e0; /* Lade till en linje för att separera från meddelanden */
-    }
-    .topic-buttons button {
-      background-color: white;
-      border: 1px solid #00558c;
-      border-radius: 16px;
-      padding: 6px 12px;
-      font-size: 14px;
-      color: #00558c;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-    .topic-buttons button:hover {
-      background-color: #00558c;
-      color: white;
-    }
-    .topic-buttons button.active {
-      background-color: #00558c;
-      color: white;
-    }
-    #inputArea {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px; /* Anpassat padding */
-      border-top: 1px solid #e0e0e0;
-      gap: 12px;
-      box-shadow: 0 -2px 4px rgba(0,0,0,0.04); /* Lade till skugga för att separera från meddelanden */
-    }
-    textarea {
-      flex: 1;
-      min-height: 48px;
-      max-height: 200px;
-      padding: 14px 20px; /* Anpassat padding */
-      border-radius: 24px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      resize: none;
-      font-family: 'Open Sans', sans-serif;
-    }
-    textarea:focus {
-      border-color: #00558c;
-      outline: none;
-    }
-    #charCount { font-size: 14px; color: #666; }
-    button {
-      background: #00558c;
-      color: white;
-      border: none;
-      border-radius: 24px;
-      padding: 14px 20px; /* Anpassat padding */
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.2s; /* Lade till transition */
-    }
-    button:hover { background: #004070; }
-    .error {
-      align-self: center;
-      background: #ffe6e6;
-      color: #d32f2f;
-      padding: 8px 16px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-    }
-    .disclaimer {
-      font-size: 0.75rem;
-      color: #333;
-      font-style: italic;
-      text-align: center;
-      padding: 0.5rem 1rem;
-      position: absolute; /* Lade till positionering för att den ska ligga under chatboxen */
-      bottom: 10px; /* Justera positioneringen */
-      width: 100%;
-      left: 0;
-    }
-  </style>
+    window.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('.topic-buttons button');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          let question = '';
+          switch (btn.textContent.trim()) {
+            case '🛠️ Något är trasigt':
+              question = 'Vad är det som är trasigt i din lägenhet eller i huset?';
+              break;
+            case '🗝️ Inflytt & nycklar':
+              question = 'Vad vill du veta om inflyttning eller nycklar? Gäller det nycklar, förråd eller port?';
+              break;
+            case '🔇 Störningar':
+              question = 'Berätta gärna mer – vad är det som stör, och hur ofta händer det?';
+              break;
+            case '💸 Hyra & betalning':
+              question = 'Vad vill du veta om hyran eller hur du betalar den?';
+              break;
+          }
+          insertMessage(question);
+        });
+      });
+    });
+  </script>
 </head>
 <body>
-  <div id="wrapper">
-    <div id="chatbox">
-      <div class="topic-buttons">
-        <button>🛠️ Något är trasigt</button>
-        <button>🗝️ Inflytt & nycklar</button>
-        <button>🔇 Störningar</button>
-        <button>💸 Hyra & betalning</button>
-      </div>
-      <div id="messages" aria-live="polite">
-        <div class="message bot">Hej! Välkommen till Hyreschatten 🤖 Vad vill du ha hjälp med idag?</div>
-      </div>
-      <div id="inputArea">
-        <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000"
-          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)" aria-label="Skriv din fråga"></textarea>
-        <span id="charCount">0/1000</span>
-        <button onclick="sendMessage()" aria-label="Skicka fråga">skicka</button>
-      </div>
-    </div>
-  </div>
-  <p class="disclaimer">
-    Information från Hyreschatten är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet.
-  </p>
-
-  <script>
-    const conversationId = crypto.randomUUID();
-    const messageHistory = [];
-    // Ingen cachedContextData för hyreschatten initialt, om det inte tillkommer
-    // const cachedContextData = new Map();
-
-    const disclaimerText = `
----
-*information från hyreschatten är vägledande och bör granskas kritiskt. vi tar inget ansvar för svarens riktighet. ladda inte upp känslig information som kan bryta mot gdpr. kontakta hsb södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
-
-    const baseSystemPrompt = `du är hyreschatten – vår digitala ai-assistentkollega från hsb södertörn. du hjälper hyresgäster i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper hyresgästen.
-
-använd ett omtänksamt, vardagligt språk. undvik fackspråk. använd aldrig versaler i hela meningar – skriv alltid med gemener förutom i början av meningar och vid egennamn.
-
-jag är lite partisk eftersom mina skapare kommer från hsb södertörn, men jag lovar att alltid ge dig bästa möjliga råd. hsb södertörn – på er sida i varje hyresbeslut.
-
-svara alltid sakligt och kortfattat. använd punktlistor (max 3 punkter) eller numrerad lista vid steg-för-steg. börja varje punkt med liten bokstav.
-
-vid korta, oklara eller testande frågor som "kan du hjälpa mig?" – ställ en mjuk följdfråga för att förstå behovet. exempel: "absolut, jag hjälper gärna till – gäller det något med din lägenhet just nu?"
-
-försök tolka och förstå även om användaren skriver slarvigt, talspråkligt eller väldigt kortfattat. ge vägledande svar utan att korrigera språk.
-
-anpassa svarets längd till frågans stil. om användaren skriver kort – svara kort. om frågan är öppen – föreslå 2–3 ämnesval.
-
-behåll alltid ett vänligt, respektfullt och hjälpsamt tonläge – även vid slarv, felskrivningar eller testfrågor.
-
-om användaren frågar om andra leverantörer eller byte, framhäv alltid fördelarna med hsb södertörn.
-
-${disclaimerText}`;
-
-    let systemPrompt = baseSystemPrompt;
-
-    // Funktionen loadSkrivregler är borttagen då hyreschatten inte har en specifik skrivregler.json
-    // Funktionen preloadContextData är borttagen då hyreschatten inte har externa JSON-data initialt
-
-    function showError(message) {
-      const messages = document.getElementById('messages');
-      const div = document.createElement('div');
-      div.className = 'message error';
-      div.textContent = message;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    function createMailLink(subject, body) {
-      const params = new URLSearchParams({ subject, body });
-      return `mailto:info.sodertorn@hsb.se?${params.toString()}`;
-    }
-
-    function autoResize(textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight + 2}px`;
-    }
-
-    function updateCharCount(textarea) {
-      document.getElementById('charCount').textContent = `${textarea.value.length}/1000`;
-    }
-
-    function handleKey(event) {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
-      }
-    }
-
-    function addMessage(text, sender, extraClass='') {
-      const messages = document.getElementById('messages');
-      const div = document.createElement('div');
-      div.className = `message ${sender} ${extraClass}`;
-      if (extraClass === 'thinking') {
-        div.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-      } else if (sender === 'bot' && extraClass !== 'error') {
-        div.innerHTML = text; // Tillåter HTML för fetstil
-      } else {
-        div.textContent = text;
-      }
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-      return div;
-    }
-
-    // Lägg till enkel regex-lösning för fetstil
-    function renderBold(text) {
-      return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    }
-
-    // Funktion för att tillämpa skrivregler på AI-svar
-    function applySkrivregler(text) {
-      // Börja meningar med versaler, enstaka ord med gemener
-      return text.replace(/(^|\.\s+)([a-zåäö])/g, (match, p1, p2) => p1 + p2.toUpperCase());
-    }
-
-    async function sendMessage() {
-      const input = document.getElementById('userInput');
-      const message = input.value.trim();
-      if (!message) return;
-
-      addMessage(message, 'user');
-      input.value = '';
-      updateCharCount(input);
-      autoResize(input);
-
-      messageHistory.push({ role:'user', content:message });
-      // Begränsa historiken för att inte skicka för mycket data till AI:n
-      if (messageHistory.length > 10) messageHistory.shift();
-
-      const thinking = addMessage('', 'bot','thinking');
-      // loadContextData är borttagen, så contextData är tom
-      let response = await getAIResponse(message);
-      thinking.remove();
-
-      response = response.replace(/\[följdfråga\]/gi, '').trim();
-      response = applySkrivregler(response); // Tillämpa skrivregler
-      response = renderBold(response);      // Rendera fetstil
-      typeMessage(response, 'bot');
-      messageHistory.push({ role:'assistant', content:response });
-
-      const key = message.toLowerCase();
-      if (/\b(ärende|skicka e-post|mail|kontakta)\b/.test(key)) {
-        const subject = message.substring(0,50);
-        let bodyLines = [
-          'Hej,',
-          '',
-          'jag heter [namn] och är hyresgäst på [adress].',
-          '',
-          'här är de senaste 5 frågorna och svaren från Hyreschatten:'
-        ];
-        // Hämta de senaste 10 meddelandena (5 frågor och 5 svar)
-        const recent = messageHistory.slice(-10);
-        for (let i = 0; i < recent.length; i += 2) {
-          const q = recent[i];
-          const a = recent[i+1];
-          if (q && a) {
-            bodyLines.push('', `fråga: ${q.content}`, `svar: ${a.content}`);
-          }
-        }
-        bodyLines.push('', 'vänligen,', '[namn]', '[telefon]', '[epost]');
-        const body = bodyLines.join('\n');
-
-        const mailLink = createMailLink(subject, body);
-        const btn = document.createElement('a');
-        btn.href = mailLink;
-        btn.textContent = 'skicka e-post till hsb';
-        btn.className = 'link-button';
-        btn.target = '_blank';
-        btn.setAttribute('aria-label', 'Skicka e-post till HSB Södertörn');
-        document.getElementById('messages').appendChild(btn);
-        messages.scrollTop = messages.scrollHeight; // Se till att skrolla ner efter att knappen läggs till
-      }
-
-      const clean = txt => txt
-        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
-        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
-        .replace(/\b\d{10}\b/g,'[telefonnummer]')
-        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
-        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]')
-        .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g,'[adress]');
-      if (window.saveChatLog) {
-        window.saveChatLog(conversationId, clean(message), clean(response));
-      }
-    }
-
-    // loadContextData är borttagen, eftersom det inte finns några externa JSON-filer att ladda för hyreschatten.
-    // Om du vill lägga till kontextdata i framtiden, kan du lägga till denna funktion igen.
-    /*
-    async function loadContextData(userInput) {
-      const ln = userInput.toLowerCase();
-      let ctx = [];
-      for (const [file, data] of cachedContextData) {
-        const keys = [
-          ...(data.tags || []),
-          ...((data.delar || []).flatMap(d => d.nyckelord || []))
-        ].map(k => k.toLowerCase());
-        if (keys.some(k => ln.includes(k))) {
-          ctx.push({ fil: file, innehall: data });
-        }
-      }
-      return ctx;
-    }
-    */
-
-    function typeMessage(text, sender) {
-      const messages = document.getElementById('messages');
-      const div = document.createElement('div');
-      div.className = `message ${sender}`;
-      messages.appendChild(div);
-      if (sender === 'bot') {
-        let i = 0;
-        const chunkSize = 10;
-        function type() {
-          if (i < text.length) {
-            div.innerHTML = text.substring(0, i + chunkSize);
-            i += chunkSize;
-            messages.scrollTop = messages.scrollHeight;
-            setTimeout(type, 50);
-          }
-        }
-        type();
-      } else {
-        div.textContent = text;
-        messages.scrollTop = messages.scrollHeight;
-      }
-    }
-
-    async function getAIResponse(userInput) { // contextData tas bort som parameter
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
-        const step2 = ["trasigt", "inflytt", "nycklar", "störningar", "hyra", "betalning"];
-        const clar = ["hiss", "trasig", "problem"];
-        const li = userInput.toLowerCase();
-        let ap = "";
-        if (step2.some(k => li.includes(k))) ap = "formatera svaret som en numrerad lista med tydliga steg.";
-        else if (clar.some(k => li.includes(k))) ap = "ställ en följdfråga för att förtydliga.";
-
-        const response = await fetch("/.netlify/functions/styrelsesupport-gpt", { // behåller samma endpoint för AI-anropet
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            conversationId,
-            messages: [
-              { role: "system", content: systemPrompt + `\n${ap}` },
-              ...messageHistory,
-              { role: "user", content: userInput }
-              // Borttagen: { role: "system", content: `databas träffar:\n${JSON.stringify(contextData).slice(0, 4000)}` }
-            ]
-          }),
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
-        const js = await response.json();
-        return js.choices?.[0]?.message?.content || "Något gick fel i AI-anropet.";
-      } catch (err) {
-        console.error("Fel vid AI-anrop:", err);
-        showError("Kunde inte hämta svar. Försök igen senare.");
-        return "Något gick fel, försök senare.";
-      }
-    }
-
-    // Befintlig JS-kod för hyreschatten behålls
-    function insertMessage(text) {
-      const messages = document.getElementById('messages');
-
-      // Ta bort tidigare automatiska bot-meddelanden (ej det första)
-      const oldBotMessages = messages.querySelectorAll('.bot:not(:first-of-type):not(.thinking):not(.error)');
-      oldBotMessages.forEach(msg => msg.remove());
-
-      // Lägg till det nya bot-meddelandet direkt, utan "typing" effekt för dessa fasta svar
-      const div = document.createElement('div');
-      div.className = 'message bot';
-      div.textContent = text;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const buttons = document.querySelectorAll('.topic-buttons button');
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          buttons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          let question = '';
-          switch (btn.textContent.trim()) {
-            case '🛠️ Något är trasigt':
-              question = 'vad är det som är trasigt i din lägenhet eller i huset?';
-              break;
-            case '🗝️ Inflytt & nycklar':
-              question = 'vad vill du veta om inflyttning eller nycklar? gäller det nycklar, förråd eller port?';
-              break;
-            case '🔇 Störningar':
-              question = 'berätta gärna mer – vad är det som stör, och hur ofta händer det?';
-              break;
-            case '💸 Hyra & betalning':
-              question = 'vad vill du veta om hyran eller hur du betalar den?';
-              break;
-          }
-          insertMessage(question);
-        });
-      });
-    });
-  </script>
+  <div id="wrapper">
+    <div id="chatbox">
+      <div class="topic-buttons">
+        <button>🛠️ Något är trasigt</button>
+        <button>🗝️ Inflytt & nycklar</button>
+        <button>🔇 Störningar</button>
+        <button>💸 Hyra & betalning</button>
+      </div>
+      <div id="messages" aria-live="polite">
+        <div class="message bot">Hej! Välkommen till Hyreschatten 🤖 Vad vill du ha hjälp med idag?</div>
+      </div>
+      <div id="inputArea">
+        <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000" oninput="document.getElementById('charCount').textContent = `${this.value.length}/1000`"></textarea>
+        <span id="charCount">0/1000</span>
+        <button onclick="sendMessage()">skicka</button>
+      </div>
+    </div>
+  </div>
+  <p class="disclaimer">
+    Information från Hyreschatten är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet.
+  </p>
 </body>
 </html>
