@@ -55,7 +55,7 @@
       height: 100%;
       font-family: 'Open Sans', sans-serif;
       background: white;
-      overflow: hidden;
+      overflow: hidden; /* För att förhindra rullningslister på hela sidan */
     }
     #wrapper {
       height: 100%;
@@ -66,7 +66,7 @@
       background: white;
       border: 2px solid #00558c;
       border-radius: 16px;
-      overflow: hidden;
+      overflow: hidden; /* Viktigt för att hålla innehållet innanför de rundade hörnen */
     }
     #chatbox {
       display: flex;
@@ -76,7 +76,7 @@
     }
     #messages {
       flex: 1;
-      padding: 12px;
+      padding: 16px; /* Ökat padding för mer luft */
       overflow-y: auto;
       background: white;
       display: flex;
@@ -84,8 +84,8 @@
     }
     .message {
       max-width: 75%;
-      padding: 10px 14px;
-      margin-bottom: 10px;
+      padding: 12px 16px; /* Anpassat padding */
+      margin-bottom: 12px; /* Anpassat marginal */
       border-radius: 20px;
       white-space: pre-line;
       word-break: break-word;
@@ -97,11 +97,14 @@
       align-self: flex-end;
       background-color: #f7f7f8;
       color: #000;
+      border-radius: 18px; /* Lade till border-radius för konsekvens */
     }
-    .bot {
+    .bot, .bot-question { /* Behåll .bot-question om du har det någonstans, annars kan det tas bort */
       align-self: flex-start;
       background: #e8f0fe;
       color: #000;
+      padding: 12px 16px;
+      border-radius: 18px; /* Lade till border-radius för konsekvens */
     }
     .thinking {
       display: inline-flex;
@@ -122,8 +125,8 @@
       40% { opacity: 1; }
     }
     .link-button {
-      display: inline;
-      margin: 0 0 0 8px;
+      display: inline-block; /* Ändrade till inline-block för att hantera marginaler bättre */
+      margin: 0 0 12px 0; /* Anpassade marginalen så den inte ligger för tätt */
       background: #00558c;
       color: white;
       padding: 6px 12px;
@@ -131,13 +134,17 @@
       font-size: 14px;
       text-decoration: none;
       cursor: pointer;
+      transition: background 0.2s;
+      align-self: flex-start; /* Ser till att knappen ligger till vänster */
     }
     .link-button:hover { background: #004070; }
+
     .topic-buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      padding: 12px 12px 4px;
+      padding: 12px 16px 4px; /* Ökat padding på sidorna */
+      border-bottom: 1px solid #e0e0e0; /* Lade till en linje för att separera från meddelanden */
     }
     .topic-buttons button {
       background-color: white;
@@ -160,15 +167,16 @@
     #inputArea {
       display: flex;
       align-items: center;
-      padding: 12px;
+      padding: 12px 16px; /* Anpassat padding */
       border-top: 1px solid #e0e0e0;
       gap: 12px;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.04); /* Lade till skugga för att separera från meddelanden */
     }
     textarea {
       flex: 1;
       min-height: 48px;
       max-height: 200px;
-      padding: 12px 16px;
+      padding: 14px 20px; /* Anpassat padding */
       border-radius: 24px;
       border: 1px solid #ccc;
       font-size: 16px;
@@ -185,9 +193,10 @@
       color: white;
       border: none;
       border-radius: 24px;
-      padding: 12px 16px;
+      padding: 14px 20px; /* Anpassat padding */
       font-size: 16px;
       cursor: pointer;
+      transition: background 0.2s; /* Lade till transition */
     }
     button:hover { background: #004070; }
     .error {
@@ -204,6 +213,10 @@
       font-style: italic;
       text-align: center;
       padding: 0.5rem 1rem;
+      position: absolute; /* Lade till positionering för att den ska ligga under chatboxen */
+      bottom: 10px; /* Justera positioneringen */
+      width: 100%;
+      left: 0;
     }
   </style>
 </head>
@@ -334,6 +347,7 @@ ${disclaimerText}`;
       autoResize(input);
 
       messageHistory.push({ role:'user', content:message });
+      // Begränsa historiken för att inte skicka för mycket data till AI:n
       if (messageHistory.length > 10) messageHistory.shift();
 
       const thinking = addMessage('', 'bot','thinking');
@@ -357,6 +371,7 @@ ${disclaimerText}`;
           '',
           'här är de senaste 5 frågorna och svaren från Hyreschatten:'
         ];
+        // Hämta de senaste 10 meddelandena (5 frågor och 5 svar)
         const recent = messageHistory.slice(-10);
         for (let i = 0; i < recent.length; i += 2) {
           const q = recent[i];
@@ -376,6 +391,7 @@ ${disclaimerText}`;
         btn.target = '_blank';
         btn.setAttribute('aria-label', 'Skicka e-post till HSB Södertörn');
         document.getElementById('messages').appendChild(btn);
+        messages.scrollTop = messages.scrollHeight; // Se till att skrolla ner efter att knappen läggs till
       }
 
       const clean = txt => txt
@@ -475,6 +491,7 @@ ${disclaimerText}`;
       const oldBotMessages = messages.querySelectorAll('.bot:not(:first-of-type):not(.thinking):not(.error)');
       oldBotMessages.forEach(msg => msg.remove());
 
+      // Lägg till det nya bot-meddelandet direkt, utan "typing" effekt för dessa fasta svar
       const div = document.createElement('div');
       div.className = 'message bot';
       div.textContent = text;
