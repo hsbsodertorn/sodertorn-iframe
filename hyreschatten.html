@@ -1,41 +1,149 @@
-<div style="max-width: 100%; margin: 0 auto; font-family: 'Saira', sans-serif;">
-  <!-- Chattfönster -->
-  <div style="border-radius: 8px; overflow: hidden; border: 1px solid #003366; max-width: 700px; margin: 0 auto;">
-    <!-- Rubrik och ämnesknappar i chattrutan -->
-    <div style="background-color: #ffffff; padding: 1rem; border-bottom: 1px solid #003366;">
-      <h2 style="font-family: 'Trade Gothic Bold Condensed No 20', sans-serif; color: #003366; font-size: 1.3rem; margin: 0 0 0.25rem 0;">Hyreschatten</h2>
-      <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: #003366;">HSB Södertörn – ställ en fråga eller välj ett ämne nedan:</p>
-
-      <!-- Ämnesknappar -->
-      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-        <button style="background-color: #ffffff; border: 1px solid #003366; border-radius: 16px; padding: 0.5rem 1rem; font-size: 0.85rem; color: #003366; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">Felanmälan</button>
-        <button style="background-color: #ffffff; border: 1px solid #003366; border-radius: 16px; padding: 0.5rem 1rem; font-size: 0.85rem; color: #003366; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">Boenderegler</button>
-        <button style="background-color: #ffffff; border: 1px solid #003366; border-radius: 16px; padding: 0.5rem 1rem; font-size: 0.85rem; color: #003366; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">Tvättstuga</button>
-        <button style="background-color: #ffffff; border: 1px solid #003366; border-radius: 16px; padding: 0.5rem 1rem; font-size: 0.85rem; color: #003366; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">Inflytt & utflytt</button>
-        <button style="background-color: #ffffff; border: 1px solid #003366; border-radius: 16px; padding: 0.5rem 1rem; font-size: 0.85rem; color: #003366; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">Medlemskap</button>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyreschatten</title>
+  <style>
+    body {
+      font-family: 'Saira', sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+    }
+    .chat-wrapper {
+      max-width: 100%;
+      margin: 1rem auto;
+    }
+    .chatbox {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #003366;
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+    }
+    .chatbox-header {
+      background-color: #ffffff;
+      padding: 1rem;
+      border-bottom: 1px solid #003366;
+    }
+    .chatbox-header h2 {
+      font-family: 'Trade Gothic Bold Condensed No 20', sans-serif;
+      color: #003366;
+      font-size: 1.3rem;
+      margin: 0 0 0.25rem 0;
+    }
+    .chatbox-header p {
+      font-size: 0.9rem;
+      color: #003366;
+      margin-bottom: 1rem;
+    }
+    .topic-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .topic-buttons button {
+      background-color: #ffffff;
+      border: 1px solid #003366;
+      border-radius: 16px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      color: #003366;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .chatbox-body {
+      background-color: #ffffff;
+      padding: 1rem;
+      height: 280px;
+      overflow-y: auto;
+      border-bottom: 1px solid #003366;
+    }
+    .chat-message {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .chat-bubble {
+      background-color: #E6F0F8;
+      color: #000;
+      padding: 10px 15px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    .feedback {
+      position: absolute;
+      bottom: -1.5rem;
+      left: 10px;
+      font-size: 1rem;
+    }
+    .chatbox-footer {
+      background-color: #ffffff;
+      padding: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .chatbox-footer input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+    }
+    .chatbox-footer button {
+      background-color: #003366;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .disclaimer {
+      font-size: 0.75rem;
+      color: #333;
+      font-style: italic;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-wrapper">
+    <div class="chatbox">
+      <div class="chatbox-header">
+        <h2>Hyreschatten</h2>
+        <p>HSB Södertörn – ställ en fråga eller välj ett ämne nedan:</p>
+        <div class="topic-buttons">
+          <button>Felanmälan</button>
+          <button>Boenderegler</button>
+          <button>Tvättstuga</button>
+          <button>Inflytt & utflytt</button>
+          <button>Medlemskap</button>
+        </div>
+      </div>
+      <div class="chatbox-body">
+        <div class="chat-message">
+          <div class="chat-bubble">
+            Hej! Välkommen till Hyreschatten 🤖 Vad vill du ha hjälp med idag?
+          </div>
+          <div class="feedback">
+            <span style="cursor: pointer; margin-right: 5px;">👍</span>
+            <span style="cursor: pointer;">👎</span>
+          </div>
+        </div>
+      </div>
+      <div class="chatbox-footer">
+        <input type="text" placeholder="skriv din fråga här..." maxlength="1000">
+        <button>skicka</button>
       </div>
     </div>
-
-    <div style="background-color: #ffffff; padding: 1rem; height: 280px; overflow-y: auto; border-bottom: 1px solid #003366;">
-      <!-- AI-svar -->
-      <div style="display: flex; justify-content: flex-start; margin-bottom: 10px; position: relative;">
-        <div style="background-color: #E6F0F8; color: #000; padding: 10px 15px; border-radius: 10px; max-width: 80%;">
-          Hej! Välkommen till Hyreschatten 🤖 Vad vill du ha hjälp med idag?
-        </div>
-        <!-- Feedback -->
-        <div style="position: absolute; bottom: -1.5rem; left: 10px; font-size: 1rem;">
-          <span style="cursor: pointer; margin-right: 5px;">👍</span>
-          <span style="cursor: pointer;">👎</span>
-        </div>
-      </div>
-    </div>
-    <div style="background-color: #ffffff; padding: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
-      <input type="text" placeholder="skriv din fråga här..." maxlength="1000" style="flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ccc; font-size: 0.9rem;">
-      <button style="background-color: #003366; color: white; border: none; padding: 10px 15px; border-radius: 20px; font-size: 0.9rem;">skicka</button>
-    </div>
+    <p class="disclaimer">
+      Information från Hyreschatten är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet.
+    </p>
   </div>
-</div>
-
-<p style="font-size: 0.75rem; color: #333; font-style: italic; margin-top: 0.5rem; text-align: center;">
-  Information från Hyreschatten är vägledande och bör granskas kritiskt. Vi tar inget ansvar för svarens riktighet.
-</p>
+</body>
+</html>
