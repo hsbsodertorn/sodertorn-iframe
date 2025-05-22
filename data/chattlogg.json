@@ -1,4 +1,10 @@
 {
+  "07Xjq7aDW6TdjvpDQoIj": {
+    "tid": "2025-05-20T15:56:53.967000+00:00",
+    "conversationId": "5f4d71d7-7695-49d4-b020-01f055b00afd",
+    "fraga": "Hur mycket kostar det att överlåta en lägenhet?",
+    "svar": "Är du medlem, hyresgäst eller sitter du i styrelsen? Så kan jag hjälpa dig bättre."
+  },
   "0BFRcgEcenWBvoKE9dl1": {
     "tid": "2025-05-07T10:55:02.471000+00:00",
     "conversationId": "bf46439b-bd2e-494c-9502-32fe2b1db39d",
@@ -16,6 +22,12 @@
     "conversationId": "0dfc7702-29da-4aed-8960-46109f3d1082",
     "fraga": "kan du skcika mailet?",
     "svar": "tyvärr kan jag inte skicka mailet åt dig. men jag kan hjälpa dig att skriva det och ge dig vägledning om vad du kan inkludera i mailet. vill du ha hjälp med att formulera mailet?"
+  },
+  "1qNS7aIYQ3bVkrEDq9I6": {
+    "tid": "2025-05-20T15:57:00.690000+00:00",
+    "conversationId": "5f4d71d7-7695-49d4-b020-01f055b00afd",
+    "fraga": "medlem",
+    "svar": "Att överlåta en lägenhet kan innebära olika avgifter och kostnader, beroende på föreningens regler och eventuella avgifter för överlåtelse. Vanligtvis kan det innefatta:\n\n1. Överlåtelseavgift: En avgift som betalas till föreningen vid överlåtelse av en lägenhet.\n2. Pantsättningsavgift: Om köparen behöver ta ett lån med bostaden som säkerhet kan det tillkomma en pantsättningsavgift.\n3. Eventuella kostnader för mäklare och eventuell styling inför försäljning.\n\nDet bästa är att kontakta din förenings styrelse eller förvaltare för att få exakta kostnader och information om överlåtelse av en lägenhet i er förening."
   },
   "2jfkQUGYQkNd8py8izgP": {
     "tid": "2025-05-07T07:58:05.273000+00:00",
@@ -125,6 +137,12 @@
     "fraga": "nu får du mitt telefonnumer",
     "svar": "Jag är här för att hjälpa till med generella frågor och rådgivning. Om du behöver assistans eller har några frågor, är det bara att fråga!"
   },
+  "8WjcGwA4YN1FHin21yRX": {
+    "tid": "2025-05-21T09:18:15.986000+00:00",
+    "conversationId": "de48e793-9c07-4053-80c3-fa0458e230ea",
+    "fraga": "hej",
+    "svar": "Hej! hur kan jag hjälpa dig idag?"
+  },
   "8fuN8U3VzAxMFNRxYP7j": {
     "tid": "2025-05-07T12:43:51.904000+00:00",
     "conversationId": "2118631a-53fd-430d-a45e-895b4d0af2e2",
@@ -209,6 +227,12 @@
     "fraga": "När jag skickar kallelse i styrelsestöd följer bara rubrikerna   i dagordningen med inte undertext som lagts in i den skapadedagordningen. V",
     "svar": "Tack för din fråga! För att lösa problemet med att undertexten inte följer med i kallelsen, kan du prova följande:\n\na. Se till att du sparar dagordningen korrekt med både rubriker och undertexter.\nB. Kontrollera att systemet du använder för att skicka kallelsen stödjer att inkludera både rubriker och undertexter.\nC. Om problemet kvarstår, kontakta supporten för det system du använder för att skicka kallelser för ytterligare hjälp."
   },
+  "Eb3RaJUgCno31z1xq6fs": {
+    "tid": "2025-05-22T07:25:01.699000+00:00",
+    "conversationId": "cb2ff466-cb67-4257-bdb9-035c8e2baa55",
+    "fraga": "Hur fyller jag i arvoden i Arvoden",
+    "svar": "För att fylla i arvoden i Arvoden behöver du följa följande steg:\n\n1. Logga in på Arvoden med dina inloggningsuppgifter.\n2. Navigera till fliken för arvoden eller ersättningar.\n3. Välj den specifika styrelsemedlemmen som du vill fylla i arvodet för.\n4. Ange det belopp som ska utbetalas som arvode.\n5. Spara eller bekräfta ändringarna.\n\nOm du behöver mer specifik hjälp med att fylla i arvoden i Arvoden, är du välkommen att fråga mer detaljerat!"
+  },
   "EmlLlScyQLOLLtgI5imi": {
     "tid": "2025-05-07T12:37:39.677000+00:00",
     "conversationId": "444886c8-9d12-4771-9aa8-ba9cae378913",
@@ -226,6 +250,12 @@
     "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
     "fraga": "hej din gamle",
     "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "F2V8RCqZCIixm0pu6nvD": {
+    "tid": "2025-05-21T07:15:18.459000+00:00",
+    "conversationId": "49ea358e-bdbe-4b65-aaa2-9d9801695eb8",
+    "fraga": "hej",
+    "svar": "Hej! hur kan jag hjälpa dig idag?"
   },
   "F36yBHSpi2I63FkP8abS": {
     "tid": "2025-05-12T12:00:29.308000+00:00",
@@ -256,6 +286,12 @@
     "conversationId": "5a83ea38-d577-4a8a-ac2e-3bb127b4571c",
     "fraga": "nu?=",
     "svar": "Hur kan jag hjälpa dig idag?"
+  },
+  "GmQIZu0gLqe07SmfzCRJ": {
+    "tid": "2025-05-20T13:20:33.065000+00:00",
+    "conversationId": "75f3914c-f77e-40fb-a621-6adf7cb26adc",
+    "fraga": "jag vill flytta",
+    "svar": "Absolut, jag hjälper gärna till – gäller det något i er brf just nu? är du medlem, hyresgäst eller sitter du i styrelsen? så hjälper jag dig bättre."
   },
   "GrBFO5h6aKwoWmUh3Cil": {
     "tid": "2025-05-12T11:47:12.605000+00:00",
@@ -293,6 +329,12 @@
     "fraga": "Hur kan du hjälpa mig?",
     "svar": "Jag kan hjälpa dig med frågor om bostadsrättsföreningar, styrelsearbete, underhåll, ekonomi, och mycket mer. Bara fråga på!"
   },
+  "IBoQvyaLtlYyE2kPuHwq": {
+    "tid": "2025-05-20T13:20:27.140000+00:00",
+    "conversationId": "75f3914c-f77e-40fb-a621-6adf7cb26adc",
+    "fraga": "hej",
+    "svar": "Hej! hur kan jag hjälpa dig idag?"
+  },
   "ImgnvxducR8eAHwYqhIs": {
     "tid": "2025-05-14T06:35:13.132000+00:00",
     "conversationId": "4b70417e-7042-4e30-90c3-8a48141d9a1f",
@@ -316,6 +358,12 @@
     "conversationId": "f1cc5cf9-bc79-4915-a712-997814834592",
     "fraga": "vad rekomenderar du?",
     "svar": "Som digital assistent kan jag inte ge personliga rekommendationer, men jag kan föreslå att du följer stegen jag tidigare nämnde för att jämföra och fatta ett informerat beslut mellan Riksbyggen och HSB. Genom att göra en noggrann jämförelse baserad på era behov och önskemål kan ni välja det företag som passar bäst för er bostadsrättsförening. Om du behöver ytterligare hjälp eller har andra frågor är du välkommen att berätta så att jag kan assistera dig på bästa sätt."
+  },
+  "JaUlTsxmEktJ2xkR6NjZ": {
+    "tid": "2025-05-22T06:41:31.529000+00:00",
+    "conversationId": "dacb36b7-643a-4b03-a91c-bc1c8ecc2442",
+    "fraga": "hur ska vi fördela arvoden på vår förening",
+    "svar": "När det kommer till att fördela arvoden i er förening kan det vara bra att tänka på följande:\n\n- <strong>Skapa en tydlig policy</strong>: Utforma en policy som tydligt beskriver hur arvoden fördelas baserat på olika roller och ansvarsområden i styrelsen.\n- <strong>Transparens och öppenhet</strong>: Se till att fördelningen av arvoden är transparent och att alla medlemmar i föreningen är medvetna om hur det görs.\n- <strong>Jämför med andra föreningar</strong>: Det kan vara bra att jämföra med andra bostadsrättsföreningar för att få en uppfattning om hur arvoden vanligtvis fördelas.\n\nOm ni behöver mer specifik rådgivning eller stöd kring detta, kan ni alltid kontakta HSB Södertörn för ytterligare hjälp och vägledning."
   },
   "JhXOM09BAJTBbdgmyWqg": {
     "tid": "2025-05-07T20:35:07.688000+00:00",
@@ -346,6 +394,12 @@
     "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
     "fraga": "var kan jag läsa mer?",
     "svar": "För att läsa mer om regler och stadgar kring att hyra ut i andra hand i er bostadsrättsförening kan du ta del av föreningens stadgar och eventuella tilläggsregler. Dessa dokument brukar finnas tillgängliga för medlemmarna och kan ge dig mer detaljerad information om vad som gäller i er specifika förening. Du kan även kontakta styrelsen eller förvaltningskontoret för att få mer information och vägledning kring reglerna för att hyra ut i er bostadsrättsförening."
+  },
+  "KQ0CtqxDqVPWuNovXfKN": {
+    "tid": "2025-05-21T16:34:26.184000+00:00",
+    "conversationId": "ea578e29-1662-4480-bb4b-4a837138330a",
+    "fraga": "Ingår elledningar i lgh i boendes ansvar",
+    "svar": "I en bostadsrätt är det vanligt att elledningarna inne i lägenheten anses vara bostadsrättshavarens ansvar. Det innebär att du som boende normalt sett ansvarar för elledningarna inom din lägenhet, medan elledningarna utanför lägenheten och i gemensamma utrymmen vanligtvis är föreningens ansvar. \n\nOm du är osäker på fördelningen av ansvar i din specifika bostadsrätt kan det vara bra att kolla föreningens stadgar eller kontakta styrelsen för att få tydlig information om detta. Har du någon annan fråga kring detta eller annat som rör din bostadsrätt?"
   },
   "KVayefX4zXe5cVhiGf8N": {
     "tid": "2025-05-07T12:37:16.971000+00:00",
@@ -473,6 +527,12 @@
     "fraga": "Hur länge kan man överklaga ett stämmoprotokoll",
     "svar": "Jag beklagar, men jag har tyvärr inte tillgång till specifik information om tidsramar för att överklaga ett stämmoprotokoll. För att få korrekt och aktuell information rekommenderar jag att du kontaktar HSB Södertörn direkt för råd och vägledning i detta ärende."
   },
+  "ST4Nrvlgn90Ow4L5OqCH": {
+    "tid": "2025-05-20T15:57:24.451000+00:00",
+    "conversationId": "5f4d71d7-7695-49d4-b020-01f055b00afd",
+    "fraga": "men jag vill ha ut svaret nu",
+    "svar": "Jag förstår att du vill ha svaret snabbt. Överlåtelse av en lägenhet kan innebära olika kostnader, inklusive:\n\n1. <strong>Överlåtelseavgift:</strong> En avgift som betalas till föreningen vid överlåtelse av en lägenhet.\n2. <strong>Pantsättningsavgift:</strong> Eventuell avgift om köparen behöver ta ett lån med bostaden som säkerhet.\n3. <strong>Eventuella mäklar- och stylingkostnader:</strong> Kostnader för mäklare och eventuell styling inför försäljning.\n\nFör exakta kostnader och information är det bäst att kontakta din förenings styrelse eller förvaltare."
+  },
   "SZTAlLzdnpWbtW0URCRp": {
     "tid": "2025-05-07T12:16:04.664000+00:00",
     "conversationId": "f2b79eb6-0afe-48af-b504-e922b2f57185",
@@ -550,6 +610,12 @@
     "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
     "fraga": "hej",
     "svar": "hej! vad kan jag hjälpa dig med idag?"
+  },
+  "UmHYSCDjkhcBiPAPKEUl": {
+    "tid": "2025-05-22T06:42:38.428000+00:00",
+    "conversationId": "dacb36b7-643a-4b03-a91c-bc1c8ecc2442",
+    "fraga": "vilka aktiviteter gäller för mig som ordförande i en förening under ett stämmoår",
+    "svar": "Som ordförande i en förening under ett stämmoår kan det vara bra att fokusera på följande aktiviteter:\n\n- <strong>Förberedelse inför årsstämman</strong>:\n    - Planera och förbered alla nödvändiga dokument inför årsstämman.\n    - Se till att alla medlemmar får kallelsen i god tid och att agendan är tydlig.\n\n- <strong>Genomförande av årsstämman</strong>:\n    - Leda stämman på ett effektivt och respektfullt sätt.\n    - Se till att alla ärenden behandlas enligt dagordningen och att beslut fattas korrekt.\n\n- <strong>Uppföljning efter årsstämman</strong>:\n    - Säkerställ att besluten från årsstämman implementeras och följs upp.\n    - Kommunicera tydligt med medlemmarna om resultatet av stämman och eventuella beslut.\n\nOm du behöver ytterligare stöd eller rådgivning kring ditt uppdrag som ordförande, kan du alltid kontakta HSB Södertörn för mer information och vägledning."
   },
   "V6cLmesMc6FaADc1qRfm": {
     "tid": "2025-05-12T11:44:46.459000+00:00",
@@ -658,6 +724,12 @@
     "conversationId": "93d8a15a-ae97-4338-a6c1-88e2f103f410",
     "fraga": "halluinda",
     "svar": "Det verkar som att det blev lite fel i stavningen. Hur kan jag hjälpa dig idag?"
+  },
+  "aDrXfvfmi1wbYOMk8izp": {
+    "tid": "2025-05-20T13:26:26.723000+00:00",
+    "conversationId": "75f3914c-f77e-40fb-a621-6adf7cb26adc",
+    "fraga": "vad ska jag göra med mina avier?",
+    "svar": "När det gäller avier kan det vara bra att kontakta din hyresvärd eller bostadsrättsförening för vägledning. Om du har specifika frågor eller behöver hjälp med hanteringen av dina avier kan du även besöka HSB Södertörns förvaltningskontor i Nynäshamn, Tullinge eller Hemse för personlig assistans. Drop-in för boende på dessa platser är vanligtvis på tisdagar mellan 14.30-16.30, men det kan vara bra att förboka tid för att vara säker på att få den hjälp du behöver. Du kan också besöka HSB Södertörns huvudkontor i Huddinge för mer information och vägledning. Hoppas detta hjälper dig att komma vidare med hanteringen av dina avier!"
   },
   "ao9DfMBrkmhoHFCFsjtq": {
     "tid": "2025-05-14T06:29:36.792000+00:00",
@@ -809,17 +881,35 @@
     "fraga": "skriv en text till mina grannar om att jag ska ha fest",
     "svar": "För att skapa en trevlig stämning och undvika eventuella missförstånd är det viktigt att kommunicera öppet med dina grannar om din fest. Här är ett förslag till text:\n\n\"Hej grannar!\n\nJag vill bara meddela er att jag kommer att ha en fest hemma på [datum] från [tidpunkt]. Jag vill be om ursäkt i förväg för eventuellt ökat ljud under kvällen. Om det skulle bli för högljutt eller störande, tveka inte att höra av er till mig så ska jag se till att åtgärda det.\n\nTack för er förståelse och hoppas att ni har överseende med eventuella olägenheter.\n\nMed vänliga hälsningar,\n[Ditt namn]\"\n\nKom ihåg att vara respektfull och öppen för eventuella synpunkter från dina grannar. Ha en trevlig fest!"
   },
+  "htcwVnx2U7ENla9xZdye": {
+    "tid": "2025-05-20T13:20:47.342000+00:00",
+    "conversationId": "75f3914c-f77e-40fb-a621-6adf7cb26adc",
+    "fraga": "jag vill säga upp mitt hyresavtal",
+    "svar": "För att säga upp ditt hyresavtal behöver du vanligtvis följa följande steg:\n\n1. Kontrollera uppsägningstiden: Se i ditt hyresavtal eller kontakta din hyresvärd för att ta reda på vilken uppsägningstid som gäller.\n2. Skriv en uppsägningshandling: För att säga upp ditt hyresavtal formellt behöver du skriva en uppsägningshandling där du anger din avsikt att säga upp avtalet och datum för utflyttning.\n3. Skicka in uppsägningen: Skicka in din uppsägning till din hyresvärd enligt de instruktioner som anges i ditt hyresavtal.\n\nOm du behöver ytterligare hjälp eller råd kring att säga upp ditt hyresavtal är det bäst att kontakta din hyresvärd direkt."
+  },
   "iSmmiv7CvLJEaWz6GGjr": {
     "tid": "2025-05-07T07:41:21.958000+00:00",
     "conversationId": "dae37541-8772-4f66-adde-039bdcdfb5fa",
     "fraga": "hur kan jag lösa mitt problem med en boende?",
     "svar": "Om du har ett problem med en boende i er bostadsrättsförening kan det vara bra att först försöka lösa det genom att ha en öppen och konstruktiv dialog med personen. Försök att förstå varandra och komma fram till en gemensam lösning. Om problemet kvarstår kan styrelsen vara till hjälp genom att agera som en neutral part och försöka medla i situationen. Ibland kan det även vara lämpligt att involvera en juridisk expert för att få ytterligare vägledning och stöd i frågan. Det är viktigt att hantera konflikter på ett respektfullt sätt för att upprätthålla en trivsam boendemiljö för alla."
   },
+  "k0ocF3TestgQaPtoDJiC": {
+    "tid": "2025-05-21T05:20:41.118000+00:00",
+    "conversationId": "b6a58f37-68e3-44b3-9d7d-70f258f3c6d7",
+    "fraga": "Finns det  mall för konstituerande möte i Styrelsestöd",
+    "svar": "HSB Södertörn erbjuder en rad olika mallar och verktyg för att underlätta styrelsearbetet i bostadsrättsföreningar. För att få tillgång till en specifik mall för ett konstituerande möte i styrelsen, rekommenderar jag att du kontaktar HSB Södertörn direkt. Du kan nå dem på telefonnummer 08-[postnummer] eller via e-post på info.[epost]. De kan ge dig mer information om tillgängliga mallar och hur du kan använda dem i ditt styrelsearbete."
+  },
   "ljfiCpPUhunxCmIglrer": {
     "tid": "2025-05-07T08:45:26.062000+00:00",
     "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
     "fraga": "skriv nu en arg lapp till tvättstugan",
     "svar": "Jag är här för att hjälpa till på ett konstruktivt och respektfullt sätt. Att skriva arga lappar kan ibland eskalera problem istället för att lösa dem. Om du vill kan jag hjälpa dig att formulera en mer neutralt och sakligt meddelande till tvättstugan istället. Hur vill du att vi ska gå vidare?"
+  },
+  "lxC6erUw7acjduPYqHW9": {
+    "tid": "2025-05-20T13:24:55.590000+00:00",
+    "conversationId": "75f3914c-f77e-40fb-a621-6adf7cb26adc",
+    "fraga": "jag tror jag vill prata med en människa istället",
+    "svar": "Jag förstår. Om du behöver prata med någon personligen angående att säga upp ditt hyresavtal, rekommenderar jag att du kontaktar din hyresvärd direkt. De kan ge dig personlig vägledning och svara på eventuella frågor du har. Lycka till med din flytt!"
   },
   "m6YUNudXxxYvH9zOZ7NX": {
     "tid": "2025-05-07T07:36:49.946000+00:00",
@@ -851,6 +941,12 @@
     "fraga": "eller hsb i min förenings fall vet jag",
     "svar": "Om du är medlem i en bostadsrättsförening som förvaltas av HSB Södertörn kan du kontakta dem för att höra om möjligheten att få en bilplats. HSB Södertörn erbjuder olika tjänster och stöd för bostadsrättsföreningar, inklusive hantering av bilplatser. Kontakta dem för mer information om tillgänglighet och eventuella kostnader."
   },
+  "nlGZwdvFHqIpqkuVKVTb": {
+    "tid": "2025-05-21T05:19:36.295000+00:00",
+    "conversationId": "b6a58f37-68e3-44b3-9d7d-70f258f3c6d7",
+    "fraga": "Kan jag skriva protokoll från konstituerande  möte  i styrelsestöd",
+    "svar": "Ja, du kan absolut skriva protokoll från det konstituerande mötet i styrelsen. För att göra det på ett korrekt sätt kan du följa dessa steg:\n\n1. <strong>Inledning och närvaro</strong>: Skriv en kort inledning om mötets syfte och datum. List upp vilka som var närvarande vid mötet.\n\n2. <strong>Val av ordförande och sekreterare</strong>: Beskriv vilka som valdes till ordförande och sekreterare för mötet.\n\n3. <strong>Genomgång av dagordning</strong>: Gå igenom punkterna på dagordningen och sammanfatta diskussioner och beslut som togs för varje punkt.\n\n4. <strong>Beslut och åtgärder</strong>: Skriv ner alla beslut som fattades under mötet och eventuella åtgärder som ska vidtas.\n\n5. <strong>Nästa möte</strong>: Avsluta protokollet med information om när nästa möte ska äga rum och eventuella övriga viktiga punkter.\n\nGenom att följa dessa steg kan du skapa ett tydligt och strukturerat protokoll från det konstituerande mötet i styrelsen."
+  },
   "nmgxz4x1SQrDMLMdI9lM": {
     "tid": "2025-05-07T12:17:44.285000+00:00",
     "conversationId": "252b9fcf-db2c-4447-ade2-e68810876e34",
@@ -875,6 +971,12 @@
     "fraga": "vad ska jag välja?",
     "svar": "När det gäller valet mellan Riksbyggen och HSB kan det vara bra att göra lite research och jämföra vad de erbjuder i form av tjänster, priser, kundnöjdhet och eventuella referenser. Här är några steg som kan hjälpa dig att fatta ett beslut:\n\n1. Gör en lista över dina behov och önskemål när det gäller fastighetsförvaltning och bostadsrättsföreningen.\n2. Kontakta både Riksbyggen och HSB för att få mer information om deras tjänster, priser och villkor.\n3. Be om referenser från andra bostadsrättsföreningar som samarbetar med dem.\n4. Jämför det du har lärt dig och fundera över vilket företag som passar bäst för din bostadsrättsförening.\n\nGenom att göra denna jämförelse kan du fatta ett informerat beslut om vilket företag som passar bäst för er situation. Lycka till med ditt val! Om du behöver mer hjälp eller har andra frågor är du välkommen att berätta."
   },
+  "oMUCIgH4InAvwOrTUhAM": {
+    "tid": "2025-05-22T07:28:13.388000+00:00",
+    "conversationId": "cb2ff466-cb67-4257-bdb9-035c8e2baa55",
+    "fraga": "Jag har gjort ett utkast som jag inte kan låsa upp och ändra i",
+    "svar": "För att kunna låsa upp och ändra ett utkast som du inte har tillgång till, kan du behöva följa dessa steg:\n\n1. Kontrollera om det finns någon administratör eller ansvarig person i er förening som kan hjälpa till med att låsa upp utkastet.\n2. Kontakta supporten för det system eller den plattform där du skapat utkastet för att be om assistans med att låsa upp och ändra det.\n3. Om det är möjligt, försök att spara en kopia av utkastet på annat sätt (till exempel genom att kopiera och klistra in texten i ett annat dokument) för att undvika att förlora dina ändringar.\n\nOm du behöver ytterligare hjälp eller har andra frågor kring detta, är du välkommen att berätta mer så att jag kan ge mer specifik vägledning!"
+  },
   "oNd5q55NdV6ltKDruDGL": {
     "tid": "2025-05-06T12:52:01.783000+00:00",
     "conversationId": "b9ad52c2-c25a-4670-9742-a88a0a6c46de",
@@ -892,6 +994,12 @@
     "conversationId": "fbfd6873-853f-47aa-8f3f-2c91a70a91c9",
     "fraga": "Tack",
     "svar": "Varsågod! Om du har fler frågor är du alltid välkommen att höra av dig. Ha en fortsatt trevlig dag!"
+  },
+  "oyVECl3hFaW5DcLhtnHF": {
+    "tid": "2025-05-20T15:58:14.270000+00:00",
+    "conversationId": "5f4d71d7-7695-49d4-b020-01f055b00afd",
+    "fraga": "vad kan jag få veta via denna chat",
+    "svar": "I denna chatt kan du få svar på frågor relaterade till styrelsearbete i bostadsrättsföreningar, som exempelvis:\n\n1. Information om föreningsregler och stadgar.\n2. Riktlinjer för underhåll och renoveringar.\n3. Hantering av ekonomi och avgifter.\n4. Tips för att lösa konflikter eller utmaningar i föreningen.\n5. Allmänna råd och vägledning för styrelsearbete.\n\nOm du har några specifika frågor är det bara att ställa dem så försöker jag hjälpa dig så gott jag kan."
   },
   "pO5KDh3nuttUkUQ7hEjd": {
     "tid": "2025-05-07T20:32:05.030000+00:00",
@@ -1007,6 +1115,12 @@
     "fraga": "Vad kan HSB Södertörn hjälpa till med?",
     "svar": "HSB Södertörn kan hjälpa till med en rad olika frågor och ärenden som rör bostadsrättsföreningar. Här är några exempel på hur HSB Södertörn kan vara till hjälp:\n\n1. **Juridisk rådgivning:** HSB Södertörn kan ge juridisk rådgivning kring frågor som rör föreningens stadgar, regler och lagar.\n\n2. **Ekonomisk rådgivning:** HSB Södertörn kan bistå med ekonomisk rådgivning och hjälp med budgetering, bokföring och ekonomiska frågor.\n\n3. **Teknisk support:** Vid tekniska frågor kring fastigheten eller underhåll kan HSB Södertörn erbjuda teknisk support och rådgivning.\n\n4. **Utbildningar och seminarier:** HSB Södertörn arrangerar utbildningar och seminarier för styrelsemedlemmar för att öka kunskapen och kompetensen inom olika områden.\n\n5. **Föreningsutveckling:** HSB Södertörn kan stödja föreningen i dess utveckling och hjälpa till med strategiska frågor och långsiktig planering.\n\n6. **Praktisk hjälp:** Vid behov kan HSB Södertörn även erbjuda praktisk hjälp och stöd i olika ärenden som rör föreningen.\n\nDessa är bara några exempel på hur HSB Södertörn kan vara till hjälp för bostadsrättsföreningar. Tveka inte att kontakta dem för att få mer information och stöd i era frågor och ärenden."
   },
+  "ugfdOuJD68FWDQdkfTWp": {
+    "tid": "2025-05-20T15:58:34.828000+00:00",
+    "conversationId": "5f4d71d7-7695-49d4-b020-01f055b00afd",
+    "fraga": "Finns det några lediga garage?",
+    "svar": "Tyvärr har jag inte tillgång till information om specifika lediga garage i området. För att få reda på om det finns lediga garage i din bostadsrättsförening, rekommenderar jag att du kontaktar föreningens styrelse eller förvaltare direkt. De kan ge dig aktuell information om tillgängliga garageplatser och eventuella kösystem."
+  },
   "uuNBid6WUyAk8HkQtm62": {
     "tid": "2025-05-07T08:39:07.810000+00:00",
     "conversationId": "71dc395c-3697-4b17-93ff-e77ae6bf9f64",
@@ -1096,5 +1210,11 @@
     "conversationId": "71dc395c-3697-4b17-93ff-e77ae6bf9f64",
     "fraga": "hrej",
     "svar": "Hej! Hur kan jag hjälpa dig idag?"
+  },
+  "zBwDJHBTxvC3C2TqsDmy": {
+    "tid": "2025-05-22T07:26:56.973000+00:00",
+    "conversationId": "cb2ff466-cb67-4257-bdb9-035c8e2baa55",
+    "fraga": "Hur lägger jag in stämmbeslutade arvoden datum mm",
+    "svar": "För att lägga in stämbeslutade arvoden med datum och annan information, kan du följa dessa steg:\n\n1. Logga in på det system eller den plattform där du hanterar stämbeslutade arvoden.\n2. Navigera till avsnittet för att lägga till nya arvoden eller redigera befintliga.\n3. Välj alternativet för att lägga till ett nytt stämbeslutat arvode.\n4. Ange datumet då beslutet togs på stämman.\n5. Fyll i övrig relevant information såsom belopp, mottagare, motivering eller beslutstext.\n6. Spara eller bekräfta ändringarna enligt systemets instruktioner.\n\nOm du behöver ytterligare hjälp eller specifik vägledning för att lägga in stämbeslutade arvoden med datum och annan information, är du välkommen att fråga mer detaljerat!"
   }
 }
