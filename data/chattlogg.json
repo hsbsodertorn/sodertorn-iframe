@@ -191,6 +191,12 @@
     "fraga": "huddinge",
     "svar": "För mer information om HSB Södertörns kontor i Huddinge och andra kontaktuppgifter kan du besöka deras hemsida. Här hittar du adresser, öppettider och annan relevant information: [HSB Södertörn - Kontakta oss](https://www.hsb.se/sodertorn/kontakta-oss/)"
   },
+  "CVNgwPYgGFkCm8mNt4DI": {
+    "tid": "2025-05-22T09:19:27.968000+00:00",
+    "conversationId": "2635e906-e03d-45b9-bb6f-e585b9c5365c",
+    "fraga": "Vilka renoveringsåtgärder behöver en boende fråga styrelsen om?",
+    "svar": "När en boende vill genomföra renoveringsåtgärder i sin bostadsrätt behöver hen vanligtvis fråga styrelsen om tillstånd eller godkännande för följande åtgärder:\n\n- <strong>Större renoveringar eller ombyggnationer</strong> som påverkar bostadens struktur eller utseende.\n- <strong>Installation av ny utrustning eller teknik</strong> som kan påverka fastighetens system eller säkerhet.\n- <strong>Fasadändringar eller förändringar av yttre utseende</strong> som kan påverka helhetsintrycket av fastigheten.\n\nDet är viktigt att alltid rådfråga styrelsen innan man påbörjar renoveringsarbeten för att säkerställa att åtgärderna följer föreningens regler och inte stör helheten."
+  },
   "CYw5LsztHw1355RVYOuU": {
     "tid": "2025-05-12T11:46:53.351000+00:00",
     "conversationId": "764435f9-492e-497d-9071-1f46c3f486d9",
@@ -208,6 +214,12 @@
     "conversationId": "e9e4d41e-11f0-4e61-95bd-3ba5140a7a53",
     "fraga": "hallunda",
     "svar": "Förvaltningskontoret i Hallunda har öppet för drop-in måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00. Adressen är Kornvägen 18, 145 [adress]. Du kan också boka besök i förväg via formuläret på webben. Läs mer här: [HSB Södertörn - Kontakta oss](https://www.hsb.se/sodertorn/kontakta-oss/)"
+  },
+  "D6TuJDiWjs3ePQ56xe9q": {
+    "tid": "2025-05-22T13:42:57.995000+00:00",
+    "conversationId": "779f638a-efdc-440c-b4f6-e8331c6bc472",
+    "fraga": "Jag har glömt att lägga till extern stämmoordförande i kallelsen och mötet har redan varit. Hur gör jag då?",
+    "svar": "Om du har glömt att lägga till en extern stämmoordförande i kallelsen och mötet redan har ägt rum, kan du göra följande:\n\n1. Kontakta den externa stämmoordföranden och be om ursäkt för misstaget. Förklara situationen och se om det finns möjlighet att kompensera för det.\n\n2. Informera övriga i styrelsen om felet och diskutera eventuella åtgärder som kan vidtas för att undvika liknande misstag i framtiden.\n\n3. Se över rutinerna för att säkerställa att alla nödvändiga personer inkluderas i kallelsen till kommande möten för att undvika liknande situationer."
   },
   "DOx01JGRZpsERjFtJU9h": {
     "tid": "2025-05-07T09:07:38.856000+00:00",
@@ -491,6 +503,12 @@
     "fraga": "va?",
     "svar": "JAG BER OM URSÄKT, KAN DU VAR SNÄLL OCH FÖRKLARA DIN FRÅGA MER DETALJERAT?"
   },
+  "P2Eei1FYKQUfmb6R0r2u": {
+    "tid": "2025-05-22T13:35:38.699000+00:00",
+    "conversationId": "3decfc8d-fdc3-4389-9098-ee08c29f7d85",
+    "fraga": "Alla blandare i hela föreningen har exploderat och det sprutar vatten överallt. Vad ska vi göra?",
+    "svar": "<strong>Kontakta journumret för fastighetsservice hos HSB Södertörn på 08-[postnummer] så att de kan skicka ut en VVS-tekniker så snabbt som möjligt.</strong> Det är viktigt att åtgärda läckan och stoppa vattnet innan det orsakar skador i fastigheten."
+  },
   "P2XoXeL29ndf4VZFZZKV": {
     "tid": "2025-05-14T06:36:46.228000+00:00",
     "conversationId": "4b70417e-7042-4e30-90c3-8a48141d9a1f",
@@ -538,6 +556,12 @@
     "conversationId": "f2b79eb6-0afe-48af-b504-e922b2f57185",
     "fraga": "kan du formulkera mailet",
     "svar": "Jag kan hjälpa dig att formulera ett mail till HSB Södertörn. Här är ett förslag på hur du kan börja mailet:\n\nÄmne: Fråga angående vår bostadsrättsförening\n\nHej HSB Södertörn,\n\nJag hoppas att ni har det bra. Jag är en medlem i [namn på er brf] och har en fråga angående [beskriv ärendet kortfattat]. Skulle ni kunna hjälpa mig med detta?\n\nTack på förhand och ha en fin dag!\n\nMed vänliga hälsningar,\n[Ditt namn]"
+  },
+  "SfwxsJjM4uYHaU8mnume": {
+    "tid": "2025-05-22T13:35:59.490000+00:00",
+    "conversationId": "3decfc8d-fdc3-4389-9098-ee08c29f7d85",
+    "fraga": "Bör föreningen ta kostnaden för detta eller ska varje boende få betala en ny blandare?",
+    "svar": "Det är vanligt att frågan om vem som ska bekosta reparationer och underhåll av blandare kan vara oklar. Här är några riktlinjer att ta hänsyn till:\n\n1. <strong>Föreningens ansvar</strong>:\n   - Vanligtvis ansvarar föreningen för reparationer och underhåll av gemensamma delar, inklusive vattenledningar och blandare som sitter i fastigheten.\n   - Om det är en gemensam blandare som har gått sönder och påverkar flera lägenheter, brukar föreningen normalt stå för kostnaden.\n\n2. <strong>Boendes ansvar</strong>:\n   - Om det är en enskild blandare i en lägenhet som har gått sönder, kan det vara boendes ansvar att bekosta reparationen eller byte av blandaren.\n   - Det är viktigt att kolla föreningens stadgar och eventuella tilläggsregler för att se vilka regler som gäller i er förening.\n\n3. <strong>Kontakta styrelsen</strong>:\n   - För att få klarhet i vem som ansvarar för att bekosta reparationen av de exploderade blandarna, rekommenderas det att kontakta styrelsen i er bostadsrättsförening.\n   - Styrelsen kan ge tydlig vägledning baserat på föreningens regler och förutsättningar.\n\nOm du behöver mer specifik rådgivning eller hjälp med att tolka föreningens regler, är det bäst att diskutera detta med styrelsen för att få korrekt information som är anpassad till er specifika situation."
   },
   "SuHnOIOC8nJJc7HR4ZAT": {
     "tid": "2025-05-07T09:00:32.474000+00:00",
@@ -671,6 +695,12 @@
     "fraga": "finns lediga?",
     "svar": "Tyvärr har jag inte tillgång till aktuell information om specifika lediga hyresrätter på Gotland. För att hitta lediga hyresrätter rekommenderar jag att du kontakta lokala hyresvärdar eller besöka olika bostadssajter som förmedlar hyresrätter på Gotland. Lycka till med din sökning! Om du har några andra frågor eller behöver hjälp med något annat är du välkommen att berätta."
   },
+  "WpkHtl638VXFl9T5msFJ": {
+    "tid": "2025-05-22T13:43:41.407000+00:00",
+    "conversationId": "779f638a-efdc-440c-b4f6-e8331c6bc472",
+    "fraga": "Menar i digitalt styrelsestöd",
+    "svar": "Tyvärr kan jag inte ge dig specifik information om hur du kan justera detta i ett specifikt digitalt styrelsestöd utan mer detaljer. Om du kan ge mig mer information om det digitala verktyget eller systemet som används, kan jag försöka ge dig mer riktade råd och stöd. Kan du beskriva det digitala styrelsestödet eller systemet lite mer detaljerat?"
+  },
   "XA2VVNNGupsPfes1YYuR": {
     "tid": "2025-05-07T12:30:49.803000+00:00",
     "conversationId": "1ecb9758-f24c-4053-9b13-e1ed784e2fb7",
@@ -724,6 +754,12 @@
     "conversationId": "93d8a15a-ae97-4338-a6c1-88e2f103f410",
     "fraga": "halluinda",
     "svar": "Det verkar som att det blev lite fel i stavningen. Hur kan jag hjälpa dig idag?"
+  },
+  "aBIlr4Cn1UxELKf3rsgl": {
+    "tid": "2025-05-22T13:44:47.213000+00:00",
+    "conversationId": "779f638a-efdc-440c-b4f6-e8331c6bc472",
+    "fraga": "vad får man bygga om i en bostadsrätt?",
+    "svar": "I en bostadsrätt får man vanligtvis göra mindre ombyggnader och förändringar som inte påverkar bostadens struktur eller funktion. Exempel på vanliga ombyggnader som är tillåtna inkluderar:\n\n- Målning av väggar och tak\n- Byte av golvbeläggning\n- Installation av nya köks- eller badrumsinredningar\n- Byte av vitvaror\n- Byta ut eluttag och brytare\n- Montering av hyllor eller garderober\n\nViktigt att komma ihåg är att alltid kontrollera med föreningens stadgar och eventuella renoveringsregler innan du påbörjar några ombyggnader. Vissa föreningar kan ha specifika regler och krav som måste följas."
   },
   "aDrXfvfmi1wbYOMk8izp": {
     "tid": "2025-05-20T13:26:26.723000+00:00",
@@ -796,6 +832,18 @@
     "conversationId": "b67b0ca6-e2d8-4bb8-abb4-6e2cc43dc22f",
     "fraga": "okej en snäll lapp",
     "svar": "Absolut! Här är ett förslag på en vänlig lapp till tvättstugan:\n\nHej grannar,\n\nVi vill påminna om vikten av att vara hänsynsfulla och ta hand om tvättstugan gemensamt. Kom ihåg att plocka undan efter er och respektera bokningstider så att alla kan använda tvättstugan på ett smidigt sätt.\n\nTack för er förståelse och samarbete!\n\nMed vänliga hälsningar,  \nStyrelsen i [BRF:NAMN]"
+  },
+  "dYN9kfUm4nzrl3lpC3qV": {
+    "tid": "2025-05-23T07:09:17.069000+00:00",
+    "conversationId": "fc31f38c-2ec0-4832-86a5-69227ecd4553",
+    "fraga": "Vad gör styrelse sekreterare",
+    "svar": "Styrelsesekreteraren har vanligtvis följande uppgifter:\n\n1. <strong>Dokumentation:</strong> Ansvarar för att föra protokoll vid styrelsemöten och föreningsstämmor.\n2. <strong>Kommunikation:</strong> Sköter korrespondens och kommunikation mellan styrelsen och medlemmarna.\n3. <strong>Arkivering:</strong> Ansvarar för att arkivera viktiga dokument och beslut.\n\nOm du vill veta mer om specifika uppgifter eller ansvarsområden är det bra att kontakta din förenings styrelse för mer detaljerad information."
+  },
+  "dfblO9tiXD00G8YH66NQ": {
+    "tid": "2025-05-26T21:52:00.713000+00:00",
+    "conversationId": "53c06ea1-eaf6-49f0-8db2-d8fd7f82f22b",
+    "fraga": "Vad är en brf?",
+    "svar": "En bostadsrättsförening (brf) är en ekonomisk förening där medlemmarna äger varsin bostadsrätt i föreningens fastighet. Genom att vara medlem i en brf har man rätt att nyttja en specifik bostad och samtidigt ta del av gemensamma utrymmen och faciliteter i fastigheten."
   },
   "duhKSJBgHfnpMb33gNz6": {
     "tid": "2025-05-12T11:47:47.245000+00:00",
@@ -1151,11 +1199,23 @@
     "fraga": "vad kan du mer göra?",
     "svar": "jag kan hjälpa dig med en mängd olika frågor och ärenden som rör din bostadsrättsförening. några exempel på vad jag kan hjälpa dig med är:\n\na. svara på frågor om stadgar och regler i er bostadsrättsförening\nb. ge råd om underhållsfrågor och renoveringar\nc. hjälpa dig att förstå ekonomin i er förening\nd. ge tips om hur ni kan förbättra er boendemiljö\n\nom du har några specifika frågor eller funderingar är det bara att fråga mig, så ska jag göra mitt bästa för att hjälpa dig!"
   },
+  "wcZik2WTedShGr2bj3qN": {
+    "tid": "2025-05-26T21:52:52.611000+00:00",
+    "conversationId": "53c06ea1-eaf6-49f0-8db2-d8fd7f82f22b",
+    "fraga": "Varför ska man vara med i en BRF styrelse",
+    "svar": "Att vara med i en BRF-styrelse kan vara givande av flera anledningar:\n\n- <strong>Påverkan:</strong> Du får möjlighet att vara med och påverka beslut som rör föreningens ekonomi, underhåll, trivsel och utveckling.\n- <strong>Lärande:</strong> Genom att vara en del av styrelsen får du lära dig mer om fastighetsförvaltning, ekonomi och juridik.\n- <strong>Gemenskap:</strong> Det kan skapa en starkare gemenskap med grannarna och bidra till en trivsam boendemiljö."
+  },
   "wrzDaLGAKqRDwxjKmjS8": {
     "tid": "2025-05-07T12:15:29.786000+00:00",
     "conversationId": "f2b79eb6-0afe-48af-b504-e922b2f57185",
     "fraga": "vems ansvar är det",
     "svar": "I en bostadsrättsförening är det normalt sett föreningens ansvar att hantera vattenläckor som uppstår i fastigheten. Det är viktigt att föreningen har en bra försäkring som täcker sådana händelser. Om läckan orsakats av en enskild medlems felaktiga hantering kan det dock bli aktuellt med individuellt ansvar. Kontrollera föreningens stadgar för att få klarhet i ansvarsfördelningen."
+  },
+  "xW5lNfysggt768TlqOpu": {
+    "tid": "2025-05-22T13:36:45.379000+00:00",
+    "conversationId": "3decfc8d-fdc3-4389-9098-ee08c29f7d85",
+    "fraga": "Mina persienner är trasiga också, vem betalar för att laga dem?",
+    "svar": "Det är vanligt att frågan om ansvar för reparation eller byte av persienner kan vara oklar. Här är några riktlinjer att ta hänsyn till:\n\n1. <strong>Föreningens ansvar</strong>:\n   - Om persiennerna är en del av fastighetens yttre underhåll och ingår i föreningens ansvar för fasaden, kan det vara föreningens ansvar att bekosta reparationen eller byte av persienner.\n   - Kontrollera föreningens stadgar och eventuella tilläggsregler för att se vilka regler som gäller för persienner i er förening.\n\n2. <strong>Boendes ansvar</strong>:\n   - Om persiennerna anses vara en del av lägenhetens inre underhåll och inte ingår i föreningens ansvar, kan det vara boendes ansvar att bekosta reparationen eller byte av persienner.\n   - Det kan vara bra att kolla föreningens stadgar och eventuella tilläggsregler för att få klarhet i ansvarsfördelningen.\n\n3. <strong>Kontakta styrelsen</strong>:\n   - För att få klarhet i vem som ansvarar för att bekosta reparationen av persienner, rekommenderas det att kontakta styrelsen i er bostadsrättsförening.\n   - Styrelsen kan ge tydlig vägledning baserat på föreningens regler och förutsättningar.\n\nOm du behöver mer specifik rådgivning eller hjälp med att tolka föreningens regler, är det bäst att diskutera detta med styrelsen för att få korrekt information som är anpassad till er specifika situation."
   },
   "xgYYZ8OZBWdoKik61bQo": {
     "tid": "2025-05-07T10:07:01.838000+00:00",
