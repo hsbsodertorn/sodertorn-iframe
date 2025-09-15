@@ -16,8 +16,8 @@
       --muted:#6b7280;
       --ring:rgba(0,85,140,.35);
       --radius:20px;
-      --user-bg:#e1ecf4;   /* ljusblå för användarens frågor */
-      --bot-bg:#f0f5ff;    /* ljusare blåvit för botens svar */
+      --user-bg:#e1ecf4;
+      --bot-bg:#f0f5ff;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
@@ -44,7 +44,7 @@
       background: linear-gradient(90deg, var(--hsb-blue), var(--hsb-blue-700));
       color:#fff;
     }
-    .brand-title{ font-weight:700; letter-spacing:.2px; }
+    .brand-title{ font-weight:700; letter-spacing:.2px; font-size:28px; }
     .brand-sub{ font-size:13px; opacity:.9; }
 
     #messages { flex: 1; padding: 16px; overflow-y: auto; background: #fff; display: flex; flex-direction: column; gap: 10px; }
@@ -71,7 +71,7 @@
       #chatbox{ height: 100dvh; width: 100%; border-radius: 0; box-shadow: none; }
       #messages{ padding: 12px; }
       .message{ max-width: 92%; font-size: 15px; border-radius: 14px; }
-      .brand-title{ font-size: 16px; }
+      .brand-title{ font-size: 22px; }
       .brand-sub{ font-size: 12px; }
       #topbar{ padding: 12px 14px; }
       textarea{ min-height: 48px; font-size: 16px; }
@@ -113,13 +113,22 @@
   var history = [];
   var busy = false;
 
+  // Versalisera början av varje mening (användarfrågor OCH botsvar) men håll "brf" och "brf:er" i gemener
+  function formatForDisplay(t){
+    if(!t) return '';
+    var s = ('' + t).trim();
+    s = s.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, function(m){ return m.toUpperCase(); });
+    s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, function(m){ return m.toLowerCase(); });
+    return s;
+  }
+
   function addMessage(role, text){
     var div = document.createElement('div');
     div.className = role === 'error' ? 'error' : 'message ' + role;
     if (text === null){
       div.innerHTML = '<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
     } else {
-      div.textContent = text;
+      div.textContent = formatForDisplay(text);
     }
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -156,8 +165,8 @@
     if (sendBtn) sendBtn.disabled = true;
     messagesEl.setAttribute('aria-busy','true');
 
-    addMessage('user', text);
-    history.push({ role: 'user', content: text });
+    addMessage('user', text);              // visning med versaliserade meningar
+    history.push({ role: 'user', content: text }); // spara rå text till historik
 
     input.value=''; updateCharCount(input); autoResize(input);
 
@@ -166,7 +175,7 @@
     callApi({ messages: history }).then(function(data){
       var svar = (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ? data.choices[0].message.content.trim() : 'Kunde inte generera svar.';
       thinking.remove();
-      addMessage('bot', svar);
+      addMessage('bot', svar);             // visning med versaliserade meningar
       history.push({ role: 'assistant', content: svar });
       if (window.saveChatLog){ try { window.saveChatLog(conversationId, text, svar); } catch(_){} }
     }).catch(function(err){
