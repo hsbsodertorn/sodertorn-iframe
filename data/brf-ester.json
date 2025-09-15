@@ -1,0 +1,42 @@
+{
+  "kategori": "HSB brf Ester",
+  "sammanfattning": "Information om HSB brf Ester i Bromstensstaden: köpprocess, lägenheter, miljöprofil, stadgar och praktiska fakta.",
+  "tags": ["hsb", "bostadsrätt", "nyproduktion", "ester", "bromstensstaden", "köpprocess", "miljöbyggnad", "stadgar", "lägenheter"],
+  "delar": [
+    {
+      "titel": "Köpprocessen",
+      "nyckelord": ["lånelöfte", "förhandsavtal", "upplåtelseavtal", "inredningsval", "lägenhetsvisning", "slutlikvid", "inflyttning", "brukandebesiktning"],
+      "beskrivning": "Innan köp kontaktas banken för lånelöfte. Förhandsavtal tecknas först, med förskott (50 000 kr för 1–2 rok, 80 000 kr för 3 rok, 100 000 kr för 4 rok). Därefter görs inredningsval ca 18 mån före tillträde. Upplåtelseavtal tecknas ca 6 mån före tillträde och då betalas 10 % av köpeskillingen. Slutlikviden betalas en vecka innan inflyttning. Brukandebesiktning görs 1–2 månader efter inflytt."
+    },
+    {
+      "titel": "Lägenhetsutbud",
+      "nyckelord": ["1 rok", "2 rok", "3 rok", "4 rok", "yta", "balkong", "uteplats"],
+      "beskrivning": "Brf Ester omfattar 152 lägenheter från 1–4 rok (31–96 kvm). Ettorna har ofta öppen planlösning och 3,1 m takhöjd. Tvåorna är ljusa med gott om förvaring och hörnlägen. Treorna finns med dubbla balkonger eller hörnläge. Fyrorna är rymliga, ofta med balkong i två väderstreck och öppen rundgångsplanering."
+    },
+    {
+      "titel": "Föreningsfakta",
+      "nyckelord": ["garage", "parkering", "bilpool", "cykelrum", "förråd", "gemensamhetslokal", "soprum", "tvättmaskin"],
+      "beskrivning": "Garage under innergården med 65 platser, varav 8 elbilsplatser och 3 reserverade för bilpool. Förråd till varje lägenhet (1–4 kvm beroende på storlek). Gemensam lokal på 66 kvm med pentry och dusch. Cykelrum med plats för ca 380 cyklar. Lägenheterna har tvättmaskin och torktumlare (kombimaskin i små lägenheter)."
+    },
+    {
+      "titel": "Teknik och miljö",
+      "nyckelord": ["fjärrvärme", "ventilation", "ftx", "varmvatten", "hushållsel", "miljöbyggnad silver", "energieffektivitet"],
+      "beskrivning": "Fastigheten är ansluten till fjärrvärme med vattenburen radiatorvärme. Ventilation sker via FTX-system med värmeåtervinning. Varmvatten debiteras individuellt, kallvatten ingår i avgiften. Hushållsel köps in gemensamt men debiteras per lägenhet. Brf Ester är certifierad Miljöbyggnad Silver av Sweden Green Building Council (2022), med höga betyg inom energi, innemiljö och material."
+    },
+    {
+      "titel": "Ekonomi och avgifter",
+      "nyckelord": ["årsavgift", "månadsavgift", "internet", "tv", "telefoni", "tillägg", "kostnader"],
+      "beskrivning": "Årsavgiften betalas månadsvis i förskott. Kostnader för internet, tv och telefoni ingår inte i avgiften utan betalas separat. Varmvatten och el debiteras efter faktisk förbrukning. Möjlighet till inredningsval och tillval finns, vissa mot kostnad."
+    },
+    {
+      "titel": "Området",
+      "nyckelord": ["bromstensstaden", "spånga", "kommunikationer", "pendeltåg", "buss", "park", "rekreation", "service"],
+      "beskrivning": "Brf Ester ligger i Bromstensstaden i Spånga, ett område som omvandlas från industri till levande stadsdel. Närhet till Spånga centrum med pendeltåg, bussar och service. Grön innergård med pergola och lekyta. Spångaån utvecklas till parkstråk, och en ny park planeras mitt i området. Gång- och cykeltunnlar förbättrar tillgängligheten."
+    },
+    {
+      "titel": "Stadgar och medlemskap",
+      "nyckelord": ["stadgar", "hsb medlem", "bostadsrättsförening", "ansvar", "rättigheter", "skyldigheter"],
+      "beskrivning": "Brf Ester följer HSBs stadgar och är medlem i HSB Stockholm. Stadgarna reglerar medlemmarnas rättigheter och skyldigheter, styrelsens ansvar, underhåll och ordningsfrågor."
+    }
+  ]
+}
