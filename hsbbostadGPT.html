@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HSB Bostad – Kundsupport GPT</title>
+  <title>HSB Bostad – kundsupport GPT</title>
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;600;700&family=Open+Sans&display=swap" rel="stylesheet">
 
   <style>
@@ -16,66 +16,62 @@
       --muted:#6b7280;
       --ring:rgba(0,85,140,.35);
       --radius:20px;
-      --user-bg:#e1ecf4;
-      --bot-bg:#f0f5ff;
+      --user-bg:#d9ebf9;
+      --bot-bg:#f5f9ff;
+      --error:#b91c1c;
+      --error-bg:#fee2e2;
     }
     *, *::before, *::after { box-sizing: border-box; }
-    html, body {
-      margin: 0; padding: 0; height: 100%;
-      font-family: 'Saira', 'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    html, body { margin:0; padding:0; height:100%;
+      font-family:'Saira','Open Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background: linear-gradient(180deg, var(--hsb-blue-50), #fff 40%);
-      color: var(--text);
+      color:var(--text);
     }
-
     #wrapper { height: 100%; width: 100%; display: grid; place-items: center; padding: 16px; }
     #chatbox {
-      display: flex; flex-direction: column; width: min(980px, 100%);
-      height: min(80vh, 900px);
-      background: var(--surface);
-      border: 1px solid rgba(0,0,0,.06);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+      display:flex; flex-direction:column; width:min(980px,100%);
+      height:min(80vh, 900px);
+      background:var(--surface);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.06);
     }
-
-    #topbar{
-      display:flex; align-items:center; justify-content:flex-start; gap:12px;
-      padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.15);
-      background: linear-gradient(90deg, var(--hsb-blue), var(--hsb-blue-700));
-      color:#fff;
-    }
+    #topbar{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid rgba(255,255,255,.15);
+      background:linear-gradient(90deg, var(--hsb-blue), var(--hsb-blue-700)); color:#fff; }
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:28px; }
     .brand-sub{ font-size:13px; opacity:.9; }
 
-    #messages { flex: 1; padding: 16px; overflow-y: auto; background: #fff; display: flex; flex-direction: column; gap: 10px; }
-    .message { max-width: 72%; padding: 12px 16px; border-radius: 16px; white-space: pre-line; word-break: break-word; font-size: 16px; line-height: 1.45; border:1px solid rgba(0,0,0,.06); }
-    .user { align-self: flex-end; background: var(--user-bg); color: #0e1012; }
-    .bot, .bot-question { align-self: flex-start; background: var(--bot-bg); color: #0e1012; }
+    #messages{ flex:1; padding:16px; overflow-y:auto; background:#fff; display:flex; flex-direction:column; gap:10px; }
+    .message{ max-width:72%; padding:12px 16px; border-radius:16px; white-space:pre-line; word-break:break-word; font-size:16px; line-height:1.45; border:1px solid rgba(0,0,0,.06) }
+    .user{ align-self:flex-end; background:var(--user-bg); color:#0e1012; border:1px solid #aaccee; }
+    .bot, .bot-question{ align-self:flex-start; background:var(--bot-bg); color:#0e1012; border:1px solid #cdddf5; }
+    .error{ align-self:center; background:var(--error-bg); color:var(--error); border:1px solid #fecaca; padding:10px 14px; border-radius:12px; }
 
-    .thinking { display: inline-flex; align-items: center; gap: 6px; padding:10px 14px; background:#f6f7f9; border-radius:14px; border:1px dashed rgba(0,0,0,.1); }
-    .dot { width: 6px; height: 6px; background-color: #888; border-radius: 50%; animation: blink 1.2s infinite; }
-    .dot:nth-child(2) { animation-delay: 0.15s; }
-    .dot:nth-child(3) { animation-delay: 0.3s; }
-    @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+    .thinking{ display:inline-flex; align-items:center; gap:6px; padding:10px 14px; background:#f6f7f9; border-radius:14px; border:1px dashed rgba(0,0,0,.1); }
+    .dot{ width:6px; height:6px; background-color:#888; border-radius:50%; animation:blink 1.2s infinite; }
+    .dot:nth-child(2){ animation-delay:.15s }
+    .dot:nth-child(3){ animation-delay:.3s }
+    @keyframes blink{ 0%, 80%, 100%{ opacity:0 } 40%{ opacity:1 } }
 
-    #inputArea { display: flex; align-items: center; gap: 12px; padding: 12px; border-top: 1px solid rgba(0,0,0,.06); background:#fff; position: sticky; bottom: 0; z-index: 10; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
-    textarea { flex: 1; min-height: 52px; max-height: 220px; padding: 14px 18px; border-radius: 999px; border: 1px solid #d1d5db; font-size: 16px; resize: none; background:#fff; -webkit-tap-highlight-color: transparent; }
-    textarea:focus { border-color: var(--hsb-blue); outline: none; box-shadow: 0 0 0 4px var(--ring); }
-    #charCount { font-size: 13px; color: var(--muted); }
-    button { background: var(--hsb-blue); color: white; border: none; border-radius: 999px; padding: 14px 18px; font-size: 16px; cursor: pointer; transition: transform .02s ease, background .2s; display:flex; align-items:center; gap:8px; min-height: 44px; }
-    button:hover { background: var(--hsb-blue-700); }
-    button:active { transform: translateY(1px); }
+    #inputArea{ display:flex; align-items:center; gap:12px; padding:12px; border-top:1px solid rgba(0,0,0,.06); background:#fff; position:sticky; bottom:0; z-index:10; padding-bottom:calc(12px + env(safe-area-inset-bottom)); }
+    textarea{ flex:1; min-height:52px; max-height:220px; padding:14px 18px; border-radius:999px; border:1px solid #d1d5db; font-size:16px; resize:none; background:#fff; -webkit-tap-highlight-color:transparent; }
+    textarea:focus{ border-color:var(--hsb-blue); outline:none; box-shadow:0 0 0 4px var(--ring); }
+    #charCount{ font-size:13px; color:var(--muted); }
+    button{ background:var(--hsb-blue); color:white; border:none; border-radius:999px; padding:14px 18px; font-size:16px; cursor:pointer; transition:transform .02s ease, background .2s; display:flex; align-items:center; gap:8px; min-height:44px; }
+    button:hover{ background:var(--hsb-blue-700); }
+    button:active{ transform:translateY(1px); }
 
     @media (max-width: 640px){
-      #wrapper{ padding: 0; }
-      #chatbox{ height: 100dvh; width: 100%; border-radius: 0; box-shadow: none; }
-      #messages{ padding: 12px; }
-      .message{ max-width: 92%; font-size: 15px; border-radius: 14px; }
-      .brand-title{ font-size: 22px; }
-      .brand-sub{ font-size: 12px; }
-      #topbar{ padding: 12px 14px; }
-      textarea{ min-height: 48px; font-size: 16px; }
-      button{ padding: 12px 16px; font-size: 16px; }
+      #wrapper{ padding:0 }
+      #chatbox{ height:100dvh; width:100%; border-radius:0; box-shadow:none; }
+      #messages{ padding:12px }
+      .message{ max-width:92%; font-size:15px; border-radius:14px }
+      .brand-title{ font-size:22px }
+      .brand-sub{ font-size:12px }
+      #topbar{ padding:12px 14px }
+      textarea{ min-height:48px; font-size:16px }
+      button{ padding:12px 16px; font-size:16px }
     }
   </style>
 </head>
@@ -91,113 +87,183 @@
         </div>
       </div>
 
-      <div id="messages" aria-live="polite">
+      <div id="messages" aria-live="polite" role="log">
         <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Berätta gärna vilket projekt eller ort det gäller och om du är köpare, boende eller intressent – så hjälper jag dig snabbare.</div>
       </div>
 
       <div id="inputArea">
-        <textarea id="userInput" placeholder="Skriv din fråga här..." maxlength="1000"></textarea>
-        <span id="charCount">0/1000</span>
-        <button aria-label="Skicka fråga">Skicka</button>
+        <textarea id="userInput" placeholder="Skriv din fråga här..." maxlength="1000" aria-label="chattinmatning"></textarea>
+        <span id="charCount" aria-live="polite">0/1000</span>
+        <button id="sendBtn" aria-label="skicka fråga" title="skicka (enter)">Skicka</button>
       </div>
     </div>
   </div>
-<script>
-(function(){
-  var messagesEl = document.getElementById('messages');
-  var input = document.getElementById('userInput');
-  var sendBtn = document.querySelector('button[aria-label="Skicka"]') || document.querySelector('button[aria-label="Skicka fråga"]') || document.querySelector('button');
-  var charCount = document.getElementById('charCount');
 
-  var conversationId = Date.now() + '-' + (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
-  var history = [];
-  var busy = false;
+  <script>
+  (() => {
+    const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
+    const CLIMATE_ENDPOINT = '/.netlify/functions/klimatrad'; // byt namn om din funktion heter något annat
 
-  // Versalisera början av varje mening (användarfrågor OCH botsvar) men håll "brf" och "brf:er" i gemener
-  function formatForDisplay(t){
-    if(!t) return '';
-    var s = ('' + t).trim();
-    s = s.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, function(m){ return m.toUpperCase(); });
-    s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, function(m){ return m.toLowerCase(); });
-    return s;
-  }
+    const messagesEl = document.getElementById('messages');
+    const input = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const charCount = document.getElementById('charCount');
 
-  function addMessage(role, text){
-    var div = document.createElement('div');
-    div.className = role === 'error' ? 'error' : 'message ' + role;
-    if (text === null){
-      div.innerHTML = '<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
-    } else {
-      div.textContent = formatForDisplay(text);
+    const conversationId = `${Date.now()}-${(crypto.randomUUID?.() || Math.random().toString(36).slice(2))}`;
+    let history = []; // in-memory
+    let busy = false;
+
+    function persist(){
+      try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
     }
-    messagesEl.appendChild(div);
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-    return div;
-  }
+    function restore(){
+      try {
+        const raw = localStorage.getItem('hsb-chat-history');
+        if(!raw) return;
+        const arr = JSON.parse(raw);
+        if(Array.isArray(arr)){
+          history = arr;
+          for(const m of arr){ addMessage(m.role === 'assistant' ? 'bot' : m.role, m.content); }
+        }
+      } catch {}
+    }
 
-  function showError(msg){ addMessage('error', msg); }
-  window.showError = showError;
+    // Format: stor bokstav i början av varje mening, men håll brf/brf:er i gemener
+    function formatForDisplay(t){
+      if(!t) return '';
+      let s = ('' + t).trim();
+      s = s.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, m => m.toUpperCase());
+      s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, m => m.toLowerCase());
+      return s;
+    }
 
-  function autoResize(el){ el.style.height='auto'; el.style.height = el.scrollHeight + 'px'; }
-  function updateCharCount(el){ if(charCount){ charCount.textContent = (el.value.length) + '/1000'; } }
-
-  function callApi(body, tries, delay){
-    tries = (typeof tries==='number') ? tries : 2; delay = (typeof delay==='number') ? delay : 800;
-    return fetch('/.netlify/functions/hsbbostad-gpt', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
-    }).then(function(r){
-      if(!r.ok) throw new Error('http ' + r.status);
-      return r.json();
-    }).catch(function(e){
-      if(tries > 0){
-        return new Promise(function(res){ setTimeout(res, delay); }).then(function(){ return callApi(body, tries-1, delay*2); });
+    function addMessage(role, text){
+      const div = document.createElement('div');
+      div.className = role === 'error' ? 'error' : `message ${role}`;
+      if (text == null) {
+        div.innerHTML = `<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
+      } else {
+        div.textContent = formatForDisplay(text);
       }
-      throw e;
-    });
-  }
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return div;
+    }
 
-  function send(){
-    if(busy) return;
-    var text = (input.value || '').trim();
-    if(!text) return;
+    function showError(msg){ addMessage('error', msg); }
 
-    busy = true;
-    if (sendBtn) sendBtn.disabled = true;
-    messagesEl.setAttribute('aria-busy','true');
+    function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
+    function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
 
-    addMessage('user', text);              // visning med versaliserade meningar
-    history.push({ role: 'user', content: text }); // spara rå text till historik
+    function cleanPII(txt=''){
+      return txt
+        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
+        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
+        .replace(/\b\d{10}\b/g,'[telefonnummer]')
+        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
+        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]');
+    }
 
-    input.value=''; updateCharCount(input); autoResize(input);
+    async function callApi(body, tries = 2, delay = 800){
+      try{
+        const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
+        if(!r.ok) throw new Error(`http ${r.status}`);
+        return await r.json();
+      }catch(e){
+        if(tries > 0){
+          await new Promise(res => setTimeout(res, delay));
+          return callApi(body, tries - 1, delay * 2);
+        }
+        throw e;
+      }
+    }
 
-    var thinking = addMessage('bot', null);
+    async function sendMessage(){
+      if(busy) return;
+      const raw = (input.value || '').trim();
+      if(!raw) return;
 
-    callApi({ messages: history }).then(function(data){
-      var svar = (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ? data.choices[0].message.content.trim() : 'Kunde inte generera svar.';
-      thinking.remove();
-      addMessage('bot', svar);             // visning med versaliserade meningar
-      history.push({ role: 'assistant', content: svar });
-      if (window.saveChatLog){ try { window.saveChatLog(conversationId, text, svar); } catch(_){} }
-    }).catch(function(err){
-      console.error(err);
-      thinking.remove();
-      var msg = String(err).indexOf('http 429') !== -1 ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.';
-      showError(msg);
-    }).finally(function(){
-      busy = false;
-      if (sendBtn) sendBtn.disabled = false;
-      messagesEl.setAttribute('aria-busy','false');
-      input.focus();
-    });
-  }
+      busy = true;
+      sendBtn && (sendBtn.disabled = true);
+      messagesEl.setAttribute('aria-busy','true');
 
-  if (sendBtn) sendBtn.addEventListener('click', send);
-  if (input){
-    input.addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
-    input.addEventListener('input', function(){ updateCharCount(input); autoResize(input); });
-    updateCharCount(input); autoResize(input);
-  }
-})();
-</script>
+      addMessage('user', raw);
+      history.push({ role:'user', content: raw });
+      persist();
+
+      input.value = '';
+      updateCharCount(input); autoResize(input);
+
+      const thinking = addMessage('bot', null);
+      try{
+        const data = await callApi({ messages: buildSafeMessages(history) });
+        const svarRaw = (data?.choices?.[0]?.message?.content || 'Kunde inte generera svar.').trim();
+        const svar = formatForDisplay(svarRaw);
+
+        thinking.remove();
+        addMessage('bot', svar);
+        history.push({ role:'assistant', content: svar });
+        persist();
+
+        if (window.saveChatLog){ try { await window.saveChatLog(conversationId, cleanPII(raw), cleanPII(svar)); } catch {} }
+      }catch(err){
+        console.error(err);
+        thinking.remove();
+        const msg = String(err).includes('http 429') ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.';
+        showError(msg);
+      }finally{
+        busy = false;
+        sendBtn && (sendBtn.disabled = false);
+        messagesEl.setAttribute('aria-busy','false');
+        input.focus();
+      }
+    }
+
+    function buildSafeMessages(clientMessages){
+      const SYS_PROMPT = "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis.";
+      const msgs = [{ role:'system', content: SYS_PROMPT }];
+      for(const m of clientMessages){ if(m && m.role !== 'system'){ msgs.push(m); } }
+      return msgs;
+    }
+
+    function handleKey(e){
+      if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
+      if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
+    }
+
+    // ——— klimat-sammanfattning ———
+    // anropa: window.runClimateSummary(["Svar 1", "Svar 2", ...])
+    window.runClimateSummary = async function(answers){
+      try{
+        if(!Array.isArray(answers) || !answers.length){
+          showError('Fyll i svar innan du kör klimatrådgivningen.');
+          return;
+        }
+        const thinking = addMessage('bot', null);
+        const r = await fetch(CLIMATE_ENDPOINT,{
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify({ answers })
+        });
+        const data = await r.json();
+        thinking.remove();
+        const content = data && (data.result || data.summary || data.message);
+        addMessage('bot', content || 'Kunde inte generera klimatråd just nu.');
+      }catch(e){
+        showError('Något gick fel i klimatrådgivningen. Försök igen.');
+        console.error(e);
+      }
+    }
+
+    if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+    if(input){
+      input.addEventListener('keydown', handleKey);
+      input.addEventListener('input', () => { updateCharCount(input); autoResize(input); });
+      updateCharCount(input); autoResize(input);
+    }
+
+    restore();
+  })();
+  </script>
 </body>
 </html>
