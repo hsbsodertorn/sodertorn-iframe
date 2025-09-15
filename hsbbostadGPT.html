@@ -9,9 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+
   <meta name="theme-color" content="#00558c">
 
-  <!-- Firebase (loggning) -->
+  <!-- Firebase (loggning) – oförändrat -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
@@ -25,11 +26,10 @@
       appId: "1:000000000000:web:xxxxxxxxxxxxxxxxxxxxxx",
       measurementId: "G-XXXXXXXXXX"
     };
-
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     const logQueue = [];
+
     window.saveChatLog = async (conversationId, fraga, svar) => {
       const logEntry = { conversationId, fraga, svar, tid: serverTimestamp() };
       logQueue.push(logEntry);
@@ -39,182 +39,152 @@
           logQueue.shift();
         } catch (err) {
           console.error("Fel vid loggning i Firebase:", err);
-          if (window.showError) window.showError("kunde inte spara chatten. försök igen.");
+          if (window.showError) window.showError("Kunde inte spara chatten. Försök igen.");
           break;
         }
       }
     };
   </script>
 
+  <!-- VISUELLT (endast stil/markup) -->
   <style>
+    :root{
+      --hsb-blue:#00558c;
+      --hsb-blue-700:#004070;
+      --hsb-blue-50:#f2f7fb;
+      --surface:#ffffff;
+      --text:#0e1012;
+      --muted:#6b7280;
+      --ring:rgba(0,85,140,.35);
+      --radius:20px;
+      --user-bg:#e1ecf4;   /* användarens bubblor */
+      --bot-bg:#f0f5ff;    /* botens bubblor */
+    }
+
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Saira', sans-serif;
-      background: #f5f7fa;
-      color: #222;
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Saira', 'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, var(--hsb-blue-50), #fff 40%);
+      color: var(--text);
     }
-    #wrapper {
-      min-height: 100dvh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f5f7fa;
-      padding: 24px;
-    }
+
+    /* Layout-kort */
+    #wrapper { min-height: 100dvh; width: 100%; display: grid; place-items: center; padding: 16px; }
     #chatbox {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      max-width: 600px;
-      height: 80vh;
-      border-radius: 20px;
-      background: #ffffff;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      display: flex; flex-direction: column; width: min(980px, 100%); height: min(80vh, 900px);
+      background: var(--surface);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: var(--radius);
       overflow: hidden;
-    }
-    #topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
-      border-bottom: 1px solid #eaeaea;
-      background: #ffffff;
-    }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-mark {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: #00558c; color: #fff; display: grid; place-items: center;
-      font-weight: 700;
-    }
-    .brand-title { font-weight: 700; }
-    .brand-sub { font-size: 12px; opacity: .8; }
-    .badge { font-size: 11px; padding: 4px 8px; background:#eef3ff; border-radius: 999px; }
-
-    .header {
-      background: #00558c;
-      color: #fff;
-      text-align: center;
-      padding: 12px 16px;
-      font-size: 16px;
-      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
     }
 
-    #messages {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
+    /* Toppbar – ren text, ingen “vit logga” eller badge */
+    #topbar{
+      display:flex; align-items:center; justify-content:flex-start; gap:12px;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+      background: linear-gradient(90deg, var(--hsb-blue), var(--hsb-blue-700));
+      color:#fff;
     }
-    .message {
-      max-width: 75%;
-      padding: 12px 16px;
-      margin-bottom: 12px;
-      border-radius: 16px;
-      white-space: pre-line;
-      word-break: break-word;
-      font-size: 16px;
-      line-height: 1.4;
-    }
-    .user {
-      align-self: flex-end;
-      background: #e1ecf4;
-      color: #003366;
-    }
-    .bot, .bot-question {
-      align-self: flex-start;
-      background: #f0f5ff;
-      color: #222;
-    }
-    .error {
-      align-self: center;
-      background: #ffe6e6;
-      color: #d32f2f;
-      padding: 8px 16px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-    }
-    .thinking { display: inline-flex; align-items: center; gap: 4px; }
-    .dot { width: 8px; height: 8px; background-color: #888; border-radius: 50%; animation: blink 1.4s infinite; }
-    .dot:nth-child(2) { animation-delay: 0.2s; }
-    .dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+    .brand-title{ font-weight:700; letter-spacing:.2px; }
+    .brand-sub{ font-size:13px; opacity:.9; }
 
-    #inputArea {
-      display: flex;
-      align-items: center;
-      padding: 12px;
-      border-top: 1px solid #e0e0e0;
-      gap: 12px;
-      background: #fafafa;
+    /* Meddelanden */
+    #messages{
+      flex: 1; padding: 16px; overflow-y: auto; background: #fff;
+      display: flex; flex-direction: column; gap: 10px;
     }
-    textarea {
-      flex: 1;
-      min-height: 48px;
-      max-height: 200px;
-      padding: 14px 20px;
-      border-radius: 24px;
-      border: 1px solid #ccc;
-      font-size: 16px; /* iOS-zoom fix */
-      -webkit-text-size-adjust: 100%;
-      resize: none;
-      font-family: 'Saira', sans-serif;
-      transition: border-color 0.2s;
+    .message{
+      max-width: 72%; padding: 12px 16px; border-radius: 16px;
+      white-space: pre-line; word-break: break-word; font-size: 16px; line-height: 1.45;
+      border:1px solid rgba(0,0,0,.06);
     }
-    textarea:focus { border-color: #00558c; outline: none; }
-    #charCount { font-size: 14px; color: #666; min-width: 72px; text-align: right; }
-    button {
-      background: #00558c;
-      color: white;
-      border: none;
-      border-radius: 24px;
-      padding: 12px 18px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.2s;
+    .user{ align-self: flex-end; background: var(--user-bg); color:#0e1012; }
+    .bot, .bot-question{ align-self: flex-start; background: var(--bot-bg); color:#0e1012; }
+
+    .error{
+      align-self:center; background:#ffe6e6; color:#9b1c1c;
+      padding:10px 14px; border-radius:12px; border:1px solid #f5b5b5;
     }
-    button:hover { background: #004070; }
-    button:disabled { opacity: .6; cursor: not-allowed; }
+
+    .thinking{ display:inline-flex; align-items:center; gap:6px; padding:10px 14px; background:#f6f7f9; border-radius:14px; border:1px dashed rgba(0,0,0,.1); }
+    .dot{ width:6px; height:6px; background:#888; border-radius:50%; animation:blink 1.2s infinite; }
+    .dot:nth-child(2){ animation-delay:.15s; }
+    .dot:nth-child(3){ animation-delay:.3s; }
+    @keyframes blink { 0%,80%,100%{opacity:0;} 40%{opacity:1;} }
+
+    /* Input – sticky nedtill + safe-area */
+    #inputArea{
+      display:flex; align-items:center; gap:12px;
+      padding:12px; border-top:1px solid rgba(0,0,0,.06); background:#fff;
+      position: sticky; bottom: 0; z-index: 10;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
+    textarea{
+      flex:1; min-height:52px; max-height:220px; padding:14px 18px;
+      border-radius:999px; border:1px solid #d1d5db; font-size:16px; resize:none; background:#fff;
+      -webkit-tap-highlight-color:transparent;
+    }
+    textarea:focus{ border-color:var(--hsb-blue); outline:none; box-shadow:0 0 0 4px var(--ring); }
+    #charCount{ font-size:13px; color:var(--muted); min-width:72px; text-align:right; }
+    button{
+      background:var(--hsb-blue); color:#fff; border:none; border-radius:999px;
+      padding:14px 18px; font-size:16px; cursor:pointer;
+      transition:transform .02s ease, background .2s; display:flex; align-items:center; gap:8px; min-height:44px;
+    }
+    button:hover{ background:var(--hsb-blue-700); }
+    button:active{ transform: translateY(1px); }
+    button:disabled{ opacity:.6; cursor:not-allowed; }
+
+    /* Mobil */
+    @media (max-width: 640px){
+      #wrapper{ padding:0; }
+      #chatbox{ height:100dvh; width:100%; border-radius:0; box-shadow:none; }
+      #messages{ padding:12px; }
+      .message{ max-width:92%; font-size:15px; border-radius:14px; }
+      .brand-title{ font-size:16px; }
+      .brand-sub{ font-size:12px; }
+      #topbar{ padding:12px 14px; }
+      textarea{ min-height:48px; font-size:16px; }
+      button{ padding:12px 16px; font-size:16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+    }
   </style>
 </head>
 <body>
   <div id="wrapper">
     <div id="chatbox">
+      <!-- Topbar: endast text -->
       <div id="topbar" role="banner">
         <div class="brand">
-          <div class="brand-mark" aria-hidden="true">HSB</div>
           <div>
             <div class="brand-title">HSB Bostad</div>
             <div class="brand-sub">kundsupport</div>
           </div>
         </div>
-        <span class="badge" aria-label="HSB grafisk profil">BOSTAD</span>
       </div>
 
-      <div class="header">HSB Bostad – kundsupport</div>
-
+      <!-- Meddelanden: välkomsttext med tydliga radbrytningar -->
       <div id="messages" aria-live="polite">
-        <div class="message bot"><strong>välkommen till hsb bostad</strong>
-
-berätta gärna vilket projekt eller ort det gäller och om du är köpare, boende eller intressent – så hjälper jag dig snabbare.</div>
+        <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Berätta gärna vilket projekt eller ort det gäller och om du är köpare, boende eller intressent – så hjälper jag dig snabbare.</div>
       </div>
 
+      <!-- Input -->
       <div id="inputArea">
-        <textarea id="userInput" placeholder="skriv din fråga här…" maxlength="1000" autocomplete="off"
-          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)" aria-label="skriv din fråga"></textarea>
+        <textarea id="userInput" placeholder="Skriv din fråga här…" maxlength="1000" autocomplete="off"
+          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)" aria-label="Skriv din fråga"></textarea>
         <span id="charCount">0/1000</span>
-        <button id="sendBtn" onclick="sendMessage()" aria-label="skicka fråga">skicka</button>
+        <button id="sendBtn" onclick="sendMessage()" aria-label="Skicka fråga">Skicka</button>
       </div>
     </div>
   </div>
 
-  <!-- Chat-logik -->
+  <!-- Chat-logik (oförändrad) -->
   <script>
     // 1) konversation + strikt systemprompt (klient)
     const conversationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -239,9 +209,11 @@ berätta gärna vilket projekt eller ort det gäller och om du är köpare, boen
       el.style.height = "auto";
       el.style.height = el.scrollHeight + "px";
     }
+
     function updateCharCount(el) {
       document.getElementById("charCount").textContent = `${el.value.length}/1000`;
     }
+
     function handleKey(e) {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -271,29 +243,19 @@ berätta gärna vilket projekt eller ort det gäller och om du är köpare, boen
       }
     }
 
-    // post-process: säkerställ skrivregler
+    // post-process: säkerställ skrivregler (oförändrat)
     function normalizeCase(text) {
       if (!text) return text;
-
-      // allt till gemener
       let t = text.toLowerCase();
-
-      // kapitalisera meningsbörjan (svensk a/å/ä/ö)
       t = t.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, m => m.toUpperCase());
-
-      // varumärken/akronymer som ska vara versaler
       t = t.replace(/\bhsb\b/g, "HSB");
-
-      // skrivregler för brf
       t = t.replace(/\bbrf:er\b/gi, "brf:er");
       t = t.replace(/\bbrf\b/gi, "brf");
-
       return t;
     }
 
     async function sendMessage() {
       if (busy) return;
-
       const btn = document.getElementById("sendBtn");
       const input = document.getElementById("userInput");
       const list = document.getElementById("messages");
@@ -306,6 +268,7 @@ berätta gärna vilket projekt eller ort det gäller och om du är köpare, boen
 
       // visa användarens fråga
       addMessage("user", text);
+
       input.value = "";
       updateCharCount(input);
       autoResize(input);
@@ -317,15 +280,14 @@ berätta gärna vilket projekt eller ort det gäller och om du är köpare, boen
       try {
         messages.push({ role: "user", content: text });
 
-        // 1) skicka hela kontexten
+        // skicka hela kontexten
         const data = await callApi({ messages });
 
-        let svar = data?.choices?.[0]?.message?.content?.trim() || "kunde inte generera svar.";
-        svar = normalizeCase(svar); // 4) tvinga rätt stil innan visning
+        let svar = data?.choices?.[0]?.message?.content?.trim() || "Kunde inte generera svar.";
+        svar = normalizeCase(svar); // tvinga rätt stil innan visning
 
         thinking.remove();
         addMessage("bot", svar);
-
         messages.push({ role: "assistant", content: svar });
 
         // logga till firebase (tyst vid fel)
@@ -336,8 +298,8 @@ berätta gärna vilket projekt eller ort det gäller och om du är köpare, boen
         console.error(err);
         thinking.remove();
         const msg = String(err).includes("http 429")
-          ? "många frågor samtidigt – prova igen strax."
-          : "något gick fel, försök igen senare.";
+          ? "Många frågor samtidigt – prova igen strax."
+          : "Något gick fel, försök igen senare.";
         showError(msg);
       } finally {
         busy = false;
