@@ -1,6 +1,6 @@
 {
   "kategori": "medlem-privatperson",
-  "sammanfattning": "Som medlem i HSB Södertörn får du tillgång till juridisk rådgivning, medlemstidningen Hemma i HSB, bosparande med förtur till bostäder och möjlighet att påverka HSB:s framtid.",
+  "sammanfattning": "Som enskild medlem i HSB Södertörn får du juridisk rådgivning, medlemstidningen Hemma i HSB, bosparande med förtur till bostäder, utbildningar och möjligheten att påverka HSB:s framtid genom demokratin.",
   "tags": [
     "medlemskap",
     "privatperson",
@@ -11,49 +11,52 @@
     "medlemstidning",
     "förmåner",
     "utbildning",
-    "frågor"
+    "frågor",
+    "rabatter",
+    "demokrati",
+    "engagemang"
   ],
   "delar": [
     {
       "titel": "Medlemserbjudanden",
-      "beskrivning": "Som medlem har du tillgång till rabatterade priser på bredband, telefoni, hotellnätter och fri entré på utvalda museer.",
-      "nyckelord": ["erbjudanden", "rabatter", "förmåner", "medlemserbjudanden"],
+      "beskrivning": "Som medlem har du tillgång till rabatterade priser på bredband, telefoni, hotellnätter, hemförsäkring och fri entré på utvalda museer. Förmånerna uppdateras löpande.",
+      "nyckelord": ["erbjudanden", "rabatter", "förmåner", "medlemserbjudanden", "försäkring", "hotell", "bredband", "telefoni", "museer"],
       "lank": "https://www.hsb.se/sodertorn/medlem/privatperson/medlemserbjudanden/"
     },
     {
       "titel": "Bosparande",
-      "beskrivning": "Genom att bospara i HSB får du möjlighet att spara till kontantinsatsen och förtur till HSB:s hyresrätter och nybyggda bostäder.",
-      "nyckelord": ["bospar", "bosparande", "spara", "förtur", "bostad"],
+      "beskrivning": "Genom att bospara i HSB kan du spara till kontantinsatsen och få förtur till HSB:s hyresrätter och nybyggda bostäder. Du kan välja sparform och följa ditt sparande digitalt.",
+      "nyckelord": ["bospar", "bosparande", "spara", "förtur", "bostad", "kontantinsats", "hyresrätt", "nyproduktion"],
       "lank": "https://www.hsb.se/sodertorn/medlem/privatperson/bospara/"
     },
     {
       "titel": "Juridisk rådgivning",
-      "beskrivning": "Som medlem får du tillgång till juridisk rådgivning i frågor som rör ditt boende.",
-      "nyckelord": ["juridik", "rådgivning", "juridisk rådgivning", "boende"],
+      "beskrivning": "Som medlem får du juridisk rådgivning i frågor som rör boendet – t.ex. andrahandsuthyrning, arv, gåvor, samboavtal eller andra bostadsrättsfrågor.",
+      "nyckelord": ["juridik", "rådgivning", "juridisk rådgivning", "boende", "andrahandsuthyrning", "arv", "gåva", "samboavtal", "bostadsrätt"],
       "lank": "https://www.hsb.se/sodertorn/medlem/privatperson/juridisk-radgivning/"
     },
     {
       "titel": "Medlemstidningen Hemma i HSB",
-      "beskrivning": "Du får medlemstidningen Hemma i HSB med inspiration, tips och aktuell information.",
-      "nyckelord": ["medlemstidning", "Hemma i HSB", "tidning", "information"],
+      "beskrivning": "Tidningen Hemma i HSB skickas hem till dig som medlem och innehåller inspiration, tips och aktuell information om boende, energi, ekonomi och HSB:s utveckling.",
+      "nyckelord": ["medlemstidning", "Hemma i HSB", "tidning", "information", "boende", "energi", "ekonomi"],
       "lank": "https://www.hsb.se/sodertorn/medlem/privatperson/medlemstidning/"
     },
     {
       "titel": "Påverka boendet",
-      "beskrivning": "Som medlem har du möjlighet att påverka beslut som formar HSB:s framtid.",
-      "nyckelord": ["påverka", "demokrati", "beslut", "framtid"],
+      "beskrivning": "Som medlem är du med och påverkar genom att rösta på fullmäktige, motionera till stämman och engagera dig i din brf eller HSB:s demokratiska processer.",
+      "nyckelord": ["påverka", "demokrati", "beslut", "framtid", "fullmäktige", "motion", "stämma", "engagemang"],
       "lank": "https://www.hsb.se/sodertorn/medlem/privatperson/paverka-boendet/"
     },
     {
       "titel": "Utbildningar",
-      "beskrivning": "HSB erbjuder utbildningar för dig som vill lära dig mer om boende och föreningsliv.",
-      "nyckelord": ["utbildning", "kurser", "föreningsliv", "boende"],
+      "beskrivning": "HSB erbjuder kurser och utbildningar inom boende, ekonomi, styrelsearbete och hållbarhet. Både fysiska och digitala alternativ finns.",
+      "nyckelord": ["utbildning", "kurser", "föreningsliv", "boende", "styrelse", "ekonomi", "hållbarhet", "digital utbildning"],
       "lank": "https://www.hsb.se/sodertorn/medlem/privatperson/utbildningar/"
     },
     {
       "titel": "Vanliga frågor och svar",
-      "beskrivning": "Här hittar du svar på vanliga frågor om medlemskapet och ditt boende.",
-      "nyckelord": ["frågor", "svar", "FAQ", "medlemskap"],
+      "beskrivning": "Här hittar du svar på vanliga frågor om medlemskapet, bosparande, avgifter, inloggning och boenderättigheter.",
+      "nyckelord": ["frågor", "svar", "FAQ", "medlemskap", "avgift", "bospar", "inloggning", "boenderättigheter"],
       "lank": "https://www.hsb.se/sodertorn/medlem/privatperson/vanliga-fragor-och-svar/"
     }
   ]
