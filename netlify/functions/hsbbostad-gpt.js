@@ -9,11 +9,11 @@ exports.handler = async function(event, context) {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY_HSBBOstadGPT}`, // ny env-variabel
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY_STYRELSESUPPORTGPT}`, // samma nyckel
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo", // du kan byta till nyare modell om du vill
+        model: "gpt-3.5-turbo", // byt modell här om du vill
         messages,
         temperature: 0.4
       })
