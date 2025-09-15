@@ -216,10 +216,10 @@ berätta gärna vilket projekt eller ort det gäller och om du är köpare, boen
 
   <!-- Chat-logik -->
   <script>
-    // 1) konversation + systemprompt (klient)
+    // 1) konversation + strikt systemprompt (klient)
     const conversationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const messages = [
-      { role: "system", content: "du är hsb bostads kundsupport. svara tydligt, omtänksamt och konkret. skriv 'brf:er' med gemener och börja bara nya meningar med versaler. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar." }
+      { role: "system", content: "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. använd aldrig versaler på enstaka ord eller hela meningar. börja bara nya meningar med versal. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis." }
     ];
 
     function addMessage(role, text) {
@@ -271,6 +271,26 @@ berätta gärna vilket projekt eller ort det gäller och om du är köpare, boen
       }
     }
 
+    // post-process: säkerställ skrivregler
+    function normalizeCase(text) {
+      if (!text) return text;
+
+      // allt till gemener
+      let t = text.toLowerCase();
+
+      // kapitalisera meningsbörjan (svensk a/å/ä/ö)
+      t = t.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, m => m.toUpperCase());
+
+      // varumärken/akronymer som ska vara versaler
+      t = t.replace(/\bhsb\b/g, "HSB");
+
+      // skrivregler för brf
+      t = t.replace(/\bbrf:er\b/gi, "brf:er");
+      t = t.replace(/\bbrf\b/gi, "brf");
+
+      return t;
+    }
+
     async function sendMessage() {
       if (busy) return;
 
@@ -300,7 +320,9 @@ berätta gärna vilket projekt eller ort det gäller och om du är köpare, boen
         // 1) skicka hela kontexten
         const data = await callApi({ messages });
 
-        const svar = data?.choices?.[0]?.message?.content?.trim() || "kunde inte generera svar.";
+        let svar = data?.choices?.[0]?.message?.content?.trim() || "kunde inte generera svar.";
+        svar = normalizeCase(svar); // 4) tvinga rätt stil innan visning
+
         thinking.remove();
         addMessage("bot", svar);
 
