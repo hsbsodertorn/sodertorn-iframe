@@ -1,44 +1,61 @@
 {
   "kategori": "bosparande",
-  "sammanfattning": "HSB Bospar är ett enkelt och smart sätt att spara till en framtida bostad. Som bosparare får du förtur till HSBs nybyggda bostäder och hyresrätter, samtidigt som du bygger upp en kontantinsats.",
+  "sammanfattning": "HSB Bospar är ett enkelt och smart sätt att spara till en framtida bostad. Som bosparare får du förtur till HSB:s nybyggda bostäder och hyresrätter, samtidigt som du bygger upp en kontantinsats och kan spara för barn och unga.",
   "tags": [
-    "bospar", "bospara", "förtur", "sparande", "kontantinsats", "medlemskap", "boende", "framtida bostad", "ungdomsspar"
+    "bospar",
+    "bospara",
+    "bosparande",
+    "förtur",
+    "sparande",
+    "spara pengar",
+    "kontantinsats",
+    "medlemskap",
+    "boende",
+    "framtida bostad",
+    "ungdomsspar",
+    "barnspar",
+    "danske bank",
+    "ränta",
+    "insättningsgaranti",
+    "bosparpoäng",
+    "bostadskö",
+    "fördelar bospar"
   ],
   "delar": [
     {
       "titel": "Förtur till bostad",
-      "beskrivning": "Som bosparare får du förtur till HSBs nybyggda bostadsrätter och hyresrätter i hela landet. Din bosparpoäng ökar varje månad du sparar.",
-      "nyckelord": ["förtur", "bosparpoäng", "bostadskö", "hyresrätt", "bostadsrätt"],
+      "beskrivning": "Som bosparare får du förtur till HSB:s nybyggda bostadsrätter och hyresrätter i hela landet. Du samlar bosparpoäng varje månad du sparar, vilket ger dig en bättre plats i bostadskön. Poängen är personliga och påverkar i vilken ordning du får välja bostad.",
+      "nyckelord": ["förtur", "bosparpoäng", "bostadskö", "hyresrätt", "bostadsrätt", "köpoäng", "nyproduktion"],
       "lank": "https://www.hsb.se/bospara/fordelar/"
     },
     {
       "titel": "Spara till kontantinsats",
-      "beskrivning": "Du sparar långsiktigt och bygger upp en kontantinsats för framtida bostad. HSB Bospar passar såväl unga som vuxna.",
-      "nyckelord": ["kontantinsats", "långsiktigt sparande", "sparande", "framtid", "ekonomi"],
+      "beskrivning": "HSB Bospar gör det möjligt att långsiktigt bygga upp en kontantinsats för framtida boende. Du bestämmer själv hur mycket du vill spara varje månad, och sparandet är flexibelt och tryggt. Det passar både unga och vuxna som vill förbereda sig för en bostadsaffär.",
+      "nyckelord": ["kontantinsats", "långsiktigt sparande", "månadssparande", "ekonomi", "framtid", "boendestart", "sparande"],
       "lank": "https://www.hsb.se/bospara/sa-fungerar-det/"
     },
     {
       "titel": "Enkelt att komma igång",
-      "beskrivning": "Att bli bosparare är enkelt. Du väljer själv hur mycket du vill spara varje månad och följer utvecklingen i ditt digitala sparande.",
-      "nyckelord": ["starta bospar", "kom igång", "digitalt", "enkelhet", "månadssparande"],
+      "beskrivning": "Det är enkelt att bli bosparare. Du väljer själv belopp och kan när som helst justera eller pausa sparandet. Ditt sparande följer du digitalt via HSB och Danske Bank. Du kan ansluta dig direkt via webben.",
+      "nyckelord": ["starta bospar", "kom igång", "digitalt", "enkelhet", "månadssparande", "startkonto", "bli bosparare"],
       "lank": "https://www.hsb.se/bospara/bli-bosparare/"
     },
     {
       "titel": "Bospara för barn och unga",
-      "beskrivning": "HSB Bospar är perfekt för barnsparande. Ge dina barn ett försprång till framtida boende.",
-      "nyckelord": ["barnspar", "ungdomsspar", "barn", "boendestart", "framtid"],
+      "beskrivning": "HSB Bospar är ett populärt alternativ för barnsparande. Genom att starta tidigt kan du ge dina barn ett försprång till framtida boende. Poängen byggs upp även för barns konton och kan användas när de ska köpa eller hyra bostad i framtiden.",
+      "nyckelord": ["barnspar", "ungdomsspar", "barn", "unga", "framtid", "boendestart", "spara till barn", "föräldrar"],
       "lank": "https://www.hsb.se/bospara/bospara-till-barn/"
     },
     {
       "titel": "HSB Bosparkonto via Danske Bank",
-      "beskrivning": "Ditt bosparande sker genom ett konto i Danske Bank med trygg ränta och insättningsgaranti.",
-      "nyckelord": ["danske bank", "bosparkonto", "ränta", "insättningsgaranti"],
+      "beskrivning": "Bosparandet sker via Danske Bank och ger dig trygg ränta samt statlig insättningsgaranti. Kontot är enkelt att administrera och är knutet till ditt medlemskap i HSB.",
+      "nyckelord": ["danske bank", "bosparkonto", "ränta", "insättningsgaranti", "bankkonto", "sparränta", "tryggt sparande"],
       "lank": "https://www.hsb.se/bospara/sa-fungerar-det/"
     },
     {
       "titel": "Frågor och svar om bospar",
-      "beskrivning": "Här hittar du svar på vanliga frågor om hur bospar fungerar, poängsystemet och hur du kommer igång.",
-      "nyckelord": ["frågor", "faq", "bosparsystem", "hjälp"],
+      "beskrivning": "Här hittar du svar på vanliga frågor om hur bospar fungerar, poängsystemet, hur du blir medlem och hur du kommer igång. Perfekt om du snabbt vill förstå grunderna.",
+      "nyckelord": ["frågor", "svar", "FAQ", "bosparsystem", "hjälp", "vanliga frågor", "bosparinfo"],
       "lank": "https://www.hsb.se/bospara/fragor-och-svar/"
     }
   ]
