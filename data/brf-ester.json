@@ -4,7 +4,7 @@
   "tags": [
     "hsb", "bostadsrätt", "nyproduktion", "ester", "bromstensstaden",
     "köpprocess", "miljöbyggnad silver", "stadgar", "lägenheter",
-    "bromsten", "spånga", "hållbarhet", "garage", "visning"
+    "bromsten", "spånga", "hållbarhet", "garage", "visning", "kontakt"
   ],
   "delar": [
     {
@@ -67,9 +67,9 @@
       "titel": "Visningar och kontakt",
       "nyckelord": [
         "visning", "mäklare", "mäklarhuset", "kontakt", "bokning",
-        "robert blomster", "skogängsvägen"
+        "robert blomster", "skogängsvägen", "telefonnummer", "e-post"
       ],
-      "beskrivning": "Visningar hålls i visningslägenheterna på Skogängsvägen i Bromstensstaden. Ansvarig mäklare är Robert Blomster på Mäklarhuset (tel. 073-231 38 02, robert.blomster@maklarhuset.se). Bokning kan göras via HSB:s projektwebb."
+      "beskrivning": "Visningar hålls i visningslägenheterna på Skogängsvägen i Bromstensstaden. Ansvarig mäklare är Robert Blomster, Mäklarhuset. Telefon: 073-231 38 02. E-post: robert.blomster@maklarhuset.se. All information om projektet finns samlad på HSB:s webb: https://www.hsb.se/sok-bostad/stockholm/stockholm/projekt/ester/"
     }
   ]
 }
