@@ -4,49 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HSB Bostad – Kundsupport GPT</title>
-
-  <!-- Prestanda för typsnitt -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;600;700&family=Open+Sans&display=swap" rel="stylesheet">
 
-  <meta name="theme-color" content="#00558c">
-
-  <!-- Firebase (loggning) – oförändrat -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "DIN_FIREBASE_API_KEY",
-      authDomain: "hsbbostad-support.firebaseapp.com",
-      projectId: "hsbbostad-support",
-      storageBucket: "hsbbostad-support.appspot.com",
-      messagingSenderId: "000000000000",
-      appId: "1:000000000000:web:xxxxxxxxxxxxxxxxxxxxxx",
-      measurementId: "G-XXXXXXXXXX"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const logQueue = [];
-
-    window.saveChatLog = async (conversationId, fraga, svar) => {
-      const logEntry = { conversationId, fraga, svar, tid: serverTimestamp() };
-      logQueue.push(logEntry);
-      while (logQueue.length > 0) {
-        try {
-          await addDoc(collection(db, "chattlogg_bostad"), logQueue[0]);
-          logQueue.shift();
-        } catch (err) {
-          console.error("Fel vid loggning i Firebase:", err);
-          if (window.showError) window.showError("Kunde inte spara chatten. Försök igen.");
-          break;
-        }
-      }
-    };
-  </script>
-
-  <!-- VISUELLT (endast stil/markup) -->
   <style>
     :root{
       --hsb-blue:#00558c;
@@ -57,10 +16,9 @@
       --muted:#6b7280;
       --ring:rgba(0,85,140,.35);
       --radius:20px;
-      --user-bg:#e1ecf4;   /* användarens bubblor */
-      --bot-bg:#f0f5ff;    /* botens bubblor */
+      --user-bg:#e1ecf4;   /* ljusblå för användarens frågor */
+      --bot-bg:#f0f5ff;    /* ljusare blåvit för botens svar */
     }
-
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0; height: 100%;
@@ -69,10 +27,10 @@
       color: var(--text);
     }
 
-    /* Layout-kort */
-    #wrapper { min-height: 100dvh; width: 100%; display: grid; place-items: center; padding: 16px; }
+    #wrapper { height: 100%; width: 100%; display: grid; place-items: center; padding: 16px; }
     #chatbox {
-      display: flex; flex-direction: column; width: min(980px, 100%); height: min(80vh, 900px);
+      display: flex; flex-direction: column; width: min(980px, 100%);
+      height: min(80vh, 900px);
       background: var(--surface);
       border: 1px solid rgba(0,0,0,.06);
       border-radius: var(--radius);
@@ -80,86 +38,50 @@
       box-shadow: 0 10px 30px rgba(0,0,0,.06);
     }
 
-    /* Toppbar – ren text, ingen “vit logga” eller badge */
     #topbar{
       display:flex; align-items:center; justify-content:flex-start; gap:12px;
-      padding: 14px 18px;
-      border-bottom: 1px solid rgba(255,255,255,.15);
+      padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.15);
       background: linear-gradient(90deg, var(--hsb-blue), var(--hsb-blue-700));
       color:#fff;
     }
     .brand-title{ font-weight:700; letter-spacing:.2px; }
     .brand-sub{ font-size:13px; opacity:.9; }
 
-    /* Meddelanden */
-    #messages{
-      flex: 1; padding: 16px; overflow-y: auto; background: #fff;
-      display: flex; flex-direction: column; gap: 10px;
-    }
-    .message{
-      max-width: 72%; padding: 12px 16px; border-radius: 16px;
-      white-space: pre-line; word-break: break-word; font-size: 16px; line-height: 1.45;
-      border:1px solid rgba(0,0,0,.06);
-    }
-    .user{ align-self: flex-end; background: var(--user-bg); color:#0e1012; }
-    .bot, .bot-question{ align-self: flex-start; background: var(--bot-bg); color:#0e1012; }
+    #messages { flex: 1; padding: 16px; overflow-y: auto; background: #fff; display: flex; flex-direction: column; gap: 10px; }
+    .message { max-width: 72%; padding: 12px 16px; border-radius: 16px; white-space: pre-line; word-break: break-word; font-size: 16px; line-height: 1.45; border:1px solid rgba(0,0,0,.06); }
+    .user { align-self: flex-end; background: var(--user-bg); color: #0e1012; }
+    .bot, .bot-question { align-self: flex-start; background: var(--bot-bg); color: #0e1012; }
 
-    .error{
-      align-self:center; background:#ffe6e6; color:#9b1c1c;
-      padding:10px 14px; border-radius:12px; border:1px solid #f5b5b5;
-    }
+    .thinking { display: inline-flex; align-items: center; gap: 6px; padding:10px 14px; background:#f6f7f9; border-radius:14px; border:1px dashed rgba(0,0,0,.1); }
+    .dot { width: 6px; height: 6px; background-color: #888; border-radius: 50%; animation: blink 1.2s infinite; }
+    .dot:nth-child(2) { animation-delay: 0.15s; }
+    .dot:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
 
-    .thinking{ display:inline-flex; align-items:center; gap:6px; padding:10px 14px; background:#f6f7f9; border-radius:14px; border:1px dashed rgba(0,0,0,.1); }
-    .dot{ width:6px; height:6px; background:#888; border-radius:50%; animation:blink 1.2s infinite; }
-    .dot:nth-child(2){ animation-delay:.15s; }
-    .dot:nth-child(3){ animation-delay:.3s; }
-    @keyframes blink { 0%,80%,100%{opacity:0;} 40%{opacity:1;} }
+    #inputArea { display: flex; align-items: center; gap: 12px; padding: 12px; border-top: 1px solid rgba(0,0,0,.06); background:#fff; position: sticky; bottom: 0; z-index: 10; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+    textarea { flex: 1; min-height: 52px; max-height: 220px; padding: 14px 18px; border-radius: 999px; border: 1px solid #d1d5db; font-size: 16px; resize: none; background:#fff; -webkit-tap-highlight-color: transparent; }
+    textarea:focus { border-color: var(--hsb-blue); outline: none; box-shadow: 0 0 0 4px var(--ring); }
+    #charCount { font-size: 13px; color: var(--muted); }
+    button { background: var(--hsb-blue); color: white; border: none; border-radius: 999px; padding: 14px 18px; font-size: 16px; cursor: pointer; transition: transform .02s ease, background .2s; display:flex; align-items:center; gap:8px; min-height: 44px; }
+    button:hover { background: var(--hsb-blue-700); }
+    button:active { transform: translateY(1px); }
 
-    /* Input – sticky nedtill + safe-area */
-    #inputArea{
-      display:flex; align-items:center; gap:12px;
-      padding:12px; border-top:1px solid rgba(0,0,0,.06); background:#fff;
-      position: sticky; bottom: 0; z-index: 10;
-      padding-bottom: calc(12px + env(safe-area-inset-bottom));
-    }
-    textarea{
-      flex:1; min-height:52px; max-height:220px; padding:14px 18px;
-      border-radius:999px; border:1px solid #d1d5db; font-size:16px; resize:none; background:#fff;
-      -webkit-tap-highlight-color:transparent;
-    }
-    textarea:focus{ border-color:var(--hsb-blue); outline:none; box-shadow:0 0 0 4px var(--ring); }
-    #charCount{ font-size:13px; color:var(--muted); min-width:72px; text-align:right; }
-    button{
-      background:var(--hsb-blue); color:#fff; border:none; border-radius:999px;
-      padding:14px 18px; font-size:16px; cursor:pointer;
-      transition:transform .02s ease, background .2s; display:flex; align-items:center; gap:8px; min-height:44px;
-    }
-    button:hover{ background:var(--hsb-blue-700); }
-    button:active{ transform: translateY(1px); }
-    button:disabled{ opacity:.6; cursor:not-allowed; }
-
-    /* Mobil */
     @media (max-width: 640px){
-      #wrapper{ padding:0; }
-      #chatbox{ height:100dvh; width:100%; border-radius:0; box-shadow:none; }
-      #messages{ padding:12px; }
-      .message{ max-width:92%; font-size:15px; border-radius:14px; }
-      .brand-title{ font-size:16px; }
-      .brand-sub{ font-size:12px; }
-      #topbar{ padding:12px 14px; }
-      textarea{ min-height:48px; font-size:16px; }
-      button{ padding:12px 16px; font-size:16px; }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{ animation:none !important; transition:none !important; }
+      #wrapper{ padding: 0; }
+      #chatbox{ height: 100dvh; width: 100%; border-radius: 0; box-shadow: none; }
+      #messages{ padding: 12px; }
+      .message{ max-width: 92%; font-size: 15px; border-radius: 14px; }
+      .brand-title{ font-size: 16px; }
+      .brand-sub{ font-size: 12px; }
+      #topbar{ padding: 12px 14px; }
+      textarea{ min-height: 48px; font-size: 16px; }
+      button{ padding: 12px 16px; font-size: 16px; }
     }
   </style>
 </head>
 <body>
   <div id="wrapper">
     <div id="chatbox">
-      <!-- Topbar: endast text -->
       <div id="topbar" role="banner">
         <div class="brand">
           <div>
@@ -169,145 +91,104 @@
         </div>
       </div>
 
-      <!-- Meddelanden: välkomsttext med tydliga radbrytningar -->
       <div id="messages" aria-live="polite">
         <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Berätta gärna vilket projekt eller ort det gäller och om du är köpare, boende eller intressent – så hjälper jag dig snabbare.</div>
       </div>
 
-      <!-- Input -->
       <div id="inputArea">
-        <textarea id="userInput" placeholder="Skriv din fråga här…" maxlength="1000" autocomplete="off"
-          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)" aria-label="Skriv din fråga"></textarea>
+        <textarea id="userInput" placeholder="Skriv din fråga här..." maxlength="1000"></textarea>
         <span id="charCount">0/1000</span>
-        <button id="sendBtn" onclick="sendMessage()" aria-label="Skicka fråga">Skicka</button>
+        <button aria-label="Skicka fråga">Skicka</button>
       </div>
     </div>
   </div>
+<script>
+(function(){
+  var messagesEl = document.getElementById('messages');
+  var input = document.getElementById('userInput');
+  var sendBtn = document.querySelector('button[aria-label="Skicka"]') || document.querySelector('button[aria-label="Skicka fråga"]') || document.querySelector('button');
+  var charCount = document.getElementById('charCount');
 
-  <!-- Chat-logik (oförändrad) -->
-  <script>
-    // 1) konversation + strikt systemprompt (klient)
-    const conversationId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    const messages = [
-      { role: "system", content: "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. använd aldrig versaler på enstaka ord eller hela meningar. börja bara nya meningar med versal. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis." }
-    ];
+  var conversationId = Date.now() + '-' + (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
+  var history = [];
+  var busy = false;
 
-    function addMessage(role, text) {
-      const container = document.getElementById("messages");
-      const div = document.createElement("div");
-      div.className = role === "error" ? "error" : `message ${role}`;
+  function addMessage(role, text){
+    var div = document.createElement('div');
+    div.className = role === 'error' ? 'error' : 'message ' + role;
+    if (text === null){
+      div.innerHTML = '<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
+    } else {
       div.textContent = text;
-      container.appendChild(div);
-      container.scrollTop = container.scrollHeight;
-      return div;
     }
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
 
-    function showError(msg) { addMessage("error", msg); }
-    window.showError = showError; // så firebase-scriptet kan anropa
+  function showError(msg){ addMessage('error', msg); }
+  window.showError = showError;
 
-    function autoResize(el) {
-      el.style.height = "auto";
-      el.style.height = el.scrollHeight + "px";
-    }
+  function autoResize(el){ el.style.height='auto'; el.style.height = el.scrollHeight + 'px'; }
+  function updateCharCount(el){ if(charCount){ charCount.textContent = (el.value.length) + '/1000'; } }
 
-    function updateCharCount(el) {
-      document.getElementById("charCount").textContent = `${el.value.length}/1000`;
-    }
-
-    function handleKey(e) {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
+  function callApi(body, tries, delay){
+    tries = (typeof tries==='number') ? tries : 2; delay = (typeof delay==='number') ? delay : 800;
+    return fetch('/.netlify/functions/hsbbostad-gpt', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    }).then(function(r){
+      if(!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }).catch(function(e){
+      if(tries > 0){
+        return new Promise(function(res){ setTimeout(res, delay); }).then(function(){ return callApi(body, tries-1, delay*2); });
       }
-    }
+      throw e;
+    });
+  }
 
-    // 2) disable-knapp/spam-skydd
-    let busy = false;
+  function send(){
+    if(busy) return;
+    var text = (input.value || '').trim();
+    if(!text) return;
 
-    // 3) retry med backoff
-    async function callApi(body, tries = 2, delay = 800) {
-      try {
-        const r = await fetch("/.netlify/functions/hsbbostad-gpt", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body)
-        });
-        if (!r.ok) throw new Error(`http ${r.status}`);
-        return await r.json();
-      } catch (e) {
-        if (tries > 0) {
-          await new Promise(res => setTimeout(res, delay));
-          return callApi(body, tries - 1, delay * 2);
-        }
-        throw e;
-      }
-    }
+    busy = true;
+    if (sendBtn) sendBtn.disabled = true;
+    messagesEl.setAttribute('aria-busy','true');
 
-    // post-process: säkerställ skrivregler (oförändrat)
-    function normalizeCase(text) {
-      if (!text) return text;
-      let t = text.toLowerCase();
-      t = t.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, m => m.toUpperCase());
-      t = t.replace(/\bhsb\b/g, "HSB");
-      t = t.replace(/\bbrf:er\b/gi, "brf:er");
-      t = t.replace(/\bbrf\b/gi, "brf");
-      return t;
-    }
+    addMessage('user', text);
+    history.push({ role: 'user', content: text });
 
-    async function sendMessage() {
-      if (busy) return;
-      const btn = document.getElementById("sendBtn");
-      const input = document.getElementById("userInput");
-      const list = document.getElementById("messages");
-      const text = (input.value || "").trim();
-      if (!text) return;
+    input.value=''; updateCharCount(input); autoResize(input);
 
-      busy = true;
-      btn.disabled = true;
-      list.setAttribute("aria-busy", "true");
+    var thinking = addMessage('bot', null);
 
-      // visa användarens fråga
-      addMessage("user", text);
+    callApi({ messages: history }).then(function(data){
+      var svar = (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) ? data.choices[0].message.content.trim() : 'Kunde inte generera svar.';
+      thinking.remove();
+      addMessage('bot', svar);
+      history.push({ role: 'assistant', content: svar });
+      if (window.saveChatLog){ try { window.saveChatLog(conversationId, text, svar); } catch(_){} }
+    }).catch(function(err){
+      console.error(err);
+      thinking.remove();
+      var msg = String(err).indexOf('http 429') !== -1 ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.';
+      showError(msg);
+    }).finally(function(){
+      busy = false;
+      if (sendBtn) sendBtn.disabled = false;
+      messagesEl.setAttribute('aria-busy','false');
+      input.focus();
+    });
+  }
 
-      input.value = "";
-      updateCharCount(input);
-      autoResize(input);
-
-      // visa "tänker..."
-      const thinking = addMessage("bot", "...");
-      thinking.innerHTML = `<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
-
-      try {
-        messages.push({ role: "user", content: text });
-
-        // skicka hela kontexten
-        const data = await callApi({ messages });
-
-        let svar = data?.choices?.[0]?.message?.content?.trim() || "Kunde inte generera svar.";
-        svar = normalizeCase(svar); // tvinga rätt stil innan visning
-
-        thinking.remove();
-        addMessage("bot", svar);
-        messages.push({ role: "assistant", content: svar });
-
-        // logga till firebase (tyst vid fel)
-        if (window.saveChatLog) {
-          try { await window.saveChatLog(conversationId, text, svar); } catch(e) {}
-        }
-      } catch (err) {
-        console.error(err);
-        thinking.remove();
-        const msg = String(err).includes("http 429")
-          ? "Många frågor samtidigt – prova igen strax."
-          : "Något gick fel, försök igen senare.";
-        showError(msg);
-      } finally {
-        busy = false;
-        btn.disabled = false;
-        list.setAttribute("aria-busy", "false");
-        input.focus();
-      }
-    }
-  </script>
+  if (sendBtn) sendBtn.addEventListener('click', send);
+  if (input){
+    input.addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
+    input.addEventListener('input', function(){ updateCharCount(input); autoResize(input); });
+    updateCharCount(input); autoResize(input);
+  }
+})();
+</script>
 </body>
 </html>
