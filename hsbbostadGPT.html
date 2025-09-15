@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HSB Bostad – Kundsupport GPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "DIN_FIREBASE_API_KEY",
+      authDomain: "hsbbostad-support.firebaseapp.com",
+      projectId: "hsbbostad-support",
+      storageBucket: "hsbbostad-support.appspot.com",
+      messagingSenderId: "000000000000",
+      appId: "1:000000000000:web:xxxxxxxxxxxxxxxxxxxxxx",
+      measurementId: "G-XXXXXXXXXX"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const logQueue = [];
+    window.saveChatLog = async (conversationId, fraga, svar) => {
+      const logEntry = { conversationId, fraga, svar, tid: serverTimestamp() };
+      logQueue.push(logEntry);
+      while (logQueue.length > 0) {
+        try {
+          await addDoc(collection(db, "chattlogg_bostad"), logQueue[0]);
+          logQueue.shift();
+        } catch (err) {
+          console.error("Fel vid loggning i Firebase:", err);
+          showError("Kunde inte spara chatten. Försök igen.");
+          break;
+        }
+      }
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Saira', sans-serif;
+      background: #f5f7fa;
+      color: #222;
+    }
+    #wrapper {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f5f7fa;
+      padding: 24px;
+    }
+    #chatbox {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 600px;
+      height: 80vh;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    #messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      border-radius: 16px;
+      white-space: pre-line;
+      word-break: break-word;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .user {
+      align-self: flex-end;
+      background: #e1ecf4;
+      color: #003366;
+    }
+    .bot, .bot-question {
+      align-self: flex-start;
+      background: #f0f5ff;
+      color: #222;
+    }
+    .thinking { display: inline-flex; align-items: center; gap: 4px; }
+    .dot { width: 8px; height: 8px; background-color: #888; border-radius: 50%; animation: blink 1.4s infinite; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+
+    .link-button {
+      display: inline-block;
+      margin: 8px 0;
+      background: #00558c;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    .link-button:hover { background: #004070; }
+
+    #inputArea {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-top: 1px solid #e0e0e0;
+      gap: 12px;
+      background: #fafafa;
+    }
+    textarea {
+      flex: 1;
+      min-height: 48px;
+      max-height: 200px;
+      padding: 14px 20px;
+      border-radius: 24px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      resize: none;
+      font-family: 'Saira', sans-serif;
+      transition: border-color 0.2s;
+    }
+    textarea:focus { border-color: #00558c; outline: none; }
+    #charCount { font-size: 14px; color: #666; }
+    button {
+      background: #00558c;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 14px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #004070; }
+    .error {
+      align-self: center;
+      background: #ffe6e6;
+      color: #d32f2f;
+      padding: 8px 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .header {
+      background: #00558c;
+      color: #fff;
+      text-align: center;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="chatbox">
+      <div id="topbar" role="banner">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">HSB</div>
+          <div>
+            <div class="brand-title">HSB Bostad</div>
+            <div class="brand-sub">kundsupport</div>
+          </div>
+        </div>
+        <span class="badge" aria-label="HSB grafisk profil">BOSTAD</span>
+      </div>
+      <div class="header">HSB Bostad – Kundsupport</div>
+      <div id="messages" aria-live="polite">
+        <div class="message bot"><strong>välkommen till hsb bostad</strong>
+
+berätta gärna vilket projekt eller ort det gäller och om du är köpare, boende eller intressent – så hjälper jag dig snabbare.</div>
+      </div>
+      </div>
+      <div id="inputArea">
+        <textarea id="userInput" placeholder="skriv din fråga här..." maxlength="1000"
+          oninput="autoResize(this); updateCharCount(this)" onkeydown="handleKey(event)" aria-label="Skriv din fråga"></textarea>
+        <span id="charCount">0/1000</span>
+        <button onclick="sendMessage()" aria-label="Skicka fråga">Skicka</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
 
