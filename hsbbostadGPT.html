@@ -13,7 +13,6 @@
       --hsb-blue-5:#CBE8F1;
       --hsb-gold:#BE880B;
       --hsb-gold-700:#996600;
-      --hsb-steel:#5F7D8B;
 
       /* Komponentfärger */
       --surface:#ffffff;
@@ -40,50 +39,28 @@
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
     .brand-sub{ display:none !important; }
 
-    /* Innehållsheader (tillbaka + rubrik) */
-    .bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
-    .backbtn{ display:inline-flex; align-items:center; gap:8px; background:transparent; border:1px solid rgba(0,0,0,.12); color:var(--hsb-blue-1); border-radius:999px; padding:8px 12px; cursor:pointer; }
-    .backbtn:hover{ background:#f4f6f8; }
-    .backbtn:focus-visible{ outline:3px solid var(--hsb-blue-5); }
-    .backbtn .icon{ stroke:currentColor }
-    .section-title{ font-weight:700; }
+    /* Grid för korten */
+    #entryBar{ padding:14px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
+    #entryGrid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; }
 
-    /* Stegcontainer */
-    #projectSelect{ padding:14px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
-    #projectSelect .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px; }
-
-    /* Knappar/kort */
+    /* Kort */
     .card{
-      border-radius:12px; padding:12px 14px; min-height:78px; display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+      border-radius:16px; padding:18px; min-height:92px;
+      display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
       text-align:left; cursor:pointer; border:1px solid rgba(0,0,0,.06);
       transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease; color:#fff;
     }
-    .card:hover{ transform:translateY(-2px); box-shadow:0 10px 18px rgba(0,0,0,.16); border-color:rgba(0,0,0,.18); }
+    .card:hover{ transform:translateY(-2px); box-shadow:0 10px 18px rgba(0,0,0,.18); border-color:rgba(0,0,0,.18); }
     .card:focus-visible{ outline:3px solid #fff; box-shadow:0 0 0 4px var(--hsb-blue-5); }
+
     .card--primary{ background:var(--hsb-blue-1); }
     .card--primary:hover{ background:var(--hsb-blue-700); }
     .card--gold{ background:var(--hsb-gold); }
     .card--gold:hover{ background:var(--hsb-gold-700); }
-    .card--light{ background:var(--hsb-blue-5); color:#0e1012; border-color:rgba(0,0,0,.08); }
-    .card--light:hover{ background:#b9deec; }
 
-    .card-title{ font-weight:700; font-size:16px; letter-spacing:.2px; display:flex; align-items:center; gap:10px; }
-    .card-sub{ margin-top:4px; font-size:13px; line-height:1.35; opacity:.95; }
+    .card-title{ font-weight:700; font-size:18px; letter-spacing:.2px; display:flex; align-items:center; gap:10px; }
+    .card-sub{ margin-top:6px; font-size:14px; line-height:1.35; opacity:.95; }
     .icon{ width:18px; height:18px; display:inline-block; flex:0 0 18px; stroke:currentColor; fill:none; stroke-width:2; }
-
-    /* Filter */
-    .filters{ display:grid; grid-template-columns:repeat(12,1fr); gap:10px; padding:10px; margin:6px 0 16px 0; background:var(--hsb-blue-5); border:1px solid rgba(0,0,0,.06); border-radius:12px; }
-    .fgrp{ grid-column: span 4; display:flex; flex-direction:column; gap:6px; }
-    .fgrp label{ font-size:12px; color:#0e1012; font-weight:600; }
-    .filters input, .filters select{ height:40px; padding:8px 10px; border-radius:10px; border:1px solid #c9d6e2; background:#fff; font-size:14px; }
-    .filters input:focus, .filters select:focus{ outline:none; border-color:var(--hsb-blue-1); box-shadow:0 0 0 3px rgba(0,51,102,.18); }
-    .factions{ grid-column: span 12; display:flex; gap:8px; justify-content:flex-end; }
-    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; cursor:pointer; border:1px solid transparent; font-size:14px; }
-    .btn--apply{ background:var(--hsb-blue-1); color:#fff; }
-    .btn--apply:hover{ background:var(--hsb-blue-700); }
-    .btn--reset{ background:#fff; color:var(--hsb-blue-1); border-color:var(--hsb-blue-1); }
-    .btn--reset:hover{ background:#f4f6f8; }
-    .inline{ display:flex; align-items:center; gap:8px; font-size:13px; color:#0e1012; }
 
     /* Chatt */
     #messages{ flex:1; min-height:0; padding:16px; overflow:auto; background:#fff; display:flex; flex-direction:column; gap:12px; }
@@ -103,10 +80,9 @@
     button{ background:var(--hsb-blue-1); color:#fff; border:none; border-radius:24px; padding:14px 18px; font-size:16px; cursor:pointer; transition:transform .02s, background .2s; display:flex; align-items:center; gap:8px; min-height:44px; }
     button:hover{ background:var(--hsb-blue-700); } button:active{ transform:translateY(1px); }
 
-    .hidden{ display:none !important; }
-
-    @media (max-width:760px){ .fgrp{ grid-column: span 12; } .factions{ justify-content:stretch; } }
-    @media (max-width:640px){
+    @media (max-width: 980px){ #entryGrid{ grid-template-columns:repeat(2, 1fr); } }
+    @media (max-width: 600px){
+      #entryGrid{ grid-template-columns:1fr; }
       #messages{ padding:12px } .message{ max-width:92%; font-size:15px; border-radius:16px }
       .brand-title{ font-size:20px } #topbar{ padding:12px 14px }
       textarea{ min-height:48px; font-size:16px } button{ padding:12px 16px; font-size:16px }
@@ -122,15 +98,49 @@
         <div class="brand-sub">kundsupport</div>
       </div>
 
-      <!-- Steg 1 / Steg 2 -->
-      <nav id="projectSelect" aria-label="Välj ingång">
-        <div class="grid" id="entryGrid"><!-- renderas via JS --></div>
-      </nav>
+      <!-- Knappraden -->
+      <div id="entryBar">
+        <div id="entryGrid">
+          <button class="card card--primary" data-entry="buy">
+            <span class="card-title">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
+              Köpa bostad
+            </span>
+            <span class="card-sub">Se aktuella projekt i försäljning</span>
+          </button>
 
-      <div id="messages" aria-live="polite" role="log">
-        <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Välj <em>Köpa bostad</em> för att se projekt i försäljning, <em>Här hittar du din bostad</em> för hela utbudet, <em>Bli medlem</em> för förtur – eller <em>Kontakt</em> om du vill att vi ringer upp.</div>
+          <button class="card card--gold" data-entry="browse">
+            <span class="card-title">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3,12 12,3 21,12"></polyline><rect x="6" y="12" width="12" height="9"></rect></svg>
+              Här hittar du din bostad
+            </span>
+            <span class="card-sub">Utforska hela utbudet</span>
+          </button>
+
+          <button class="card card--primary" data-entry="member">
+            <span class="card-title">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="12" r="3"></circle><line x1="10" y1="12" x2="21" y2="12"></line><line x1="18" y1="9" x2="21" y2="9"></line><line x1="18" y1="15" x2="21" y2="15"></line></svg>
+              Börja bospara
+            </span>
+            <span class="card-sub">Förtur till nya bostäder</span>
+          </button>
+
+          <button class="card card--gold" data-entry="contact">
+            <span class="card-title">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="8"></line><line x1="12" y1="12" x2="12" y2="16"></line></svg>
+              Kontakt
+            </span>
+            <span class="card-sub">Skicka en fråga</span>
+          </button>
+        </div>
       </div>
 
+      <!-- Välkomstruta -->
+      <div id="messages" aria-live="polite" role="log">
+        <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Här kan du snabbt komma vidare. Välj en av knapparna ovan så visar jag dig information direkt här i chatten – utan att du behöver lämna sidan.</div>
+      </div>
+
+      <!-- Chatt-input -->
       <div id="inputArea">
         <textarea id="userInput" placeholder="Skriv din fråga här..." maxlength="1000" aria-label="chattinmatning"></textarea>
         <span id="charCount" aria-live="polite">0/1000</span>
@@ -142,11 +152,9 @@
   <script>
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
-    const MEMBER_URL = 'https://www.hsb.se/bospara/';
-    const CONTACT_URL = '/kontakt.html'; // <- ändra till er riktiga kontaktformulärs-URL
+    const BOSPAR_URL = 'https://www.hsb.se/bospara/';
+    const KONTAKT_URL = '/kontakt.html'; // byt till er riktiga kontaktlänk
 
-    const projectSelect = document.getElementById('projectSelect');
-    const entryGrid = document.getElementById('entryGrid');
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -154,38 +162,10 @@
 
     let history = [];
     let busy = false;
-    let selectedProject = null;
-
-    // Visningsläge för projektlistan:
-    // mode = 'ongoing' (endast pågående) eller 'all' (pågående + kommande)
-    let projectsMode = 'ongoing';
-    // Check: visa även kommande
-    let includeUpcoming = false;
-
-    // Projektdata – komplettera efterhand
-    const PROJECTS = [
-      {
-        name:'Ester', phase:'pågående', city:'Stockholm', rooms:[1,2,3,4], priceAvg:3850000,
-        urls:{
-          home:'https://www.hsb.se/sok-bostad/stockholm/stockholm/projekt/ester/',
-          prices:'https://www.hsb.se/sok-bostad/stockholm/stockholm/projekt/ester/#project-page__prices-anchor',
-          docs:'https://www.hsb.se/sok-bostad/stockholm/stockholm/projekt/ester/#project-page__documents-anchor'
-        }
-      },
-      { name:'Diktafonen', phase:'pågående', city:'Stockholm', rooms:[1,2,3], priceAvg:3200000 },
-      { name:'Växeln', phase:'pågående', city:'Bromstensstaden', rooms:[2,3,4], priceAvg:4100000 },
-      // Exempel när ni lägger till fler:
-      // { name:'Kornet', phase:'kommande', city:'Haninge', rooms:[1,2,3], priceAvg:2900000 },
-      // { name:'Tallbacken', phase:'kommande', city:'Huddinge', rooms:[2,3,4], priceAvg:3600000 }
-    ];
-
-    /* ---------- små util ---------- */
-    const H = { el(tag, attrs={}, html){ const d=document.createElement(tag); for(const k in attrs){ if(k==='class') d.className=attrs[k]; else d.setAttribute(k, attrs[k]); } if(html!=null) d.innerHTML = html; return d; } };
-    const capitalize = s => (s||'').charAt(0).toUpperCase() + (s||'').slice(1);
-    const fmtMoney = n => n? n.toLocaleString('sv-SE')+' kr' : '';
 
     function formatForDisplay(t){
-      if(!t) return ''; let s = ('' + t).trim();
+      if(!t) return '';
+      let s = ('' + t).trim();
       s = s.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, m => m.toUpperCase());
       s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, m => m.toLowerCase());
       return s;
@@ -206,278 +186,60 @@
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
 
-    // PII-sanerare
-    function cleanPII(txt=''){
-      return String(txt)
-        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
-        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
-        .replace(/\b\d{10}\b/g,'[telefonnummer]')
-        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
-        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]');
-    }
-
     async function callApi(body){
       const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
       if(!r.ok) throw new Error(`http ${r.status}`);
       return r.json();
     }
 
-    /* ---------- STEG 1 ---------- */
-    function renderEntries(){
-      selectedProject = null;
-      projectSelect.setAttribute('aria-label','Välj ingång');
-      projectSelect.innerHTML = '';
-
-      const grid = H.el('div', { class:'grid' });
-
-      grid.append(
-        entryBtn('card card--primary','buy', iconSearch(),'Köpa bostad','Se projekt i försäljning med filter'),
-        entryBtn('card card--gold','browse', iconHouse(),'Här hittar du din bostad','Utforska hela utbudet (pågående + kommande)'),
-        entryBtn('card card--light','member', iconKey(),'Bli medlem','Förtur till nyproduktion och bospar'),
-        entryBtn('card card--light','contact', iconInfo(),'Kontakt','Skicka en fråga eller be om återkoppling')
-      );
-
-      projectSelect.appendChild(grid);
-    }
-
-    function entryBtn(cls,key,icon,title,sub){
-      const btn = H.el('button',{ class: cls, 'data-entry':key });
-      btn.innerHTML = `<span class="card-title">${icon} ${title}</span><span class="card-sub">${sub}</span>`;
-      btn.addEventListener('click', ()=> handleEntryClick(key));
+    // Klick på korten
+    document.querySelectorAll('[data-entry]').forEach(btn=>{
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-entry');
+        handleEntry(key);
+      });
       btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }});
-      return btn;
-    }
+    });
 
-    /* ---------- STEG 2: PROJEKT (en sida, med val ”visa även kommande”) ---------- */
-    let currentFilters = { city:'', priceMin:'', priceMax:'', rooms:'' };
-
-    function renderProjects(){
-      projectSelect.setAttribute('aria-label','Välj projekt');
-      projectSelect.innerHTML = '';
-
-      // Header
-      const bar = H.el('div',{ class:'bar' });
-      const back = H.el('button',{ class:'backbtn', 'aria-label':'Tillbaka till huvudmeny' }, `${iconArrowLeft()} Tillbaka`);
-      back.addEventListener('click', renderEntries);
-      const h = H.el('div',{ class:'section-title' }, projectsMode==='ongoing' ? 'Köpa bostad – pågående projekt' : 'Här hittar du din bostad – alla projekt');
-      bar.append(back, h);
-      projectSelect.appendChild(bar);
-
-      // Filters + ”visa även kommande”
-      projectSelect.appendChild(renderFilters());
-
-      // Grid
-      projectSelect.appendChild(renderProjectGrid());
-    }
-
-    function renderFilters(){
-      const box = H.el('div',{ class:'filters', role:'region', 'aria-label':'Filter' });
-
-      const fCity = H.el('div',{ class:'fgrp' });
-      fCity.append(H.el('label',{},'Ort'), H.el('input',{ type:'text', placeholder:'t.ex. Stockholm, Nynäshamn', value: currentFilters.city || '' }));
-
-      const fPrice = H.el('div',{ class:'fgrp' });
-      fPrice.appendChild(H.el('label',{},'Prisintervall'));
-      const wrapPrice = H.el('div',{ style:'display:flex; gap:8px;' });
-      const min = H.el('input',{ type:'number', min:'0', step:'50000', placeholder:'Min', value: currentFilters.priceMin || '' });
-      const max = H.el('input',{ type:'number', min:'0', step:'50000', placeholder:'Max', value: currentFilters.priceMax || '' });
-      wrapPrice.append(min,max); fPrice.appendChild(wrapPrice);
-
-      const fRooms = H.el('div',{ class:'fgrp' });
-      fRooms.appendChild(H.el('label',{},'Antal rum (min)'));
-      const rooms = H.el('select',{}); ['',1,2,3,4,5].forEach(v=> rooms.appendChild(H.el('option',{ value:String(v) }, v===''?'Alla':`${v}+ rok`)));
-      rooms.value = currentFilters.rooms || ''; fRooms.appendChild(rooms);
-
-      const actions = H.el('div',{ class:'factions' });
-      const chkWrap = H.el('label',{ class:'inline', title:'Visa även kommande projekt' });
-      const chk = H.el('input',{ type:'checkbox', checked: projectsMode==='all' || includeUpcoming ? 'checked': null });
-      chkWrap.append(chk, H.el('span',{},'Visa även kommande'));
-      const apply = H.el('button',{ class:'btn btn--apply', type:'button' }, `${iconSearch()} Tillämpa filter`);
-      const reset = H.el('button',{ class:'btn btn--reset', type:'button' }, `Rensa`);
-      actions.append(chkWrap, apply, reset);
-
-      box.append(fCity, fPrice, fRooms, actions);
-
-      apply.addEventListener('click', ()=>{
-        const city = fCity.querySelector('input');
-        currentFilters = {
-          city: city.value.trim(),
-          priceMin: min.value ? Number(min.value) : '',
-          priceMax: max.value ? Number(max.value) : '',
-          rooms: rooms.value
-        };
-        includeUpcoming = chk.checked;
-        const parts = [];
-        if(currentFilters.city) parts.push(`ort: ${currentFilters.city}`);
-        if(currentFilters.priceMin||currentFilters.priceMax) parts.push(`pris: ${currentFilters.priceMin?fmtMoney(currentFilters.priceMin):'–'}–${currentFilters.priceMax?fmtMoney(currentFilters.priceMax):'–'}`);
-        if(currentFilters.rooms) parts.push(`rum: ${currentFilters.rooms}+`);
-        if(includeUpcoming || projectsMode==='all') parts.push('även kommande');
-        addMessage('bot', parts.length? `Jag filtrerar projekten på ${parts.join(', ')}.` : 'Jag visar alla projekt.');
-        const old = document.querySelector('[data-level="projects"]');
-        if(old) old.replaceWith(renderProjectGrid());
-      });
-
-      reset.addEventListener('click', ()=>{
-        currentFilters = { city:'', priceMin:'', priceMax:'', rooms:'' };
-        includeUpcoming = (projectsMode==='all');
-        fCity.querySelector('input').value=''; min.value=''; max.value=''; rooms.value='';
-        chk.checked = includeUpcoming;
-        addMessage('bot','Filtret är rensat. Jag visar alla projekt.');
-        const old = document.querySelector('[data-level="projects"]');
-        if(old) old.replaceWith(renderProjectGrid());
-      });
-
-      chk.addEventListener('change', ()=>{
-        includeUpcoming = chk.checked;
-        const old = document.querySelector('[data-level="projects"]');
-        if(old) old.replaceWith(renderProjectGrid());
-      });
-
-      return box;
-    }
-
-    function projectMatches(p){
-      // faslogik
-      const showAll = (projectsMode==='all') || includeUpcoming;
-      if(!showAll && p.phase!=='pågående') return false;
-
-      // filter
-      if(currentFilters.city){
-        const q = currentFilters.city.toLowerCase();
-        if(!(p.city || '').toLowerCase().includes(q)) return false;
-      }
-      if(currentFilters.priceMin && p.priceAvg && p.priceAvg < currentFilters.priceMin) return false;
-      if(currentFilters.priceMax && p.priceAvg && p.priceAvg > currentFilters.priceMax) return false;
-      if(currentFilters.rooms){
-        const rmin = Number(currentFilters.rooms);
-        const ok = Array.isArray(p.rooms) ? p.rooms.some(r => r>=rmin) : true;
-        if(!ok) return false;
-      }
-      return true;
-    }
-
-    function renderProjectGrid(){
-      const grid = H.el('div',{ class:'grid', 'data-level':'projects' });
-      const list = PROJECTS.filter(projectMatches);
-
-      if(list.length===0){
-        const empty = H.el('div',{ class:'card card--light', role:'status' },
-          `<span class="card-title">${iconInfo()} Inga projekt matchar</span>
-           <span class="card-sub">Ändra filter eller skriv vad du söker, så hjälper jag dig.</span>`);
-        empty.style.cursor='default'; grid.appendChild(empty); return grid;
-      }
-
-      list.forEach(p=>{
-        const btn = H.el('button',{ class:'card card--gold', 'data-projekt':p.name, 'aria-label': `${p.city||''} – ${p.name}`});
-        btn.innerHTML = `
-          <span class="card-title">${iconHouse()} ${p.city ? `${p.city} – ` : ''}HSB brf ${p.name}</span>
-          <span class="card-sub">${capitalize(p.phase)}${p.priceAvg?` · Snittpris ca ${fmtMoney(p.priceAvg)}`:''}${Array.isArray(p.rooms)?` · ${Math.min(...p.rooms)}–${Math.max(...p.rooms)} rok`:''}</span>`;
-        btn.addEventListener('click',()=> startProjectIntro(p.name));
-        btn.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }});
-        grid.appendChild(btn);
-      });
-      return grid;
-    }
-
-    /* ---------- Projektintro ---------- */
-    async function startProjectIntro(projectName){
-      selectedProject = projectName;
-
-      projectSelect.innerHTML = '';
-      const bar = H.el('div',{ class:'bar' });
-      const back = H.el('button',{ class:'backbtn', 'aria-label':'Tillbaka till projekten' }, `${iconArrowLeft()} Tillbaka`);
-      back.addEventListener('click', renderProjects);
-      bar.appendChild(back);
-      projectSelect.appendChild(bar);
-
-      const grid = H.el('div',{ class:'grid' });
-      const chip = H.el('button',{ class:'card card--primary' },
-        `<span class="card-title">${iconHouse()} Chatten för HSB brf ${projectName}</span>
-         <span class="card-sub">Information och snabb väg till priser, dokument och intresseanmälan</span>`);
-      grid.appendChild(chip);
-      projectSelect.appendChild(grid);
-
-      // Rensa konversationen
-      history = []; try { localStorage.removeItem('hsb-chat-history'); } catch {}
-      messagesEl.innerHTML = '';
-
-      const thinking = addMessage('bot', null);
-      try{
-        const proj = PROJECTS.find(p => p.name===projectName) || {};
-        const esterLinks = proj.name==='Ester' && proj.urls
-          ? `\n\nSnabbvägar: Priser → ${proj.urls.prices}\nDokument → ${proj.urls.docs}`
-          : '';
-
-        const sys = "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. inga emojis.";
-        const prompt = [
-          { role:'system', content: sys },
-          { role:'system', content: `aktuellt_projekt: ${projectName}` },
-          { role:'system', content:`Skriv en kort introduktion om projektet "${projectName}" på 2–4 meningar (läge, lägenhetstyper/standard, hur man går vidare). Avsluta exakt med: "Vad undrar du om ${projectName}? Vad kan jag hjälpa dig med?"` }
-        ];
-        const data = await callApi({ messages: prompt });
-        const text = (data?.choices?.[0]?.message?.content || `Du har öppnat chatten för ${projectName}. Vad undrar du om ${projectName}? Vad kan jag hjälpa dig med?`).trim();
-
-        thinking.remove();
-        addMessage('bot', text + esterLinks);
-        history.push({ role:'assistant', content: text + esterLinks });
-      }catch(e){
-        thinking.remove();
-        addMessage('bot', `Du har öppnat chatten för ${projectName}. Vad undrar du om ${projectName}? Vad kan jag hjälpa dig med?`);
-      }
-    }
-
-    /* ---------- Steg 1 val ---------- */
-    function handleEntryClick(key){
+    async function handleEntry(key){
       switch(key){
         case 'buy':
-          projectsMode = 'ongoing';
-          includeUpcoming = false;
-          renderProjects();
+          addMessage('bot','Skriv gärna vad du söker så visar jag aktuella projekt i försäljning här i chatten.');
           break;
         case 'browse':
-          projectsMode = 'all';
-          includeUpcoming = true;
-          renderProjects();
+          addMessage('bot','Berätta gärna ort, antal rum eller prisnivå så visar jag förslag ur hela vårt utbud.');
           break;
         case 'member':
-          window.open(MEMBER_URL, '_blank', 'noopener');
-          addMessage('bot','Som medlem i HSB får du förtur till nyproduktion och kan bospara. Jag öppnade sidan för medlemskap i en ny flik.');
+          window.open(BOSPAR_URL, '_blank', 'noopener');
+          addMessage('bot','Jag öppnade sidan för bospar/medlemskap i en ny flik. Här i chatten kan du fortsätta ställa frågor.');
           break;
         case 'contact':
-          try { window.location.href = CONTACT_URL; }
-          catch { addMessage('bot', 'Här är vårt kontaktformulär: ' + CONTACT_URL); }
+          try { window.location.href = KONTAKT_URL; }
+          catch { addMessage('bot','Här är vårt kontaktformulär: ' + KONTAKT_URL); }
           break;
       }
     }
 
-    /* ---------- Skicka meddelande ---------- */
+    // Chatt – skicka
     async function sendMessage(){
       if(busy) return;
       const raw = (input.value || '').trim(); if(!raw) return;
 
       busy = true; sendBtn.disabled = true; messagesEl.setAttribute('aria-busy','true');
-      addMessage('user', raw); history.push({ role:'user', content: raw });
-      try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
-
-      if (window.hsbLogUser) { try { await window.hsbLogUser(cleanPII(raw)); } catch(e){} }
+      addMessage('user', raw);
+      history.push({ role:'user', content: raw });
 
       input.value = ''; updateCharCount(input); autoResize(input);
 
       const thinking = addMessage('bot', null);
       try{
         const sys = "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. inga emojis.";
-        const msgs = [{ role:'system', content: sys }];
-        if (selectedProject){
-          msgs.push({ role:'system', content:`aktuellt_projekt: ${selectedProject}\ninstruera: anpassa svar och hänvisningar.` });
-        }
-        for(const m of history){ if(m.role !== 'system') msgs.push(m); }
-
+        const msgs = [{ role:'system', content: sys }, ...history];
         const data = await callApi({ messages: msgs });
         const svar = (data?.choices?.[0]?.message?.content || 'Kunde inte generera svar.').trim();
-
-        thinking.remove(); addMessage('bot', svar);
+        thinking.remove();
+        addMessage('bot', svar);
         history.push({ role:'assistant', content: svar });
-        try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
       }catch(err){
         thinking.remove();
         showError(String(err).includes('http 429') ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.');
@@ -491,29 +253,14 @@
       if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
     }
 
-    /* ---------- Ikoner ---------- */
-    function iconSearch(){ return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>`;}
-    function iconKey(){ return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="12" r="3"></circle><line x1="10" y1="12" x2="21" y2="12"></line><line x1="18" y1="9" x2="21" y2="9"></line><line x1="18" y1="15" x2="21" y2="15"></line></svg>`;}
-    function iconHouse(){ return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3,12 12,3 21,12"></polyline><rect x="6" y="12" width="12" height="9"></rect></svg>`;}
-    function iconInfo(){ return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="8"></line><line x1="12" y1="12" x2="12" y2="16"></line></svg>`;}
-    function iconArrowLeft(){ return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15,5 8,12 15,19"></polyline></svg>`;}
-
-    /* ---------- Init ---------- */
-    function init(){
-      renderEntries();
-      if(sendBtn) sendBtn.addEventListener('click', sendMessage);
-      if(input){
-        input.addEventListener('keydown', handleKey);
-        input.addEventListener('input', () => { updateCharCount(input); autoResize(input); });
-        updateCharCount(input); autoResize(input);
-      }
+    // init
+    if(sendBtn) sendBtn.addEventListener('click', sendMessage);
+    if(input){
+      input.addEventListener('keydown', handleKey);
+      input.addEventListener('input', () => { updateCharCount(input); autoResize(input); });
+      updateCharCount(input); autoResize(input);
     }
-    init();
   })();
   </script>
-
-  <!-- LOGGNING TILL FIRESTORE -->
-  <script type="module" src="/assets/js/hsb-bostad-logger.js?v=3"></script>
-  <!-- om du får 404 på ovan rad, byt till ./assets/js/hsb-bostad-logger.js?v=3 -->
 </body>
 </html>
