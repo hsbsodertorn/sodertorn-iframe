@@ -153,6 +153,9 @@
     </div>
   </div>
 
+  <!-- 🔗 ny: logger-modul för chattlogg_bostad -->
+  <script type="module" src="/assets/js/hsb-bostad-logger.js"></script>
+
   <script>
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
@@ -243,6 +246,9 @@
       history.push({ role:'user', content: raw });
       persist();
 
+      /* 🟦 ny: logga användarens meddelande till chattlogg_bostad */
+      if (window.hsbLogUser) { try { await window.hsbLogUser(cleanPII(raw)); } catch(e) { /* tyst fel */ } }
+
       input.value = '';
       updateCharCount(input); autoResize(input);
 
@@ -256,6 +262,11 @@
         addMessage('bot', svar);
         history.push({ role:'assistant', content: svar });
         persist();
+
+        /* 🟦 ny: logga assistentens svar till chattlogg_bostad */
+        if (window.hsbLogAssistant) {
+          try { await window.hsbLogAssistant(cleanPII(svar), { model: "gpt-5 thinking" }); } catch(e) { /* tyst fel */ }
+        }
 
         if (window.saveChatLog){ try { await window.saveChatLog(conversationId, cleanPII(raw), cleanPII(svar)); } catch {} }
       }catch(err){
