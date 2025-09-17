@@ -10,8 +10,7 @@
       --hsb-blue-1:#003366;
       --hsb-blue-700:#00264d;
       --hsb-blue-5:#CBE8F1;
-      /* dynamisk vh sätts i JS (px per 1vh) */
-      --vh: 1vh;
+      --vh: 1vh;                 /* sätts i JS med visualViewport */
       --radius:16px;
       --user-bg:#f7f7f8;
       --bot-bg:#e8f0fe;
@@ -20,35 +19,28 @@
     }
 
     *, *::before, *::after { box-sizing:border-box; }
-
     html, body {
       height: 100%;
-      margin: 0;
-      padding: 0;
-      /* 🟦 Viktigt: låt sidan få scroll om det behövs (ingen overflow:hidden här) */
-      overflow: auto;
-      background: #fff;
+      margin: 0; padding: 0;
+      overflow: auto;            /* låt sidan få scroll om det behövs */
+      background:#fff; color:#0e1012;
       font-family:'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:#0e1012;
     }
 
-    /* Yttre wrap – fyller skärmen, även när mobil-tangentbordet dyker upp */
+    /* Wrapper fyller skärmen även med tangentbord öppet */
     #wrapper{
-      height: calc(var(--vh, 1vh) * 100);
-      /* Fallbacks för olika mobila webviews */
-      min-height: 100svh;
-      min-height: 100dvh;
+      height: calc(var(--vh) * 100);
+      min-height: 100dvh;        /* fallback */
       width:100%;
       display:flex;
       background:#fff;
       border:2px solid var(--hsb-blue-1);
       border-radius:var(--radius);
-      overflow: hidden; /* vi vill att bara #messages scrollar */
+      overflow:hidden;           /* endast #messages ska scrolla */
     }
+    #chatbox{ display:flex; flex-direction:column; width:100%; height:100%; }
 
-    #chatbox{ display:flex; flex-direction:column; width:100%; height:100%; background:#fff; }
-
-    /* Topplista */
+    /* Topbar */
     #topbar{
       display:flex; align-items:center; gap:12px;
       padding:14px 16px;
@@ -59,14 +51,29 @@
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
     .brand-sub{ display:none !important; }
 
-    /* Knapprad */
-    #entryBar{ padding:14px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
+    /* Knapprad (kollapsbar) */
+    #entryBar{
+      padding:14px 16px;
+      border-bottom:1px solid #eaeaea;
+      background:#fff;
+      flex-shrink:0;
+      overflow:hidden;
+      /* transition via max-height → smidig upp/nerfällning */
+      max-height: 1000px;        /* stort nog */
+      transition: max-height .28s ease, padding .28s ease, border-color .28s ease;
+    }
+    #entryBar.collapsed{
+      max-height:0;
+      padding-top:0; padding-bottom:0;
+      border-color:transparent;
+    }
+
     #entryGrid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; }
     .card{
       border-radius:16px; padding:18px; min-height:92px;
       display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
       text-align:left; cursor:pointer; border:1px solid rgba(0,0,0,.06);
-      transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease; color:#fff;
+      transition:transform .06s ease, box-shadow .2s, border-color .2s, background .2s; color:#fff;
       background:var(--hsb-blue-1);
     }
     .card:hover{ transform:translateY(-2px); box-shadow:0 10px 18px rgba(0,0,0,.18); border-color:rgba(0,0,0,.18); background:var(--hsb-blue-700); }
@@ -75,25 +82,33 @@
     .card-sub{ margin-top:6px; font-size:14px; line-height:1.35; opacity:.95; }
     .icon{ width:18px; height:18px; display:inline-block; flex:0 0 18px; stroke:currentColor; fill:none; stroke-width:2; }
 
-    /* Chattytan – den enda som scrollar */
+    /* Liten “Visa genvägar”-knapp när blocken är kollapsade */
+    #revealBar{
+      position:sticky; top:0; z-index:5;
+      display:none; justify-content:center;
+      padding:8px 0; background:linear-gradient(#ffffff, #ffffffcc);
+    }
+    #revealBtn{
+      border:1px solid #c2d3e5; background:#fff; color:var(--hsb-blue-1);
+      border-radius:999px; padding:8px 12px; font-size:13px; cursor:pointer;
+    }
+    #revealBtn:hover{ background:#f4f7fb; }
+
+    /* Chattytan – enda som scrollar */
     #messages{
       flex:1; min-height:0;
       padding:16px;
       overflow:auto;
-      background:#fff;
       display:flex; flex-direction:column; gap:12px;
-      /* Liten bottenmarginal så sista bubblan inte döljs av tangentbordet på iOS */
-      padding-bottom: max(16px, env(safe-area-inset-bottom));
+      background:#fff;
+      padding-bottom:max(16px, env(safe-area-inset-bottom));
     }
-
     .message{
       max-width:75%;
       padding:12px 16px;
       border-radius:20px;
-      white-space:pre-line;
-      word-break:break-word;
-      font-size:16px;
-      line-height:1.45;
+      white-space:pre-line; word-break:break-word;
+      font-size:16px; line-height:1.45;
       border:1px solid rgba(0,0,0,.06);
       display:inline-block;
     }
@@ -108,25 +123,18 @@
     .dot:nth-child(2){ animation-delay:.15s } .dot:nth-child(3){ animation-delay:.3s }
     @keyframes blink{ 0%,80%,100%{opacity:0} 40%{opacity:1} }
 
-    /* Input – sticky längst ner, sitter ovanför tangentbordet */
+    /* Input sticky längst ner */
     #inputArea{
       display:flex; align-items:center; gap:12px;
       padding:12px 16px;
-      border-top:1px solid #e0e0e0;
-      background:#fff;
-      position: sticky;
-      bottom: 0;
-      z-index:10;
-      padding-bottom: calc(12px + env(safe-area-inset-bottom));
-      box-shadow:0 -2px 4px rgba(0,0,0,.04);
-      flex-shrink:0;
+      border-top:1px solid #e0e0e0; background:#fff; position:sticky; bottom:0; z-index:10;
+      padding-bottom:calc(12px + env(safe-area-inset-bottom));
+      box-shadow:0 -2px 4px rgba(0,0,0,.04); flex-shrink:0;
     }
     textarea{
-      flex:1; min-height:48px; max-height:220px;
-      padding:14px 18px;
-      border-radius:24px; border:1px solid #ccc;
-      font-size:16px; resize:none; background:#fff;
-      -webkit-appearance: none;
+      flex:1; min-height:44px; max-height:220px;
+      padding:14px 18px; border-radius:24px; border:1px solid #ccc; font-size:16px; resize:none; background:#fff;
+      -webkit-appearance:none;
     }
     textarea:focus{ border-color:var(--hsb-blue-1); outline:none; box-shadow:0 0 0 3px rgba(0,51,102,.25); }
     #charCount{ font-size:13px; color:#6b7280; }
@@ -145,8 +153,7 @@
       .message{ max-width:96%; font-size:15px; border-radius:16px }
       .message.compact{ max-width:96%; }
       .brand-title{ font-size:20px } #topbar{ padding:12px 14px }
-      textarea{ min-height:44px; font-size:16px }
-      button{ padding:12px 16px; font-size:16px }
+      textarea{ min-height:44px; font-size:16px } button{ padding:12px 16px; font-size:16px }
     }
   </style>
 </head>
@@ -159,7 +166,10 @@
         <div class="brand-sub">kundsupport</div>
       </div>
 
-      <!-- Knappraden (alla blå) -->
+      <!-- Liten rad som visas när blocken är kollapsade -->
+      <div id="revealBar"><button id="revealBtn" type="button" aria-label="Visa genvägar">Visa genvägar</button></div>
+
+      <!-- Knappraden (kollapsbar) -->
       <div id="entryBar">
         <div id="entryGrid">
           <button class="card" data-entry="buy">
@@ -196,12 +206,12 @@
         </div>
       </div>
 
-      <!-- Välkomstruta -->
+      <!-- Chatt -->
       <div id="messages" aria-live="polite" role="log">
         <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Här kan du snabbt komma vidare. Välj en av knapparna ovan så visar jag information direkt här i chatten – utan att du behöver lämna sidan.</div>
       </div>
 
-      <!-- Chatt-input -->
+      <!-- Input -->
       <div id="inputArea">
         <textarea id="userInput" placeholder="Skriv din fråga här..." maxlength="1000" aria-label="chattinmatning"></textarea>
         <span id="charCount" aria-live="polite">0/1000</span>
@@ -216,7 +226,9 @@
     const BOSPAR_URL = 'https://www.hsb.se/bospara/';
     const KONTAKT_URL = 'https://www.hsb.se/sodertorn/kontakta-oss/';
 
-    const wrapper = document.getElementById('wrapper');
+    const entryBar = document.getElementById('entryBar');
+    const revealBar = document.getElementById('revealBar');
+    const revealBtn = document.getElementById('revealBtn');
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -225,7 +237,7 @@
     let history = [];
     let busy = false;
 
-    /* 🟦 Dynamisk viewport-höjd (löser iOS/Android tangentbord) */
+    /* Dynamisk viewport-höjd för mobil */
     function setVH(){
       const vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight) * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -237,7 +249,29 @@
       window.visualViewport.addEventListener('resize', setVH);
     }
 
-    /* Hjälpfunktioner */
+    /* Kollaps/expand av blockraden */
+    function collapseEntries(){
+      if (!entryBar.classList.contains('collapsed')){
+        entryBar.classList.add('collapsed');
+        revealBar.style.display = 'flex';
+        // se konversationen direkt
+        setTimeout(()=>{ messagesEl.scrollTop = messagesEl.scrollHeight; }, 30);
+      }
+    }
+    function expandEntries(){
+      entryBar.classList.remove('collapsed');
+      revealBar.style.display = 'none';
+    }
+    revealBtn.addEventListener('click', expandEntries);
+
+    // Kollapsa på fokus i input, på knapptryck och när man skickar
+    input.addEventListener('focus', () => { collapseEntries(); setTimeout(()=>input.scrollIntoView({block:'end'}), 50); });
+
+    document.querySelectorAll('[data-entry]').forEach(btn=>{
+      btn.addEventListener('click', () => { handleEntry(btn.getAttribute('data-entry')); collapseEntries(); });
+      btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }});
+    });
+
     function formatForDisplay(t){
       if(!t) return '';
       let s = ('' + t).trim();
@@ -266,10 +300,7 @@
       return div;
     }
     function showError(msg){ addMessage('error', msg); }
-    function autoResize(el){
-      el.style.height='auto';
-      el.style.height = Math.min(220, el.scrollHeight) + 'px';
-    }
+    function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
 
     async function callApi(body){
@@ -278,51 +309,45 @@
       return r.json();
     }
 
-    /* Kort-klick */
-    document.querySelectorAll('[data-entry]').forEach(btn=>{
-      btn.addEventListener('click', () => handleEntry(btn.getAttribute('data-entry')));
-      btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }});
-    });
-
     function handleEntry(key){
       switch(key){
         case 'buy':
           addMessage('bot','Skriv gärna vad du söker så visar jag aktuella projekt i försäljning här i chatten.','compact');
-          focusInputSoon();
+          input.focus({preventScroll:true});
           break;
         case 'browse':
           addMessage('bot','Berätta gärna ort, antal rum eller prisnivå så visar jag förslag ur hela vårt utbud.','compact');
-          focusInputSoon();
+          input.focus({preventScroll:true});
           break;
         case 'member': {
           const html = `
             <strong>Få förtur – börja bospara hos HSB</strong><br>
             Samla köpoäng och öka chansen till nyproduktion. Det tar ett par minuter att komma igång,
             och du kan när som helst pausa eller ändra belopp.
-            <a class="link" href="${BOSPAR_URL}" target="_blank" rel="noopener" style="margin-left:6px;">
+            <a class="link" href="${'https://www.hsb.se/bospara/'}" target="_blank" rel="noopener" style="margin-left:6px;">
               Läs mer & starta i ny flik
             </a>`;
           addBotHtml(html,'compact');
-          focusInputSoon();
+          input.focus({preventScroll:true});
           break;
         }
         case 'contact':
-          window.location.href = KONTAKT_URL;
+          window.location.href = 'https://www.hsb.se/sodertorn/kontakta-oss/';
           break;
       }
     }
 
-    /* Skicka meddelande */
     async function sendMessage(){
       if(busy) return;
       const raw = (input.value || '').trim(); if(!raw) return;
+
+      collapseEntries();                 // säkerställ att blocken är borta vid konversation
 
       busy = true; sendBtn.disabled = true; messagesEl.setAttribute('aria-busy','true');
       addMessage('user', raw);
       history.push({ role:'user', content: raw });
 
       input.value = ''; updateCharCount(input); autoResize(input);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
 
       const thinking = addMessage('bot', null);
       try{
@@ -338,7 +363,7 @@
         showError(String(err).includes('http 429') ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.');
       }finally{
         busy = false; sendBtn.disabled = false; messagesEl.setAttribute('aria-busy','false');
-        focusInputSoon();
+        setTimeout(()=>{ input.focus({preventScroll:true}); messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
       }
     }
 
@@ -347,23 +372,7 @@
       if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
     }
 
-    /* 🔹 Mobilhjälp: se till att input & sista bubblan syns vid fokus / tangentbord */
-    function focusInputSoon(){
-      setTimeout(() => {
-        input.focus({ preventScroll:true });
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-        // iOS: säkra att input syns
-        try { input.scrollIntoView({ block:'end', behavior:'smooth' }); } catch {}
-      }, 50);
-    }
-    input.addEventListener('focus', () => {
-      setTimeout(() => {
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-        try { input.scrollIntoView({ block:'end' }); } catch {}
-      }, 50);
-    });
-
-    /* Init */
+    /* init */
     if(sendBtn) sendBtn.addEventListener('click', sendMessage);
     if(input){
       input.addEventListener('keydown', handleKey);
