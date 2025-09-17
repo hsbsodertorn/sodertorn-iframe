@@ -10,7 +10,8 @@
     :root{
       --hsb-blue-1:#003366;   /* topplist/blå ram */
       --hsb-blue-700:#00264d;
-      --hsb-blue-5:#CBE8F1;   /* kortens bakgrund (ljusare blå) */
+      --project-card-bg:#996600;      /* önskad färg för korten */
+      --project-card-bg-hover:#7a5200;/* lite mörkare vid hover */
       --surface:#ffffff;
       --text:#0e1012;
       --muted:#6b7280;
@@ -39,41 +40,48 @@
 
     #chatbox{ display:flex; flex-direction:column; width:100%; height:100%; background:var(--surface); }
 
-    /* TOPPLIST – blå med vit text (tydligt satt här) */
+    /* TOPPLIST – blå med vit text */
     #topbar{
       display:flex; align-items:center; gap:12px; padding:14px 16px;
       background:var(--hsb-blue-1); color:#fff; border-bottom:1px solid rgba(255,255,255,.15);
       flex-shrink:0;
     }
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
-    .brand-sub{ display:none !important; } /* borttagen subtitle */
+    .brand-sub{ display:none !important; }
 
-    /* PROJEKTVÄLJARE – tre mindre rutor i ljusblått, endast namn */
+    /* PROJEKTVÄLJARE – tre mindre rutor */
     #projectSelect{ padding:12px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
     #projectSelect .grid{
       display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;
     }
     .project-card{
-      background:var(--hsb-blue-5);       /* ljusare blå */
+      background:var(--project-card-bg);
       border:1px solid rgba(0,0,0,.06);
       border-radius:12px;
-      padding:14px 12px;                  /* mindre padding */
-      min-height:88px;                    /* mindre höjd */
-      display:flex; align-items:center; justify-content:center;
+      padding:14px 12px;
+      min-height:100px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
       cursor:pointer; text-align:center;
-      transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+      transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+      color:#fff;
     }
     .project-card:hover{
       transform:translateY(-2px);
-      box-shadow:0 10px 22px rgba(0,0,0,.10);
-      border-color:rgba(0,51,102,.22);
+      box-shadow:0 10px 22px rgba(0,0,0,.18);
+      background:var(--project-card-bg-hover);
+      border-color:rgba(0,0,0,.18);
     }
     .project-card:focus{ outline:none; }
     .project-card:focus-visible{ box-shadow:0 0 0 3px var(--ring); }
 
-    /* Endast namnet – inga badges/knappar/texter */
+    /* Namn + undertext */
     .project-name{
-      font-weight:700; font-size:18px; letter-spacing:.2px; color:#0e1012;
+      font-weight:700; font-size:18px; letter-spacing:.2px; color:#fff;
+    }
+    .project-sub{
+      margin-top:4px;
+      font-size:14px; line-height:1.3;
+      color:rgba(255,255,255,.92);
     }
 
     /* CHATT */
@@ -118,7 +126,7 @@
       #messages{ padding:12px }
       .message{ max-width:92%; font-size:15px; border-radius:16px }
       .brand-title{ font-size:20px } #topbar{ padding:12px 14px }
-      .project-card{ min-height:72px; }
+      .project-card{ min-height:84px; }
       textarea{ min-height:48px; font-size:16px } button{ padding:12px 16px; font-size:16px }
     }
   </style>
@@ -132,25 +140,25 @@
         <div class="brand-sub">kundsupport</div>
       </div>
 
-      <!-- PROJEKTRUTOR: mindre, ljusblå, endast namn -->
+      <!-- PROJEKTRUTOR: #996600 med undertext -->
       <nav id="projectSelect" aria-label="Välj projekt">
         <div class="grid">
           <button class="project-card" data-projekt="Ester"
-                  data-trigger="Hej, vad vill du veta om Ester?"
-                  data-target="">
+                  data-trigger="Hej, vad vill du veta om Ester?">
             <span class="project-name">Ester</span>
+            <span class="project-sub">Chatta om projektet</span>
           </button>
 
           <button class="project-card" data-projekt="Diktafonen"
-                  data-trigger="Hej, vad vill du veta om Diktafonen?"
-                  data-target="">
+                  data-trigger="Hej, vad vill du veta om Diktafonen?">
             <span class="project-name">Diktafonen</span>
+            <span class="project-sub">Chatta om projektet</span>
           </button>
 
           <button class="project-card" data-projekt="Växeln"
-                  data-trigger="Hej, vad vill du veta om Växeln?"
-                  data-target="">
+                  data-trigger="Hej, vad vill du veta om Växeln?">
             <span class="project-name">Växeln</span>
+            <span class="project-sub">Chatta om projektet</span>
           </button>
         </div>
       </nav>
@@ -170,6 +178,7 @@
   <script>
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
+
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -214,13 +223,6 @@
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
 
-    function cleanPII(txt=''){ return txt
-      .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
-      .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
-      .replace(/\b\d{10}\b/g,'[telefonnummer]')
-      .replace(/\b\w+@[^\s]+\b/g,'[epost]')
-      .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]'); }
-
     async function callApi(body){ const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
       if(!r.ok) throw new Error(`http ${r.status}`); return r.json(); }
 
@@ -264,7 +266,7 @@
       if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
     }
 
-    // PROJEKTRUTOR: trigga fras (inga knappar/texter i rutan)
+    // PROJEKTRUTOR: trigga fras
     function triggerConversation(phrase, projectName){
       if (projectName) { selectedProject = projectName; persist(); }
       input.value = phrase || ''; if (input.value) sendMessage();
@@ -272,7 +274,7 @@
     document.querySelectorAll('.project-card').forEach(btn => {
       btn.addEventListener('click', () => {
         const phrase = btn.getAttribute('data-trigger') || '';
-        const proj = btn.getAttribute('data-projekt') || null;
+        const proj = btn.getAttribute('data-projekt') || btn.textContent.trim();
         triggerConversation(phrase, proj);
       });
       btn.addEventListener('keydown', (e) => {
