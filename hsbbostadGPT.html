@@ -8,10 +8,10 @@
 
   <style>
     :root{
-      --hsb-blue-1:#003366;   /* topplist/blå ram */
+      --hsb-blue-1:#003366;     /* topplist/blå ram */
       --hsb-blue-700:#00264d;
-      --project-card-bg:#996600;      /* önskad färg för korten */
-      --project-card-bg-hover:#7a5200;/* lite mörkare vid hover */
+      --project-card-bg:#996600;      /* kortfärg */
+      --project-card-bg-hover:#7a5200;/* hover */
       --surface:#ffffff;
       --text:#0e1012;
       --muted:#6b7280;
@@ -23,7 +23,7 @@
       --error-bg:#ffe6e6;
     }
 
-    *, *::before, *::after { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing:border-box; }
     html, body { margin:0; padding:0; height:100%; overflow:hidden; }
     body{
       font-family:'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -37,7 +37,6 @@
       border:2px solid var(--hsb-blue-1); border-radius:var(--radius);
       overflow:hidden;
     }
-
     #chatbox{ display:flex; flex-direction:column; width:100%; height:100%; background:var(--surface); }
 
     /* TOPPLIST – blå med vit text */
@@ -49,40 +48,35 @@
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
     .brand-sub{ display:none !important; }
 
-    /* PROJEKTVÄLJARE – tre mindre rutor */
-    #projectSelect{ padding:12px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
+    /* PROJEKTRUTOR – mindre, större mellanrum, lägre höjd */
+    #projectSelect{ padding:14px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
     #projectSelect .grid{
-      display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+      gap:24px; /* större mellanrum */
     }
     .project-card{
       background:var(--project-card-bg);
+      color:#fff;
       border:1px solid rgba(0,0,0,.06);
       border-radius:12px;
-      padding:14px 12px;
-      min-height:100px;
+      padding:10px 12px;        /* mindre padding */
+      min-height:72px;          /* lägre höjd */
       display:flex; flex-direction:column; align-items:center; justify-content:center;
-      cursor:pointer; text-align:center;
+      text-align:center; cursor:pointer;
       transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
-      color:#fff;
     }
     .project-card:hover{
       transform:translateY(-2px);
-      box-shadow:0 10px 22px rgba(0,0,0,.18);
+      box-shadow:0 10px 18px rgba(0,0,0,.16);
       background:var(--project-card-bg-hover);
       border-color:rgba(0,0,0,.18);
     }
     .project-card:focus{ outline:none; }
     .project-card:focus-visible{ box-shadow:0 0 0 3px var(--ring); }
 
-    /* Namn + undertext */
-    .project-name{
-      font-weight:700; font-size:18px; letter-spacing:.2px; color:#fff;
-    }
-    .project-sub{
-      margin-top:4px;
-      font-size:14px; line-height:1.3;
-      color:rgba(255,255,255,.92);
-    }
+    .project-name{ font-weight:700; font-size:16px; letter-spacing:.2px; }
+    .project-sub{ margin-top:2px; font-size:12px; line-height:1.2; opacity:.95; }
 
     /* CHATT */
     #messages{
@@ -120,13 +114,12 @@
     }
     button:hover{ background:var(--hsb-blue-700); } button:active{ transform:translateY(1px); }
 
-    @media (max-width: 900px){ #projectSelect .grid{ grid-template-columns:1fr; } }
     @media (max-width: 640px){
       body{ min-height:100dvh; }
       #messages{ padding:12px }
       .message{ max-width:92%; font-size:15px; border-radius:16px }
       .brand-title{ font-size:20px } #topbar{ padding:12px 14px }
-      .project-card{ min-height:84px; }
+      .project-card{ min-height:64px; }
       textarea{ min-height:48px; font-size:16px } button{ padding:12px 16px; font-size:16px }
     }
   </style>
@@ -134,13 +127,13 @@
 <body>
   <div id="wrapper">
     <div id="chatbox">
-      <!-- TOPPLIST: blå med vit rubrik -->
+      <!-- Topplista -->
       <div id="topbar" role="banner" aria-label="HSB Bostad">
         <div class="brand-title">HSB Bostad</div>
         <div class="brand-sub">kundsupport</div>
       </div>
 
-      <!-- PROJEKTRUTOR: #996600 med undertext -->
+      <!-- Projekt-rutor -->
       <nav id="projectSelect" aria-label="Välj projekt">
         <div class="grid">
           <button class="project-card" data-projekt="Ester"
@@ -179,6 +172,13 @@
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
 
+    /* 🧹 Rensa alltid tidigare konversation vid sidladdning */
+    try {
+      localStorage.removeItem('hsb-chat-history');
+      // Om du också vill rensa vald projekt-tag:
+      // localStorage.removeItem('hsb-selected-project');
+    } catch {}
+
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -187,21 +187,10 @@
     const conversationId = `${Date.now()}-${(crypto.randomUUID?.() || Math.random().toString(36).slice(2))}`;
     let history = []; let busy = false; let selectedProject = null;
 
-    function persist(){ try {
-      localStorage.setItem('hsb-chat-history', JSON.stringify(history));
-      if (selectedProject) localStorage.setItem('hsb-selected-project', selectedProject);
-    } catch {} }
-    function restore(){
-      try{
-        const raw = localStorage.getItem('hsb-chat-history');
-        if(raw){
-          const arr = JSON.parse(raw);
-          if(Array.isArray(arr)){ history = arr; for(const m of arr){ addMessage(m.role === 'assistant' ? 'bot' : m.role, m.content); } }
-        }
-        const savedProj = localStorage.getItem('hsb-selected-project');
-        if (savedProj) selectedProject = savedProj;
-      }catch{}
+    function persist(){ /* vi sparar bara under sessionen – inget restore på reload */ 
+      try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
     }
+    function restore(){ /* medvetet tom för att INTE återställa gammal konversation */ }
 
     function formatForDisplay(t){
       if(!t) return ''; let s = ('' + t).trim();
@@ -223,8 +212,17 @@
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
 
-    async function callApi(body){ const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
-      if(!r.ok) throw new Error(`http ${r.status}`); return r.json(); }
+    function cleanPII(txt=''){ return txt
+      .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
+      .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
+      .replace(/\b\d{10}\b/g,'[telefonnummer]')
+      .replace(/\b\w+@[^\s]+\b/g,'[epost]')
+      .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]'); }
+
+    async function callApi(body){
+      const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
+      if(!r.ok) throw new Error(`http ${r.status}`); return r.json();
+    }
 
     async function sendMessage(){
       if(busy) return; const raw = (input.value || '').trim(); if(!raw) return;
@@ -268,7 +266,7 @@
 
     // PROJEKTRUTOR: trigga fras
     function triggerConversation(phrase, projectName){
-      if (projectName) { selectedProject = projectName; persist(); }
+      if (projectName) { selectedProject = projectName; }
       input.value = phrase || ''; if (input.value) sendMessage();
     }
     document.querySelectorAll('.project-card').forEach(btn => {
@@ -288,7 +286,7 @@
       input.addEventListener('input', () => { updateCharCount(input); autoResize(input); });
       updateCharCount(input); autoResize(input);
     }
-    restore();
+    restore(); // medvetet no-op (historik rensas på load)
   })();
   </script>
 </body>
