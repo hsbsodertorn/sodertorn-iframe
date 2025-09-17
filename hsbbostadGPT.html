@@ -14,23 +14,21 @@
       --text:#0e1012;
       --muted:#6b7280;
       --ring:rgba(0,85,140,.35);
-      --radius:16px;         /* rundning enligt visuella mallen */
-      --user-bg:#f7f7f8;     /* user-bubbla som i mallen */
-      --bot-bg:#e8f0fe;      /* bot-bubbla som i mallen */
+      --radius:16px;
+      --user-bg:#f7f7f8;
+      --bot-bg:#e8f0fe;
       --error:#b91c1c;
       --error-bg:#ffe6e6;
     }
 
-    /* Fyll hela iframen och lås sid-scroll */
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin:0; padding:0; height:100%; overflow:hidden; }
     body{
       font-family:'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:#fff; color:var(--text);
-      min-height:100svh; /* stabil höjd i mobila webviews */
+      min-height:100svh;
     }
 
-    /* Yttre ram i HSB-blå, rundade hörn – visuellt från mallen */
     #wrapper{
       height:100%; width:100%;
       display:flex; padding:0;
@@ -40,26 +38,87 @@
       overflow:hidden;
     }
 
-    /* Chatbox fyller wrappern helt */
     #chatbox{
       display:flex; flex-direction:column;
       width:100%; height:100%;
       background:var(--surface);
     }
 
-    /* Topbar: behåll HSB Bostad, ta bort underraden */
+    /* Topbar */
     #topbar{
-      display:flex; align-items:center; gap:12px;
+      display:flex; align-items:center; justify-content:space-between;
       padding:12px 16px;
       border-bottom:1px solid #eaeaea;
       background:#fff; color:#000;
       flex-shrink:0;
     }
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; }
-    /* .brand-sub tas bort visuellt */
     .brand-sub{ display:none !important; }
+    .project-badge{
+      display:inline-flex; align-items:center; gap:8px;
+      background:#f1f7ff;
+      border:1px solid rgba(0,0,0,.06);
+      color:#0e1012;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px; font-weight:600;
+      visibility:hidden; /* visas när valt projekt finns */
+    }
+    .project-badge .dot{
+      width:8px; height:8px; border-radius:50%; background:var(--hsb-blue);
+    }
 
-    /* Meddelandeyta: enda stället som scrollar */
+    /* Projektväljare */
+    #projectSelect{
+      padding:14px 16px;
+      border-bottom:1px solid #eaeaea;
+      background:#fff;
+      flex-shrink:0;
+    }
+    #projectSelect .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    .project-card{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:12px;
+      box-shadow:0 6px 16px rgba(0,0,0,.06);
+      padding:16px;
+      text-align:left;
+      cursor:pointer;
+      transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+      display:flex; flex-direction:column; gap:8px;
+    }
+    .project-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 24px rgba(0,0,0,.10);
+      border-color:rgba(0,85,140,.25);
+    }
+    .project-card:focus{ outline:none; }
+    .project-card:focus-visible{ box-shadow:0 0 0 3px var(--ring); }
+    .badge{
+      display:inline-block;
+      background:#f1f7ff;
+      color:#0e1012;
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12px; font-weight:600; letter-spacing:.2px;
+      width:fit-content;
+    }
+    .project-card h3{ margin:0; font-size:18px; line-height:1.2; }
+    .project-card p{ margin:0; color:#5f7d8b; font-size:14px; line-height:1.45; }
+    .project-card .cta{
+      margin-top:6px; align-self:flex-start;
+      background:var(--hsb-blue); color:#fff; border:none;
+      border-radius:999px; padding:8px 12px; font-size:13px;
+      transition:background .2s ease, transform .02s ease;
+    }
+    .project-card .cta:hover{ background:var(--hsb-blue-700); }
+
+    /* Meddelanden */
     #messages{
       flex:1; min-height:0;
       padding:16px;
@@ -67,8 +126,6 @@
       background:#fff;
       display:flex; flex-direction:column; gap:12px;
     }
-
-    /* Bubbla-stil enligt mallen */
     .message{
       max-width:75%;
       padding:12px 16px;
@@ -88,7 +145,7 @@
     .dot:nth-child(3){ animation-delay:.3s }
     @keyframes blink{ 0%, 80%, 100%{ opacity:0 } 40%{ opacity:1 } }
 
-    /* Inputfält och knapp – HSB blå */
+    /* Input */
     #inputArea{
       display:flex; align-items:center; gap:12px;
       padding:12px 16px;
@@ -118,7 +175,9 @@
     button:hover{ background:var(--hsb-blue-700); }
     button:active{ transform:translateY(1px); }
 
-    /* Mobil */
+    @media (max-width: 900px){
+      #projectSelect .grid{ grid-template-columns:1fr; }
+    }
     @media (max-width: 640px){
       body{ min-height:100dvh; }
       #messages{ padding:12px }
@@ -136,10 +195,45 @@
       <div id="topbar" role="banner" aria-label="HSB Bostad">
         <div class="brand">
           <div class="brand-title">HSB Bostad</div>
-          <!-- underraden borttagen -->
           <div class="brand-sub">kundsupport</div>
         </div>
+        <div id="projectBadge" class="project-badge" aria-live="polite">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="projectBadgeText">Projekt: –</span>
+        </div>
       </div>
+
+      <!-- Projektväljare -->
+      <nav id="projectSelect" aria-label="Välj projekt">
+        <div class="grid">
+          <button class="project-card" data-projekt="Ester"
+                  data-trigger="Hej, vad vill du veta om Ester?"
+                  data-target="">
+            <span class="badge">Projekt</span>
+            <h3>Ester</h3>
+            <p>Starta chatt om brf Ester.</p>
+            <span class="cta" aria-hidden="true">Öppna chatt</span>
+          </button>
+
+          <button class="project-card" data-projekt="Diktafonen"
+                  data-trigger="Hej, vad vill du veta om Diktafonen?"
+                  data-target="">
+            <span class="badge">Projekt</span>
+            <h3>Diktafonen</h3>
+            <p>Starta chatt om brf Diktafonen.</p>
+            <span class="cta" aria-hidden="true">Öppna chatt</span>
+          </button>
+
+          <button class="project-card" data-projekt="Växeln"
+                  data-trigger="Hej, vad vill du veta om Växeln?"
+                  data-target="">
+            <span class="badge">Projekt</span>
+            <h3>Växeln</h3>
+            <p>Starta chatt om brf Växeln.</p>
+            <span class="cta" aria-hidden="true">Öppna chatt</span>
+          </button>
+        </div>
+      </nav>
 
       <div id="messages" aria-live="polite" role="log">
         <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Berätta gärna vilket projekt eller ort det gäller och om du är köpare, boende eller intressent – så hjälper jag dig snabbare.</div>
@@ -153,7 +247,6 @@
     </div>
   </div>
 
-  <!-- 🔗 ny: logger-modul för chattlogg_bostad -->
   <script type="module" src="/assets/js/hsb-bostad-logger.js"></script>
 
   <script>
@@ -165,22 +258,50 @@
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const charCount = document.getElementById('charCount');
+    const projectSelect = document.getElementById('projectSelect');
+    const badge = document.getElementById('projectBadge');
+    const badgeText = document.getElementById('projectBadgeText');
 
     const conversationId = `${Date.now()}-${(crypto.randomUUID?.() || Math.random().toString(36).slice(2))}`;
     let history = []; // in-memory
     let busy = false;
+    let selectedProject = null; // 🔵 aktuell projekt-tag
 
-    function persist(){ try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {} }
+    // ——— persistens ———
+    function persist(){
+      try {
+        localStorage.setItem('hsb-chat-history', JSON.stringify(history));
+        if (selectedProject) localStorage.setItem('hsb-selected-project', selectedProject);
+      } catch {}
+    }
     function restore(){
       try{
         const raw = localStorage.getItem('hsb-chat-history');
-        if(!raw) return;
-        const arr = JSON.parse(raw);
-        if(Array.isArray(arr)){
-          history = arr;
-          for(const m of arr){ addMessage(m.role === 'assistant' ? 'bot' : m.role, m.content); }
+        if(raw){
+          const arr = JSON.parse(raw);
+          if(Array.isArray(arr)){
+            history = arr;
+            for(const m of arr){
+              addMessage(m.role === 'assistant' ? 'bot' : m.role, m.content);
+            }
+          }
         }
+        const savedProj = localStorage.getItem('hsb-selected-project');
+        if (savedProj) setProject(savedProj, {hideSelector:false});
       }catch{}
+    }
+
+    // ——— UI helpers ———
+    function setProject(name, opts={hideSelector:true}){
+      selectedProject = name;
+      if (badge && badgeText){
+        badge.style.visibility = name ? 'visible' : 'hidden';
+        badgeText.textContent = name ? `Projekt: ${name}` : 'Projekt: –';
+      }
+      if (opts.hideSelector && projectSelect){
+        projectSelect.style.display = 'none';
+      }
+      persist();
     }
 
     // Versal i början av mening, men brf/brf:er i gemener
@@ -206,7 +327,6 @@
     }
 
     function showError(msg){ addMessage('error', msg); }
-
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
 
@@ -246,8 +366,7 @@
       history.push({ role:'user', content: raw });
       persist();
 
-      /* 🟦 ny: logga användarens meddelande till chattlogg_bostad */
-      if (window.hsbLogUser) { try { await window.hsbLogUser(cleanPII(raw)); } catch(e) { /* tyst fel */ } }
+      if (window.hsbLogUser) { try { await window.hsbLogUser(cleanPII(raw)); } catch(e) {} }
 
       input.value = '';
       updateCharCount(input); autoResize(input);
@@ -263,9 +382,8 @@
         history.push({ role:'assistant', content: svar });
         persist();
 
-        /* 🟦 ny: logga assistentens svar till chattlogg_bostad */
         if (window.hsbLogAssistant) {
-          try { await window.hsbLogAssistant(cleanPII(svar), { model: "gpt-5 thinking" }); } catch(e) { /* tyst fel */ }
+          try { await window.hsbLogAssistant(cleanPII(svar), { model: "gpt-5 thinking", project: selectedProject || null }); } catch(e) {}
         }
 
         if (window.saveChatLog){ try { await window.saveChatLog(conversationId, cleanPII(raw), cleanPII(svar)); } catch {} }
@@ -282,9 +400,22 @@
       }
     }
 
+    // 🔵 Viktigt: lägg till projekt-tag som extra systemmeddelande
     function buildSafeMessages(clientMessages){
-      const SYS_PROMPT = "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis.";
+      const SYS_PROMPT =
+        "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis.";
       const msgs = [{ role:'system', content: SYS_PROMPT }];
+
+      if (selectedProject){
+        // kort, maskinläsbar signal + lite styrning
+        msgs.push({
+          role:'system',
+          content:
+            `aktuellt_projekt: ${selectedProject}\n` +
+            `instruera: anpassa svar, exempel och hänvisningar till projektet "${selectedProject}". Om frågan gäller annat, fråga varsamt om det ska gälla ${selectedProject} eller något annat projekt.`
+        });
+      }
+
       for(const m of clientMessages){ if(m && m.role !== 'system'){ msgs.push(m); } }
       return msgs;
     }
@@ -294,17 +425,50 @@
       if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
     }
 
-    // ——— klimat-sammanfattning ———
+    // Projektknappar: trigga fras eller navigera
+    function triggerConversation(phrase, targetUrl, projectName){
+      if (projectName) setProject(projectName, {hideSelector:true});
+      if (targetUrl) {
+        window.location.href = targetUrl; // ny vy/sida om angiven
+        return;
+      }
+      input.value = phrase || '';
+      if (input.value) sendMessage();
+    }
+
+    // Init knappar
+    document.querySelectorAll('.project-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const phrase = btn.getAttribute('data-trigger') || '';
+        const target = btn.getAttribute('data-target') || '';
+        const proj = btn.getAttribute('data-projekt') || null;
+        triggerConversation(phrase, target, proj);
+      });
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+      });
+    });
+
+    // Stöd för ?projekt= i URL (t.ex. /hsbbostadgpt?projekt=Ester)
+    (function initFromQuery(){
+      try{
+        const usp = new URLSearchParams(location.search);
+        const qProj = usp.get('projekt');
+        if (qProj){
+          setProject(qProj, {hideSelector:false}); // visa fortfarande väljaren; ändra till true om du vill dölja
+        }
+      }catch{}
+    })();
+
+    // Klimat-sammanfattning
     window.runClimateSummary = async function(answers){
       try{
         if(!Array.isArray(answers) || !answers.length){
-          showError('Fyll i svar innan du kör klimatrådgivningen.');
-          return;
+          showError('Fyll i svar innan du kör klimatrådgivningen.'); return;
         }
         const thinking = addMessage('bot', null);
-        const r = await fetch(CLIMATE_ENDPOINT,{
-          method:'POST',
-          headers:{ 'Content-Type':'application/json' },
+        const r = await fetch('/.netlify/functions/klimatrad',{
+          method:'POST', headers:{ 'Content-Type':'application/json' },
           body: JSON.stringify({ answers })
         });
         const data = await r.json();
