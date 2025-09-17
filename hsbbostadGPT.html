@@ -186,6 +186,16 @@
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
 
+    // enkel PII-sanerare innan loggning
+    function cleanPII(txt=''){
+      return String(txt)
+        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
+        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
+        .replace(/\b\d{10}\b/g,'[telefonnummer]')
+        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
+        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]');
+    }
+
     async function callApi(body){
       const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
       if(!r.ok) throw new Error(`http ${r.status}`);
@@ -224,10 +234,20 @@
         thinking.remove();
         addMessage('bot', text);
         history.push({ role:'assistant', content: text });
+
+        /* LOGG: assistentens intro */
+        if (window.hsbLogAssistant) {
+          try { await window.hsbLogAssistant(cleanPII(text), { project: projectName, type: 'intro' }); } catch(e){ console.warn('log intro fail', e); }
+        }
       }catch(e){
         console.error(e);
         thinking.remove();
-        addMessage('bot', `Du har öppnat chatten för ${projectName}. Vad undrar du om ${projectName}? Vad kan jag hjälpa dig med?`);
+        const fallback = `Du har öppnat chatten för ${projectName}. Vad undrar du om ${projectName}? Vad kan jag hjälpa dig med?`;
+        addMessage('bot', fallback);
+        /* LOGG även fallback */
+        if (window.hsbLogAssistant) {
+          try { await window.hsbLogAssistant(cleanPII(fallback), { project: projectName, type: 'intro' }); } catch(e){}
+        }
       }
     }
 
@@ -243,6 +263,11 @@
       addMessage('user', raw);
       history.push({ role:'user', content: raw });
       try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
+
+      /* LOGG: användarens fråga */
+      if (window.hsbLogUser) {
+        try { await window.hsbLogUser(cleanPII(raw)); } catch(e){ console.warn('log user fail', e); }
+      }
 
       input.value = ''; updateCharCount(input); autoResize(input);
 
@@ -264,6 +289,11 @@
         addMessage('bot', svar);
         history.push({ role:'assistant', content: svar });
         try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
+
+        /* LOGG: assistentens svar */
+        if (window.hsbLogAssistant) {
+          try { await window.hsbLogAssistant(cleanPII(svar), { project: selectedProject || null }); } catch(e){ console.warn('log assistant fail', e); }
+        }
       }catch(err){
         console.error(err);
         thinking.remove();
@@ -296,5 +326,9 @@
     }
   })();
   </script>
+
+  <!-- LOGGNING TILL FIRESTORE -->
+  <script type="module" src="/assets/js/hsb-bostad-logger.js?v=3"></script>
+  <!-- om du får 404 på ovan rad, byt till ./assets/js/hsb-bostad-logger.js?v=3 -->
 </body>
 </html>
