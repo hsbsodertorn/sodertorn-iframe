@@ -8,12 +8,14 @@
 
   <style>
     :root{
-      --hsb-blue:#00558c;
-      --hsb-blue-700:#004070;
+      /* HSB färger */
+      --hsb-blue-1:#003366;   /* topplist */
+      --hsb-blue-700:#00264d;
+      --hsb-blue-5:#CBE8F1;   /* kortens bakgrund */
       --surface:#ffffff;
       --text:#0e1012;
       --muted:#6b7280;
-      --ring:rgba(0,85,140,.35);
+      --ring:rgba(0,51,102,.28);
       --radius:16px;
       --user-bg:#f7f7f8;
       --bot-bg:#e8f0fe;
@@ -21,119 +23,68 @@
       --error-bg:#ffe6e6;
     }
 
-    *, *::before, *::after { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing:border-box; }
     html, body { margin:0; padding:0; height:100%; overflow:hidden; }
     body{
       font-family:'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:#fff; color:var(--text);
-      min-height:100svh;
+      background:#fff; color:var(--text); min-height:100svh;
     }
 
+    /* Yttre ram */
     #wrapper{
-      height:100%; width:100%;
-      display:flex; padding:0;
-      background:#fff;
-      border:2px solid var(--hsb-blue);
-      border-radius:var(--radius);
-      overflow:hidden;
+      height:100%; width:100%; display:flex; padding:0;
+      background:#fff; border:2px solid var(--hsb-blue-1);
+      border-radius:var(--radius); overflow:hidden;
     }
 
-    #chatbox{
-      display:flex; flex-direction:column;
-      width:100%; height:100%;
-      background:var(--surface);
-    }
+    #chatbox{ display:flex; flex-direction:column; width:100%; height:100%; background:var(--surface); }
 
-    /* Topbar */
+    /* TOPPLIST – blå med vit text */
     #topbar{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:12px 16px;
-      border-bottom:1px solid #eaeaea;
-      background:#fff; color:#000;
-      flex-shrink:0;
+      display:flex; align-items:center; gap:12px; justify-content:flex-start;
+      padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.15);
+      background:var(--hsb-blue-1); color:#fff; flex-shrink:0;
     }
-    .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; }
+    .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
     .brand-sub{ display:none !important; }
-    .project-badge{
-      display:inline-flex; align-items:center; gap:8px;
-      background:#f1f7ff;
-      border:1px solid rgba(0,0,0,.06);
-      color:#0e1012;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px; font-weight:600;
-      visibility:hidden; /* visas när valt projekt finns */
-    }
-    .project-badge .dot{
-      width:8px; height:8px; border-radius:50%; background:var(--hsb-blue);
-    }
 
-    /* Projektväljare */
-    #projectSelect{
-      padding:14px 16px;
-      border-bottom:1px solid #eaeaea;
-      background:#fff;
-      flex-shrink:0;
-    }
+    /* PROJEKTVÄLJARE – tre mindre rutor i ljusblått */
+    #projectSelect{ padding:12px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
     #projectSelect .grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
     }
     .project-card{
-      background:#fff;
+      background:var(--hsb-blue-5);          /* ljusare blå än topplisten */
       border:1px solid rgba(0,0,0,.06);
       border-radius:12px;
-      box-shadow:0 6px 16px rgba(0,0,0,.06);
-      padding:16px;
-      text-align:left;
+      padding:14px 16px;                     /* mindre */
+      min-height:96px;                       /* mindre höjd */
+      display:flex; align-items:center; justify-content:center;
       cursor:pointer;
       transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease;
-      display:flex; flex-direction:column; gap:8px;
+      text-align:center;
     }
     .project-card:hover{
       transform:translateY(-2px);
       box-shadow:0 10px 24px rgba(0,0,0,.10);
-      border-color:rgba(0,85,140,.25);
+      border-color:rgba(0,51,102,.25);
     }
     .project-card:focus{ outline:none; }
     .project-card:focus-visible{ box-shadow:0 0 0 3px var(--ring); }
-    .badge{
-      display:inline-block;
-      background:#f1f7ff;
-      color:#0e1012;
-      border:1px solid rgba(0,0,0,.06);
-      border-radius:999px;
-      padding:6px 10px;
-      font-size:12px; font-weight:600; letter-spacing:.2px;
-      width:fit-content;
-    }
-    .project-card h3{ margin:0; font-size:18px; line-height:1.2; }
-    .project-card p{ margin:0; color:#5f7d8b; font-size:14px; line-height:1.45; }
-    .project-card .cta{
-      margin-top:6px; align-self:flex-start;
-      background:var(--hsb-blue); color:#fff; border:none;
-      border-radius:999px; padding:8px 12px; font-size:13px;
-      transition:background .2s ease, transform .02s ease;
-    }
-    .project-card .cta:hover{ background:var(--hsb-blue-700); }
 
-    /* Meddelanden */
+    /* Endast själva projektnamnet i rutan */
+    .project-name{
+      font-weight:700; font-size:18px; letter-spacing:.2px;
+    }
+
+    /* CHATT */
     #messages{
-      flex:1; min-height:0;
-      padding:16px;
-      overflow:auto;
-      background:#fff;
+      flex:1; min-height:0; padding:16px; overflow:auto; background:#fff;
       display:flex; flex-direction:column; gap:12px;
     }
     .message{
-      max-width:75%;
-      padding:12px 16px;
-      border-radius:20px;
-      white-space:pre-line; word-break:break-word;
-      font-size:16px; line-height:1.45;
-      border:1px solid rgba(0,0,0,.06);
-      display:inline-block;
+      max-width:75%; padding:12px 16px; border-radius:20px; white-space:pre-line; word-break:break-word;
+      font-size:16px; line-height:1.45; border:1px solid rgba(0,0,0,.06); display:inline-block;
     }
     .user{ align-self:flex-end; background:var(--user-bg); color:#000; border-radius:18px; }
     .bot, .bot-question{ align-self:flex-start; background:var(--bot-bg); color:#000; border-radius:18px; }
@@ -141,96 +92,67 @@
 
     .thinking{ display:inline-flex; align-items:center; gap:6px; padding:8px 12px; background:#f6f7f9; border-radius:14px; border:1px dashed rgba(0,0,0,.1); }
     .dot{ width:8px; height:8px; background-color:#888; border-radius:50%; animation:blink 1.2s infinite; }
-    .dot:nth-child(2){ animation-delay:.15s }
-    .dot:nth-child(3){ animation-delay:.3s }
-    @keyframes blink{ 0%, 80%, 100%{ opacity:0 } 40%{ opacity:1 } }
+    .dot:nth-child(2){ animation-delay:.15s } .dot:nth-child(3){ animation-delay:.3s }
+    @keyframes blink{ 0%,80%,100%{opacity:0} 40%{opacity:1} }
 
-    /* Input */
     #inputArea{
-      display:flex; align-items:center; gap:12px;
-      padding:12px 16px;
-      border-top:1px solid #e0e0e0;
-      background:#fff;
-      position:sticky; bottom:0; z-index:10;
-      padding-bottom:calc(12px + env(safe-area-inset-bottom));
-      box-shadow:0 -2px 4px rgba(0,0,0,.04);
-      flex-shrink:0;
+      display:flex; align-items:center; gap:12px; padding:12px 16px;
+      border-top:1px solid #e0e0e0; background:#fff; position:sticky; bottom:0; z-index:10;
+      padding-bottom:calc(12px + env(safe-area-inset-bottom)); box-shadow:0 -2px 4px rgba(0,0,0,.04); flex-shrink:0;
     }
     textarea{
-      flex:1; min-height:52px; max-height:220px;
-      padding:14px 18px;
-      border-radius:24px; border:1px solid #ccc;
-      font-size:16px; resize:none; background:#fff;
-      -webkit-tap-highlight-color:transparent;
+      flex:1; min-height:52px; max-height:220px; padding:14px 18px;
+      border-radius:24px; border:1px solid #ccc; font-size:16px; resize:none; background:#fff;
     }
-    textarea:focus{ border-color:var(--hsb-blue); outline:none; box-shadow:0 0 0 3px var(--ring); }
+    textarea:focus{ border-color:var(--hsb-blue-1); outline:none; box-shadow:0 0 0 3px rgba(0,51,102,.25); }
     #charCount{ font-size:13px; color:var(--muted); }
     button{
-      background:var(--hsb-blue); color:#fff;
-      border:none; border-radius:24px;
-      padding:14px 18px; font-size:16px;
-      cursor:pointer; transition:transform .02s ease, background .2s;
+      background:var(--hsb-blue-1); color:#fff; border:none; border-radius:24px;
+      padding:14px 18px; font-size:16px; cursor:pointer; transition:transform .02s, background .2s;
       display:flex; align-items:center; gap:8px; min-height:44px;
     }
-    button:hover{ background:var(--hsb-blue-700); }
-    button:active{ transform:translateY(1px); }
+    button:hover{ background:var(--hsb-blue-700); } button:active{ transform:translateY(1px); }
 
-    @media (max-width: 900px){
-      #projectSelect .grid{ grid-template-columns:1fr; }
-    }
+    @media (max-width: 900px){ #projectSelect .grid{ grid-template-columns:1fr; } }
     @media (max-width: 640px){
       body{ min-height:100dvh; }
       #messages{ padding:12px }
       .message{ max-width:92%; font-size:15px; border-radius:16px }
-      .brand-title{ font-size:20px }
-      #topbar{ padding:10px 14px }
-      textarea{ min-height:48px; font-size:16px }
-      button{ padding:12px 16px; font-size:16px }
+      .brand-title{ font-size:20px } #topbar{ padding:10px 14px }
+      textarea{ min-height:48px; font-size:16px } button{ padding:12px 16px; font-size:16px }
     }
   </style>
 </head>
 <body>
   <div id="wrapper">
     <div id="chatbox">
+      <!-- Topplisten i HSB-blå med vit text -->
       <div id="topbar" role="banner" aria-label="HSB Bostad">
         <div class="brand">
           <div class="brand-title">HSB Bostad</div>
           <div class="brand-sub">kundsupport</div>
         </div>
-        <div id="projectBadge" class="project-badge" aria-live="polite">
-          <span class="dot" aria-hidden="true"></span>
-          <span id="projectBadgeText">Projekt: –</span>
-        </div>
       </div>
 
-      <!-- Projektväljare -->
+      <!-- Projektväljare: mindre, ljusblå rutor med endast namn -->
       <nav id="projectSelect" aria-label="Välj projekt">
         <div class="grid">
           <button class="project-card" data-projekt="Ester"
                   data-trigger="Hej, vad vill du veta om Ester?"
                   data-target="">
-            <span class="badge">Projekt</span>
-            <h3>Ester</h3>
-            <p>Starta chatt om brf Ester.</p>
-            <span class="cta" aria-hidden="true">Öppna chatt</span>
+            <span class="project-name">Ester</span>
           </button>
 
           <button class="project-card" data-projekt="Diktafonen"
                   data-trigger="Hej, vad vill du veta om Diktafonen?"
                   data-target="">
-            <span class="badge">Projekt</span>
-            <h3>Diktafonen</h3>
-            <p>Starta chatt om brf Diktafonen.</p>
-            <span class="cta" aria-hidden="true">Öppna chatt</span>
+            <span class="project-name">Diktafonen</span>
           </button>
 
           <button class="project-card" data-projekt="Växeln"
                   data-trigger="Hej, vad vill du veta om Växeln?"
                   data-target="">
-            <span class="badge">Projekt</span>
-            <h3>Växeln</h3>
-            <p>Starta chatt om brf Växeln.</p>
-            <span class="cta" aria-hidden="true">Öppna chatt</span>
+            <span class="project-name">Växeln</span>
           </button>
         </div>
       </nav>
@@ -247,8 +169,6 @@
     </div>
   </div>
 
-  <script type="module" src="/assets/js/hsb-bostad-logger.js"></script>
-
   <script>
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
@@ -259,117 +179,64 @@
     const sendBtn = document.getElementById('sendBtn');
     const charCount = document.getElementById('charCount');
     const projectSelect = document.getElementById('projectSelect');
-    const badge = document.getElementById('projectBadge');
-    const badgeText = document.getElementById('projectBadgeText');
 
     const conversationId = `${Date.now()}-${(crypto.randomUUID?.() || Math.random().toString(36).slice(2))}`;
-    let history = []; // in-memory
-    let busy = false;
-    let selectedProject = null; // 🔵 aktuell projekt-tag
+    let history = []; let busy = false; let selectedProject = null;
 
-    // ——— persistens ———
-    function persist(){
-      try {
-        localStorage.setItem('hsb-chat-history', JSON.stringify(history));
-        if (selectedProject) localStorage.setItem('hsb-selected-project', selectedProject);
-      } catch {}
-    }
+    function persist(){ try {
+      localStorage.setItem('hsb-chat-history', JSON.stringify(history));
+      if (selectedProject) localStorage.setItem('hsb-selected-project', selectedProject);
+    } catch {} }
     function restore(){
       try{
         const raw = localStorage.getItem('hsb-chat-history');
         if(raw){
           const arr = JSON.parse(raw);
-          if(Array.isArray(arr)){
-            history = arr;
-            for(const m of arr){
-              addMessage(m.role === 'assistant' ? 'bot' : m.role, m.content);
-            }
-          }
+          if(Array.isArray(arr)){ history = arr; for(const m of arr){ addMessage(m.role === 'assistant' ? 'bot' : m.role, m.content); } }
         }
         const savedProj = localStorage.getItem('hsb-selected-project');
-        if (savedProj) setProject(savedProj, {hideSelector:false});
+        if (savedProj) selectedProject = savedProj;
       }catch{}
     }
 
-    // ——— UI helpers ———
-    function setProject(name, opts={hideSelector:true}){
-      selectedProject = name;
-      if (badge && badgeText){
-        badge.style.visibility = name ? 'visible' : 'hidden';
-        badgeText.textContent = name ? `Projekt: ${name}` : 'Projekt: –';
-      }
-      if (opts.hideSelector && projectSelect){
-        projectSelect.style.display = 'none';
-      }
-      persist();
-    }
-
-    // Versal i början av mening, men brf/brf:er i gemener
     function formatForDisplay(t){
-      if(!t) return '';
-      let s = ('' + t).trim();
+      if(!t) return ''; let s = ('' + t).trim();
       s = s.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, m => m.toUpperCase());
-      s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, m => m.toLowerCase());
-      return s;
+      s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, m => m.toLowerCase()); return s;
     }
-
     function addMessage(role, text){
       const div = document.createElement('div');
       div.className = role === 'error' ? 'error' : `message ${role}`;
-      if (text == null) {
-        div.innerHTML = `<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
-      } else {
-        div.textContent = formatForDisplay(text);
-      }
-      messagesEl.appendChild(div);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-      return div;
+      div.textContent = text == null ? '' : formatForDisplay(text);
+      if (text == null) div.innerHTML = `<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
+      messagesEl.appendChild(div); messagesEl.scrollTop = messagesEl.scrollHeight; return div;
     }
-
     function showError(msg){ addMessage('error', msg); }
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
-
-    function cleanPII(txt=''){
-      return txt
-        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
-        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
-        .replace(/\b\d{10}\b/g,'[telefonnummer]')
-        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
-        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]');
-    }
+    function cleanPII(txt=''){ return txt
+      .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
+      .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
+      .replace(/\b\d{10}\b/g,'[telefonnummer]')
+      .replace(/\b\w+@[^\s]+\b/g,'[epost]')
+      .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]'); }
 
     async function callApi(body, tries = 2, delay = 800){
       try{
         const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
-        if(!r.ok) throw new Error(`http ${r.status}`);
-        return await r.json();
+        if(!r.ok) throw new Error(`http ${r.status}`); return await r.json();
       }catch(e){
-        if(tries > 0){
-          await new Promise(res => setTimeout(res, delay));
-          return callApi(body, tries - 1, delay * 2);
-        }
+        if(tries > 0){ await new Promise(res => setTimeout(res, delay)); return callApi(body, tries - 1, delay * 2); }
         throw e;
       }
     }
 
     async function sendMessage(){
-      if(busy) return;
-      const raw = (input.value || '').trim();
-      if(!raw) return;
+      if(busy) return; const raw = (input.value || '').trim(); if(!raw) return;
+      busy = true; sendBtn && (sendBtn.disabled = true); messagesEl.setAttribute('aria-busy','true');
 
-      busy = true;
-      sendBtn && (sendBtn.disabled = true);
-      messagesEl.setAttribute('aria-busy','true');
-
-      addMessage('user', raw);
-      history.push({ role:'user', content: raw });
-      persist();
-
-      if (window.hsbLogUser) { try { await window.hsbLogUser(cleanPII(raw)); } catch(e) {} }
-
-      input.value = '';
-      updateCharCount(input); autoResize(input);
+      addMessage('user', raw); history.push({ role:'user', content: raw }); persist();
+      input.value = ''; updateCharCount(input); autoResize(input);
 
       const thinking = addMessage('bot', null);
       try{
@@ -377,45 +244,25 @@
         const svarRaw = (data?.choices?.[0]?.message?.content || 'Kunde inte generera svar.').trim();
         const svar = formatForDisplay(svarRaw);
 
-        thinking.remove();
-        addMessage('bot', svar);
-        history.push({ role:'assistant', content: svar });
-        persist();
-
-        if (window.hsbLogAssistant) {
-          try { await window.hsbLogAssistant(cleanPII(svar), { model: "gpt-5 thinking", project: selectedProject || null }); } catch(e) {}
-        }
-
-        if (window.saveChatLog){ try { await window.saveChatLog(conversationId, cleanPII(raw), cleanPII(svar)); } catch {} }
+        thinking.remove(); addMessage('bot', svar);
+        history.push({ role:'assistant', content: svar }); persist();
       }catch(err){
-        console.error(err);
-        thinking.remove();
-        const msg = String(err).includes('http 429') ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.';
-        showError(msg);
+        console.error(err); thinking.remove();
+        showError(String(err).includes('http 429') ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.');
       }finally{
-        busy = false;
-        sendBtn && (sendBtn.disabled = false);
-        messagesEl.setAttribute('aria-busy','false');
-        input.focus();
+        busy = false; sendBtn && (sendBtn.disabled = false);
+        messagesEl.setAttribute('aria-busy','false'); input.focus();
       }
     }
 
-    // 🔵 Viktigt: lägg till projekt-tag som extra systemmeddelande
     function buildSafeMessages(clientMessages){
       const SYS_PROMPT =
         "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis.";
       const msgs = [{ role:'system', content: SYS_PROMPT }];
-
       if (selectedProject){
-        // kort, maskinläsbar signal + lite styrning
-        msgs.push({
-          role:'system',
-          content:
-            `aktuellt_projekt: ${selectedProject}\n` +
-            `instruera: anpassa svar, exempel och hänvisningar till projektet "${selectedProject}". Om frågan gäller annat, fråga varsamt om det ska gälla ${selectedProject} eller något annat projekt.`
-        });
+        msgs.push({ role:'system',
+          content:`aktuellt_projekt: ${selectedProject}\ninstruera: anpassa svar, exempel och hänvisningar till projektet "${selectedProject}".` });
       }
-
       for(const m of clientMessages){ if(m && m.role !== 'system'){ msgs.push(m); } }
       return msgs;
     }
@@ -425,18 +272,12 @@
       if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
     }
 
-    // Projektknappar: trigga fras eller navigera
+    // Projektknappar: trigga fras eller navigera (inga knappar i rutan)
     function triggerConversation(phrase, targetUrl, projectName){
-      if (projectName) setProject(projectName, {hideSelector:true});
-      if (targetUrl) {
-        window.location.href = targetUrl; // ny vy/sida om angiven
-        return;
-      }
-      input.value = phrase || '';
-      if (input.value) sendMessage();
+      if (projectName) { selectedProject = projectName; persist(); }
+      if (targetUrl) { window.location.href = targetUrl; return; }
+      input.value = phrase || ''; if (input.value) sendMessage();
     }
-
-    // Init knappar
     document.querySelectorAll('.project-card').forEach(btn => {
       btn.addEventListener('click', () => {
         const phrase = btn.getAttribute('data-trigger') || '';
@@ -449,45 +290,12 @@
       });
     });
 
-    // Stöd för ?projekt= i URL (t.ex. /hsbbostadgpt?projekt=Ester)
-    (function initFromQuery(){
-      try{
-        const usp = new URLSearchParams(location.search);
-        const qProj = usp.get('projekt');
-        if (qProj){
-          setProject(qProj, {hideSelector:false}); // visa fortfarande väljaren; ändra till true om du vill dölja
-        }
-      }catch{}
-    })();
-
-    // Klimat-sammanfattning
-    window.runClimateSummary = async function(answers){
-      try{
-        if(!Array.isArray(answers) || !answers.length){
-          showError('Fyll i svar innan du kör klimatrådgivningen.'); return;
-        }
-        const thinking = addMessage('bot', null);
-        const r = await fetch('/.netlify/functions/klimatrad',{
-          method:'POST', headers:{ 'Content-Type':'application/json' },
-          body: JSON.stringify({ answers })
-        });
-        const data = await r.json();
-        thinking.remove();
-        const content = data && (data.result || data.summary || data.message);
-        addMessage('bot', content || 'Kunde inte generera klimatråd just nu.');
-      }catch(e){
-        showError('Något gick fel i klimatrådgivningen. Försök igen.');
-        console.error(e);
-      }
-    }
-
     if(sendBtn) sendBtn.addEventListener('click', sendMessage);
     if(input){
       input.addEventListener('keydown', handleKey);
       input.addEventListener('input', () => { updateCharCount(input); autoResize(input); });
       updateCharCount(input); autoResize(input);
     }
-
     restore();
   })();
   </script>
