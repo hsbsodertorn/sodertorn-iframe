@@ -5,14 +5,15 @@ import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.g
 import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app-check.js";
 
-// 🔑 fyll i ditt riktiga config — viktigt att projectId = ditt projekt (t.ex. "hsbsodertorn")
+// 🔑 firebase config för HSB Bostad GPT (ny app i projektet hsbsodertorn)
 const firebaseConfig = {
-  apiKey: "…",
-  authDomain: "…",
-  projectId: "hsbsodertorn",
-  storageBucket: "…",
-  messagingSenderId: "…",
-  appId: "…"
+  apiKey: "AIzaSyAmG3ZuxR8A6WNjPUwa3EDA79rLjwYqS_4",
+  authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
+  projectId: "hsbsodertorn-1e7a5",
+  storageBucket: "hsbsodertorn-1e7a5.firebasestorage.app",
+  messagingSenderId: "34372808211",
+  appId: "1:34372808211:web:13a93841d95fe14cce59e6",
+  measurementId: "G-3QJJK5PGQS"
 };
 
 // initiera appen
@@ -21,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 // 🛡️ initiera app check om du har “enforce” på i firebase console
 try {
   initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider("RECAPTCHA_V3_SITE_KEY"), // ersätt med din site key
+    provider: new ReCaptchaV3Provider("RECAPTCHA_V3_SITE_KEY"), // ersätt med din site key om du kör app check
     isTokenAutoRefreshEnabled: true
   });
   console.log("[hsb-bostad-logger] app check init");
