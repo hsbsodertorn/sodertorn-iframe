@@ -56,6 +56,7 @@
     /* Chatt */
     #messages{ flex:1; min-height:0; padding:16px; overflow:auto; background:#fff; display:flex; flex-direction:column; gap:12px; }
     .message{ max-width:75%; padding:12px 16px; border-radius:20px; white-space:pre-line; word-break:break-word; font-size:16px; line-height:1.45; border:1px solid rgba(0,0,0,.06); display:inline-block; }
+    .message.compact{ padding:10px 14px; font-size:15px; } /* kompakt stil för bospar-svar */
     .user{ align-self:flex-end; background:var(--user-bg); color:#000; border-radius:18px; }
     .bot{ align-self:flex-start; background:var(--bot-bg); color:#000; border-radius:18px; }
     .error{ align-self:center; background:var(--error-bg); color:var(--error); border:1px solid #fecaca; padding:10px 14px; border-radius:12px; }
@@ -67,7 +68,7 @@
     #inputArea{ display:flex; align-items:center; gap:12px; padding:12px 16px; border-top:1px solid #e0e0e0; background:#fff; position:sticky; bottom:0; z-index:10; padding-bottom:calc(12px + env(safe-area-inset-bottom)); box-shadow:0 -2px 4px rgba(0,0,0,.04); flex-shrink:0; }
     textarea{ flex:1; min-height:52px; max-height:220px; padding:14px 18px; border-radius:24px; border:1px solid #ccc; font-size:16px; resize:none; background:#fff; }
     textarea:focus{ border-color:var(--hsb-blue-1); outline:none; box-shadow:0 0 0 3px rgba(0,51,102,.25); }
-    #charCount{ font-size:13px; color:var(--muted); }
+    #charCount{ font-size:13px; color:#6b7280; }
     button{ background:var(--hsb-blue-1); color:#fff; border:none; border-radius:24px; padding:14px 18px; font-size:16px; cursor:pointer; transition:transform .02s, background .2s; display:flex; align-items:center; gap:8px; min-height:44px; }
     button:hover{ background:var(--hsb-blue-700); } button:active{ transform:translateY(1px); }
 
@@ -144,7 +145,7 @@
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
     const BOSPAR_URL = 'https://www.hsb.se/bospara/';
-    const KONTAKT_URL = '/kontakt.html'; // byt till er riktiga kontaktlänk
+    const KONTAKT_URL = 'https://www.hsb.se/sodertorn/kontakta-oss/'; // ✅ uppdaterad
 
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
@@ -161,9 +162,9 @@
       s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, m => m.toLowerCase());
       return s;
     }
-    function addMessage(role, text){
+    function addMessage(role, text, extraClass=''){
       const div = document.createElement('div');
-      div.className = role === 'error' ? 'error' : `message ${role}`;
+      div.className = role === 'error' ? 'error' : `message ${role}${extraClass?(' '+extraClass):''}`;
       if (text == null) {
         div.innerHTML = `<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
       } else {
@@ -173,16 +174,14 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
       return div;
     }
-    // HTML-variant för bot (behövs till bospar-texten)
-    function addBotHtml(html){
+    function addBotHtml(html, extraClass=''){
       const div = document.createElement('div');
-      div.className = 'message bot';
+      div.className = `message bot${extraClass?(' '+extraClass):''}`;
       div.innerHTML = html;
       messagesEl.appendChild(div);
       messagesEl.scrollTop = messagesEl.scrollHeight;
       return div;
     }
-
     function showError(msg){ addMessage('error', msg); }
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
@@ -202,26 +201,25 @@
     async function handleEntry(key){
       switch(key){
         case 'buy':
-          addMessage('bot','Skriv gärna vad du söker så visar jag aktuella projekt i försäljning här i chatten.');
+          addMessage('bot','Skriv gärna vad du söker så visar jag aktuella projekt i försäljning här i chatten.','compact');
           break;
         case 'browse':
-          addMessage('bot','Berätta gärna ort, antal rum eller prisnivå så visar jag förslag ur hela vårt utbud.');
+          addMessage('bot','Berätta gärna ort, antal rum eller prisnivå så visar jag förslag ur hela vårt utbud.','compact');
           break;
         case 'member': {
-          // Säljande text + klickbar länk som öppnas i ny flik
+          // ✅ kompakt säljtext + länk i ny flik (bubblan lika liten som andra)
           const html = `
-            <strong>Bli bosparare – få förtur till nyproduktion</strong><br><br>
-            Som bosparare hos HSB samlar du poäng som ger förtur till kommande bostadsprojekt. 
-            Du kan starta från en låg summa per månad och när du vill pausa eller ändra gör du det enkelt.<br><br>
-            <a href="${BOSPAR_URL}" target="_blank" rel="noopener" style="color:#003366; text-decoration:underline;">
+            <strong>Bli bosparare – få förtur</strong><br>
+            Starta med en låg månadssumma och ändra när du vill.
+            <a href="${BOSPAR_URL}" target="_blank" rel="noopener" style="color:#003366; text-decoration:underline; margin-left:6px;">
               Öppna bospara-sidan i ny flik
             </a>`;
-          addBotHtml(html);
+          addBotHtml(html,'compact');
           break;
         }
         case 'contact':
-          try { window.location.href = KONTAKT_URL; }
-          catch { addMessage('bot','Här är vårt kontaktformulär: ' + KONTAKT_URL); }
+          // ✅ tilldelad URL
+          window.location.href = KONTAKT_URL;
           break;
       }
     }
