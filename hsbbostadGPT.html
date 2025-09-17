@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HSB Bostad – kundsupport GPT</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-
   <style>
     :root{
-      --hsb-blue-1:#003366;     /* topplist/blå ram */
+      --hsb-blue-1:#003366;
       --hsb-blue-700:#00264d;
-      --project-card-bg:#996600;      /* kortfärg */
-      --project-card-bg-hover:#7a5200;/* hover */
+      --project-card-bg:#996600;
+      --project-card-bg-hover:#7a5200;
       --surface:#ffffff;
       --text:#0e1012;
       --muted:#6b7280;
@@ -30,16 +29,11 @@
       background:#fff; color:var(--text); min-height:100svh;
     }
 
-    /* Yttre ram */
-    #wrapper{
-      height:100%; width:100%;
-      display:flex; padding:0; background:#fff;
-      border:2px solid var(--hsb-blue-1); border-radius:var(--radius);
-      overflow:hidden;
-    }
+    #wrapper{ height:100%; width:100%; display:flex; padding:0; background:#fff;
+      border:2px solid var(--hsb-blue-1); border-radius:var(--radius); overflow:hidden; }
     #chatbox{ display:flex; flex-direction:column; width:100%; height:100%; background:var(--surface); }
 
-    /* TOPPLIST – blå med vit text */
+    /* Topplista */
     #topbar{
       display:flex; align-items:center; gap:12px; padding:14px 16px;
       background:var(--hsb-blue-1); color:#fff; border-bottom:1px solid rgba(255,255,255,.15);
@@ -48,47 +42,38 @@
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
     .brand-sub{ display:none !important; }
 
-    /* PROJEKTRUTOR – mindre, större mellanrum, lägre höjd */
+    /* Projekt-rutor */
     #projectSelect{ padding:14px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
     #projectSelect .grid{
       display:grid;
       grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-      gap:24px; /* större mellanrum */
+      gap:24px;
     }
     .project-card{
       background:var(--project-card-bg);
       color:#fff;
       border:1px solid rgba(0,0,0,.06);
       border-radius:12px;
-      padding:10px 12px;        /* mindre padding */
-      min-height:72px;          /* lägre höjd */
+      padding:10px 12px;
+      min-height:72px;
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       text-align:center; cursor:pointer;
       transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
     }
-    .project-card:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 18px rgba(0,0,0,.16);
-      background:var(--project-card-bg-hover);
-      border-color:rgba(0,0,0,.18);
-    }
-    .project-card:focus{ outline:none; }
-    .project-card:focus-visible{ box-shadow:0 0 0 3px var(--ring); }
-
+    .project-card:hover{ transform:translateY(-2px); box-shadow:0 10px 18px rgba(0,0,0,.16);
+      background:var(--project-card-bg-hover); border-color:rgba(0,0,0,.18); }
     .project-name{ font-weight:700; font-size:16px; letter-spacing:.2px; }
     .project-sub{ margin-top:2px; font-size:12px; line-height:1.2; opacity:.95; }
 
-    /* CHATT */
-    #messages{
-      flex:1; min-height:0; padding:16px; overflow:auto; background:#fff;
-      display:flex; flex-direction:column; gap:12px;
-    }
+    /* Chatt */
+    #messages{ flex:1; min-height:0; padding:16px; overflow:auto; background:#fff;
+      display:flex; flex-direction:column; gap:12px; }
     .message{
       max-width:75%; padding:12px 16px; border-radius:20px; white-space:pre-line; word-break:break-word;
       font-size:16px; line-height:1.45; border:1px solid rgba(0,0,0,.06); display:inline-block;
     }
     .user{ align-self:flex-end; background:var(--user-bg); color:#000; border-radius:18px; }
-    .bot, .bot-question{ align-self:flex-start; background:var(--bot-bg); color:#000; border-radius:18px; }
+    .bot{ align-self:flex-start; background:var(--bot-bg); color:#000; border-radius:18px; }
     .error{ align-self:center; background:var(--error-bg); color:var(--error); border:1px solid #fecaca; padding:10px 14px; border-radius:12px; }
 
     .thinking{ display:inline-flex; align-items:center; gap:6px; padding:8px 12px; background:#f6f7f9; border-radius:14px; border:1px dashed rgba(0,0,0,.1); }
@@ -114,6 +99,8 @@
     }
     button:hover{ background:var(--hsb-blue-700); } button:active{ transform:translateY(1px); }
 
+    .hidden{ display:none !important; }
+
     @media (max-width: 640px){
       body{ min-height:100dvh; }
       #messages{ padding:12px }
@@ -136,20 +123,15 @@
       <!-- Projekt-rutor -->
       <nav id="projectSelect" aria-label="Välj projekt">
         <div class="grid">
-          <button class="project-card" data-projekt="Ester"
-                  data-trigger="Hej, vad vill du veta om Ester?">
+          <button class="project-card" data-projekt="Ester">
             <span class="project-name">Ester</span>
             <span class="project-sub">Chatta om projektet</span>
           </button>
-
-          <button class="project-card" data-projekt="Diktafonen"
-                  data-trigger="Hej, vad vill du veta om Diktafonen?">
+          <button class="project-card" data-projekt="Diktafonen">
             <span class="project-name">Diktafonen</span>
             <span class="project-sub">Chatta om projektet</span>
           </button>
-
-          <button class="project-card" data-projekt="Växeln"
-                  data-trigger="Hej, vad vill du veta om Växeln?">
+          <button class="project-card" data-projekt="Växeln">
             <span class="project-name">Växeln</span>
             <span class="project-sub">Chatta om projektet</span>
           </button>
@@ -172,25 +154,15 @@
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
 
-    /* 🧹 Rensa alltid tidigare konversation vid sidladdning */
-    try {
-      localStorage.removeItem('hsb-chat-history');
-      // Om du också vill rensa vald projekt-tag:
-      // localStorage.removeItem('hsb-selected-project');
-    } catch {}
-
+    const projectSelect = document.getElementById('projectSelect');
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const charCount = document.getElementById('charCount');
 
-    const conversationId = `${Date.now()}-${(crypto.randomUUID?.() || Math.random().toString(36).slice(2))}`;
-    let history = []; let busy = false; let selectedProject = null;
-
-    function persist(){ /* vi sparar bara under sessionen – inget restore på reload */ 
-      try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
-    }
-    function restore(){ /* medvetet tom för att INTE återställa gammal konversation */ }
+    let history = [];
+    let busy = false;
+    let selectedProject = null;
 
     function formatForDisplay(t){
       if(!t) return ''; let s = ('' + t).trim();
@@ -206,57 +178,102 @@
       } else {
         div.textContent = formatForDisplay(text);
       }
-      messagesEl.appendChild(div); messagesEl.scrollTop = messagesEl.scrollHeight; return div;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return div;
     }
     function showError(msg){ addMessage('error', msg); }
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
 
-    function cleanPII(txt=''){ return txt
-      .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
-      .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
-      .replace(/\b\d{10}\b/g,'[telefonnummer]')
-      .replace(/\b\w+@[^\s]+\b/g,'[epost]')
-      .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]'); }
-
     async function callApi(body){
       const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
-      if(!r.ok) throw new Error(`http ${r.status}`); return r.json();
+      if(!r.ok) throw new Error(`http ${r.status}`);
+      return r.json();
+    }
+
+    // === NYTT: Projektstart utan användar-bubbla ===
+    async function startProjectIntro(projectName){
+      selectedProject = projectName;
+
+      // Dölj andra projektblock, behåll det valda
+      document.querySelectorAll('.project-card').forEach(btn => {
+        btn.classList.toggle('hidden', btn.getAttribute('data-projekt') !== projectName);
+      });
+
+      // Rensa konversationen
+      history = [];
+      try { localStorage.removeItem('hsb-chat-history'); } catch {}
+      messagesEl.innerHTML = '';
+
+      // Hämta en introduktion från modellen (som assistent-meddelande)
+      const thinking = addMessage('bot', null);
+      try{
+        const sys = "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis.";
+        const prompt = [
+          { role:'system', content: sys },
+          { role:'system', content: `aktuellt_projekt: ${projectName}` },
+          { role:'system', content:
+            `Skriv en kort introduktion om projektet "${projectName}" som om du vore kundsupport.
+             Använd 2–4 meningar och var konkret (läge, lägenhetstyper, hållbarhet/standard, var man får mer info).
+             AVSLUTA alltid med: "Vad undrar du om ${projectName}? Vad kan jag hjälpa dig med?"` }
+        ];
+
+        const data = await callApi({ messages: prompt });
+        const text = (data?.choices?.[0]?.message?.content || `Du har öppnat chatten för ${projectName}. Vad undrar du om ${projectName}? Vad kan jag hjälpa dig med?`).trim();
+        thinking.remove();
+        addMessage('bot', text);
+        history.push({ role:'assistant', content: text });
+      }catch(e){
+        console.error(e);
+        thinking.remove();
+        addMessage('bot', `Du har öppnat chatten för ${projectName}. Vad undrar du om ${projectName}? Vad kan jag hjälpa dig med?`);
+      }
     }
 
     async function sendMessage(){
-      if(busy) return; const raw = (input.value || '').trim(); if(!raw) return;
-      busy = true; sendBtn.disabled = true; messagesEl.setAttribute('aria-busy','true');
+      if(busy) return;
+      const raw = (input.value || '').trim();
+      if(!raw) return;
 
-      addMessage('user', raw); history.push({ role:'user', content: raw }); persist();
+      busy = true;
+      sendBtn.disabled = true;
+      messagesEl.setAttribute('aria-busy','true');
+
+      addMessage('user', raw);
+      history.push({ role:'user', content: raw });
+      try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
+
       input.value = ''; updateCharCount(input); autoResize(input);
 
       const thinking = addMessage('bot', null);
       try{
-        const data = await callApi({ messages: buildSafeMessages(history) });
-        const svarRaw = (data?.choices?.[0]?.message?.content || 'Kunde inte generera svar.').trim();
-        const svar = formatForDisplay(svarRaw);
+        const sys =
+          "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis.";
+        const msgs = [{ role:'system', content: sys }];
+        if (selectedProject){
+          msgs.push({ role:'system',
+            content:`aktuellt_projekt: ${selectedProject}\ninstruera: anpassa svar, exempel och hänvisningar till projektet "${selectedProject}".` });
+        }
+        for(const m of history){ if(m.role !== 'system') msgs.push(m); }
 
-        thinking.remove(); addMessage('bot', svar);
-        history.push({ role:'assistant', content: svar }); persist();
+        const data = await callApi({ messages: msgs });
+        const svar = (data?.choices?.[0]?.message?.content || 'Kunde inte generera svar.').trim();
+
+        thinking.remove();
+        addMessage('bot', svar);
+        history.push({ role:'assistant', content: svar });
+        try { localStorage.setItem('hsb-chat-history', JSON.stringify(history)); } catch {}
       }catch(err){
-        console.error(err); thinking.remove();
+        console.error(err);
+        thinking.remove();
         showError(String(err).includes('http 429') ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.');
       }finally{
-        busy = false; sendBtn.disabled = false; messagesEl.setAttribute('aria-busy','false'); input.focus();
+        busy = false;
+        sendBtn.disabled = false;
+        messagesEl.setAttribute('aria-busy','false');
+        input.focus();
       }
-    }
-
-    function buildSafeMessages(clientMessages){
-      const SYS_PROMPT =
-        "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. använd exempel från huddinge, botkyrka, tullinge, nynäshamn, visby och hemse där det passar. inga emojis.";
-      const msgs = [{ role:'system', content: SYS_PROMPT }];
-      if (selectedProject){
-        msgs.push({ role:'system',
-          content:`aktuellt_projekt: ${selectedProject}\ninstruera: anpassa svar, exempel och hänvisningar till projektet "${selectedProject}".` });
-      }
-      for(const m of clientMessages){ if(m && m.role !== 'system'){ msgs.push(m); } }
-      return msgs;
     }
 
     function handleKey(e){
@@ -264,29 +281,19 @@
       if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
     }
 
-    // PROJEKTRUTOR: trigga fras
-    function triggerConversation(phrase, projectName){
-      if (projectName) { selectedProject = projectName; }
-      input.value = phrase || ''; if (input.value) sendMessage();
-    }
+    // Knyt klick till projektblocken
     document.querySelectorAll('.project-card').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const phrase = btn.getAttribute('data-trigger') || '';
-        const proj = btn.getAttribute('data-projekt') || btn.textContent.trim();
-        triggerConversation(phrase, proj);
-      });
-      btn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
-      });
+      btn.addEventListener('click', () => startProjectIntro(btn.getAttribute('data-projekt')));
+      btn.addEventListener('keydown', (e) => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); btn.click(); }});
     });
 
+    // Input-beteende
     if(sendBtn) sendBtn.addEventListener('click', sendMessage);
     if(input){
       input.addEventListener('keydown', handleKey);
       input.addEventListener('input', () => { updateCharCount(input); autoResize(input); });
       updateCharCount(input); autoResize(input);
     }
-    restore(); // medvetet no-op (historik rensas på load)
   })();
   </script>
 </body>
