@@ -7,18 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     :root{
-      /* HSB-färger */
       --hsb-blue-1:#003366;
       --hsb-blue-700:#00264d;
       --hsb-blue-5:#CBE8F1;
-      --hsb-gold:#BE880B;
-      --hsb-gold-700:#996600;
 
-      /* Komponentfärger */
       --surface:#ffffff;
       --text:#0e1012;
       --muted:#6b7280;
-      --ring:rgba(0,51,102,.28);
       --radius:16px;
 
       --user-bg:#f7f7f8;
@@ -39,24 +34,20 @@
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
     .brand-sub{ display:none !important; }
 
-    /* Grid för korten */
+    /* Knapprad */
     #entryBar{ padding:14px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
     #entryGrid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; }
 
-    /* Kort */
+    /* Kort – alla i HSB blå */
     .card{
       border-radius:16px; padding:18px; min-height:92px;
       display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
       text-align:left; cursor:pointer; border:1px solid rgba(0,0,0,.06);
       transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease; color:#fff;
+      background:var(--hsb-blue-1);
     }
-    .card:hover{ transform:translateY(-2px); box-shadow:0 10px 18px rgba(0,0,0,.18); border-color:rgba(0,0,0,.18); }
+    .card:hover{ transform:translateY(-2px); box-shadow:0 10px 18px rgba(0,0,0,.18); border-color:rgba(0,0,0,.18); background:var(--hsb-blue-700); }
     .card:focus-visible{ outline:3px solid #fff; box-shadow:0 0 0 4px var(--hsb-blue-5); }
-
-    .card--primary{ background:var(--hsb-blue-1); }
-    .card--primary:hover{ background:var(--hsb-blue-700); }
-    .card--gold{ background:var(--hsb-gold); }
-    .card--gold:hover{ background:var(--hsb-gold-700); }
 
     .card-title{ font-weight:700; font-size:18px; letter-spacing:.2px; display:flex; align-items:center; gap:10px; }
     .card-sub{ margin-top:6px; font-size:14px; line-height:1.35; opacity:.95; }
@@ -98,10 +89,10 @@
         <div class="brand-sub">kundsupport</div>
       </div>
 
-      <!-- Knappraden -->
+      <!-- Knappraden (alla blå) -->
       <div id="entryBar">
         <div id="entryGrid">
-          <button class="card card--primary" data-entry="buy">
+          <button class="card" data-entry="buy">
             <span class="card-title">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
               Köpa bostad
@@ -109,7 +100,7 @@
             <span class="card-sub">Se aktuella projekt i försäljning</span>
           </button>
 
-          <button class="card card--gold" data-entry="browse">
+          <button class="card" data-entry="browse">
             <span class="card-title">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3,12 12,3 21,12"></polyline><rect x="6" y="12" width="12" height="9"></rect></svg>
               Här hittar du din bostad
@@ -117,15 +108,15 @@
             <span class="card-sub">Utforska hela utbudet</span>
           </button>
 
-          <button class="card card--primary" data-entry="member">
+          <button class="card" data-entry="member">
             <span class="card-title">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="12" r="3"></circle><line x1="10" y1="12" x2="21" y2="12"></line><line x1="18" y1="9" x2="21" y2="9"></line><line x1="18" y1="15" x2="21" y2="15"></line></svg>
               Börja bospara
             </span>
-            <span class="card-sub">Förtur till nya bostäder</span>
+            <span class="card-sub">Förtur till nyproduktion</span>
           </button>
 
-          <button class="card card--gold" data-entry="contact">
+          <button class="card" data-entry="contact">
             <span class="card-title">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="8"></line><line x1="12" y1="12" x2="12" y2="16"></line></svg>
               Kontakt
@@ -137,7 +128,7 @@
 
       <!-- Välkomstruta -->
       <div id="messages" aria-live="polite" role="log">
-        <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Här kan du snabbt komma vidare. Välj en av knapparna ovan så visar jag dig information direkt här i chatten – utan att du behöver lämna sidan.</div>
+        <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Här kan du snabbt komma vidare. Välj en av knapparna ovan så visar jag information direkt här i chatten – utan att du behöver lämna sidan.</div>
       </div>
 
       <!-- Chatt-input -->
@@ -182,6 +173,16 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
       return div;
     }
+    // HTML-variant för bot (behövs till bospar-texten)
+    function addBotHtml(html){
+      const div = document.createElement('div');
+      div.className = 'message bot';
+      div.innerHTML = html;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return div;
+    }
+
     function showError(msg){ addMessage('error', msg); }
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
@@ -194,10 +195,7 @@
 
     // Klick på korten
     document.querySelectorAll('[data-entry]').forEach(btn=>{
-      btn.addEventListener('click', () => {
-        const key = btn.getAttribute('data-entry');
-        handleEntry(key);
-      });
+      btn.addEventListener('click', () => handleEntry(btn.getAttribute('data-entry')));
       btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }});
     });
 
@@ -209,10 +207,18 @@
         case 'browse':
           addMessage('bot','Berätta gärna ort, antal rum eller prisnivå så visar jag förslag ur hela vårt utbud.');
           break;
-        case 'member':
-          window.open(BOSPAR_URL, '_blank', 'noopener');
-          addMessage('bot','Jag öppnade sidan för bospar/medlemskap i en ny flik. Här i chatten kan du fortsätta ställa frågor.');
+        case 'member': {
+          // Säljande text + klickbar länk som öppnas i ny flik
+          const html = `
+            <strong>Bli bosparare – få förtur till nyproduktion</strong><br><br>
+            Som bosparare hos HSB samlar du poäng som ger förtur till kommande bostadsprojekt. 
+            Du kan starta från en låg summa per månad och när du vill pausa eller ändra gör du det enkelt.<br><br>
+            <a href="${BOSPAR_URL}" target="_blank" rel="noopener" style="color:#003366; text-decoration:underline;">
+              Öppna bospara-sidan i ny flik
+            </a>`;
+          addBotHtml(html);
           break;
+        }
         case 'contact':
           try { window.location.href = KONTAKT_URL; }
           catch { addMessage('bot','Här är vårt kontaktformulär: ' + KONTAKT_URL); }
