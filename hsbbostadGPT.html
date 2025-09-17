@@ -8,10 +8,9 @@
 
   <style>
     :root{
-      /* HSB färger */
-      --hsb-blue-1:#003366;   /* topplist */
+      --hsb-blue-1:#003366;   /* topplist/blå ram */
       --hsb-blue-700:#00264d;
-      --hsb-blue-5:#CBE8F1;   /* kortens bakgrund */
+      --hsb-blue-5:#CBE8F1;   /* kortens bakgrund (ljusare blå) */
       --surface:#ffffff;
       --text:#0e1012;
       --muted:#6b7280;
@@ -23,7 +22,7 @@
       --error-bg:#ffe6e6;
     }
 
-    *, *::before, *::after { box-sizing:border-box; }
+    *, *::before, *::after { box-sizing: border-box; }
     html, body { margin:0; padding:0; height:100%; overflow:hidden; }
     body{
       font-family:'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -32,49 +31,49 @@
 
     /* Yttre ram */
     #wrapper{
-      height:100%; width:100%; display:flex; padding:0;
-      background:#fff; border:2px solid var(--hsb-blue-1);
-      border-radius:var(--radius); overflow:hidden;
+      height:100%; width:100%;
+      display:flex; padding:0; background:#fff;
+      border:2px solid var(--hsb-blue-1); border-radius:var(--radius);
+      overflow:hidden;
     }
 
     #chatbox{ display:flex; flex-direction:column; width:100%; height:100%; background:var(--surface); }
 
-    /* TOPPLIST – blå med vit text */
+    /* TOPPLIST – blå med vit text (tydligt satt här) */
     #topbar{
-      display:flex; align-items:center; gap:12px; justify-content:flex-start;
-      padding:12px 16px; border-bottom:1px solid rgba(255,255,255,.15);
-      background:var(--hsb-blue-1); color:#fff; flex-shrink:0;
+      display:flex; align-items:center; gap:12px; padding:14px 16px;
+      background:var(--hsb-blue-1); color:#fff; border-bottom:1px solid rgba(255,255,255,.15);
+      flex-shrink:0;
     }
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
-    .brand-sub{ display:none !important; }
+    .brand-sub{ display:none !important; } /* borttagen subtitle */
 
-    /* PROJEKTVÄLJARE – tre mindre rutor i ljusblått */
+    /* PROJEKTVÄLJARE – tre mindre rutor i ljusblått, endast namn */
     #projectSelect{ padding:12px 16px; border-bottom:1px solid #eaeaea; background:#fff; flex-shrink:0; }
     #projectSelect .grid{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+      display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;
     }
     .project-card{
-      background:var(--hsb-blue-5);          /* ljusare blå än topplisten */
+      background:var(--hsb-blue-5);       /* ljusare blå */
       border:1px solid rgba(0,0,0,.06);
       border-radius:12px;
-      padding:14px 16px;                     /* mindre */
-      min-height:96px;                       /* mindre höjd */
+      padding:14px 12px;                  /* mindre padding */
+      min-height:88px;                    /* mindre höjd */
       display:flex; align-items:center; justify-content:center;
-      cursor:pointer;
+      cursor:pointer; text-align:center;
       transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease;
-      text-align:center;
     }
     .project-card:hover{
       transform:translateY(-2px);
-      box-shadow:0 10px 24px rgba(0,0,0,.10);
-      border-color:rgba(0,51,102,.25);
+      box-shadow:0 10px 22px rgba(0,0,0,.10);
+      border-color:rgba(0,51,102,.22);
     }
     .project-card:focus{ outline:none; }
     .project-card:focus-visible{ box-shadow:0 0 0 3px var(--ring); }
 
-    /* Endast själva projektnamnet i rutan */
+    /* Endast namnet – inga badges/knappar/texter */
     .project-name{
-      font-weight:700; font-size:18px; letter-spacing:.2px;
+      font-weight:700; font-size:18px; letter-spacing:.2px; color:#0e1012;
     }
 
     /* CHATT */
@@ -118,7 +117,8 @@
       body{ min-height:100dvh; }
       #messages{ padding:12px }
       .message{ max-width:92%; font-size:15px; border-radius:16px }
-      .brand-title{ font-size:20px } #topbar{ padding:10px 14px }
+      .brand-title{ font-size:20px } #topbar{ padding:12px 14px }
+      .project-card{ min-height:72px; }
       textarea{ min-height:48px; font-size:16px } button{ padding:12px 16px; font-size:16px }
     }
   </style>
@@ -126,15 +126,13 @@
 <body>
   <div id="wrapper">
     <div id="chatbox">
-      <!-- Topplisten i HSB-blå med vit text -->
+      <!-- TOPPLIST: blå med vit rubrik -->
       <div id="topbar" role="banner" aria-label="HSB Bostad">
-        <div class="brand">
-          <div class="brand-title">HSB Bostad</div>
-          <div class="brand-sub">kundsupport</div>
-        </div>
+        <div class="brand-title">HSB Bostad</div>
+        <div class="brand-sub">kundsupport</div>
       </div>
 
-      <!-- Projektväljare: mindre, ljusblå rutor med endast namn -->
+      <!-- PROJEKTRUTOR: mindre, ljusblå, endast namn -->
       <nav id="projectSelect" aria-label="Välj projekt">
         <div class="grid">
           <button class="project-card" data-projekt="Ester"
@@ -172,13 +170,10 @@
   <script>
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
-    const CLIMATE_ENDPOINT = '/.netlify/functions/klimatrad';
-
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const charCount = document.getElementById('charCount');
-    const projectSelect = document.getElementById('projectSelect');
 
     const conversationId = `${Date.now()}-${(crypto.randomUUID?.() || Math.random().toString(36).slice(2))}`;
     let history = []; let busy = false; let selectedProject = null;
@@ -202,18 +197,23 @@
     function formatForDisplay(t){
       if(!t) return ''; let s = ('' + t).trim();
       s = s.replace(/(^\s*[a-zåäö])|([.!?]\s+[a-zåäö])/g, m => m.toUpperCase());
-      s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, m => m.toLowerCase()); return s;
+      s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, m => m.toLowerCase());
+      return s;
     }
     function addMessage(role, text){
       const div = document.createElement('div');
       div.className = role === 'error' ? 'error' : `message ${role}`;
-      div.textContent = text == null ? '' : formatForDisplay(text);
-      if (text == null) div.innerHTML = `<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
+      if (text == null) {
+        div.innerHTML = `<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
+      } else {
+        div.textContent = formatForDisplay(text);
+      }
       messagesEl.appendChild(div); messagesEl.scrollTop = messagesEl.scrollHeight; return div;
     }
     function showError(msg){ addMessage('error', msg); }
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
+
     function cleanPII(txt=''){ return txt
       .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
       .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
@@ -221,19 +221,12 @@
       .replace(/\b\w+@[^\s]+\b/g,'[epost]')
       .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]'); }
 
-    async function callApi(body, tries = 2, delay = 800){
-      try{
-        const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
-        if(!r.ok) throw new Error(`http ${r.status}`); return await r.json();
-      }catch(e){
-        if(tries > 0){ await new Promise(res => setTimeout(res, delay)); return callApi(body, tries - 1, delay * 2); }
-        throw e;
-      }
-    }
+    async function callApi(body){ const r = await fetch(ENDPOINT, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
+      if(!r.ok) throw new Error(`http ${r.status}`); return r.json(); }
 
     async function sendMessage(){
       if(busy) return; const raw = (input.value || '').trim(); if(!raw) return;
-      busy = true; sendBtn && (sendBtn.disabled = true); messagesEl.setAttribute('aria-busy','true');
+      busy = true; sendBtn.disabled = true; messagesEl.setAttribute('aria-busy','true');
 
       addMessage('user', raw); history.push({ role:'user', content: raw }); persist();
       input.value = ''; updateCharCount(input); autoResize(input);
@@ -250,8 +243,7 @@
         console.error(err); thinking.remove();
         showError(String(err).includes('http 429') ? 'Många frågor samtidigt – prova igen strax.' : 'Något gick fel, försök igen senare.');
       }finally{
-        busy = false; sendBtn && (sendBtn.disabled = false);
-        messagesEl.setAttribute('aria-busy','false'); input.focus();
+        busy = false; sendBtn.disabled = false; messagesEl.setAttribute('aria-busy','false'); input.focus();
       }
     }
 
@@ -272,18 +264,16 @@
       if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
     }
 
-    // Projektknappar: trigga fras eller navigera (inga knappar i rutan)
-    function triggerConversation(phrase, targetUrl, projectName){
+    // PROJEKTRUTOR: trigga fras (inga knappar/texter i rutan)
+    function triggerConversation(phrase, projectName){
       if (projectName) { selectedProject = projectName; persist(); }
-      if (targetUrl) { window.location.href = targetUrl; return; }
       input.value = phrase || ''; if (input.value) sendMessage();
     }
     document.querySelectorAll('.project-card').forEach(btn => {
       btn.addEventListener('click', () => {
         const phrase = btn.getAttribute('data-trigger') || '';
-        const target = btn.getAttribute('data-target') || '';
         const proj = btn.getAttribute('data-projekt') || null;
-        triggerConversation(phrase, target, proj);
+        triggerConversation(phrase, proj);
       });
       btn.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
