@@ -21,28 +21,62 @@
       --error:#b91c1c;
       --error-bg:#fee2e2;
     }
+
+    /* Viktigt: fyll hela iframen */
     *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin:0; padding:0; height:100%;
+    html, body { margin:0; padding:0; height:100%; }
+    /* Lås bort sid-scroll; endast #messages får scrolla */
+    html, body { overflow:hidden; }
+
+    body{
       font-family:'Saira','Open Sans',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background: linear-gradient(180deg, var(--hsb-blue-50), #fff 40%);
       color:var(--text);
+      /* Hjälp vissa mobila webviews att fylla höjd */
+      min-height:100svh;
     }
-    #wrapper { height: 100%; width: 100%; display: grid; place-items: center; padding: 16px; }
-    #chatbox {
-      display:flex; flex-direction:column; width:min(980px,100%);
-      height:min(80vh, 900px);
+
+    /* Behållare som fyller iframen helt */
+    #wrapper {
+      height:100%;
+      width:100%;
+      display:flex;
+      /* ta bort outer padding så chatten verkligen fyller iframen */
+      padding:0;
+    }
+
+    /* Chatbox fyller wrappern helt (ingen min/max-begränsning) */
+    #chatbox{
+      display:flex;
+      flex-direction:column;
+      width:100%;
+      height:100%; /* <— nyckeln */
       background:var(--surface);
       border:1px solid rgba(0,0,0,.06);
       border-radius:var(--radius);
       overflow:hidden;
       box-shadow:0 10px 30px rgba(0,0,0,.06);
     }
-    #topbar{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid rgba(255,255,255,.15);
-      background:linear-gradient(90deg, var(--hsb-blue), var(--hsb-blue-700)); color:#fff; }
+
+    #topbar{
+      display:flex; align-items:center; gap:12px;
+      padding:14px 18px;
+      border-bottom:1px solid rgba(255,255,255,.15);
+      background:linear-gradient(90deg, var(--hsb-blue), var(--hsb-blue-700));
+      color:#fff;
+      flex-shrink:0;
+    }
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:28px; }
     .brand-sub{ font-size:13px; opacity:.9; }
 
-    #messages{ flex:1; padding:16px; overflow-y:auto; background:#fff; display:flex; flex-direction:column; gap:10px; }
+    #messages{
+      flex:1;                /* <— tar all återstående höjd */
+      min-height:0;          /* <— viktigt för korrekt flex-scrolling */
+      padding:16px;
+      overflow:auto;         /* <— endast här ska scroll finnas */
+      background:#fff;
+      display:flex; flex-direction:column; gap:10px;
+    }
     .message{ max-width:72%; padding:12px 16px; border-radius:16px; white-space:pre-line; word-break:break-word; font-size:16px; line-height:1.45; border:1px solid rgba(0,0,0,.06) }
     .user{ align-self:flex-end; background:var(--user-bg); color:#0e1012; border:1px solid #aaccee; }
     .bot, .bot-question{ align-self:flex-start; background:var(--bot-bg); color:#0e1012; border:1px solid #cdddf5; }
@@ -54,17 +88,32 @@
     .dot:nth-child(3){ animation-delay:.3s }
     @keyframes blink{ 0%, 80%, 100%{ opacity:0 } 40%{ opacity:1 } }
 
-    #inputArea{ display:flex; align-items:center; gap:12px; padding:12px; border-top:1px solid rgba(0,0,0,.06); background:#fff; position:sticky; bottom:0; z-index:10; padding-bottom:calc(12px + env(safe-area-inset-bottom)); }
-    textarea{ flex:1; min-height:52px; max-height:220px; padding:14px 18px; border-radius:999px; border:1px solid #d1d5db; font-size:16px; resize:none; background:#fff; -webkit-tap-highlight-color:transparent; }
+    #inputArea{
+      display:flex; align-items:center; gap:12px;
+      padding:12px;
+      border-top:1px solid rgba(0,0,0,.06);
+      background:#fff;
+      position:sticky; bottom:0; z-index:10;
+      padding-bottom:calc(12px + env(safe-area-inset-bottom));
+      flex-shrink:0;
+    }
+    textarea{
+      flex:1; min-height:52px; max-height:220px; padding:14px 18px;
+      border-radius:999px; border:1px solid #d1d5db; font-size:16px; resize:none; background:#fff; -webkit-tap-highlight-color:transparent;
+    }
     textarea:focus{ border-color:var(--hsb-blue); outline:none; box-shadow:0 0 0 4px var(--ring); }
     #charCount{ font-size:13px; color:var(--muted); }
-    button{ background:var(--hsb-blue); color:white; border:none; border-radius:999px; padding:14px 18px; font-size:16px; cursor:pointer; transition:transform .02s ease, background .2s; display:flex; align-items:center; gap:8px; min-height:44px; }
+    button{
+      background:var(--hsb-blue); color:white; border:none; border-radius:999px;
+      padding:14px 18px; font-size:16px; cursor:pointer; transition:transform .02s ease, background .2s; display:flex; align-items:center; gap:8px; min-height:44px;
+    }
     button:hover{ background:var(--hsb-blue-700); }
     button:active{ transform:translateY(1px); }
 
+    /* Mobilanpassning: använd dynamiska viewport-enheter för fullhöjd */
     @media (max-width: 640px){
-      #wrapper{ padding:0 }
-      #chatbox{ height:100dvh; width:100%; border-radius:0; box-shadow:none; }
+      body{ min-height:100dvh; }
+      #chatbox{ border-radius:0; box-shadow:none; }
       #messages{ padding:12px }
       .message{ max-width:92%; font-size:15px; border-radius:14px }
       .brand-title{ font-size:22px }
@@ -102,7 +151,7 @@
   <script>
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
-    const CLIMATE_ENDPOINT = '/.netlify/functions/klimatrad'; // byt namn om din funktion heter något annat
+    const CLIMATE_ENDPOINT = '/.netlify/functions/klimatrad';
 
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
@@ -128,7 +177,6 @@
       } catch {}
     }
 
-    // Format: stor bokstav i början av varje mening, men håll brf/brf:er i gemener
     function formatForDisplay(t){
       if(!t) return '';
       let s = ('' + t).trim();
@@ -231,8 +279,7 @@
       if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){ e.preventDefault(); input.value += '\n'; autoResize(input); updateCharCount(input); }
     }
 
-    // ——— klimat-sammanfattning ———
-    // anropa: window.runClimateSummary(["Svar 1", "Svar 2", ...])
+    // Klimat-sammanfattning (oförändrat)
     window.runClimateSummary = async function(answers){
       try{
         if(!Array.isArray(answers) || !answers.length){
