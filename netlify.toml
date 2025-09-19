@@ -1,3 +1,9 @@
 [build]
-  publish = "/"  # För att publicera från root-mappen
-  functions = "netlify/functions"  # För att ange funktionen för Netlify
+  publish = "/"
+  functions = "netlify/functions"
+  command = "npm run build"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["firebase-admin"]
