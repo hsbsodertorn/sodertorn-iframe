@@ -23,25 +23,89 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Kö för att hantera loggning vid tillfälliga fel
+    // hjälpare: sha-256-hash av text (för systemprompt)
+    async function sha256(text){
+      const enc = new TextEncoder().encode(text);
+      const buf = await crypto.subtle.digest("SHA-256", enc);
+      return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+    }
+
+    // kö för att hantera loggning vid tillfälliga fel
     const logQueue = [];
-    window.saveChatLog = async (conversationId, fraga, svar) => {
+    window.saveChatLog = async (conversationId, fraga, svar, meta = {}) => {
+      // extrahera länkar ur HTML-svar
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svar, "text/html");
+      const aTags = Array.from(doc.querySelectorAll("a"));
+      const länkar = aTags.map(a => {
+        const href = a.getAttribute("href") || "";
+        const källä = href.includes("hsb.se") ? "intern" : "extern";
+        return {
+          url: href,
+          titel: (a.textContent || "").trim() || null,
+          källa: källä,
+          visad: true,
+          klickad: false,
+          värde: 1
+        };
+      });
+      const värde_score = länkar.reduce((s,l)=>s+(typeof l.värde==="number"?l.värde:1),0);
+
+      // systemprompt-info
+      const SYS_VERSION = "2025-09-19.1";
+      const systemprompt_text = window.__SYSTEM_PROMPT__ || "";
+      const systemprompt_hash = await sha256(systemprompt_text);
+      const systemprompt_utdrag = systemprompt_text.slice(0,120);
+
       const logEntry = {
         conversationId,
         fraga,
         svar,
-        tid: serverTimestamp()
+        tid: serverTimestamp(),
+
+        // nya fält
+        kategorier: meta.kategorier || [],
+        labels: meta.labels || [],
+        kunskapslucka: !!meta.kunskapslucka,
+        sammanfattning: meta.sammanfattning || null,
+        betyg: meta.betyg ?? null,
+        säkerhetsuppskattning: meta.säkerhetsuppskattning || "låg",
+
+        systemprompt: {
+          version: SYS_VERSION,
+          hash: systemprompt_hash,
+          utdrag: systemprompt_utdrag
+        },
+
+        länkar,
+        värde_score
       };
+
       logQueue.push(logEntry);
       while (logQueue.length > 0) {
         try {
-          await addDoc(collection(db, "chattlogg"), logQueue[0]);
+          // OBS: ny collection enligt överenskommelse
+          await addDoc(collection(db, "chattlogg_styrelsesupport"), logQueue[0]);
           logQueue.shift();
         } catch (err) {
           console.error("Fel vid loggning i Firebase:", err);
           showError("Kunde inte spara chatten. Försök igen.");
           break;
         }
+      }
+    };
+
+    // spåra länkklick – skickar event till Netlify-funktion (om den finns)
+    window.trackLinkClick = async (conversationId, url) => {
+      try {
+        await fetch("/.netlify/functions/styrelsesupport-event", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ conversationId, url })
+        });
+      } catch (e) {
+        // faila tyst om funktionen inte finns ännu
+        console.warn("Kunde inte logga länkklick:", e?.message || e);
       }
     };
   </script>
@@ -228,6 +292,8 @@ om användaren frågar om andra leverantörer eller byte, framhäv alltid förde
 ${disclaimerText}`;
 
     let systemPrompt = baseSystemPrompt;
+    // exponera systemprompten för loggning (hash)
+    window.__SYSTEM_PROMPT__ = systemPrompt;
 
     async function loadSkrivregler() {
       try {
@@ -246,6 +312,7 @@ använd följande skrivregler:
 - ${omraden}
 - ${fetstilRegel}
 - ${caseRegel}`;
+        window.__SYSTEM_PROMPT__ = systemPrompt; // uppdatera ref
       } catch (err) {
         console.error('Fel vid hämtning av skrivregler:', err);
         showError("Kunde inte ladda skrivregler. Standardformat används.");
@@ -325,6 +392,18 @@ använd följande skrivregler:
       return text.replace(/(^|\.\s+)([a-zåäö])/g, (match, p1, p2) => p1 + p2.toUpperCase());
     }
 
+    // enkel auto-sammanfattning (för logg)
+    function oneLineSummary(q, a){
+      const base = (a || q || "").replace(/\s+/g, " ").trim();
+      return base.length > 160 ? base.slice(0,157) + "…" : base;
+    }
+
+    // heuristik för kunskapslucka
+    function detectGap(text){
+      const t = (text||"").toLowerCase();
+      return /(vet inte|osäkert|kan du förtydliga|behöver mer info|oklart)/.test(t);
+    }
+
     async function sendMessage() {
       const input = document.getElementById('userInput');
       const message = input.value.trim();
@@ -380,6 +459,13 @@ använd följande skrivregler:
         document.getElementById('messages').appendChild(btn);
       }
 
+      // enkel kategorisering baserat på kontextträffar (filnamn -> kategori)
+      const kategorier = contextData.map(c => c.fil.replace('.json',''));
+      const labels = ["styrelsesupport"]; // fria etiketter – kan utökas
+      const sammanfattning = oneLineSummary(message, response);
+      const kunskapslucka = detectGap(response);
+
+      // datarensning inför loggning
       const clean = txt => txt
         .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
         .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
@@ -387,8 +473,16 @@ använd följande skrivregler:
         .replace(/\b\w+@[^\s]+\b/g,'[epost]')
         .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]')
         .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g,'[adress]');
+
       if (window.saveChatLog) {
-        window.saveChatLog(conversationId, clean(message), clean(response));
+        window.saveChatLog(conversationId, clean(message), clean(response), {
+          kategorier,
+          labels,
+          kunskapslucka,
+          sammanfattning,
+          säkerhetsuppskattning: "låg",
+          betyg: null
+        });
       }
     }
 
@@ -413,6 +507,14 @@ använd följande skrivregler:
       div.className = `message ${sender}`;
       messages.appendChild(div);
       if (sender === 'bot') {
+        // eventdelegation för länkklick-spårning
+        div.addEventListener('click', (e) => {
+          const a = e.target.closest('a');
+          if (a && a.href) {
+            window.trackLinkClick?.(conversationId, a.href);
+          }
+        });
+
         let i = 0;
         const chunkSize = 10;
         function type() {
