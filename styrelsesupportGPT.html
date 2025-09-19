@@ -30,13 +30,13 @@
       return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
     }
 
-    // kö för att hantera loggning vid tillfälliga fel
+    // kö (behålls) men nu postar vi till Netlify-funktion istället för Firestore direkt
     const logQueue = [];
     window.saveChatLog = async (conversationId, fraga, svar, meta = {}) => {
       // extrahera länkar ur HTML-svar
       const parser = new DOMParser();
-      const doc = parser.parseFromString(svar, "text/html");
-      const aTags = Array.from(doc.querySelectorAll("a"));
+      const docHtml = parser.parseFromString(svar, "text/html");
+      const aTags = Array.from(docHtml.querySelectorAll("a"));
       const länkar = aTags.map(a => {
         const href = a.getAttribute("href") || "";
         const källä = href.includes("hsb.se") ? "intern" : "extern";
@@ -49,7 +49,6 @@
           värde: 1
         };
       });
-      const värde_score = länkar.reduce((s,l)=>s+(typeof l.värde==="number"?l.värde:1),0);
 
       // systemprompt-info
       const SYS_VERSION = "2025-09-19.1";
@@ -57,13 +56,12 @@
       const systemprompt_hash = await sha256(systemprompt_text);
       const systemprompt_utdrag = systemprompt_text.slice(0,120);
 
-      const logEntry = {
+      // payload till servern
+      const payload = {
         conversationId,
         fraga,
         svar,
-        tid: serverTimestamp(),
 
-        // nya fält
         kategorier: meta.kategorier || [],
         labels: meta.labels || [],
         kunskapslucka: !!meta.kunskapslucka,
@@ -71,24 +69,27 @@
         betyg: meta.betyg ?? null,
         säkerhetsuppskattning: meta.säkerhetsuppskattning || "låg",
 
-        systemprompt: {
-          version: SYS_VERSION,
-          hash: systemprompt_hash,
-          utdrag: systemprompt_utdrag
-        },
+        systemprompt_version: SYS_VERSION,
+        systemprompt_text,
+        systemprompt_hash,      // servern räknar egen hash också om du vill
+        systemprompt_utdrag,
 
-        länkar,
-        värde_score
+        länkar
       };
 
-      logQueue.push(logEntry);
+      // lägg i kö och posta till Netlify-funktionen
+      logQueue.push(payload);
       while (logQueue.length > 0) {
         try {
-          // OBS: ny collection enligt överenskommelse
-          await addDoc(collection(db, "chattlogg_styrelsesupport"), logQueue[0]);
+          const res = await fetch("/.netlify/functions/styrelsesupport-logg", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(logQueue[0])
+          });
+          if (!res.ok) throw new Error(await res.text());
           logQueue.shift();
         } catch (err) {
-          console.error("Fel vid loggning i Firebase:", err);
+          console.error("Fel vid serverlogg:", err);
           showError("Kunde inte spara chatten. Försök igen.");
           break;
         }
