@@ -23,6 +23,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // Kö för att hantera loggning vid tillfälliga fel
     // hjälpare: sha-256-hash av text (för systemprompt)
     async function sha256(text){
       const enc = new TextEncoder().encode(text);
@@ -30,13 +31,14 @@
       return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
     }
 
-    // kö (behålls) men nu postar vi till Netlify-funktion istället för Firestore direkt
+    // kö för att hantera loggning vid tillfälliga fel
     const logQueue = [];
+    window.saveChatLog = async (conversationId, fraga, svar) => {
     window.saveChatLog = async (conversationId, fraga, svar, meta = {}) => {
       // extrahera länkar ur HTML-svar
       const parser = new DOMParser();
-      const docHtml = parser.parseFromString(svar, "text/html");
-      const aTags = Array.from(docHtml.querySelectorAll("a"));
+      const doc = parser.parseFromString(svar, "text/html");
+      const aTags = Array.from(doc.querySelectorAll("a"));
       const länkar = aTags.map(a => {
         const href = a.getAttribute("href") || "";
         const källä = href.includes("hsb.se") ? "intern" : "extern";
@@ -49,6 +51,7 @@
           värde: 1
         };
       });
+      const värde_score = länkar.reduce((s,l)=>s+(typeof l.värde==="number"?l.värde:1),0);
 
       // systemprompt-info
       const SYS_VERSION = "2025-09-19.1";
@@ -56,12 +59,14 @@
       const systemprompt_hash = await sha256(systemprompt_text);
       const systemprompt_utdrag = systemprompt_text.slice(0,120);
 
-      // payload till servern
-      const payload = {
+      const logEntry = {
         conversationId,
         fraga,
         svar,
+        tid: serverTimestamp()
+        tid: serverTimestamp(),
 
+        // nya fält
         kategorier: meta.kategorier || [],
         labels: meta.labels || [],
         kunskapslucka: !!meta.kunskapslucka,
@@ -69,27 +74,25 @@
         betyg: meta.betyg ?? null,
         säkerhetsuppskattning: meta.säkerhetsuppskattning || "låg",
 
-        systemprompt_version: SYS_VERSION,
-        systemprompt_text,
-        systemprompt_hash,      // servern räknar egen hash också om du vill
-        systemprompt_utdrag,
+        systemprompt: {
+          version: SYS_VERSION,
+          hash: systemprompt_hash,
+          utdrag: systemprompt_utdrag
+        },
 
-        länkar
+        länkar,
+        värde_score
       };
 
-      // lägg i kö och posta till Netlify-funktionen
-      logQueue.push(payload);
+      logQueue.push(logEntry);
       while (logQueue.length > 0) {
         try {
-          const res = await fetch("/.netlify/functions/styrelsesupport-logg", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(logQueue[0])
-          });
-          if (!res.ok) throw new Error(await res.text());
+          await addDoc(collection(db, "chattlogg"), logQueue[0]);
+          // OBS: ny collection enligt överenskommelse
+          await addDoc(collection(db, "chattlogg_styrelsesupport"), logQueue[0]);
           logQueue.shift();
         } catch (err) {
-          console.error("Fel vid serverlogg:", err);
+          console.error("Fel vid loggning i Firebase:", err);
           showError("Kunde inte spara chatten. Försök igen.");
           break;
         }
@@ -476,6 +479,7 @@ använd följande skrivregler:
         .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g,'[adress]');
 
       if (window.saveChatLog) {
+        window.saveChatLog(conversationId, clean(message), clean(response));
         window.saveChatLog(conversationId, clean(message), clean(response), {
           kategorier,
           labels,
