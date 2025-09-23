@@ -51,49 +51,6 @@
     .brand-title{ font-weight:700; letter-spacing:.2px; font-size:22px; color:#fff; }
     .brand-sub{ display:none !important; }
 
-    /* Knapprad (kollapsbar) */
-    #entryBar{
-      padding:14px 16px;
-      border-bottom:1px solid #eaeaea;
-      background:#fff;
-      flex-shrink:0;
-      overflow:hidden;
-      /* transition via max-height → smidig upp/nerfällning */
-      max-height: 1000px;        /* stort nog */
-      transition: max-height .28s ease, padding .28s ease, border-color .28s ease;
-    }
-    #entryBar.collapsed{
-      max-height:0;
-      padding-top:0; padding-bottom:0;
-      border-color:transparent;
-    }
-
-    #entryGrid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:18px; }
-    .card{
-      border-radius:16px; padding:18px; min-height:92px;
-      display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
-      text-align:left; cursor:pointer; border:1px solid rgba(0,0,0,.06);
-      transition:transform .06s ease, box-shadow .2s, border-color .2s, background .2s; color:#fff;
-      background:var(--hsb-blue-1);
-    }
-    .card:hover{ transform:translateY(-2px); box-shadow:0 10px 18px rgba(0,0,0,.18); border-color:rgba(0,0,0,.18); background:var(--hsb-blue-700); }
-    .card:focus-visible{ outline:3px solid #fff; box-shadow:0 0 0 4px var(--hsb-blue-5); }
-    .card-title{ font-weight:700; font-size:18px; letter-spacing:.2px; display:flex; align-items:center; gap:10px; }
-    .card-sub{ margin-top:6px; font-size:14px; line-height:1.35; opacity:.95; }
-    .icon{ width:18px; height:18px; display:inline-block; flex:0 0 18px; stroke:currentColor; fill:none; stroke-width:2; }
-
-    /* Liten “Visa genvägar”-knapp när blocken är kollapsade */
-    #revealBar{
-      position:sticky; top:0; z-index:5;
-      display:none; justify-content:center;
-      padding:8px 0; background:linear-gradient(#ffffff, #ffffffcc);
-    }
-    #revealBtn{
-      border:1px solid #c2d3e5; background:#fff; color:var(--hsb-blue-1);
-      border-radius:999px; padding:8px 12px; font-size:13px; cursor:pointer;
-    }
-    #revealBtn:hover{ background:#f4f7fb; }
-
     /* Chattytan – enda som scrollar */
     #messages{
       flex:1; min-height:0;
@@ -146,9 +103,7 @@
     button:hover{ background:var(--hsb-blue-700); } button:active{ transform:translateY(1px); }
 
     /* Responsivt */
-    @media (max-width: 980px){ #entryGrid{ grid-template-columns:repeat(2, 1fr); } }
     @media (max-width: 600px){
-      #entryGrid{ grid-template-columns:1fr; gap:14px; }
       #messages{ padding:12px }
       .message{ max-width:96%; font-size:15px; border-radius:16px }
       .message.compact{ max-width:96%; }
@@ -166,49 +121,9 @@
         <div class="brand-sub">kundsupport</div>
       </div>
 
-      <!-- Liten rad som visas när blocken är kollapsade -->
-      <div id="revealBar"><button id="revealBtn" type="button" aria-label="Visa genvägar">Visa genvägar</button></div>
-
-      <!-- Knappraden (kollapsbar) -->
-      <div id="entryBar">
-        <div id="entryGrid">
-          <button class="card" data-entry="buy">
-            <span class="card-title">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
-              Köpa bostad
-            </span>
-            <span class="card-sub">Se aktuella projekt i försäljning</span>
-          </button>
-
-          <button class="card" data-entry="browse">
-            <span class="card-title">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3,12 12,3 21,12"></polyline><rect x="6" y="12" width="12" height="9"></rect></svg>
-              Här hittar du din bostad
-            </span>
-            <span class="card-sub">Utforska hela utbudet</span>
-          </button>
-
-          <button class="card" data-entry="member">
-            <span class="card-title">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="12" r="3"></circle><line x1="10" y1="12" x2="21" y2="12"></line><line x1="18" y1="9" x2="21" y2="9"></line><line x1="18" y1="15" x2="21" y2="15"></line></svg>
-              Börja bospara
-            </span>
-            <span class="card-sub">Förtur till nyproduktion</span>
-          </button>
-
-          <button class="card" data-entry="contact">
-            <span class="card-title">
-              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="8"></line><line x1="12" y1="12" x2="12" y2="16"></line></svg>
-              Kontakt
-            </span>
-            <span class="card-sub">Skicka en fråga</span>
-          </button>
-        </div>
-      </div>
-
       <!-- Chatt -->
       <div id="messages" aria-live="polite" role="log">
-        <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Här kan du snabbt komma vidare. Välj en av knapparna ovan så visar jag information direkt här i chatten – utan att du behöver lämna sidan.</div>
+        <div class="message bot"><strong>Välkommen till HSB Bostad</strong><br><br>Ställ din fråga här i chatten – jag hjälper dig med projekt, utbud, bospar och kontaktvägar utan att du behöver lämna sidan.</div>
       </div>
 
       <!-- Input -->
@@ -223,12 +138,7 @@
   <script>
   (() => {
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
-    const BOSPAR_URL = 'https://www.hsb.se/bospara/';
-    const KONTAKT_URL = 'https://www.hsb.se/sodertorn/kontakta-oss/';
 
-    const entryBar = document.getElementById('entryBar');
-    const revealBar = document.getElementById('revealBar');
-    const revealBtn = document.getElementById('revealBtn');
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
@@ -249,29 +159,6 @@
       window.visualViewport.addEventListener('resize', setVH);
     }
 
-    /* Kollaps/expand av blockraden */
-    function collapseEntries(){
-      if (!entryBar.classList.contains('collapsed')){
-        entryBar.classList.add('collapsed');
-        revealBar.style.display = 'flex';
-        // se konversationen direkt
-        setTimeout(()=>{ messagesEl.scrollTop = messagesEl.scrollHeight; }, 30);
-      }
-    }
-    function expandEntries(){
-      entryBar.classList.remove('collapsed');
-      revealBar.style.display = 'none';
-    }
-    revealBtn.addEventListener('click', expandEntries);
-
-    // Kollapsa på fokus i input, på knapptryck och när man skickar
-    input.addEventListener('focus', () => { collapseEntries(); setTimeout(()=>input.scrollIntoView({block:'end'}), 50); });
-
-    document.querySelectorAll('[data-entry]').forEach(btn=>{
-      btn.addEventListener('click', () => { handleEntry(btn.getAttribute('data-entry')); collapseEntries(); });
-      btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }});
-    });
-
     function formatForDisplay(t){
       if(!t) return '';
       let s = ('' + t).trim();
@@ -291,14 +178,6 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
       return div;
     }
-    function addBotHtml(html, extraClass=''){
-      const div = document.createElement('div');
-      div.className = `message bot${extraClass?(' '+extraClass):''}`;
-      div.innerHTML = html;
-      messagesEl.appendChild(div);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-      return div;
-    }
     function showError(msg){ addMessage('error', msg); }
     function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
     function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
@@ -309,39 +188,9 @@
       return r.json();
     }
 
-    function handleEntry(key){
-      switch(key){
-        case 'buy':
-          addMessage('bot','Skriv gärna vad du söker så visar jag aktuella projekt i försäljning här i chatten.','compact');
-          input.focus({preventScroll:true});
-          break;
-        case 'browse':
-          addMessage('bot','Berätta gärna ort, antal rum eller prisnivå så visar jag förslag ur hela vårt utbud.','compact');
-          input.focus({preventScroll:true});
-          break;
-        case 'member': {
-          const html = `
-            <strong>Få förtur – börja bospara hos HSB</strong><br>
-            Samla köpoäng och öka chansen till nyproduktion. Det tar ett par minuter att komma igång,
-            och du kan när som helst pausa eller ändra belopp.
-            <a class="link" href="${'https://www.hsb.se/bospara/'}" target="_blank" rel="noopener" style="margin-left:6px;">
-              Läs mer & starta i ny flik
-            </a>`;
-          addBotHtml(html,'compact');
-          input.focus({preventScroll:true});
-          break;
-        }
-        case 'contact':
-          window.location.href = 'https://www.hsb.se/sodertorn/kontakta-oss/';
-          break;
-      }
-    }
-
     async function sendMessage(){
       if(busy) return;
       const raw = (input.value || '').trim(); if(!raw) return;
-
-      collapseEntries();                 // säkerställ att blocken är borta vid konversation
 
       busy = true; sendBtn.disabled = true; messagesEl.setAttribute('aria-busy','true');
       addMessage('user', raw);
