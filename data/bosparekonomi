@@ -3,13 +3,22 @@
     "domain": "hsb.se",
     "scope": ["bospar", "medlemskap", "ekonomi", "förtur", "avgifter", "konton", "juridik-light"],
     "owner": "HSB Södertörn",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "last_updated": "2025-10-09",
     "gdpr": {
       "pii_in_chat": false,
       "collection_policy": "Be aldrig om personnummer i chatten; hänvisa till säkra formulär.",
       "escalation_tool": "Eskalera och skicka fråga vidare till kundservice"
     }
+  },
+
+  "knowledge_sources": {
+    "files": [
+      { "type": "file", "value": "bosparekonomi.txt", "priority": 1 }
+    ],
+    "urls": [
+      { "type": "url", "value": "https://www.hsb.se/bospara/", "priority": 2 }
+    ]
   },
 
   "routing": {
@@ -21,7 +30,8 @@
         "handlers": ["bospar_handlaggare"],
         "synonyms": ["sparande", "hsb bospar", "danske bank", "bosparkonto", "isk", "depå", "fasträntekonto"],
         "primary_sources": [
-          {"type": "url", "value": "https://www.hsb.se/bospara"}
+          {"type": "file", "value": "bosparekonomi.txt"},
+          {"type": "url", "value": "https://www.hsb.se/bospara/"}
         ]
       },
       {
@@ -31,7 +41,7 @@
         "handlers": ["medlemskap_handlaggare"],
         "synonyms": ["bli medlem", "årsavgift", "andel", "medlemsförmåner"],
         "primary_sources": [
-          {"type": "url", "value": "https://www.hsb.se/medlemskap"}
+          {"type": "url", "value": "https://www.hsb.se/medlemskap/"}
         ]
       },
       {
@@ -86,7 +96,7 @@
       },
       "decrease_on_withdrawal": "1_p_per_påbörjad_100lapp",
       "priority_rules": {
-        "double_priorities": "Om en förtur nyttjas nollställs poängen för just den förturen. Poäng för andra förturer kvarstår om poänggrundande belopp står kvar."
+        "double_priorities": "Om en förtur nyttjas nollställs poängen för just den förturen; andra förturer kvarstår om poänggrundande belopp står kvar."
       }
     },
     "onboarding": [
@@ -116,7 +126,7 @@
       "limit_sek": 1050000
     },
     "channels": {
-      "open_account": "https://www.hsb.se/bospara",
+      "open_account": "https://www.hsb.se/bospara/",
       "mobilebank_note": "Från 2025-08-19 öppnas HSB ISK via Mobilbanken (ej Hembanken)."
     }
   },
@@ -137,7 +147,7 @@
 
   "answer_templates": {
     "bospar_start": "HSB Bospar hanteras via Danske Bank. Vill du öppna konto eller veta hur bospar fungerar?",
-    "bospar_link_short": "Du kan öppna HSB Bosparkonto här: https://www.hsb.se/bospara",
+    "bospar_link_short": "Du kan öppna HSB Bosparkonto här: https://www.hsb.se/bospara/",
     "bospar_how_it_works": "Kort om bospar: 1 p/100 kr, max 5 p/mån och 60 p/år. Poäng från Bosparkonto, Fasträntekonto, ISK och Depå. Uttag minskar poäng. Förtur gäller hyresrätter och nyproducerade bostadsrätter.",
     "membership_region_needed": "Medlemsavgift kan variera. Vilken region gäller?",
     "contact_escalation": "Vill du att jag skickar ditt ärende direkt till kundservice så kontaktar vi dig?",
@@ -164,13 +174,10 @@
   ],
 
   "validation": {
-    "when_to_ask_region": [
-      "medlemskap",
-      "faktura_avgifter"
-    ],
+    "when_to_ask_region": ["medlemskap", "faktura_avgifter"],
     "forbid_in_chat": ["personnummer","kontonummer","kortnummer","bankid-koder"],
     "link_policy": {
-      "only_when_user_requests": ["hsb.se/bospara"],
+      "only_when_user_requests": ["https://www.hsb.se/bospara/"],
       "never_fabricate": true,
       "allowed_domains": ["hsb.se","danskebank.se"]
     }
@@ -179,34 +186,41 @@
   "handlers": [
     {
       "id": "bospar_handlaggare",
-      "role": "HSB:s handläggare för medlemmars bosparande",
+      "name": "Bospar – Handläggare",
+      "when_to_use": "redirect_only",
+      "instructions": "Du är HSB:s handläggare för medlemmars bosparande. Svara kort, tydligt och sakligt på svenska (vi-form när svaret bygger på hsb.se). Arbetssätt: 1) Sök först i filen 'bosparekonomi.txt'. 2) Verifiera vid behov mot hsb.se/bospara. 3) Om svaret är osäkert eller saknas, be om förtydligande eller erbjud eskalering till kundservice. Länka endast när användaren uttryckligen vill börja/öppna konto/komma igång eller ber om länk. Guardrails: ingen finansiell rådgivning, inga ränteexempel, be inte om personnummer.",
       "style": "kort, tydligt, sakligt; vi-form när källan är hsb.se",
       "guardrails": [
         "Ge ingen finansiell rådgivning.",
         "Ange inga ränteexempel.",
-        "Visa länk endast vid uttrycklig begäran att börja/öppna/komma igång."
+        "Visa länk endast vid uttrycklig begäran att börja/öppna/komma igång.",
+        "Be inte om personnummer; hänvisa till säkra formulär."
       ],
       "intents": [
-        {"label":"start","triggers":["bospar","öppna bospar","kom igång","börja spara"],"reply_template":"bospar_start"},
-        {"label":"link","triggers":["öppna konto","börja","länk","kom igång"],"reply_template":"bospar_link_short"},
-        {"label":"how","triggers":["hur funkar bospar","poäng","förtur"],"reply_template":"bospar_how_it_works"}
+        { "label":"how", "triggers":["hur funkar","poäng","förtur","sparformer","isk","depå","fasträntekonto","bosparkonto"], "reply_template":"bospar_how_it_works" },
+        { "label":"cta", "triggers":["öppna konto","börja","kom igång","länk"], "reply_template":"bospar_link_short" },
+        { "label":"start", "triggers":["bospar"], "reply_template":"bospar_start" }
       ],
-      "fallback": "Om din fråga gäller medlemskap, felanmälan eller faktura kan jag skicka dig vidare. Vill du att jag kopplar dig?"
+      "fallback": "Gäller din fråga något annat än bospar (t.ex. medlemskap eller felanmälan)? Jag kan koppla dig vidare eller skicka ärendet till kundservice."
     },
     {
       "id": "medlemskap_handlaggare",
-      "role": "Handläggare för medlemskap",
-      "style": "kort, tydligt, sakligt; be om region tidigt",
+      "name": "Medlemskap – Handläggare",
+      "when_to_use": "redirect_only",
+      "instructions": "Be om region tidigt. Hämta avgifter från lokala källor om möjligt. Använd vi-form när svaret bygger på hsb.se.",
+      "style": "kort, tydligt, sakligt",
       "intents": [
-        {"label":"need_region","triggers":["bli medlem","avgift","andel","medlemskap"],"reply":"membership_region_needed"}
+        { "label":"need_region", "triggers":["bli medlem","avgift","andel","medlemskap"], "reply":"membership_region_needed" }
       ]
     },
     {
       "id": "ekonomi_handlaggare",
-      "role": "Ekonomi/Faktura",
-      "style": "kort, tydligt, sakligt; be om region; erbjud eskalering",
+      "name": "Ekonomi/Faktura – Handläggare",
+      "when_to_use": "redirect_only",
+      "instructions": "Be om region och erbjud eskalering vid tveksamhet. Använd vi-form när svaret bygger på hsb.se.",
+      "style": "kort, tydligt, sakligt",
       "intents": [
-        {"label":"invoice","triggers":["faktura","autogiro","e-faktura","avi","påminnelse"],"reply":"contact_escalation"}
+        { "label":"invoice", "triggers":["faktura","autogiro","e-faktura","avi","påminnelse"], "reply":"contact_escalation" }
       ]
     }
   ],
