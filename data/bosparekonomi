@@ -1,0 +1,239 @@
+{
+  "meta": {
+    "domain": "hsb.se",
+    "scope": ["bospar", "medlemskap", "ekonomi", "förtur", "avgifter", "konton", "juridik-light"],
+    "owner": "HSB Södertörn",
+    "version": "1.0.0",
+    "last_updated": "2025-10-09",
+    "gdpr": {
+      "pii_in_chat": false,
+      "collection_policy": "Be aldrig om personnummer i chatten; hänvisa till säkra formulär.",
+      "escalation_tool": "Eskalera och skicka fråga vidare till kundservice"
+    }
+  },
+
+  "routing": {
+    "topics": [
+      {
+        "key": "bospar",
+        "title": "HSB Bospar",
+        "needs_region": false,
+        "handlers": ["bospar_handlaggare"],
+        "synonyms": ["sparande", "hsb bospar", "danske bank", "bosparkonto", "isk", "depå", "fasträntekonto"],
+        "primary_sources": [
+          {"type": "url", "value": "https://www.hsb.se/bospara"}
+        ]
+      },
+      {
+        "key": "medlemskap",
+        "title": "Medlemskap & förmåner",
+        "needs_region": true,
+        "handlers": ["medlemskap_handlaggare"],
+        "synonyms": ["bli medlem", "årsavgift", "andel", "medlemsförmåner"],
+        "primary_sources": [
+          {"type": "url", "value": "https://www.hsb.se/medlemskap"}
+        ]
+      },
+      {
+        "key": "faktura_avgifter",
+        "title": "Faktura & avgifter",
+        "needs_region": true,
+        "handlers": ["ekonomi_handlaggare"],
+        "synonyms": ["autogiro", "e-faktura", "påminnelseavgift", "avi", "ränta"],
+        "primary_sources": [
+          {"type": "url", "value": "PLACEHOLDER_FAKTURA_URL"}
+        ]
+      }
+    ],
+    "disambiguation": {
+      "prompt": "Menar du Bospar, Medlemskap eller Faktura & avgifter?",
+      "choices": ["Bospar", "Medlemskap", "Faktura & avgifter"]
+    }
+  },
+
+  "entities": {
+    "regions": [
+      "HSB Södertörn","HSB Stockholm","HSB Göteborg","HSB Malmö","HSB Östergötland","HSB Värmland",
+      "HSB Norra Götaland","HSB Skåne","HSB Uppsala","HSB Södra Norrland","HSB Norra","HSB Mälardalarna",
+      "HSB Mölndal","HSB Mitt","HSB Norr","HSB Södertälje","HSB Östra","HSB Västra Götaland"
+    ],
+    "membership_fees_example_2025": [
+      {"region": "HSB Stockholm", "annual_fee_sek": 310, "join_note": "gäller nya medl. efter 2025-06-30"},
+      {"region": "HSB Värmland", "annual_fee_sek": 350, "join_note": "gäller nya medl. efter 2025-06-30"},
+      {"region": "HSB Östergötland", "annual_fee_sek": 150, "join_note": "gäller nya medl. efter 2025-06-30"},
+      {"region": "Övriga (norm)", "annual_fee_sek": 300, "join_note": "standard"},
+      {"global": "andel_insats", "amount_sek": 500}
+    ],
+    "account_types": [
+      {"key":"bosparkonto","label":"Bosparkonto","features":["fria insättningar/uttag","insättningsgaranti"]},
+      {"key":"fasträntekonto","label":"Fasträntekonto","features":["bindning 1/3 år","min 5000 kr","förtidsinlösen med ränteskillnad"]},
+      {"key":"isk","label":"Investeringssparkonto (ISK)","features":["fonder via mobilbanken","min 100 kr"]},
+      {"key":"depa","label":"Depå","features":["fonder","fondavgifter"]}
+    ]
+  },
+
+  "bospar_rules": {
+    "points": {
+      "earning": {
+        "rate": "1_p_per_100_sek",
+        "monthly_cap_points": 5,
+        "monthly_cap_amount_sek": 500,
+        "annual_cap_points": 60,
+        "annual_cap_amount_sek": 6000,
+        "eligible_products": ["bosparkonto","fasträntekonto","isk","depa"],
+        "calculation_day": "sista_dagen_i_månaden",
+        "visibility": "Mitt HSB efter några dagar"
+      },
+      "decrease_on_withdrawal": "1_p_per_påbörjad_100lapp",
+      "priority_rules": {
+        "double_priorities": "Om en förtur nyttjas nollställs poängen för just den förturen. Poäng för andra förturer kvarstår om poänggrundande belopp står kvar."
+      }
+    },
+    "onboarding": [
+      "1) Bli HSB-medlem",
+      "2) Öppna HSB Bosparkonto hos Danske Bank",
+      "3) Engångsinsättning eller stående överföring till HSB-kontot"
+    ],
+    "transfer_within_family": {
+      "possible": true,
+      "lead_time_weeks": "≈4",
+      "bosparkonto": "kan överlåtas procentuellt",
+      "depa": "endast 100%",
+      "isk": "normalt ej överlåtelse (undantag dödsbo)",
+      "fasträntekonto": "kan ej överlåtas; kräver ev. förtidsinlösen"
+    },
+    "youth_accounts": {
+      "opened_by": "vårdnadshavare",
+      "consent": "alla vårdnadshavare godkänner",
+      "at_18": "egen tillgång; fullmakter upphör"
+    },
+    "closing_account": {
+      "via": ["egen bank stående överföring", "säkert meddelande i Danske Banks internetbank (Hembanken)"],
+      "points_after_close": "Poäng kan finnas kvar om poänggrundande belopp står kvar och medlemsavgiften är betald."
+    },
+    "deposit_guarantee": {
+      "applies": true,
+      "limit_sek": 1050000
+    },
+    "channels": {
+      "open_account": "https://www.hsb.se/bospara",
+      "mobilebank_note": "Från 2025-08-19 öppnas HSB ISK via Mobilbanken (ej Hembanken)."
+    }
+  },
+
+  "calculators": {
+    "points_calculator": {
+      "description": "Beräknar poäng per månad och år baserat på insättning.",
+      "inputs": {"monthly_saving_sek": "number"},
+      "logic": "points = min(floor(monthly_saving_sek/100), 5); annual_points = min(points*12, 60)",
+      "outputs": ["monthly_points","annual_points"]
+    },
+    "savings_projection": {
+      "description": "Grov prognos utan ränta (ej rådgivning).",
+      "inputs": {"monthly_saving_sek":"number","months":"number","initial_balance_sek":"number"},
+      "logic": "balance = initial_balance_sek + monthly_saving_sek*months; points_monthly=min(floor(monthly_saving_sek/100),5); points_annual=min(points_monthly*12,60)"
+    }
+  },
+
+  "answer_templates": {
+    "bospar_start": "HSB Bospar hanteras via Danske Bank. Vill du öppna konto eller veta hur bospar fungerar?",
+    "bospar_link_short": "Du kan öppna HSB Bosparkonto här: https://www.hsb.se/bospara",
+    "bospar_how_it_works": "Kort om bospar: 1 p/100 kr, max 5 p/mån och 60 p/år. Poäng från Bosparkonto, Fasträntekonto, ISK och Depå. Uttag minskar poäng. Förtur gäller hyresrätter och nyproducerade bostadsrätter.",
+    "membership_region_needed": "Medlemsavgift kan variera. Vilken region gäller?",
+    "contact_escalation": "Vill du att jag skickar ditt ärende direkt till kundservice så kontaktar vi dig?",
+    "gdpr_guard": "Dela inte personnummer här. Jag guidar dig till rätt formulär."
+  },
+
+  "faq": [
+    {
+      "q": "Hur får jag förtur till en lägenhet via bospar?",
+      "a": "Genom att spara och samla poäng (1 p/100 kr, max 5 p/mån). Poängen ger förtur till hyresrätter och nyproducerade bostadsrätter. Poängen syns i Mitt HSB efter några dagar."
+    },
+    {
+      "q": "Kan jag flytta mitt barns bospar till mig?",
+      "a": "Överlåtelse är möjlig inom familjekretsen. Bosparkonto kan överlåtas procentuellt, Depå endast 100 %, ISK normalt inte. Handläggningstid cirka 4 veckor."
+    },
+    {
+      "q": "Påverkas mina poäng om jag tar ut pengar?",
+      "a": "Ja. Uttag utan överskott minskar poängen med 1 p per påbörjad hundralapp."
+    },
+    {
+      "q": "Har bospar insättningsgaranti?",
+      "a": "Kontosparande omfattas av statlig insättningsgaranti upp till 1 050 000 kr per kund och bank."
+    }
+  ],
+
+  "validation": {
+    "when_to_ask_region": [
+      "medlemskap",
+      "faktura_avgifter"
+    ],
+    "forbid_in_chat": ["personnummer","kontonummer","kortnummer","bankid-koder"],
+    "link_policy": {
+      "only_when_user_requests": ["hsb.se/bospara"],
+      "never_fabricate": true,
+      "allowed_domains": ["hsb.se","danskebank.se"]
+    }
+  },
+
+  "handlers": [
+    {
+      "id": "bospar_handlaggare",
+      "role": "HSB:s handläggare för medlemmars bosparande",
+      "style": "kort, tydligt, sakligt; vi-form när källan är hsb.se",
+      "guardrails": [
+        "Ge ingen finansiell rådgivning.",
+        "Ange inga ränteexempel.",
+        "Visa länk endast vid uttrycklig begäran att börja/öppna/komma igång."
+      ],
+      "intents": [
+        {"label":"start","triggers":["bospar","öppna bospar","kom igång","börja spara"],"reply_template":"bospar_start"},
+        {"label":"link","triggers":["öppna konto","börja","länk","kom igång"],"reply_template":"bospar_link_short"},
+        {"label":"how","triggers":["hur funkar bospar","poäng","förtur"],"reply_template":"bospar_how_it_works"}
+      ],
+      "fallback": "Om din fråga gäller medlemskap, felanmälan eller faktura kan jag skicka dig vidare. Vill du att jag kopplar dig?"
+    },
+    {
+      "id": "medlemskap_handlaggare",
+      "role": "Handläggare för medlemskap",
+      "style": "kort, tydligt, sakligt; be om region tidigt",
+      "intents": [
+        {"label":"need_region","triggers":["bli medlem","avgift","andel","medlemskap"],"reply":"membership_region_needed"}
+      ]
+    },
+    {
+      "id": "ekonomi_handlaggare",
+      "role": "Ekonomi/Faktura",
+      "style": "kort, tydligt, sakligt; be om region; erbjud eskalering",
+      "intents": [
+        {"label":"invoice","triggers":["faktura","autogiro","e-faktura","avi","påminnelse"],"reply":"contact_escalation"}
+      ]
+    }
+  ],
+
+  "forms": {
+    "escalation_form": {
+      "name": "Ärende till kundservice",
+      "fields": [
+        {"key":"topic","type":"select","options":["Bospar","Medlemskap","Faktura & avgifter","Övrigt"],"required":true},
+        {"key":"region","type":"select","options":"$entities.regions","required":false},
+        {"key":"free_text","type":"textarea","placeholder":"Beskriv ditt ärende kort","required":true},
+        {"key":"contact_method","type":"select","options":["Telefon","E-post"],"required":true}
+      ],
+      "privacy_note": "Lämna inte personnummer här. Kundservice återkommer via vald kontaktväg."
+    }
+  },
+
+  "analytics": {
+    "events": [
+      "bot.topic_selected",
+      "bot.region_requested",
+      "bot.region_captured",
+      "bot.answer_served",
+      "bot.link_shown",
+      "bot.escalation_offered",
+      "bot.escalation_submitted"
+    ],
+    "dimensions": ["topic","region","intent","handler_id"]
+  }
+}
