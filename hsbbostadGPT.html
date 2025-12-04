@@ -131,12 +131,16 @@
   (function(){
     const ENDPOINT = '/.netlify/functions/hsbbostad-gpt';
 
+    // Unik session per besökare/refresh – används av backend + Firestore
+    const SESSION_ID = (self.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : 'sess-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+
     const messagesEl = document.getElementById('messages');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const charCount = document.getElementById('charCount');
 
-    let history = [];
     let busy = false;
 
     function setVH(){
@@ -160,11 +164,12 @@
       s = s.replace(/\bbrf(:?[:\-]?[\wåäö]+)?\b/gi, m => m.toLowerCase());
       return s;
     }
+
     function addMessage(role, text){
       const div = document.createElement('div');
       div.className = role === 'error' ? 'error' : `message ${role}`;
       if (text == null) {
-        div.innerHTML = `<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
+        div.innerHTML = '<span class="thinking"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
       } else {
         div.textContent = formatForDisplay(text);
       }
@@ -172,9 +177,17 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
       return div;
     }
+
     function showError(msg){ addMessage('error', msg); }
-    function autoResize(el){ el.style.height='auto'; el.style.height = Math.min(220, el.scrollHeight) + 'px'; }
-    function updateCharCount(el){ if(charCount) charCount.textContent = `${el.value.length}/1000`; }
+
+    function autoResize(el){
+      el.style.height='auto';
+      el.style.height = Math.min(220, el.scrollHeight) + 'px';
+    }
+
+    function updateCharCount(el){
+      if(charCount) charCount.textContent = `${el.value.length}/1000`;
+    }
 
     async function callApi(body){
       const r = await fetch(ENDPOINT, {
@@ -183,7 +196,9 @@
         body: JSON.stringify(body)
       }).catch(err => { throw new Error('fetch_failed'); });
 
-      if(!r || !r.ok){ throw new Error(`http_${r ? r.status : 'fetch'}`); }
+      if(!r || !r.ok){
+        throw new Error(`http_${r ? r.status : 'fetch'}`);
+      }
       return r.json();
     }
 
@@ -197,7 +212,6 @@
       messagesEl.setAttribute('aria-busy','true');
 
       addMessage('user', raw);
-      history.push({ role:'user', content: raw });
 
       input.value = '';
       updateCharCount(input);
@@ -205,16 +219,20 @@
 
       const thinking = addMessage('bot', null);
       try{
-        const sys = "du är hsb bostads kundsupport. skriv sakligt och omtänksamt. börja alltid varje mening med stor bokstav. skriv 'brf' och 'brf:er' med gemener. inga emojis.";
-        const msgs = [{ role:'system', content: sys }, ...history];
-        const data = await callApi({ messages: msgs });
+        const data = await callApi({
+          sessionId: SESSION_ID,
+          userMessage: raw
+        });
 
-        const svar = (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content)
-                      ? data.choices[0].message.content.trim()
-                      : 'Kunde inte generera svar.';
+        const svar =
+          data && data.choices &&
+          data.choices[0] && data.choices[0].message &&
+          data.choices[0].message.content
+            ? data.choices[0].message.content.trim()
+            : 'Kunde inte generera svar.';
+
         thinking.remove();
         addMessage('bot', svar);
-        history.push({ role:'assistant', content: svar });
 
       }catch(err){
         thinking.remove();
@@ -251,6 +269,7 @@
         autoResize(input);
       }
     });
+
     if(sendBtn){ sendBtn.addEventListener('click', sendMessage, { passive: true }); }
     if(input){
       input.addEventListener('keydown', handleKey);
