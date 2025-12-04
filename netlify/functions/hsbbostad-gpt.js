@@ -1,9 +1,3 @@
-exports.handler = async () => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ ok: true })
-  };
-};
 // netlify/functions/hsbbostad-gpt.js
 
 const fetch = require("node-fetch");
