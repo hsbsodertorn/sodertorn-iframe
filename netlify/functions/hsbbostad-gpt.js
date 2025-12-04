@@ -6,19 +6,34 @@ const path = require("path");
 const admin = require("firebase-admin");
 
 /* =========================
-   0) Firebase Admin init
+   0) Firebase Admin init (robust)
    ========================= */
 
-if (!admin.apps.length) {
-  // FIREBASE_SERVICE_ACCOUNT ska vara en JSON-sträng i Netlify env
-  const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+let db = null;
 
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
-}
+(function initFirebase() {
+  try {
+    const sa = process.env.FIREBASE_SERVICE_ACCOUNT;
+    if (!sa) {
+      console.warn("FIREBASE_SERVICE_ACCOUNT saknas – kör utan Firestore-loggning.");
+      return;
+    }
 
-const db = admin.firestore();
+    const serviceAccount = JSON.parse(sa);
+
+    if (!admin.apps.length) {
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+      });
+    }
+
+    db = admin.firestore();
+    console.log("Firebase Admin init klar för HSB Bostad.");
+  } catch (e) {
+    console.error("Kunde inte initiera Firebase Admin – kör utan loggning:", e);
+    db = null;
+  }
+})();
 
 /* =========================
    1) server-side systemprompt
@@ -28,10 +43,9 @@ const SYS_PROMPT = `
 Du är en digital kundvärd för HSB Bostad.
 
 Din uppgift är att hjälpa privatpersoner att förstå och hitta rätt information om:
-- HSB Bostads bostadsprojekt, nyproduktion och utbud
-- Boköp, intresseanmälan, köprocess, tilldelning och avtal
-- HSB bospar, grundläggande regler och hur bospar kopplas till att köpa bostad
-- Kontaktvägar till HSB Bostad och var användaren kan läsa mer på webben
+- HSB Bostads bostadsprojekt och nyproduktion (lägenhetstyper, standard, planlösningar, gemensamma utrymmen, hållbarhet, läge, kommunikationer)
+- Boköp, bospar, intresseanmälan, köprocess, tilldelning, upplåtelse, tillträde och eftermarknad
+- Kontaktvägar till HSB Bostad, mäklare och var användaren kan läsa mer på webben (projektsidor på hsb.se)
 
 Stil och ton:
 - Skriv på svenska
@@ -39,14 +53,20 @@ Stil och ton:
 - Använd "du" till användaren, professionellt men varmt
 - Skriv alltid meningar med stor begynnelsebokstav
 - Skriv "brf" och "brf:er" med gemener
-- Använd korta stycken och gärna punktlistor när det blir tydligare
+- Använd korta stycken och gärna punktlistor när det gör svaret tydligare
 - Inga emojis
 
 Användning av kontext:
-- Du får en "kontext" med utdrag från interna texter (json-data).
+- Du får en "kontext" med utdrag från interna texter (json-data), bland annat om aktuella nyproduktionsprojekt.
 - Använd den i första hand, men formulera svaret med egna ord.
-- Om något saknas i kontexten: svara med generell och säker information om HSB Bostad, och var tydlig med att detaljer kan kontrolleras på hsb.se eller via kundservice.
-- Hitta inte på exakta siffror, datum eller priser.
+- Om något saknas i kontexten: svara med generell och säker information om HSB Bostad och bostadsköp, och var tydlig med att detaljer kan kontrolleras på hsb.se eller via kundservice.
+- Hitta inte på exakta siffror, datum, priser eller detaljer som inte finns i kontexten.
+
+Mål med svaren:
+- Fokusera på att beskriva själva boendet och hur det är att bo i HSB Bostads projekt (t.ex. standard, gemensamma ytor, hållbarhet, läge, vardag).
+- För frågor om HSB och köp-processen: förklara tydligt hur det brukar gå till och hur bospar kan användas.
+- När det finns information om specifika projekt i kontexten: ge kort projektbeskrivning, framhäv relevanta kvaliteter och koppla till bostadsköp hos HSB.
+- Ge gärna kontaktuppgifter till mäklare eller HSB samt projektsida när sådan information finns i kontexten.
 
 Personuppgifter och integritet:
 - Be aldrig aktivt om personnummer, kontonummer eller andra känsliga personuppgifter.
@@ -56,27 +76,27 @@ Personuppgifter och integritet:
 Begränsningar:
 - Ge inte juridisk eller finansiell rådgivning.
 - Ge inte bindande besked om avtal, ekonomi eller individuella ärenden.
-- Ange inte exakta antal lediga bostäder eller liknande realtidsdata. Hänvisa istället till projektsidor eller kundservice för aktuell status.
+- Ange inte exakta antal lediga bostäder eller andra realtidsuppgifter. Hänvisa istället till projektsidor på hsb.se eller kundservice för aktuell status.
 
-Svarsmall:
+Svarsmall (du behöver inte skriva siffror, men följ strukturen):
 1) Bekräfta frågan kort.
-2) Ge 1–3 tydliga svar eller råd baserat på kontexten och din kunskap om HSB Bostad.
-3) Avsluta med ett konkret nästa steg (t.ex. länk till hsb.se, projektsida eller kontaktväg).
+2) Ge 1–3 tydliga svar eller råd baserat på kontexten och din kunskap om HSB Bostad och bostadsköp.
+3) Avsluta med ett konkret nästa steg (t.ex. länk till projektsida på hsb.se, länk till hsb.se/bospar, eller kontaktuppgifter till mäklare eller kundservice).
 `.trim();
 
 /* =========================
-   2) projekt-/kunskapsprofil (kan utökas)
+   2) generell profil
    ========================= */
 
-// En generell profil + ev. projektspecifik text. Du kan lägga till fler rader/projekt senare.
 const PROJECT_PROFILE = [
   "HSB Bostad utvecklar och säljer nyproducerade bostadsrätter i Stockholmsområdet.",
-  "Fokus ligger på långsiktigt hållbara boenden, goda kommunikationer och genomtänkta gemensamma ytor.",
+  "Fokus ligger på långsiktigt hållbara boenden, bra planlösningar, gemensamma utrymmen som gör vardagen enklare, samt goda kommunikationer.",
   "För detaljer om ett specifikt projekt, se projektsidan på hsb.se eller kontakta ansvarig mäklare eller HSB Bostads kundservice."
 ].join("\n");
 
 /* =========================
    3) ladda json-kunskapsbas från /data
+      (utan brf-ester; med t.ex. aktuella-nyproduktioner.json)
    ========================= */
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -84,7 +104,7 @@ const JSON_FILES = [
   "hsb-bostad.json",
   "bospar.json",
   "medlemprivatperson.json",
-  "brf-ester.json"
+  "aktuella-nyproduktioner.json"   // ny fil du kommer skapa
 ].filter((f) => fs.existsSync(path.join(DATA_DIR, f)));
 
 function loadAll() {
@@ -103,7 +123,8 @@ function loadAll() {
             titel: d.titel || källa,
             nyckelord: (d.nyckelord || []).map((s) => String(s).toLowerCase()),
             beskrivning: d.beskrivning || "",
-            länk: d.lank || d.länk || obj.projekt_url || null
+            länk: d.lank || d.länk || obj.projekt_url || null,
+            kontakt: d.kontakt || null   // t.ex. mäklarinfo om du vill lägga det i json
           });
         }
       } else {
@@ -112,7 +133,8 @@ function loadAll() {
           titel: källa,
           nyckelord: (obj.tags || []).map((s) => String(s).toLowerCase()),
           beskrivning: sammanfattning,
-          länk: obj.projekt_url || null
+          länk: obj.projekt_url || null,
+          kontakt: obj.kontakt || null
         });
       }
     } catch (e) {
@@ -125,7 +147,7 @@ function loadAll() {
 const KB = loadAll();
 
 /* =========================
-   4) retrieval-logik
+   4) retrieval-logik (utan projekt-favorisering)
    ========================= */
 
 function tokenize(s) {
@@ -138,7 +160,12 @@ function tokenize(s) {
     .filter(Boolean);
 }
 
-const SOURCE_BOOST = { "brf-ester": 5, "hsb-bostad": 2 };
+// Ingen "favorit-brf" – bara lätt boost för övergripande HSB-texter och aktuella projekt
+const SOURCE_BOOST = {
+  "hsb-bostad": 2,
+  "aktuella-nyproduktioner": 2
+};
+
 const INTENT_BOOST = {
   mäklare: 3,
   visning: 3,
@@ -156,7 +183,10 @@ const INTENT_BOOST = {
   laddplats: 2,
   avgift: 2,
   priser: 2,
-  skola: 1
+  skola: 1,
+  bospar: 3,
+  insats: 2,
+  månadsavgift: 2
 };
 
 function scoreEntry(entry, queryTokens) {
@@ -199,6 +229,7 @@ function retrieveContext(userText, { maxItems = 6, minScore = 3 } = {}) {
       `sammanfattning: ${e.beskrivning}`
     ];
     if (e.länk) lines.push(`länk: ${e.länk}`);
+    if (e.kontakt) lines.push(`kontakt: ${e.kontakt}`);
     return lines.join("\n");
   });
 
@@ -215,19 +246,19 @@ function retrieveContext(userText, { maxItems = 6, minScore = 3 } = {}) {
 }
 
 /* =========================
-   5) availability-guard
+   5) availability-guard (ingen exakt tillgänglighet)
    ========================= */
 
 function looksLikeAvailability(q) {
   const s = (q || "").toLowerCase();
   return (
     /(ledig|tillgänglig|finns det|antal|hur många|köpa nu|just nu)/.test(s) &&
-    /(lägenhet|bostad|brf)/.test(s)
+    /(lägenhet|bostad|brf|nyproduktion|projekt)/.test(s)
   );
 }
 
 /* =========================
-   6) Netlify handler med Firestore-loggning
+   6) Netlify handler
    ========================= */
 
 exports.handler = async function (event) {
@@ -256,32 +287,38 @@ exports.handler = async function (event) {
       sessionIdRaw ||
       `sess-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
-    const convRef = db
-      .collection("hsbBostad_conversations")
-      .doc(safeSessionId);
-    const messagesRef = convRef.collection("messages");
+    // Historik/loggning – bara om db finns
+    let prevSnap = { size: 0, forEach: () => {} };
+    let convRef = null;
+    let messagesRef = null;
 
-    // Hämta tidigare meddelanden för historik
-    const prevSnap = await messagesRef.orderBy("index", "asc").get();
+    if (db) {
+      convRef = db.collection("hsbBostad_conversations").doc(safeSessionId);
+      messagesRef = convRef.collection("messages");
+      prevSnap = await messagesRef.orderBy("index", "asc").get();
+    } else {
+      console.warn("Ingen Firestore-instans – hoppar över historik och loggning.");
+    }
+
     const history = [];
-    prevSnap.forEach((doc) => {
-      const d = doc.data();
-      if (d.role === "user" || d.role === "assistant") {
-        history.push({ role: d.role, content: d.content });
-      }
-    });
+    if (db) {
+      prevSnap.forEach((doc) => {
+        const d = doc.data();
+        if (d.role === "user" || d.role === "assistant") {
+          history.push({ role: d.role, content: d.content });
+        }
+      });
+    }
 
-    // Bygg kontext från JSON-kunskapsbasen
     const ctx = retrieveContext(userMessage);
 
-    // Bygg meddelanden till modellen
     const messages = [{ role: "system", content: SYS_PROMPT }];
 
     if (looksLikeAvailability(userMessage)) {
       messages.push({
         role: "system",
         content:
-          "policy: ange inte antal lediga bostäder. hänvisa till projektsida på hsb.se eller kundservice för aktuell tillgänglighet."
+          "policy: ange inte exakta antal lediga bostäder eller liknande realtidsuppgifter. hänvisa istället till projektsidan på hsb.se eller kundservice för aktuell tillgänglighet."
       });
     }
 
@@ -292,15 +329,12 @@ exports.handler = async function (event) {
       });
     }
 
-    // Lägg till historik (utan tidigare systemmeddelanden)
     for (const m of history) {
       messages.push({ role: m.role, content: m.content });
     }
 
-    // Sist: aktuellt användarmeddelande
     messages.push({ role: "user", content: userMessage });
 
-    // Anropa OpenAI
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -330,45 +364,47 @@ exports.handler = async function (event) {
       data.choices?.[0]?.message?.content?.trim() ||
       "Jag kunde tyvärr inte generera ett svar just nu.";
 
-    // Logga till Firestore
-    const now = admin.firestore.FieldValue.serverTimestamp();
-    const baseIndex = prevSnap.size; // antal tidigare meddelanden
+    // Logga till Firestore om möjligt
+    if (db && messagesRef && convRef) {
+      const now = admin.firestore.FieldValue.serverTimestamp();
+      const baseIndex = prevSnap.size;
 
-    const batch = db.batch();
+      const batch = db.batch();
 
-    const userDocRef = messagesRef.doc();
-    batch.set(userDocRef, {
-      role: "user",
-      content: userMessage,
-      createdAt: now,
-      index: baseIndex
-    });
-
-    const assistantDocRef = messagesRef.doc();
-    batch.set(assistantDocRef, {
-      role: "assistant",
-      content: assistantReply,
-      createdAt: now,
-      index: baseIndex + 1,
-      model: "gpt-3.5-turbo"
-    });
-
-    batch.set(
-      convRef,
-      {
-        sessionId: safeSessionId,
+      const userDocRef = messagesRef.doc();
+      batch.set(userDocRef, {
+        role: "user",
+        content: userMessage,
         createdAt: now,
-        updatedAt: now,
-        lastUserMessage: userMessage,
-        lastAssistantMessage: assistantReply,
-        messageCount: prevSnap.size + 2
-      },
-      { merge: true }
-    );
+        index: baseIndex
+      });
 
-    await batch.commit();
+      const assistantDocRef = messagesRef.doc();
+      batch.set(assistantDocRef, {
+        role: "assistant",
+        content: assistantReply,
+        createdAt: now,
+        index: baseIndex + 1,
+        model: "gpt-3.5-turbo"
+      });
 
-    // Returnera i samma struktur som frontend förväntar sig
+      batch.set(
+        convRef,
+        {
+          sessionId: safeSessionId,
+          createdAt: now,
+          updatedAt: now,
+          lastUserMessage: userMessage,
+          lastAssistantMessage: assistantReply,
+          messageCount: baseIndex + 2
+        },
+        { merge: true }
+      );
+
+      await batch.commit();
+    }
+
+    // Svar i samma struktur som frontend förväntar sig
     return {
       statusCode: 200,
       body: JSON.stringify({
