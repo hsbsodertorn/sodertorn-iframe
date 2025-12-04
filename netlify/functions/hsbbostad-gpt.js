@@ -146,7 +146,7 @@ function loadAll() {
 const KB = loadAll();
 
 /* =========================
-   4) retrieval-logik (ingen favorit-brf)
+   4) retrieval-logik
    ========================= */
 
 function tokenize(s) {
@@ -256,7 +256,7 @@ function looksLikeAvailability(q) {
 }
 
 /* =========================
-   6) Netlify handler (tar emot { messages } från frontend)
+   6) Netlify handler
    ========================= */
 
 exports.handler = async function (event) {
@@ -272,19 +272,41 @@ exports.handler = async function (event) {
   try {
     const body = JSON.parse(event.body || "{}");
 
+    // 1) Läs ev. historik från body.messages
     const clientMessages = Array.isArray(body.messages) ? body.messages : [];
-    const lastUser = [...clientMessages].reverse().find(
-      (m) => m && m.role === "user"
-    );
 
-    if (!lastUser || !lastUser.content) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Missing user message" })
-      };
+    let userMessage = "";
+    if (clientMessages.length) {
+      const lastUser = [...clientMessages].reverse().find(
+        (m) => m && m.role === "user"
+      );
+      if (lastUser && lastUser.content) {
+        userMessage = String(lastUser.content || "").trim();
+      }
     }
 
-    const userMessage = String(lastUser.content || "").trim();
+    // 2) Om frontend skickar enkel payload: { userMessage }
+    if (!userMessage && body.userMessage) {
+      userMessage = String(body.userMessage || "").trim();
+    }
+
+    // 3) Om vi fortfarande inte har något meddelande → vänlig fallback (200)
+    if (!userMessage) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          choices: [
+            {
+              message: {
+                role: "assistant",
+                content:
+                  "Jag fick tyvärr ingen tydlig fråga i meddelandet. Skriv gärna din fråga igen, så hjälper jag dig vidare."
+              }
+            }
+          ]
+        })
+      };
+    }
 
     const sessionIdRaw = (body.sessionId || "").toString();
     const safeSessionId =
@@ -310,10 +332,8 @@ exports.handler = async function (event) {
       });
     }
 
-    for (const m of clientMessages) {
-      if (!m || m.role === "system") continue;
-      messages.push({ role: m.role, content: m.content });
-    }
+    // Lägg till själva användarfrågan (enkel modell)
+    messages.push({ role: "user", content: userMessage });
 
     let assistantReply = "";
 
@@ -404,7 +424,7 @@ exports.handler = async function (event) {
       console.log("HSB Bostad: Firestore ej init – hoppar över loggning.");
     }
 
-    // ✅ alltid 200 till frontend, oavsett om OpenAI lyckades eller inte
+    // ✅ alltid 200 till frontend
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -420,7 +440,6 @@ exports.handler = async function (event) {
     };
   } catch (error) {
     console.error("Fel i hsbbostad-gpt.js (yttre catch):", error);
-    // även här: returnera 200 så att frontend inte triggar "Kunde inte kontakta tjänsten"
     return {
       statusCode: 200,
       body: JSON.stringify({
