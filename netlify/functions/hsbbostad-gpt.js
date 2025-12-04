@@ -325,7 +325,7 @@ exports.handler = async function (event) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o-mini",
         messages,
         temperature: 0.3,
         top_p: 0.9,
@@ -371,7 +371,7 @@ exports.handler = async function (event) {
           role: "assistant",
           content: assistantReply,
           createdAt: now,
-          model: "gpt-3.5-turbo",
+          model: "gpt-4o-mini",
           source: "backend"
         });
 
@@ -387,9 +387,15 @@ exports.handler = async function (event) {
         );
 
         await batch.commit();
-        console.log("HSB Bostad: loggade konversation i Firestore med sessionId", safeSessionId);
+        console.log(
+          "HSB Bostad: loggade konversation i Firestore med sessionId",
+          safeSessionId
+        );
       } catch (e) {
-        console.error("HSB Bostad: kunde inte logga till Firestore (ok att ignorera):", e);
+        console.error(
+          "HSB Bostad: kunde inte logga till Firestore (ok att ignorera):",
+          e
+        );
       }
     } else {
       console.log("HSB Bostad: Firestore ej init – hoppar över loggning.");
