@@ -1,6 +1,6 @@
 // netlify/functions/hsbbostad-gpt.js
-"use strict";
 
+const fetch = require("node-fetch");
 const fs = require("fs");
 const path = require("path");
 const admin = require("firebase-admin");
@@ -15,9 +15,7 @@ let db = null;
   try {
     const sa = process.env.FIREBASE_SERVICE_ACCOUNT;
     if (!sa) {
-      console.warn(
-        "[HSB Bostad] FIREBASE_SERVICE_ACCOUNT saknas – kör utan Firestore-loggning."
-      );
+      console.warn("FIREBASE_SERVICE_ACCOUNT saknas – kör utan Firestore-loggning.");
       return;
     }
 
@@ -30,12 +28,9 @@ let db = null;
     }
 
     db = admin.firestore();
-    console.log("[HSB Bostad] Firebase Admin init klar.");
+    console.log("Firebase Admin init klar för HSB Bostad.");
   } catch (e) {
-    console.error(
-      "[HSB Bostad] Kunde inte initiera Firebase Admin – kör utan loggning:",
-      e
-    );
+    console.error("Kunde inte initiera Firebase Admin – kör utan loggning:", e);
     db = null;
   }
 })();
@@ -115,8 +110,7 @@ function loadAll() {
   const items = [];
   for (const file of JSON_FILES) {
     try {
-      const fullPath = path.join(DATA_DIR, file);
-      const raw = fs.readFileSync(fullPath, "utf8");
+      const raw = fs.readFileSync(path.join(DATA_DIR, file), "utf8");
       const obj = JSON.parse(raw);
       const källa = (obj.kategori || file.replace(/\.json$/, "")).toLowerCase();
       const sammanfattning = obj.sammanfattning || "";
@@ -126,9 +120,7 @@ function loadAll() {
           items.push({
             källa,
             titel: d.titel || källa,
-            nyckelord: (d.nyckelord || []).map((s) =>
-              String(s).toLowerCase()
-            ),
+            nyckelord: (d.nyckelord || []).map((s) => String(s).toLowerCase()),
             beskrivning: d.beskrivning || "",
             länk: d.lank || d.länk || obj.projekt_url || null,
             kontakt: d.kontakt || null
@@ -145,7 +137,7 @@ function loadAll() {
         });
       }
     } catch (e) {
-      console.error("[HSB Bostad] Kunde inte läsa kunskapsfil:", file, e);
+      console.error("Kunde inte läsa kunskapsfil:", file, e);
     }
   }
   return items;
@@ -212,9 +204,7 @@ function scoreEntry(entry, queryTokens) {
 
   if (entry.beskrivning) {
     const desc = entry.beskrivning.toLowerCase();
-    for (const t of queryTokens) {
-      if (t.length > 3 && desc.includes(t)) score += 1;
-    }
+    for (const t of queryTokens) if (t.length > 3 && desc.includes(t)) score += 1;
   }
 
   return score;
@@ -270,7 +260,7 @@ function looksLikeAvailability(q) {
    ========================= */
 
 exports.handler = async function (event) {
-  console.log("[HSB Bostad] GPT-funktion anropad");
+  console.log("HSB Bostad GPT-funktion anropad");
 
   if (event.httpMethod !== "POST") {
     return {
@@ -325,37 +315,42 @@ exports.handler = async function (event) {
       messages.push({ role: m.role, content: m.content });
     }
 
-    // använd Node 18+ inbyggda fetch
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY_STYRELSESUPPORTGPT}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages,
-        temperature: 0.3,
-        top_p: 0.9,
-        max_tokens: 450
-      })
-    });
+    let assistantReply = "";
 
-    if (!response.ok) {
-      const text = await response.text();
-      console.error("[HSB Bostad] OpenAI API fel:", text);
-      return {
-        statusCode: response.status,
-        body: JSON.stringify({ error: "fel från OpenAI", details: text })
-      };
+    try {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY_STYRELSESUPPORTGPT}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages,
+          temperature: 0.3,
+          top_p: 0.9,
+          max_tokens: 450
+        })
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("OpenAI API fel:", response.status, text);
+        assistantReply =
+          "Jag kan tyvärr inte hämta ett fullständigt svar just nu på grund av ett tekniskt fel. Prova gärna igen om en stund eller kontakta HSB Bostads kundservice direkt.";
+      } else {
+        const data = await response.json();
+        assistantReply =
+          data.choices?.[0]?.message?.content?.trim() ||
+          "Jag kunde tyvärr inte generera ett svar just nu.";
+      }
+    } catch (e) {
+      console.error("Nätverksfel mot OpenAI:", e);
+      assistantReply =
+        "Jag kan tyvärr inte hämta ett fullständigt svar just nu på grund av ett tekniskt fel. Prova gärna igen om en stund eller kontakta HSB Bostads kundservice direkt.";
     }
 
-    const data = await response.json();
-    const assistantReply =
-      data.choices?.[0]?.message?.content?.trim() ||
-      "Jag kunde tyvärr inte generera ett svar just nu.";
-
-    // 🔵 Logga till Firestore om möjligt
+    // 🔵 Logga till Firestore om möjligt (fel här får aldrig bryta svaret)
     if (db) {
       try {
         const now = admin.firestore.FieldValue.serverTimestamp();
@@ -396,19 +391,20 @@ exports.handler = async function (event) {
 
         await batch.commit();
         console.log(
-          "[HSB Bostad] loggade konversation i Firestore med sessionId",
+          "HSB Bostad: loggade konversation i Firestore med sessionId",
           safeSessionId
         );
       } catch (e) {
         console.error(
-          "[HSB Bostad] kunde inte logga till Firestore (ok att ignorera):",
+          "HSB Bostad: kunde inte logga till Firestore (ok att ignorera):",
           e
         );
       }
     } else {
-      console.log("[HSB Bostad] Firestore ej init – hoppar över loggning.");
+      console.log("HSB Bostad: Firestore ej init – hoppar över loggning.");
     }
 
+    // ✅ alltid 200 till frontend, oavsett om OpenAI lyckades eller inte
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -423,11 +419,20 @@ exports.handler = async function (event) {
       })
     };
   } catch (error) {
-    console.error("[HSB Bostad] Fel i hsbbostad-gpt.js:", error);
+    console.error("Fel i hsbbostad-gpt.js (yttre catch):", error);
+    // även här: returnera 200 så att frontend inte triggar "Kunde inte kontakta tjänsten"
     return {
-      statusCode: 500,
+      statusCode: 200,
       body: JSON.stringify({
-        error: "kunde inte hämta AI-svar från HSBBostad GPT"
+        choices: [
+          {
+            message: {
+              role: "assistant",
+              content:
+                "Jag kan tyvärr inte svara på din fråga just nu på grund av ett tekniskt fel. För hjälp direkt, kontakta gärna HSB Bostads kundservice."
+            }
+          }
+        ]
       })
     };
   }
