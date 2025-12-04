@@ -64,7 +64,7 @@ Användning av kontext:
 
 Mål med svaren:
 - Fokusera på att beskriva själva boendet och hur det är att bo i HSB Bostads projekt (t.ex. standard, gemensamma ytor, hållbarhet, läge, vardag).
-- För frågor om HSB och köp-processen: förklara tydligt hur det brukar gå till och hur bospar kan användas.
+- För frågor om HSB och köpprocessen: förklara tydligt hur det brukar gå till och hur bospar kan användas.
 - När det finns information om specifika projekt i kontexten: ge kort projektbeskrivning, framhäv relevanta kvaliteter och koppla till bostadsköp hos HSB.
 - Ge gärna kontaktuppgifter till mäklare eller HSB samt projektsida när sådan information finns i kontexten.
 
@@ -95,8 +95,7 @@ const PROJECT_PROFILE = [
 ].join("\n");
 
 /* =========================
-   3) ladda json-kunskapsbas från /data
-      (utan brf-ester; med t.ex. aktuella-nyproduktioner.json)
+   3) ladda json-kunskapsbas
    ========================= */
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -104,7 +103,7 @@ const JSON_FILES = [
   "hsb-bostad.json",
   "bospar.json",
   "medlemprivatperson.json",
-  "aktuella-nyproduktioner.json"   // ny fil du kommer skapa
+  "aktuella-nyproduktioner.json"
 ].filter((f) => fs.existsSync(path.join(DATA_DIR, f)));
 
 function loadAll() {
@@ -124,7 +123,7 @@ function loadAll() {
             nyckelord: (d.nyckelord || []).map((s) => String(s).toLowerCase()),
             beskrivning: d.beskrivning || "",
             länk: d.lank || d.länk || obj.projekt_url || null,
-            kontakt: d.kontakt || null   // t.ex. mäklarinfo om du vill lägga det i json
+            kontakt: d.kontakt || null
           });
         }
       } else {
@@ -147,7 +146,7 @@ function loadAll() {
 const KB = loadAll();
 
 /* =========================
-   4) retrieval-logik (utan projekt-favorisering)
+   4) retrieval-logik (ingen favorit-brf)
    ========================= */
 
 function tokenize(s) {
@@ -160,7 +159,6 @@ function tokenize(s) {
     .filter(Boolean);
 }
 
-// Ingen "favorit-brf" – bara lätt boost för övergripande HSB-texter och aktuella projekt
 const SOURCE_BOOST = {
   "hsb-bostad": 2,
   "aktuella-nyproduktioner": 2
@@ -246,7 +244,7 @@ function retrieveContext(userText, { maxItems = 6, minScore = 3 } = {}) {
 }
 
 /* =========================
-   5) availability-guard (ingen exakt tillgänglighet)
+   5) availability-guard
    ========================= */
 
 function looksLikeAvailability(q) {
@@ -258,7 +256,7 @@ function looksLikeAvailability(q) {
 }
 
 /* =========================
-   6) Netlify handler
+   6) Netlify handler (tar emot { messages } från frontend)
    ========================= */
 
 exports.handler = async function (event) {
@@ -273,42 +271,27 @@ exports.handler = async function (event) {
 
   try {
     const body = JSON.parse(event.body || "{}");
-    const sessionIdRaw = (body.sessionId || "").toString();
-    const userMessage = (body.userMessage || "").toString().trim();
 
-    if (!userMessage) {
+    // Frontend skickar fortfarande { messages: [...] }
+    const clientMessages = Array.isArray(body.messages) ? body.messages : [];
+    const lastUser = [...clientMessages].reverse().find(
+      (m) => m && m.role === "user"
+    );
+
+    if (!lastUser || !lastUser.content) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "Missing userMessage" })
+        body: JSON.stringify({ error: "Missing user message" })
       };
     }
 
+    const userMessage = String(lastUser.content || "").trim();
+
+    // sessionId om du vill skicka från frontend, annars genereras här
+    const sessionIdRaw = (body.sessionId || "").toString();
     const safeSessionId =
       sessionIdRaw ||
       `sess-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-
-    // Historik/loggning – bara om db finns
-    let prevSnap = { size: 0, forEach: () => {} };
-    let convRef = null;
-    let messagesRef = null;
-
-    if (db) {
-      convRef = db.collection("hsbBostad_conversations").doc(safeSessionId);
-      messagesRef = convRef.collection("messages");
-      prevSnap = await messagesRef.orderBy("index", "asc").get();
-    } else {
-      console.warn("Ingen Firestore-instans – hoppar över historik och loggning.");
-    }
-
-    const history = [];
-    if (db) {
-      prevSnap.forEach((doc) => {
-        const d = doc.data();
-        if (d.role === "user" || d.role === "assistant") {
-          history.push({ role: d.role, content: d.content });
-        }
-      });
-    }
 
     const ctx = retrieveContext(userMessage);
 
@@ -329,11 +312,11 @@ exports.handler = async function (event) {
       });
     }
 
-    for (const m of history) {
+    // lägg till hela historiken från frontend (förutom eventuella system-meddelanden)
+    for (const m of clientMessages) {
+      if (!m || m.role === "system") continue;
       messages.push({ role: m.role, content: m.content });
     }
-
-    messages.push({ role: "user", content: userMessage });
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -364,47 +347,55 @@ exports.handler = async function (event) {
       data.choices?.[0]?.message?.content?.trim() ||
       "Jag kunde tyvärr inte generera ett svar just nu.";
 
-    // Logga till Firestore om möjligt
-    if (db && messagesRef && convRef) {
-      const now = admin.firestore.FieldValue.serverTimestamp();
-      const baseIndex = prevSnap.size;
+    // 🔵 Logga till Firestore om möjligt
+    if (db) {
+      try {
+        const now = admin.firestore.FieldValue.serverTimestamp();
+        const convRef = db
+          .collection("hsbBostad_conversations")
+          .doc(safeSessionId);
+        const messagesRef = convRef.collection("messages");
 
-      const batch = db.batch();
+        const batch = db.batch();
 
-      const userDocRef = messagesRef.doc();
-      batch.set(userDocRef, {
-        role: "user",
-        content: userMessage,
-        createdAt: now,
-        index: baseIndex
-      });
-
-      const assistantDocRef = messagesRef.doc();
-      batch.set(assistantDocRef, {
-        role: "assistant",
-        content: assistantReply,
-        createdAt: now,
-        index: baseIndex + 1,
-        model: "gpt-3.5-turbo"
-      });
-
-      batch.set(
-        convRef,
-        {
-          sessionId: safeSessionId,
+        const userDocRef = messagesRef.doc();
+        batch.set(userDocRef, {
+          role: "user",
+          content: userMessage,
           createdAt: now,
-          updatedAt: now,
-          lastUserMessage: userMessage,
-          lastAssistantMessage: assistantReply,
-          messageCount: baseIndex + 2
-        },
-        { merge: true }
-      );
+          source: "frontend"
+        });
 
-      await batch.commit();
+        const assistantDocRef = messagesRef.doc();
+        batch.set(assistantDocRef, {
+          role: "assistant",
+          content: assistantReply,
+          createdAt: now,
+          model: "gpt-3.5-turbo",
+          source: "backend"
+        });
+
+        batch.set(
+          convRef,
+          {
+            sessionId: safeSessionId,
+            updatedAt: now,
+            lastUserMessage: userMessage,
+            lastAssistantMessage: assistantReply
+          },
+          { merge: true }
+        );
+
+        await batch.commit();
+        console.log("HSB Bostad: loggade konversation i Firestore med sessionId", safeSessionId);
+      } catch (e) {
+        console.error("HSB Bostad: kunde inte logga till Firestore (ok att ignorera):", e);
+      }
+    } else {
+      console.log("HSB Bostad: Firestore ej init – hoppar över loggning.");
     }
 
-    // Svar i samma struktur som frontend förväntar sig
+    // samma struktur som frontend förväntar sig
     return {
       statusCode: 200,
       body: JSON.stringify({
