@@ -143,6 +143,9 @@
 
     let busy = false;
 
+    // 🟦 Enkel historik i minnet (per sidladdning)
+    const chatHistory = [];
+
     function setVH(){
       const base = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
       document.documentElement.style.setProperty('--vh', (base * 0.01) + 'px');
@@ -211,7 +214,14 @@
       sendBtn.disabled = true;
       messagesEl.setAttribute('aria-busy','true');
 
+      // Visa användarens meddelande i UI
       addMessage('user', raw);
+
+      // 🟦 Lägg till i historiken innan vi skickar till backend
+      chatHistory.push({
+        role: 'user',
+        content: raw
+      });
 
       input.value = '';
       updateCharCount(input);
@@ -219,9 +229,10 @@
 
       const thinking = addMessage('bot', null);
       try{
+        // 🟦 Skicka hela historiken till backend, inte bara senaste frågan
         const data = await callApi({
           sessionId: SESSION_ID,
-          userMessage: raw
+          messages: chatHistory
         });
 
         const svar =
@@ -233,6 +244,12 @@
 
         thinking.remove();
         addMessage('bot', svar);
+
+        // 🟦 Spara assistentens svar i historiken
+        chatHistory.push({
+          role: 'assistant',
+          content: svar
+        });
 
       }catch(err){
         thinking.remove();
