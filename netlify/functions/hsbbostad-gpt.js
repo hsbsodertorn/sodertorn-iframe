@@ -304,19 +304,19 @@ function looksLikeAvailability(q) {
 }
 
 /* =========================
-   5b) lägenhetstypsfrågor (etta/tvåa/trea/fyra/femma)
+   5b) lägenhetstypsdetektering (etta/tvåa/trea/fyra/femma)
    ========================= */
 
-function isApartmentTypeQuery(q) {
-  const s = (q || "").toLowerCase();
+function detectApartmentType(text) {
+  const s = (text || "").toLowerCase();
 
-  return (
-    /\betta\b|\b1\s*rok\b|\b1:a\b/.test(s) ||
-    /\btvåa\b|\b2\s*rok\b|\b2:a\b/.test(s) ||
-    /\btrea\b|\b3\s*rok\b|\b3:a\b/.test(s) ||
-    /\bfyra\b|\b4\s*rok\b|\b4:a\b/.test(s) ||
-    /\bfemma\b|\b5\s*rok\b|\b5:a\b/.test(s)
-  );
+  if (/\betta\b|\b1\s*rok\b|\b1:a\b/.test(s)) return "etta (1 rok)";
+  if (/\btvåa\b|\b2\s*rok\b|\b2:a\b/.test(s)) return "tvåa (2 rok)";
+  if (/\btrea\b|\b3\s*rok\b|\b3:a\b/.test(s)) return "trea (3 rok)";
+  if (/\bfyra\b|\b4\s*rok\b|\b4:a\b/.test(s)) return "fyra (4 rok)";
+  if (/\bfemma\b|\b5\s*rok\b|\b5:a\b/.test(s)) return "femma (5 rok)";
+
+  return null;
 }
 
 /* =========================
@@ -396,6 +396,7 @@ exports.handler = async function (event) {
 
     const activeProject = detectActiveProject(convoText);
     const ctx = retrieveContext(convoText || userMessage);
+    const aptType = detectApartmentType(convoText);
 
     const messages = [{ role: "system", content: SYS_PROMPT }];
 
@@ -424,16 +425,18 @@ exports.handler = async function (event) {
       });
     }
 
-    // Lägenhetstypsfråga (t.ex. "Trea") utan aktivt projekt → föreslå projekt
-    if (!activeProject && isApartmentTypeQuery(userMessage)) {
+    // Lägenhetstyp nämns någonstans i dialogen och inget specifikt projekt är aktivt
+    if (!activeProject && aptType) {
       messages.push({
         role: "system",
         content:
+          `användaren har uttryckt att hen är intresserad av en ${aptType}.\n` +
           "När användaren frågar generellt efter en viss lägenhetstyp (t.ex. tvåa, trea, 3 rok) utan att nämna ett specifikt projekt ska du:\n" +
-          "- använda kontexten för att se vilka av våra aktuella projekt som innehåller den lägenhetstypen, och nämna 2–4 konkreta exempel (t.ex. 'I brf Växeln, brf Diktafonen och brf Ester planeras treor').\n" +
-          "- tydligt skriva att detta gäller vilka lägenhetstyper som finns planerade i projekten, inte exakt antal lediga bostäder just nu.\n" +
-          "- avsluta med en kort följdfråga om vad som är viktigast för användaren (t.ex. område, inflyttningstid, storlek eller specifikt projekt) så att du kan guida vidare.\n" +
-          "Undvik att ange exakta antal lediga lägenheter eller annan realtidsinformation; hänvisa till projektsidorna på hsb.se för aktuell tillgänglighet."
+          "- utgå från att frågan gäller HSB Bostads aktuella nyproduktionsprojekt i Stockholmsområdet.\n" +
+          "- använda kontexten för att identifiera vilka brf:er i kunskapsbasen som har den lägenhetstypen (t.ex. 1–4 rok, 1–5 rok) och nämna 2–4 konkreta projekt vid namn. Exempel på projekt i kontexten är brf Växeln vid Telefonplan, brf Diktafonen vid Telefonplan och brf Ester i Bromstensstaden.\n" +
+          "- tydligt skriva att du pratar om vilka lägenhetstyper som planeras i projekten, inte exakt antal lediga bostäder just nu.\n" +
+          "- avsluta med en kort följdfråga om vad som är viktigast för användaren (t.ex. område, inflyttningstid, storlek eller prisnivå), så att du kan guida vidare.\n" +
+          "Undvik att stanna i allmänna råd. Sträva alltid efter att ge konkreta projektexempel när underlaget finns."
       });
     }
 
