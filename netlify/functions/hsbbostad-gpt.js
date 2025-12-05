@@ -58,9 +58,11 @@ Stil och ton:
 
 Arbetssätt:
 - Var avhjälpande: försök alltid ge ett konkret svar och förklara vad som gäller, i stället för att direkt hänvisa till hsb.se eller kundservice.
-- Använd kontexten (json-data) aktivt: när det finns projektinformation, sammanfatta den med egna ord och koppla den till användarens fråga.
-- Ställ följdfrågor när det hjälper, t.ex. för att förstå om användaren undrar om ett visst projekt, lägenhetstyp, garage, ekonomi eller köprocess.
-- Om användaren redan har nämnt ett specifikt projekt (t.ex. "brf växeln"), utgå från att frågan fortsätter att handla om samma projekt tills något annat sägs.
+- Använd kontexten (json-data) aktivt: när det finns projektinformation, sammanfatta den med egna ord och koppla den tydligt till användarens fråga.
+- Undvik generella formuleringar som "det kan variera mellan projekt" när kontexten innehåller specifik information om ett projekt.
+- Om användaren nämner ett projekt vid namn (t.ex. "brf växeln", "växeln"), utgå från att efterföljande korta frågor som "Finns garage?" eller "Tunnelbana?" gäller samma projekt tills något annat sägs.
+- Skriv då svaret explicit kopplat till projektet, t.ex. "I brf Växeln finns ..." i stället för bara generella resonemang.
+- Ställ högst en följdfråga, och bara om det verkligen behövs för att hjälpa användaren vidare på ett konkret sätt.
 - Hänvisa till hsb.se eller kundservice först i slutet av svaret, som ett kompletterande nästa steg, inte som huvudsvar.
 
 Användning av kontext:
@@ -155,9 +157,11 @@ function tokenize(s) {
     .filter(Boolean);
 }
 
+// Boosta rätt källor – inklusive den långa kategoritexten
 const SOURCE_BOOST = {
   "hsb-bostad": 2,
-  "aktuella-nyproduktioner": 2
+  "aktuella-nyproduktioner": 3,
+  "hsb bostads aktuella nyproduktioner": 3
 };
 
 const INTENT_BOOST = {
@@ -185,28 +189,41 @@ const INTENT_BOOST = {
 
 function scoreEntry(entry, queryTokens) {
   let score = 0;
+
   if (SOURCE_BOOST[entry.källa]) score += SOURCE_BOOST[entry.källa];
 
-  const kw = new Set(entry.nyckelord || []);
+  const kwList = (entry.nyckelord || []).map((s) => String(s).toLowerCase());
+
   for (const t of queryTokens) {
-    if (kw.has(t)) score += 3;
+    // Matcha både exakt och delvis mot nyckelordsrader, t.ex. "växeln" mot "hsb brf växeln"
+    for (const k of kwList) {
+      if (k === t || k.includes(t) || t.includes(k)) {
+        score += 4; // lite högre än tidigare för att verkligen lyfta träffarna
+        break;
+      }
+    }
+
     if (INTENT_BOOST[t]) score += INTENT_BOOST[t];
   }
 
   if (entry.titel) {
     const tt = entry.titel.toLowerCase();
-    for (const t of queryTokens) if (tt.includes(t)) score += 1;
+    for (const t of queryTokens) {
+      if (tt.includes(t)) score += 1;
+    }
   }
 
   if (entry.beskrivning) {
     const desc = entry.beskrivning.toLowerCase();
-    for (const t of queryTokens) if (t.length > 3 && desc.includes(t)) score += 1;
+    for (const t of queryTokens) {
+      if (t.length > 3 && desc.includes(t)) score += 1;
+    }
   }
 
   return score;
 }
 
-function retrieveContext(userText, { maxItems = 6, minScore = 3 } = {}) {
+function retrieveContext(userText, { maxItems = 8, minScore = 2 } = {}) {
   if (!userText) return PROJECT_PROFILE;
 
   const qTokens = tokenize(userText);
