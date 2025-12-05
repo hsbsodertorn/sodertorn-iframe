@@ -309,7 +309,15 @@ exports.handler = async function (event) {
       sessionIdRaw ||
       `sess-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
-    const ctx = retrieveContext(userMessage);
+    // Bygg en text av hela konversationen + senaste fråga
+const convoText = [
+  ...clientMessages
+    .filter((m) => m && m.content)
+    .map((m) => String(m.content)),
+  userMessage
+].join("\n");
+
+const ctx = retrieveContext(convoText || userMessage);
 
     const messages = [{ role: "system", content: SYS_PROMPT }];
 
