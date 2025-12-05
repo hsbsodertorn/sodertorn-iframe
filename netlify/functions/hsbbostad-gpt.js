@@ -321,16 +321,38 @@ const ctx = retrieveContext(convoText || userMessage);
 
     const messages = [{ role: "system", content: SYS_PROMPT }];
 
-    if (looksLikeAvailability(userMessage)) {
-      messages.push({
-        role: "system",
-        content:
-          "policy: ange inte exakta antal lediga bostäder eller liknande realtidsuppgifter. hänvisa istället till projektsidan på hsb.se eller kundservice för aktuell tillgänglighet."
-      });
-    }
+if (looksLikeAvailability(userMessage)) {
+  messages.push({
+    role: "system",
+    content:
+      "policy: ange inte exakta antal lediga bostäder eller liknande realtidsuppgifter. hänvisa istället till projektsidan på hsb.se eller kundservice för aktuell tillgänglighet."
+  });
+}
 
-    if (ctx) {
-      messages.push({
+if (ctx) {
+  messages.push({
+    role: "system",
+    content: `kontext:\n${ctx}`
+  });
+}
+
+// Rensa och lägg till historiken från frontend om den finns
+const cleanedHistory = Array.isArray(clientMessages)
+  ? clientMessages
+      .filter((m) => m && (m.role === "user" || m.role === "assistant"))
+      .map((m) => ({
+        role: m.role,
+        content: String(m.content || "").slice(0, 2000) // enkel guard
+      }))
+  : [];
+
+// Om vi har historik: skicka hela konversationen
+if (cleanedHistory.length > 0) {
+  messages.push(...cleanedHistory);
+} else {
+  // Fallback för enkel payload { userMessage }
+  messages.push({ role: "user", content: userMessage });
+}
         role: "system",
         content: `kontext:\n${ctx}`
       });
