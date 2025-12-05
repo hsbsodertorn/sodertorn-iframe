@@ -114,24 +114,38 @@ function loadAll() {
       const sammanfattning = obj.sammanfattning || "";
 
       if (Array.isArray(obj.delar)) {
+        // Fall 1: struktur med "delar"
         for (const d of obj.delar) {
+          const kontakt =
+            d.kontakt ||
+            d["kontakt mäklare"] ||
+            obj.kontakt ||
+            obj["kontakt mäklare"] ||
+            null;
+
           items.push({
             källa,
             titel: d.titel || källa,
             nyckelord: (d.nyckelord || []).map((s) => String(s).toLowerCase()),
             beskrivning: d.beskrivning || "",
             länk: d.lank || d.länk || obj.projekt_url || null,
-            kontakt: d.kontakt || null
+            kontakt
           });
         }
       } else {
+        // Fall 2: enklare objekt utan "delar"
+        const kontakt =
+          obj.kontakt ||
+          obj["kontakt mäklare"] ||
+          null;
+
         items.push({
           källa,
-          titel: källa,
+          titel: obj.titel || källa,
           nyckelord: (obj.tags || []).map((s) => String(s).toLowerCase()),
           beskrivning: sammanfattning,
           länk: obj.projekt_url || null,
-          kontakt: obj.kontakt || null
+          kontakt
         });
       }
     } catch (e) {
@@ -290,6 +304,31 @@ function looksLikeAvailability(q) {
 }
 
 /* =========================
+   5b) lägenhetstypsfrågor (etta/tvåa/trea/fyra/femma)
+   ========================= */
+
+function isApartmentTypeQuery(q) {
+  const s = (q || "").toLowerCase();
+
+  return (
+    /\betta\b|\b1\s*rok\b|\b1:a\b/.test(s) ||
+    /\btvåa\b|\b2\s*rok\b|\b2:a\b/.test(s) ||
+    /\btrea\b|\b3\s*rok\b|\b3:a\b/.test(s) ||
+    /\bfyra\b|\b4\s*rok\b|\b4:a\b/.test(s) ||
+    /\bfemma\b|\b5\s*rok\b|\b5:a\b/.test(s)
+  );
+}
+
+/* =========================
+   5c) mäklarkontakt-frågor
+   ========================= */
+
+function looksLikeBrokerQuestion(q) {
+  const s = (q || "").toLowerCase();
+  return /(mäklare|mäklarkontakt|kontakt.*mäklare)/.test(s);
+}
+
+/* =========================
    6) Netlify handler
    ========================= */
 
@@ -382,6 +421,28 @@ exports.handler = async function (event) {
           `aktuellt projekt i denna konversation är: ${activeProject}.\n` +
           `När användaren ställer korta följdfrågor som inte nämner projektet vid namn, ska du tolka dem som att de gäller ${activeProject} tills användaren byter projekt.\n` +
           `Svara därför specifikt om ${activeProject} när kontexten innehåller information om projektet.`
+      });
+    }
+
+    // Lägenhetstypsfråga (t.ex. "Trea") utan aktivt projekt → föreslå projekt
+    if (!activeProject && isApartmentTypeQuery(userMessage)) {
+      messages.push({
+        role: "system",
+        content:
+          "När användaren frågar generellt efter en viss lägenhetstyp (t.ex. tvåa, trea, 3 rok) utan att nämna ett specifikt projekt ska du:\n" +
+          "- använda kontexten för att se vilka av våra aktuella projekt som innehåller den lägenhetstypen, och nämna 2–4 konkreta exempel (t.ex. 'I brf Växeln, brf Diktafonen och brf Ester planeras treor').\n" +
+          "- tydligt skriva att detta gäller vilka lägenhetstyper som finns planerade i projekten, inte exakt antal lediga bostäder just nu.\n" +
+          "- avsluta med en kort följdfråga om vad som är viktigast för användaren (t.ex. område, inflyttningstid, storlek eller specifikt projekt) så att du kan guida vidare.\n" +
+          "Undvik att ange exakta antal lediga lägenheter eller annan realtidsinformation; hänvisa till projektsidorna på hsb.se för aktuell tillgänglighet."
+      });
+    }
+
+    // Fråga om mäklarkontakt → använd kontakt-fältet från kontexten
+    if (looksLikeBrokerQuestion(userMessage)) {
+      messages.push({
+        role: "system",
+        content:
+          "Om kontexten innehåller en rad som börjar med 'kontakt:' med mäklaruppgifter för ett relevant projekt ska du återge dessa kontaktuppgifter tydligt i svaret, till exempel i en kort punktlista med namn, företag, telefonnummer och e-post."
       });
     }
 
