@@ -1,75 +1,238 @@
 {
-  "kategori": "HSB brf Ester",
-  "sammanfattning": "HSB brf Ester i Bromstensstaden, Stockholm, erbjuder 152 nyproducerade bostadsrätter med fokus på hållbarhet, grön innergård, goda kommunikationer och en trygg köpprocess.",
-  "tags": [
-    "hsb", "bostadsrätt", "nyproduktion", "ester", "bromstensstaden",
-    "köpprocess", "miljöbyggnad silver", "stadgar", "lägenheter",
-    "bromsten", "spånga", "hållbarhet", "garage", "visning", "kontakt"
-  ],
+  "kategori": "HSB Bostads aktuella nyproduktioner",
+  "sammanfattning": "HSB brf Diktafonen vid Telefonplan i Stockholm erbjuder moderna bostadsrätter med närhet till både stadspuls och grönska, med fokus på hållbart vardagsliv, goda kommunikationer och välplanerade gemensamma ytor.",
   "delar": [
     {
-      "titel": "Köpprocessen",
+      "titel": "HSB brf Diktafonen – översikt",
       "nyckelord": [
-        "lånelöfte", "förhandsavtal", "upplåtelseavtal", "inredningsval",
-        "lägenhetsvisning", "slutlikvid", "inflyttning", "brukandebesiktning"
+        "HSB brf Diktafonen",
+        "Diktafonen",
+        "Telefonplan",
+        "Stockholm",
+        "nyproduktion",
+        "bostadsrätter",
+        "stadsradhus",
+        "lummig innergård",
+        "bilpool",
+        "HSB Bostad",
+        "nybyggnation",
+        "moderna lägenheter"
       ],
-      "beskrivning": "Processen börjar med lånelöfte från banken. Ett förhandsavtal tecknas och förskott betalas (50 000 kr för 1–2 rok, 80 000 kr för 3 rok, 100 000 kr för 4 rok). Inredningsval görs ca 18 månader före tillträde. Upplåtelseavtal tecknas ca 6 månader före inflyttning och 10 % av köpeskillingen betalas. Slutlikvid betalas en vecka innan tillträde. Brukandebesiktning görs 1–2 månader efter inflytt. HSB erbjuder även juridiskt stöd och kundtjänst genom hela köpprocessen."
+      "beskrivning": "HSB brf Diktafonen är ett nyproduktionsprojekt vid Telefonplan i södra Stockholm. Här planeras moderna bostadsrätter i varierande storlekar och ett antal stadsradhus, med fokus på ett bekvämt och hållbart boende nära både stadens puls och grönområden. Föreningen får en grön och trivsam innergård, gemensamhetslokaler och goda förutsättningar för cykel- och bilpoolslösningar, vilket tillsammans skapar en attraktiv och funktionell boendemiljö för många olika typer av hushåll.",
+      "lank": "",
+      "kontakt": "Kontakta ansvariga mäklare på Mäklarhuset Nyproduktion för mer information om HSB brf Diktafonen."
     },
     {
-      "titel": "Lägenhetsutbud",
+      "titel": "HSB brf Diktafonen – läge och kommunikationer",
       "nyckelord": [
-        "1 rok", "2 rok", "3 rok", "4 rok", "yta", "balkong",
-        "uteplats", "takvåning", "genomgående lägenhet"
+        "HSB brf Diktafonen läge",
+        "Telefonplan område",
+        "kommunikationer",
+        "tunnelbana Telefonplan",
+        "nära Södermalm",
+        "stadspuls och grönska",
+        "E4 E20",
+        "pendling",
+        "Stockholm söderort"
       ],
-      "beskrivning": "Totalt 152 bostäder från 1–4 rok (28–91 kvm). Ettorna har yteffektiva planlösningar med takhöjd på upp till 3,1 m. Tvåorna är ljusa, många i hörnläge. Treorna kan ha dubbla balkonger eller extra förvaringslösningar. Fyrorna är rymliga, ofta genomgående med balkong i två väderstreck. De flesta lägenheter har balkong eller uteplats. Materialvalen är moderna och energieffektiva."
+      "beskrivning": "HSB brf Diktafonen ligger i hjärtat av Telefonplan, en stadsdel som kombinerar stadsliv, kultur och närhet till natur. Området har ett brett utbud av service, butiker, kaféer och restauranger, samtidigt som grönområden och rekreationsmöjligheter finns på bekvämt avstånd. Med tunnelbanans röda linje tar du dig snabbt till innerstaden och Södermalm på omkring tio minuter, och för den som pendlar med bil finns smidiga anslutningar till större leder som E4 och E20 i närheten.",
+      "lank": "",
+      "kontakt": "För frågor om området och kommunikationer kring HSB brf Diktafonen kan du vända dig till ansvarig mäklare."
     },
     {
-      "titel": "Föreningsfakta",
+      "titel": "HSB brf Diktafonen – bostäder och planlösningar",
       "nyckelord": [
-        "garage", "parkering", "bilpool", "cykelrum", "förråd",
-        "gemensamhetslokal", "soprum", "tvättmaskin", "laddstolpar"
+        "bostäder i HSB brf Diktafonen",
+        "lägenhetsstorlekar",
+        "1 rok",
+        "2 rok",
+        "3 rok",
+        "4 rok",
+        "stadsradhus",
+        "planlösningar",
+        "moderna lägenheter",
+        "balkonger",
+        "uteplatser",
+        "rumshöjd"
       ],
-      "beskrivning": "Under innergården finns garage med 65 platser, varav 8 med laddmöjlighet för elbil och 3 reserverade för bilpool. Varje bostad har tillhörande förråd (1–4 kvm). Gemensamhetslokal på 66 kvm med pentry, wc och dusch. Cykelrum med plats för ca 380 cyklar. Lägenheterna är utrustade med tvättmaskin och torktumlare (kombimaskin i de mindre bostäderna). Soprum för källsortering finns på gården."
+      "beskrivning": "Bostäderna i HSB brf Diktafonen planeras i flera olika storlekar, från yteffektiva enrummare till större lägenheter och stadsradhus för familjer med större platsbehov. Många av bostäderna får balkong eller uteplats och planlösningarna utformas med fokus på funktion, ljusinsläpp och sociala ytor. Rumshöjden är generellt omkring 2,5 meter, medan vissa bostäder på de övre planen får extra takhöjd vilket ger en luftig och rymlig känsla. Sammantaget skapas flexibla hem som passar både singlar, par och barnfamiljer.",
+      "lank": "",
+      "kontakt": "Kontakta ansvarig mäklare för mer detaljerad information om bostadstyper och planlösningar i HSB brf Diktafonen."
     },
     {
-      "titel": "Teknik och miljö",
+      "titel": "HSB brf Diktafonen – arkitektur och fasad",
       "nyckelord": [
-        "fjärrvärme", "ventilation", "ftx", "varmvatten", "hushållsel",
-        "miljöbyggnad silver", "energieffektivitet", "solceller", "cykelparkering"
+        "arkitektur",
+        "fasad",
+        "monokrom stil",
+        "betongfasad",
+        "klinker",
+        "innergård",
+        "gestaltning",
+        "HSB brf Diktafonen utseende"
       ],
-      "beskrivning": "Fastigheten värms med fjärrvärme och vattenburen radiatorvärme. Ventilation via FTX-system med värmeåtervinning. Individuell mätning av varmvatten, kallvatten ingår i avgiften. Hushållsel köps in gemensamt men debiteras efter förbrukning. Byggnaden är certifierad Miljöbyggnad Silver (2022) med höga betyg för energi, innemiljö och material. Solceller på taken, gott om cykelparkering och laddstolpar för elbilar."
+      "beskrivning": "Gestaltningen av HSB brf Diktafonen tar avstamp i Telefonplans industriella och kreativa karaktär. Husens fasader utformas i ljusa, monokroma kulörer med inslag av klinker, vilket ger ett modernt och tidlöst uttryck. Socklar i betong och klinker förstärker känslan av robust kvalitet. Bebyggelsen ramas in av en grön innergård som fungerar som en lugn kontrast till det urbana läget och skapar fina utblickar från lägenheterna.",
+      "lank": "",
+      "kontakt": "För frågor om projektets arkitektur kan du kontakta HSB Bostad eller ansvarig mäklare."
     },
     {
-      "titel": "Ekonomi och avgifter",
+      "titel": "HSB brf Diktafonen – innergård och gemensamma utrymmen",
       "nyckelord": [
-        "årsavgift", "månadsavgift", "internet", "tv", "telefoni",
-        "förbrukning", "kostnader", "tillägg", "avgiftsfri kampanj"
+        "innergård",
+        "gemensamma ytor",
+        "pergola",
+        "grillplats",
+        "samlingsplats",
+        "gemensamhetslokal",
+        "övernattningslägenhet",
+        "barnvagnsrum",
+        "rullstolsförvaring",
+        "miljörum"
       ],
-      "beskrivning": "Årsavgiften betalas månadsvis i förskott. Internet, tv och telefoni tecknas separat. Varmvatten och el debiteras efter faktisk förbrukning. Tillval för inredning kan påverka priset. Hösten 2025 pågår en kampanj med två års avgiftsfrihet för nya köpare (gäller köp före 31 oktober)."
+      "beskrivning": "HSB brf Diktafonen får en grön och trivsam innergård med pergola, sittplatser och grillmöjligheter, där boende kan umgås och koppla av. Föreningen utrustas med en gemensamhetslokal som kan användas som styrelserum och övernattningslägenhet för gäster. I varje trapphus planeras ytor för förvaring av barnvagnar och rullstolar, och i huset finns ett miljörum för källsortering av avfall. Tillsammans skapar dessa gemensamma utrymmen goda förutsättningar för ett socialt och praktiskt boendeliv.",
+      "lank": "",
+      "kontakt": "Vid frågor om gemensamma utrymmen i HSB brf Diktafonen kan du kontakta styrelsen i föreningen efter inflytt eller HSB Bostad under byggtiden."
     },
     {
-      "titel": "Området",
+      "titel": "HSB brf Diktafonen – cykel, bil och garage",
       "nyckelord": [
-        "bromstensstaden", "spånga", "kommunikationer", "pendeltåg",
-        "buss", "park", "rekreation", "service", "gång- och cykeltunnel"
+        "garage",
+        "parkering",
+        "p-platser",
+        "bilpool",
+        "elbilsladdning",
+        "cykelparkering",
+        "cykelpool",
+        "cykelservice",
+        "Mobilgatan",
+        "gemensamhetsanläggning"
       ],
-      "beskrivning": "Brf Ester ligger i Bromstensstaden i Spånga, ett område som utvecklas från industri till modern stadsdel. Nära till Spånga centrum med pendeltåg, bussar och service. Grön innergård med pergola och lekyta. Spångaån utvecklas till parkstråk och ny park planeras i området. Gång- och cykeltunnlar förbättrar tillgängligheten. Närhet till skolor, förskolor och idrottsanläggningar."
+      "beskrivning": "Under HSB brf Diktafonen och den angränsande gården byggs ett garage som delas med närliggande fastigheter. Från samtliga trapphus finns direkt access till garaget och in- och utfart sker via Mobilgatan. Föreningen disponerar parkeringsplatser, varav några är förberedda för elbilsladdning, och två platser reserveras för bilpool. Genom bilpoolen erbjuds medlemmarna ett kostnadsfritt medlemskap under de första åren. Det finns goda möjligheter att parkera cykel både inomhus och utomhus, och föreningen får tillgång till cykelpool med elcyklar och elassisterande lastcyklar samt återkommande mobil cykelservice. Sammantaget underlättas ett hållbart resande för de boende.",
+      "lank": "",
+      "kontakt": "Kontakta föreningen eller ansvarig mäklare för detaljer kring parkering, bilpool och cykelmöjligheter i HSB brf Diktafonen."
     },
     {
-      "titel": "Stadgar och medlemskap",
+      "titel": "HSB brf Diktafonen – teknik, uppvärmning och ventilation",
       "nyckelord": [
-        "stadgar", "hsb medlem", "bostadsrättsförening", "ansvar",
-        "rättigheter", "skyldigheter", "styrelse", "medlemskap"
+        "uppvärmning",
+        "fjärrvärme",
+        "radiatorer",
+        "golvvärme",
+        "FTX-ventilation",
+        "ventilation med värmeåtervinning",
+        "inomhusklimat",
+        "energilösning",
+        "handdukstork"
       ],
-      "beskrivning": "Brf Ester följer HSB Stockholms stadgar. Stadgarna reglerar medlemmarnas rättigheter, skyldigheter, styrelsens ansvar, underhållsfrågor och ordning. För att köpa bostad krävs medlemskap i HSB Stockholm. Medlemskapet ger också tillgång till rådgivning, utbildningar och medlemsförmåner."
+      "beskrivning": "Bostäderna i HSB brf Diktafonen ansluts till fjärrvärme och värms huvudsakligen upp med vattenburna radiatorer. I radhusen planeras vattenburen golvvärme på bottenvåningen och i vissa våtrum installeras vattenburna handdukstorkar. Ventilationen sker via ett FTX-system med värmeåtervinning, vilket innebär att frånluften används för att förvärma tilluften. Detta bidrar till ett energieffektivt och behagligt inomhusklimat året runt.",
+      "lank": "",
+      "kontakt": "För tekniska frågor om uppvärmning och ventilation i HSB brf Diktafonen kan du vända dig till HSB Bostad eller föreningens förvaltare."
     },
     {
-      "titel": "Visningar och kontakt",
+      "titel": "HSB brf Diktafonen – vatten, el och sophantering",
       "nyckelord": [
-        "visning", "mäklare", "mäklarhuset", "kontakt", "bokning",
-        "robert blomster", "skogängsvägen", "telefonnummer", "e-post"
+        "kallvatten",
+        "varmvatten",
+        "individuell mätning",
+        "hushållsel",
+        "elinstallation",
+        "sophantering",
+        "sopkassuner",
+        "miljörum",
+        "avfallssortering"
       ],
-      "beskrivning": "Visningar hålls i visningslägenheterna på Skogängsvägen i Bromstensstaden. Ansvarig mäklare är Robert Blomster, Mäklarhuset. Telefon: 073-231 38 02. E-post: robert.blomster@maklarhuset.se. All information om projektet finns samlad på HSB:s webb: https://www.hsb.se/sok-bostad/stockholm/stockholm/projekt/ester/"
+      "beskrivning": "I HSB brf Diktafonen ingår kostnaden för kallvatten i månadsavgiften, medan varmvatten mäts och debiteras individuellt per lägenhet. Hushållselen köps in gemensamt av föreningen men förbrukningen mäts per bostad och debiteras separat. Elcentral med säkringar och jordfelsbrytare placeras i lägenheternas mediacentral. Hushållssopor hanteras via nedgrävda sopkassuner vid kvartersgatan, och föreningen har dessutom ett miljörum för sortering av avfall, vilket underlättar en hållbar vardag för de boende.",
+      "lank": "",
+      "kontakt": "För frågor om vatten, el och sophantering kontaktas föreningens styrelse eller förvaltare."
+    },
+    {
+      "titel": "HSB brf Diktafonen – tv, telefoni och bredband",
+      "nyckelord": [
+        "bredband",
+        "fiber",
+        "TV",
+        "IP-telefoni",
+        "internet",
+        "gruppanslutningsavtal",
+        "media central",
+        "router",
+        "bredbandsuttag"
+      ],
+      "beskrivning": "Föreningen i HSB brf Diktafonen tecknar ett gruppanslutningsavtal med bredbandsleverantör och ansluts med fiber för TV, telefoni och internet. Samtliga lägenheter får bredbandsuttag som kan användas för olika tjänster beroende på de boendes behov. I bostädernas mediacentral installeras en trådlös router, vilket förenklar uppkoppling i hela lägenheten. Kostnader för TV, telefoni och internet ingår normalt inte i månadsavgiften utan betalas individuellt av respektive bostadsrättshavare.",
+      "lank": "",
+      "kontakt": "Kontakta föreningen eller vald bredbandsleverantör för detaljer om aktuella tjänster och hastigheter."
+    },
+    {
+      "titel": "HSB brf Diktafonen – inredningsval och planlösningsval",
+      "nyckelord": [
+        "inredningsval",
+        "tillval",
+        "kostnadsfria val",
+        "köksluckor",
+        "golv",
+        "kakel",
+        "klinker",
+        "vitvaror",
+        "tillvalsvägg",
+        "planlösningspåverkan"
+      ],
+      "beskrivning": "Som köpare i HSB brf Diktafonen får du möjlighet att påverka din bostads utformning genom både kostnadsfria inredningsval och olika tillval mot extra kostnad. Det kan handla om val av golv, kakel, klinker, köksluckor, vitvaror och väggytor. I vissa lägenheter finns även möjlighet att påverka planlösningen genom från- och tillvalsväggar under en begränsad tid i projektet. Exakt vilka val som är möjliga framgår av säljbroschyr och inredningsmaterial som presenteras inför inredningsvalet.",
+      "lank": "",
+      "kontakt": "Kontakta ansvarig mäklare eller HSB Bostad för mer information om inredningsval och eventuella tillval i HSB brf Diktafonen."
+    },
+    {
+      "titel": "HSB brf Diktafonen – köpprocess och inflyttning",
+      "nyckelord": [
+        "köpprocess",
+        "lånelöfte",
+        "förhandsavtal",
+        "upplåtelseavtal",
+        "mätvisning",
+        "lägenhetsvisning",
+        "slutlikvid",
+        "inflyttning",
+        "HSB nyproduktion köpprocess"
+      ],
+      "beskrivning": "Köpprocessen i HSB brf Diktafonen följer HSB Bostads modell för nyproduktion. Som köpare börjar du med att ordna lånelöfte inför val av bostad. Därefter tecknas förhandsavtal där en del av köpeskillingen betalas i förskott. Under byggtiden bjuds du in till mätvisning i din bostad för att kunna planera möblering och ta del av projektets utveckling. När den ekonomiska planen är klar tecknas upplåtelseavtal, vanligtvis omkring tre och en halv månad före inflyttning, då en större del av köpeskillingen erläggs. Strax innan tillträde hålls en lägenhetsvisning av den färdigställda bostaden. Slutlikvid betalas i anslutning till inflyttningen, varefter du får nycklar och kan flytta in enligt det inflyttningsdatum som meddelats.",
+      "lank": "",
+      "kontakt": "För frågor om köpprocessen i HSB brf Diktafonen kontaktar du ansvarig mäklare eller HSB Bostad."
+    },
+    {
+      "titel": "HSB brf Diktafonen – området Telefonplan",
+      "nyckelord": [
+        "Telefonplan",
+        "område",
+        "omgivning",
+        "service",
+        "restauranger",
+        "kaféer",
+        "Konstfack",
+        "natur",
+        "Västberga park",
+        "Vinterviken",
+        "Årstaskogen",
+        "SATS Telefonplan",
+        "klättercenter"
+      ],
+      "beskrivning": "Telefonplan är en levande stadsdel i södra Stockholm där kreativitet, kultur och stadsliv möter grönska och rekreation. Området har sin bakgrund i äldre industriell bebyggelse som idag samsas med moderna bostadskvarter och offentliga konstinslag. Närheten till Konstfack bidrar till en kreativ atmosfär med spännande arkitektur och ett lokalt kulturliv. I närområdet finns flera populära restauranger och caféer, bland annat välkända Landet, samt bagerier och mindre matställen. För den som vill röra på sig finns träningsmöjligheter på SATS Telefonplan och ett stort klättercenter, och inom cykel- eller promenadavstånd ligger grönområden som Västberga park, Vinterviken och Årstaskogen med plats för bad, picknick och motion.",
+      "lank": "",
+      "kontakt": "För mer information om området kring HSB brf Diktafonen kan du kontakta ansvarig mäklare eller läsa mer på stadens och HSB:s informationssidor."
+    },
+    {
+      "titel": "HSB brf Diktafonen – mäklare och kontakt",
+      "nyckelord": [
+        "kontakt",
+        "mäklare",
+        "Mäklarhuset Nyproduktion",
+        "Amanda Merio",
+        "Mose Sundlöv",
+        "visningar",
+        "intresseanmälan",
+        "köpa bostad i Diktafonen"
+      ],
+      "beskrivning": "För frågor om bostäderna i HSB brf Diktafonen, bokning av visning eller mer information om projektet kontaktar du Mäklarhuset Nyproduktion. Ansvariga mäklare är Amanda Merio och Mose Sundlöv, som hjälper dig med intresseanmälan, visningar, köpprocess och praktiska frågor kopplade till ditt eventuella bostadsköp. Visningar hålls löpande i visningslägenhet nära projektet och kan bokas i samråd med mäklarna.",
+      "lank": "",
+      "kontakt": "Amanda Merio, Fastighetsmäklare Mäklarhuset Nyproduktion, telefon 070-289 90 44, e-post amanda.merio@maklarhuset.se. Mose Sundlöv, Fastighetsmäklare Mäklarhuset Nyproduktion, telefon 070-831 01 30, e-post mose.sundlov@maklarhuset.se."
     }
   ]
 }
