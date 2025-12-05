@@ -59,9 +59,9 @@ Stil och ton:
 Arbetssätt:
 - Var avhjälpande: försök alltid ge ett konkret svar och förklara vad som gäller, i stället för att direkt hänvisa till hsb.se eller kundservice.
 - Använd kontexten (json-data) aktivt: när det finns projektinformation, sammanfatta den med egna ord och koppla den tydligt till användarens fråga.
-- Undvik generella formuleringar som "det kan variera mellan projekt" när kontexten innehåller specifik information om ett projekt.
+- När ett specifikt projekt (t.ex. "brf växeln") är känt, ska du svara konkret om just det projektet. Skriv då "I brf Växeln ..." i stället för generella formuleringar om "HSB Bostads nyproduktionsprojekt".
+- Undvik generella formuleringar som "utbudet kan variera mellan projekt" om kontexten innehåller tydlig information om det aktuella projektet.
 - Om användaren nämner ett projekt vid namn (t.ex. "brf växeln", "växeln"), utgå från att efterföljande korta frågor som "Finns garage?" eller "Tunnelbana?" gäller samma projekt tills något annat sägs.
-- Skriv då svaret explicit kopplat till projektet, t.ex. "I brf Växeln finns ..." i stället för bara generella resonemang.
 - Ställ högst en följdfråga, och bara om det verkligen behövs för att hjälpa användaren vidare på ett konkret sätt.
 - Hänvisa till hsb.se eller kundservice först i slutet av svaret, som ett kompletterande nästa steg, inte som huvudsvar.
 
@@ -198,7 +198,7 @@ function scoreEntry(entry, queryTokens) {
     // Matcha både exakt och delvis mot nyckelordsrader, t.ex. "växeln" mot "hsb brf växeln"
     for (const k of kwList) {
       if (k === t || k.includes(t) || t.includes(k)) {
-        score += 4; // lite högre än tidigare för att verkligen lyfta träffarna
+        score += 4;
         break;
       }
     }
@@ -254,6 +254,27 @@ function retrieveContext(userText, { maxItems = 8, minScore = 2 } = {}) {
   return blocks.length
     ? [header, blocks.join("\n---\n")].join("\n\n")
     : header;
+}
+
+/* =========================
+   4b) enkel projektdetektering (för minne i dialogen)
+   ========================= */
+
+const PROJECT_PATTERNS = [
+  { pattern: /brf\s+växeln|\bväxeln\b/i, name: "HSB brf Växeln" },
+  { pattern: /brf\s+diktafonen|\bdiktafonen\b/i, name: "HSB brf Diktafonen" },
+  { pattern: /brf\s+ester|\bester\b/i, name: "HSB brf Ester" }
+];
+
+function detectActiveProject(text) {
+  if (!text) return null;
+  let found = null;
+  for (const { pattern, name } of PROJECT_PATTERNS) {
+    if (pattern.test(text)) {
+      found = name;
+    }
+  }
+  return found;
 }
 
 /* =========================
@@ -334,6 +355,7 @@ exports.handler = async function (event) {
       userMessage
     ].join("\n");
 
+    const activeProject = detectActiveProject(convoText);
     const ctx = retrieveContext(convoText || userMessage);
 
     const messages = [{ role: "system", content: SYS_PROMPT }];
@@ -353,21 +375,29 @@ exports.handler = async function (event) {
       });
     }
 
+    if (activeProject) {
+      messages.push({
+        role: "system",
+        content:
+          `aktuellt projekt i denna konversation är: ${activeProject}.\n` +
+          `När användaren ställer korta följdfrågor som inte nämner projektet vid namn, ska du tolka dem som att de gäller ${activeProject} tills användaren byter projekt.\n` +
+          `Svara därför specifikt om ${activeProject} när kontexten innehåller information om projektet.`
+      });
+    }
+
     // Rensa och lägg till historiken från frontend om den finns
     const cleanedHistory = Array.isArray(clientMessages)
       ? clientMessages
           .filter((m) => m && (m.role === "user" || m.role === "assistant"))
           .map((m) => ({
             role: m.role,
-            content: String(m.content || "").slice(0, 2000) // enkel guard
+            content: String(m.content || "").slice(0, 2000)
           }))
       : [];
 
-    // Om vi har historik: skicka hela konversationen
     if (cleanedHistory.length > 0) {
       messages.push(...cleanedHistory);
     } else {
-      // Fallback för enkel payload { userMessage }
       messages.push({ role: "user", content: userMessage });
     }
 
@@ -460,7 +490,6 @@ exports.handler = async function (event) {
       console.log("HSB Bostad: Firestore ej init – hoppar över loggning.");
     }
 
-    // ✅ alltid 200 till frontend
     return {
       statusCode: 200,
       body: JSON.stringify({
