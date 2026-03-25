@@ -1,59 +1,91 @@
 {
-  "kategori": "kontakt och information",
-  "sammanfattning": "Här hittar du kontaktuppgifter, öppettider och adresser till HSB Södertörns huvudkontor och förvaltningskontor i Huddinge, Hallunda, Nynäshamn, Tullinge och på Gotland. Vi erbjuder både drop-in och förbokade besök.",
+  "kategori": "kontakt",
+  "sammanfattning": "Här finns information om hur man kontaktar HSB Södertörn, besöker kontor och får hjälp via telefon eller formulär.",
   "tags": [
-    "kontakt", "öppettider", "besök", "förbokning", "hsb södertörn", 
-    "huddinge", "hallunda", "nynäshamn", "tullinge", "hemse", 
-    "gotland", "kontakta oss", "kundservice", "kontor", "växel"
+    "kontakt",
+    "hsb södertörn",
+    "öppettider",
+    "besök",
+    "drop-in",
+    "kundservice",
+    "kontor",
+    "telefon",
+    "mail",
+    "felanmälan"
   ],
   "delar": [
     {
-      "titel": "Allmän information om besök",
-      "beskrivning": "Vårt besökskontor i Hallunda har drop-in alla vardagar 09.00–12.00, samt torsdagar även 16.00–18.00. I Nynäshamn, Tullinge och på Hemse gäller drop-in enbart tisdagar 14.30–16.30. Övrig tid kräver förbokning via formuläret på webben.",
-      "nyckelord": ["besök", "drop-in", "förbokning", "formulär", "hallunda", "nynäshamn", "tullinge", "hemse", "gotland"],
-      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
-    },
-    {
-      "titel": "Huvudkontor Huddinge",
-      "beskrivning": "Besöksadress: Huddinge Stationsväg 5, 141 35 Huddinge. Postadress: Box 1084, 141 22 Huddinge. Här hittar du ledning, administration och viss kundservice.",
-      "nyckelord": ["huddinge", "huvudkontor", "besöksadress", "postadress", "ledning", "hsb södertörn"],
-      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
-    },
-    {
-      "titel": "Förvaltningskontor Hallunda",
-      "beskrivning": "Adress: Kornvägen 18, 145 68 Norsborg. Öppet för drop-in måndag till fredag 09.00–12.00, samt torsdagar även 16.00–18.00.",
-      "nyckelord": ["hallunda", "norsborg", "drop-in", "förvaltningskontor", "besök", "torsdag", "kundservice"],
-      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
-    },
-    {
-      "titel": "Förvaltningskontor Nynäshamn",
-      "beskrivning": "Adress: Lövlundsvägen 5, 149 30 Nynäshamn. Drop-in för boende på tisdagar 14.30–16.30. Övrig tid bokas i förväg.",
-      "nyckelord": ["nynäshamn", "drop-in", "tisdag", "förvaltningskontor", "förbokning"],
-      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
-    },
-    {
-      "titel": "Förvaltningskontor Tullinge",
-      "beskrivning": "Adress: Kvällsvägen 14–16, 146 31 Tullinge. Drop-in för boende på tisdagar 14.30–16.30. Övrig tid bokas i förväg.",
-      "nyckelord": ["tullinge", "drop-in", "tisdag", "förvaltningskontor", "förbokning"],
-      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
-    },
-    {
-      "titel": "Förvaltningskontor Hemse (Gotland)",
-      "beskrivning": "Adress: Storgatan 41, 623 50 Hemse. Drop-in för boende på tisdagar 14.30–16.30. Övrig tid bokas i förväg.",
-      "nyckelord": ["hemse", "gotland", "drop-in", "tisdag", "förvaltningskontor", "förbokning"],
-      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
-    },
-    {
-      "titel": "Vanliga frågor och svar",
-      "beskrivning": "Här hittar du svar på vanliga frågor om medlemskap, avier, bospar, köhantering, andrahandsuthyrning, avgifter och kontaktvägar. Du får också vägledning om e-faktura, autogiro, Kivra, samt ansökningar och blanketter för medlemskap, utträde, överlåtelser och felanmälan. Informationen täcker även betalmetoder, hur man hittar OCR-nummer, avslutar medlemskap, prioritering i kö, vad en överlåtelse- eller pantsättningsavgift innebär, samt hur digitala tjänster fungerar i Mitt HSB.",
+      "rubrik": "kontakt hsb södertörn",
       "nyckelord": [
-        "faq", "vanliga frågor", "avier", "bospar", "köhantering", "andrahandsuthyrning", "avgift", "medlemskap",
-        "autogiro", "e-faktura", "mitt hsb", "kivra", "medlemsavi", "utträde", "blanketter", "överlåtelse",
-        "kundservice", "kontaktformulär", "betalning", "OCR", "köplats", "förmåner", "bostad", "ansökningar",
-        "felanmälan", "kontrakt", "hyresavi", "digitalt avtal", "notifiering", "objektsnummer", "säga upp",
-        "andrahandsblankett", "överföringsbelopp", "mottagare", "bank", "kontonummer"
+        "kontakt",
+        "telefon",
+        "mail",
+        "kundservice",
+        "växel",
+        "kontakta hsb"
       ],
-      "lank": "https://www.hsb.se/sodertorn/kontakta-oss/"
+      "text": "Du kan kontakta HSB Södertörn via telefon, e-post eller kontaktformulär på webben. För många ärenden är det enklast att börja via hemsidan."
+    },
+    {
+      "rubrik": "besök och bokning",
+      "nyckelord": [
+        "besök",
+        "boka möte",
+        "drop-in",
+        "förbokning",
+        "kontor",
+        "öppettider"
+      ],
+      "text": "Vissa kontor har drop-in tider, men i många fall behöver besök bokas i förväg. Kontrollera aktuella tider på hemsidan innan du åker dit."
+    },
+    {
+      "rubrik": "kontor och orter",
+      "nyckelord": [
+        "huddinge",
+        "hallunda",
+        "nynäshamn",
+        "tullinge",
+        "hemse",
+        "gotland",
+        "kontor"
+      ],
+      "text": "HSB Södertörn har kontor i bland annat Huddinge, Hallunda, Nynäshamn, Tullinge och på Gotland (Hemse)."
+    },
+    {
+      "rubrik": "felanmälan och ärenden",
+      "nyckelord": [
+        "felanmälan",
+        "ärende",
+        "problem",
+        "service",
+        "jour",
+        "anmäl fel"
+      ],
+      "text": "Felanmälan görs oftast via föreningens system eller via HSB Södertörns webbplats. Vid akuta problem finns jour via föreningens avtal."
+    },
+    {
+      "rubrik": "mitt hsb och digitala tjänster",
+      "nyckelord": [
+        "mitt hsb",
+        "inloggning",
+        "dokument",
+        "avier",
+        "medlemskap",
+        "digitala tjänster"
+      ],
+      "text": "Via Mitt HSB kan medlemmar och styrelser hantera ärenden, dokument, avier och viss administration digitalt."
+    },
+    {
+      "rubrik": "vägledning till rätt kontakt",
+      "nyckelord": [
+        "vem kontaktar jag",
+        "styrelse",
+        "medlem",
+        "hyresgäst",
+        "ansvar",
+        "kontaktväg"
+      ],
+      "text": "I många fall ska frågor först gå via styrelsen i föreningen. HSB Södertörn kontaktas främst i frågor som rör förvaltning, avtal eller tjänster."
     }
   ]
 }
