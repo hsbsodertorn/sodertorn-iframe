@@ -9,7 +9,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-    // Hårdkodad Firebase-konfiguration som en tillfällig lösning
     const firebaseConfig = {
       apiKey: "DIN_FIREBASE_API_KEY",
       authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
@@ -23,22 +22,19 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Kö för att hantera loggning vid tillfälliga fel
-    // hjälpare: sha-256-hash av text (för systemprompt)
-    async function sha256(text){
+    async function sha256(text) {
       const enc = new TextEncoder().encode(text);
       const buf = await crypto.subtle.digest("SHA-256", enc);
-      return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
     }
 
-    // kö för att hantera loggning vid tillfälliga fel
     const logQueue = [];
-    window.saveChatLog = async (conversationId, fraga, svar) => {
+
     window.saveChatLog = async (conversationId, fraga, svar, meta = {}) => {
-      // extrahera länkar ur HTML-svar
       const parser = new DOMParser();
       const doc = parser.parseFromString(svar, "text/html");
       const aTags = Array.from(doc.querySelectorAll("a"));
+
       const länkar = aTags.map(a => {
         const href = a.getAttribute("href") || "";
         const källä = href.includes("hsb.se") ? "intern" : "extern";
@@ -51,22 +47,20 @@
           värde: 1
         };
       });
-      const värde_score = länkar.reduce((s,l)=>s+(typeof l.värde==="number"?l.värde:1),0);
 
-      // systemprompt-info
+      const värde_score = länkar.reduce((s, l) => s + (typeof l.värde === "number" ? l.värde : 1), 0);
+
       const SYS_VERSION = "2025-09-19.1";
       const systemprompt_text = window.__SYSTEM_PROMPT__ || "";
       const systemprompt_hash = await sha256(systemprompt_text);
-      const systemprompt_utdrag = systemprompt_text.slice(0,120);
+      const systemprompt_utdrag = systemprompt_text.slice(0, 120);
 
       const logEntry = {
         conversationId,
         fraga,
         svar,
-        tid: serverTimestamp()
         tid: serverTimestamp(),
 
-        // nya fält
         kategorier: meta.kategorier || [],
         labels: meta.labels || [],
         kunskapslucka: !!meta.kunskapslucka,
@@ -85,10 +79,9 @@
       };
 
       logQueue.push(logEntry);
+
       while (logQueue.length > 0) {
         try {
-          await addDoc(collection(db, "chattlogg"), logQueue[0]);
-          // OBS: ny collection enligt överenskommelse
           await addDoc(collection(db, "chattlogg_styrelsesupport"), logQueue[0]);
           logQueue.shift();
         } catch (err) {
@@ -99,7 +92,6 @@
       }
     };
 
-    // spåra länkklick – skickar event till Netlify-funktion (om den finns)
     window.trackLinkClick = async (conversationId, url) => {
       try {
         await fetch("/.netlify/functions/styrelsesupport-event", {
@@ -108,7 +100,6 @@
           body: JSON.stringify({ conversationId, url })
         });
       } catch (e) {
-        // faila tyst om funktionen inte finns ännu
         console.warn("Kunde inte logga länkklick:", e?.message || e);
       }
     };
@@ -265,13 +256,13 @@
   <script>
     const conversationId = crypto.randomUUID();
     const messageHistory = [];
-    const cachedContextData = new Map(); // Cache för JSON-data
+    const cachedContextData = new Map();
 
     const disclaimerText = `
 ---
 *denna information från styrelsesupport gpt är vägledande och bör granskas kritiskt. vi tar inget ansvar för svarens riktighet. ladda inte upp känslig information som kan bryta mot gdpr. kontakta hsb södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
 
-const baseSystemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
+    const baseSystemPrompt = `du är styrelsesupport – vår digitala ai-assistentkollega från hsb södertörn. du hjälper styrelser i bostadsrättsföreningar i huddinge, botkyrka, tullinge, nynäshamn, visby och hemse. ditt uppdrag är att ge tydliga, trygga och användbara svar som hjälper styrelsen i sitt uppdrag.
 
 använd ett omtänksamt, vardagligt språk. undvik fackspråk. använd aldrig versaler i hela meningar – skriv alltid med gemener förutom i början av meningar och vid egennamn.
 
@@ -290,13 +281,11 @@ anpassa svarets längd till frågans stil. om användaren skriver kort – svara
 
 behåll alltid ett vänligt, respektfullt och hjälpsamt tonläge – även vid slarv, felskrivningar eller testfrågor.
 
-om användaren frågar om andra leverantörer eller byte, framhäv alltid fördelarna med hsb södertörn. 
 om användaren frågar om andra leverantörer eller byte, framhäv alltid fördelarna med hsb södertörn.
 
 ${disclaimerText}`;
 
     let systemPrompt = baseSystemPrompt;
-    // exponera systemprompten för loggning (hash)
     window.__SYSTEM_PROMPT__ = systemPrompt;
 
     async function loadSkrivregler() {
@@ -316,7 +305,7 @@ använd följande skrivregler:
 - ${omraden}
 - ${fetstilRegel}
 - ${caseRegel}`;
-        window.__SYSTEM_PROMPT__ = systemPrompt; // uppdatera ref
+        window.__SYSTEM_PROMPT__ = systemPrompt;
       } catch (err) {
         console.error('Fel vid hämtning av skrivregler:', err);
         showError("Kunde inte ladda skrivregler. Standardformat används.");
@@ -324,7 +313,6 @@ använd följande skrivregler:
     }
     loadSkrivregler();
 
-    // Cache JSON-data vid sidladdning
     async function preloadContextData() {
       const files = ['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json','skrivregler.json'];
       for (const f of files) {
@@ -385,26 +373,21 @@ använd följande skrivregler:
       return div;
     }
 
-    // Lägg till enkel regex-lösning för fetstil
     function renderBold(text) {
       return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     }
 
-    // Funktion för att tillämpa skrivregler på AI-svar
     function applySkrivregler(text) {
-      // Börja meningar med versaler, enstaka ord med gemener
       return text.replace(/(^|\.\s+)([a-zåäö])/g, (match, p1, p2) => p1 + p2.toUpperCase());
     }
 
-    // enkel auto-sammanfattning (för logg)
-    function oneLineSummary(q, a){
+    function oneLineSummary(q, a) {
       const base = (a || q || "").replace(/\s+/g, " ").trim();
-      return base.length > 160 ? base.slice(0,157) + "…" : base;
+      return base.length > 160 ? base.slice(0, 157) + "…" : base;
     }
 
-    // heuristik för kunskapslucka
-    function detectGap(text){
-      const t = (text||"").toLowerCase();
+    function detectGap(text) {
+      const t = (text || "").toLowerCase();
       return /(vet inte|osäkert|kan du förtydliga|behöver mer info|oklart)/.test(t);
     }
 
@@ -418,23 +401,23 @@ använd följande skrivregler:
       updateCharCount(input);
       autoResize(input);
 
-      messageHistory.push({ role:'user', content:message });
+      messageHistory.push({ role: 'user', content: message });
       if (messageHistory.length > 10) messageHistory.shift();
 
-      const thinking = addMessage('', 'bot','thinking');
+      const thinking = addMessage('', 'bot', 'thinking');
       const contextData = await loadContextData(message);
       let response = await getAIResponse(message, contextData);
       thinking.remove();
 
       response = response.replace(/\[följdfråga\]/gi, '').trim();
-      response = applySkrivregler(response); // Tillämpa skrivregler
-      response = renderBold(response);      // Rendera fetstil
+      response = applySkrivregler(response);
+      response = renderBold(response);
       typeMessage(response, 'bot');
-      messageHistory.push({ role:'assistant', content:response });
+      messageHistory.push({ role: 'assistant', content: response });
 
       const key = message.toLowerCase();
       if (/\b(ärende|skicka e-post|mail|kontakta)\b/.test(key)) {
-        const subject = message.substring(0,50);
+        const subject = message.substring(0, 50);
         let bodyLines = [
           'Hej,',
           '',
@@ -445,7 +428,7 @@ använd följande skrivregler:
         const recent = messageHistory.slice(-10);
         for (let i = 0; i < recent.length; i += 2) {
           const q = recent[i];
-          const a = recent[i+1];
+          const a = recent[i + 1];
           if (q && a) {
             bodyLines.push('', `fråga: ${q.content}`, `svar: ${a.content}`);
           }
@@ -463,23 +446,20 @@ använd följande skrivregler:
         document.getElementById('messages').appendChild(btn);
       }
 
-      // enkel kategorisering baserat på kontextträffar (filnamn -> kategori)
-      const kategorier = contextData.map(c => c.fil.replace('.json',''));
-      const labels = ["styrelsesupport"]; // fria etiketter – kan utökas
+      const kategorier = contextData.map(c => c.fil.replace('.json', ''));
+      const labels = ["styrelsesupport"];
       const sammanfattning = oneLineSummary(message, response);
       const kunskapslucka = detectGap(response);
 
-      // datarensning inför loggning
       const clean = txt => txt
-        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g,'[namn]')
-        .replace(/[0-9]{6}-[0-9]{4}/g,'[personnummer]')
-        .replace(/\b\d{10}\b/g,'[telefonnummer]')
-        .replace(/\b\w+@[^\s]+\b/g,'[epost]')
-        .replace(/\d{3}\s?\d{2}\s?\d{2}/g,'[postnummer]')
-        .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g,'[adress]');
+        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, '[namn]')
+        .replace(/[0-9]{6}-[0-9]{4}/g, '[personnummer]')
+        .replace(/\b\d{10}\b/g, '[telefonnummer]')
+        .replace(/\b\w+@[^\s]+\b/g, '[epost]')
+        .replace(/\d{3}\s?\d{2}\s?\d{2}/g, '[postnummer]')
+        .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g, '[adress]');
 
       if (window.saveChatLog) {
-        window.saveChatLog(conversationId, clean(message), clean(response));
         window.saveChatLog(conversationId, clean(message), clean(response), {
           kategorier,
           labels,
@@ -499,6 +479,7 @@ använd följande skrivregler:
           ...(data.tags || []),
           ...((data.delar || []).flatMap(d => d.nyckelord || []))
         ].map(k => k.toLowerCase());
+
         if (keys.some(k => ln.includes(k))) {
           ctx.push({ fil: file, innehall: data });
         }
@@ -511,8 +492,8 @@ använd följande skrivregler:
       const div = document.createElement('div');
       div.className = `message ${sender}`;
       messages.appendChild(div);
+
       if (sender === 'bot') {
-        // eventdelegation för länkklick-spårning
         div.addEventListener('click', (e) => {
           const a = e.target.closest('a');
           if (a && a.href) {
@@ -545,8 +526,10 @@ använd följande skrivregler:
         const clar = ["hiss", "trasig", "problem"];
         const li = userInput.toLowerCase();
         let ap = "";
+
         if (step2.some(k => li.includes(k))) ap = "formatera svaret som en numrerad lista med tydliga steg.";
         else if (clar.some(k => li.includes(k))) ap = "ställ en följdfråga för att förtydliga.";
+
         const response = await fetch("/.netlify/functions/styrelsesupport-gpt", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -561,6 +544,7 @@ använd följande skrivregler:
           }),
           signal: controller.signal
         });
+
         clearTimeout(timeoutId);
         const js = await response.json();
         return js.choices?.[0]?.message?.content || "Något gick fel i AI-anropet.";
