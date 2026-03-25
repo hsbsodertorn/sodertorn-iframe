@@ -1,0 +1,73 @@
+{
+  "kategori": "normalstadgar",
+  "sammanfattning": "HSB:s normalstadgar används ofta som grund i bostadsrättsföreningar och beskriver ansvar, regler och beslutsprocesser.",
+  "tags": [
+    "stadgar",
+    "normalstadgar",
+    "ansvar",
+    "bostadsrätt",
+    "underhåll",
+    "lägenhet",
+    "styrelse",
+    "renovering",
+    "tillstånd"
+  ],
+  "delar": [
+    {
+      "rubrik": "ansvar i lägenheten",
+      "nyckelord": [
+        "ansvar",
+        "lägenhet",
+        "underhåll",
+        "golv",
+        "väggar",
+        "tak",
+        "ytskikt"
+      ],
+      "text": "I många föreningar, enligt HSB:s normalstadgar, ansvarar bostadsrättshavaren för lägenhetens inre underhåll, till exempel golv, väggar och ytskikt."
+    },
+    {
+      "rubrik": "installationer och ledningar",
+      "nyckelord": [
+        "vatten",
+        "avlopp",
+        "ledning",
+        "installation",
+        "rör",
+        "stammar"
+      ],
+      "text": "Ansvar för installationer och ledningar beror ofta på var de är placerade och hur stadgarna är skrivna. Gränsen mellan förening och medlem kan variera."
+    },
+    {
+      "rubrik": "förändringar i lägenheten",
+      "nyckelord": [
+        "renovering",
+        "ändring",
+        "bygga om",
+        "ingrepp",
+        "tillstånd",
+        "styrelsens godkännande"
+      ],
+      "text": "Större förändringar i lägenheten kräver normalt styrelsens tillstånd, särskilt om de påverkar bärande konstruktioner eller installationer."
+    },
+    {
+      "rubrik": "vad styrs av stadgarna",
+      "nyckelord": [
+        "stadgar",
+        "regler",
+        "vad gäller",
+        "föreningens regler"
+      ],
+      "text": "Stadgarna styr ansvar, rättigheter och skyldigheter i föreningen. Även om många använder normalstadgar kan innehållet skilja sig mellan föreningar."
+    },
+    {
+      "rubrik": "viktig princip",
+      "nyckelord": [
+        "varierar",
+        "olika föreningar",
+        "kontrollera stadgar"
+      ],
+      "text": "Exakta regler kan skilja sig mellan föreningar. Därför är det alltid viktigt att kontrollera just er förenings stadgar."
+    }
+  ]
+}
