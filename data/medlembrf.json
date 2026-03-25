@@ -1,88 +1,124 @@
 {
-  "kategori": "medlemskap_brf",
-  "sammanfattning": "Medlemskap i HSB Södertörn erbjuder bostadsrättsföreningar omfattande stöd inom juridik, utbildning, kommunikation och möjlighet att påverka. Det är en investering i föreningens framtid.",
+  "kategori": "medlem_brf",
+  "sammanfattning": "HSB Södertörn erbjuder bostadsrättsföreningar stöd inom styrelsearbete, juridik, utbildning, stadgar, stämmor, kommunikation och medlemsförmåner.",
   "tags": [
+    "medlem brf",
+    "bostadsrättsförening",
     "medlemskap",
     "hsb-ledamot",
     "juridik",
-    "styrelse",
-    "stadgar",
-    "stämmopool",
-    "kommunikation",
-    "påverkan",
-    "hsb uppdraget",
-    "erbjudanden",
     "utbildning",
+    "stämmopool",
+    "stadgar",
+    "kommunikation",
     "gdpr",
-    "omvärldsbevakning",
-    "varumärke"
+    "erbjudanden",
+    "påverkan"
   ],
   "delar": [
     {
-      "titel": "HSB-ledamot",
-      "beskrivning": "Tillgång till en erfaren HSB-ledamot som deltar i styrelsearbetet och ger strategiskt stöd.",
-      "nyckelord": ["styrelse", "rådgivning", "strategi", "beslut", "hsb-ledamot"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/hsb-ledamot/"
+      "rubrik": "hsb-ledamot",
+      "nyckelord": [
+        "hsb-ledamot",
+        "ledamot från hsb",
+        "stöd i styrelsen",
+        "stöd i styrelsearbetet"
+      ],
+      "text": "Föreningen kan få stöd av en hsb-ledamot som bidrar med erfarenhet, struktur och kunskap i styrelsearbetet."
     },
     {
-      "titel": "Juridisk rådgivning",
-      "beskrivning": "Kvalificerad juridisk rådgivning i allt från komplexa frågor till vägledning vid tvister eller avtalsförhandlingar.",
-      "nyckelord": ["juridik", "rådgivning", "avtal", "tvister", "juridisk rådgivning"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/juridisk-radgivning/"
+      "rubrik": "juridisk rådgivning",
+      "nyckelord": [
+        "juridisk rådgivning",
+        "juridik",
+        "jurist",
+        "avtal",
+        "tvist",
+        "juridisk hjälp"
+      ],
+      "text": "HSB Södertörn erbjuder juridisk rådgivning i frågor som rör föreningen, till exempel stadgar, avtal, ansvar och tvister."
     },
     {
-      "titel": "Utbildningar och stöd",
-      "beskrivning": "Omfattande utbildningsprogram för styrelsemedlemmar, inklusive kurser och seminarier inom föreningsjuridik och ekonomi.",
-      "nyckelord": ["utbildning", "styrelse", "kurser", "kompetens", "seminarier"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/utbildning/"
+      "rubrik": "utbildning",
+      "nyckelord": [
+        "utbildning",
+        "kurs",
+        "kurser",
+        "seminarium",
+        "styrelseutbildning"
+      ],
+      "text": "Föreningen kan ta del av utbildningar och seminarier för styrelsemedlemmar inom till exempel ekonomi, juridik och föreningsstyrning."
     },
     {
-      "titel": "Erbjudanden och samarbetsavtal",
-      "beskrivning": "Förmånliga samarbetsavtal med leverantörer för att minska kostnader inom olika områden.",
-      "nyckelord": ["erbjudanden", "samarbetsavtal", "rabatter", "leverantörer"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/erbjudanden-och-samarbetsavtal/"
+      "rubrik": "stämmopool",
+      "nyckelord": [
+        "stämmopool",
+        "stämmoordförande",
+        "sekreterare",
+        "hjälp med stämma"
+      ],
+      "text": "HSB Södertörn kan hjälpa till med ordförande och sekreterare vid stämmor och andra viktiga möten."
     },
     {
-      "titel": "Medlemstidning – HSB Uppdraget",
-      "beskrivning": "Tidningen HSB Uppdraget ger förtroendevalda inspiration, praktiska tips och aktuell information.",
-      "nyckelord": ["hsb uppdraget", "tidning", "inspiration", "information", "styrelse"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/medlemstidning/"
+      "rubrik": "byta stadgar",
+      "nyckelord": [
+        "byta stadgar",
+        "ändra stadgar",
+        "stadgeändring",
+        "nya stadgar"
+      ],
+      "text": "Föreningen kan få stöd vid stadgeändringar, till exempel om stadgarna behöver uppdateras eller anpassas till nya regler."
     },
     {
-      "titel": "GDPR-stöd",
-      "beskrivning": "Stöd för att säkerställa korrekt hantering av personuppgifter enligt GDPR.",
-      "nyckelord": ["gdpr", "personuppgifter", "dataskydd", "register"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/gdpr/"
+      "rubrik": "gdpr-stöd",
+      "nyckelord": [
+        "gdpr",
+        "personuppgifter",
+        "register",
+        "dataskydd"
+      ],
+      "text": "HSB Södertörn erbjuder stöd i frågor som rör hantering av personuppgifter och dataskydd i föreningen."
     },
     {
-      "titel": "Stämmopool",
-      "beskrivning": "Erfarna mötesordförande och sekreterare som stöd vid stämmor och viktiga möten.",
-      "nyckelord": ["stämmopool", "möte", "ordförande", "sekreterare"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/stammopool/"
+      "rubrik": "kommunikation",
+      "nyckelord": [
+        "kommunikation",
+        "boendekommunikation",
+        "hemsida",
+        "information till boende"
+      ],
+      "text": "Föreningen kan få stöd i boendekommunikation och digitala verktyg, till exempel information till boende och brf-hemsida."
     },
     {
-      "titel": "Byta stadgar",
-      "beskrivning": "Stöd och juridisk rådgivning för att modernisera och anpassa era stadgar enligt lagkrav.",
-      "nyckelord": ["stadgar", "ändra stadgar", "stadgebyte", "juridik"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/byta-stadgar/"
+      "rubrik": "erbjudanden och samarbetsavtal",
+      "nyckelord": [
+        "erbjudanden",
+        "samarbetsavtal",
+        "avtal",
+        "leverantörer",
+        "rabatter"
+      ],
+      "text": "Medlemskapet kan ge tillgång till erbjudanden och samarbetsavtal som kan vara användbara för föreningen."
     },
     {
-      "titel": "Kommunikation",
-      "beskrivning": "Förbättrad boendekommunikation och användning av digitala verktyg – inklusive brf-hemsidor.",
-      "nyckelord": ["kommunikation", "boendekommunikation", "hemsida", "verktyg"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/kommunikation/"
+      "rubrik": "påverkan och inflytande",
+      "nyckelord": [
+        "påverka",
+        "inflytande",
+        "demokrati",
+        "fullmäktige"
+      ],
+      "text": "Medlemsföreningar har möjlighet att påverka inom HSB genom demokratiska processer och representation."
     },
     {
-      "titel": "Påverka",
-      "beskrivning": "Möjlighet att delta i påverkansarbete och påverka HSB:s framtid.",
-      "nyckelord": ["påverkan", "demokrati", "beslut", "inflytande"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/paverka/"
-    },
-    {
-      "titel": "Varumärket HSB",
-      "beskrivning": "HSB är ett starkt varumärke som ger trovärdighet och attraktionskraft till er förening.",
-      "nyckelord": ["varumärke", "profil", "hsb", "trovärdighet", "attraktion"],
-      "lank": "https://www.hsb.se/sodertorn/medlem/bostadsrattsforening/varumarke/"
+      "rubrik": "hsb uppdraget",
+      "nyckelord": [
+        "hsb uppdraget",
+        "medlemstidning",
+        "tidning",
+        "nyheter för styrelsen"
+      ],
+      "text": "HSB Uppdraget är en medlemstidning med information, inspiration och vägledning för förtroendevalda i bostadsrättsföreningar."
     }
   ]
 }
