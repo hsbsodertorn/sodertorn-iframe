@@ -1,0 +1,96 @@
+{
+  "tags": [
+    "styrelse",
+    "styrelsearbete",
+    "ansvar",
+    "beslut",
+    "stämma",
+    "protokoll",
+    "stadgar",
+    "förvaltning",
+    "brf"
+  ],
+  "delar": [
+    {
+      "rubrik": "styrelsens ansvar",
+      "nyckelord": [
+        "ansvar",
+        "styrelsens ansvar",
+        "vad ansvarar styrelsen för",
+        "uppdrag",
+        "förvaltning"
+      ],
+      "text": "Styrelsen ansvarar för att förvalta föreningens ekonomi, fastighet och organisation. Det innebär att fatta beslut, planera underhåll, följa stadgar och lagar samt företräda föreningen."
+    },
+    {
+      "rubrik": "beslut i styrelsen",
+      "nyckelord": [
+        "beslut",
+        "hur fattar man beslut",
+        "styrelsemöte",
+        "rösta",
+        "majoritet"
+      ],
+      "text": "Beslut fattas normalt på styrelsemöten. De flesta beslut tas med enkel majoritet. Alla beslut bör dokumenteras i protokoll."
+    },
+    {
+      "rubrik": "styrelsemöten",
+      "nyckelord": [
+        "styrelsemöte",
+        "möte",
+        "hur ofta möte",
+        "dagordning"
+      ],
+      "text": "Styrelsen håller regelbundna möten där aktuella frågor behandlas. Det är viktigt med tydlig dagordning och att beslut dokumenteras."
+    },
+    {
+      "rubrik": "protokoll",
+      "nyckelord": [
+        "protokoll",
+        "skriva protokoll",
+        "styrelseprotokoll"
+      ],
+      "text": "Alla beslut ska dokumenteras i ett protokoll. Protokollet ska justeras och sparas som underlag för framtida uppföljning."
+    },
+    {
+      "rubrik": "stadgar",
+      "nyckelord": [
+        "stadgar",
+        "föreningens regler",
+        "vad gäller",
+        "regler"
+      ],
+      "text": "Föreningens stadgar styr vad styrelsen får och ska göra. Många frågor avgörs utifrån stadgarna och kan variera mellan föreningar."
+    },
+    {
+      "rubrik": "stämma",
+      "nyckelord": [
+        "stämma",
+        "årsstämma",
+        "beslut stämma",
+        "vad tas upp på stämman"
+      ],
+      "text": "Stämman är föreningens högsta beslutande organ. Där beslutas större frågor som påverkar medlemmarna, exempelvis stadgeändringar eller större investeringar."
+    },
+    {
+      "rubrik": "ansvar medlem vs förening",
+      "nyckelord": [
+        "ansvar",
+        "vem ansvarar",
+        "medlem eller förening",
+        "underhållsansvar"
+      ],
+      "text": "Ansvarsfördelningen mellan medlem och förening styrs oftast av stadgarna. Generellt ansvarar föreningen för fastigheten och medlemmen för den egna lägenheten, men det finns undantag."
+    },
+    {
+      "rubrik": "underhåll och planering",
+      "nyckelord": [
+        "underhåll",
+        "underhållsplan",
+        "renovering",
+        "planera underhåll"
+      ],
+      "text": "Styrelsen ansvarar för att planera och följa upp fastighetens underhåll. En underhållsplan är ett viktigt verktyg för att fatta långsiktiga beslut."
+    }
+  ]
+}
