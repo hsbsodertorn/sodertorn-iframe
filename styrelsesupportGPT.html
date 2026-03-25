@@ -369,18 +369,18 @@ använd följande skrivregler:
     }
     loadSkrivregler();
 
-    async function preloadContextData() {
-      const files = ['bospar.json','forvaltning.json','medlembrf.json','medlemprivatperson.json','sodertorninfo.json','skrivregler.json'];
-      for (const f of files) {
-        try {
-          const res = await fetch(`/data/${f}`);
-          const j = await res.json();
-          cachedContextData.set(f, j);
-        } catch (err) {
-          console.error(`Fel vid cachning av ${f}:`, err);
-        }
-      }
+async function preloadContextData() {
+  const files = ['forvaltning.json','medlembrf.json','sodertorninfo.json','styrelsearbete.json','skrivregler.json'];
+  for (const f of files) {
+    try {
+      const res = await fetch(`/data/${f}`);
+      const j = await res.json();
+      cachedContextData.set(f, j);
+    } catch (err) {
+      console.error(`Fel vid cachning av ${f}:`, err);
     }
+  }
+}
     preloadContextData();
 
     function showError(message) {
