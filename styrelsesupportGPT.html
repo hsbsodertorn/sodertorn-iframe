@@ -130,35 +130,37 @@
     }
     #messages {
       flex: 1;
-      padding: 16px;
+      padding: 20px 18px;
       overflow-y: auto;
-      background: white;
+      background: linear-gradient(to bottom, #fbfdff, #f7fbff);
       display: flex;
       flex-direction: column;
     }
     .message {
-      max-width: 75%;
-      padding: 12px 16px;
-      margin-bottom: 12px;
-      border-radius: 20px;
+      max-width: 78%;
+      padding: 14px 18px;
+      margin-bottom: 14px;
+      border-radius: 18px;
       white-space: pre-line;
       word-break: break-word;
       font-size: 16px;
-      line-height: 1.4;
+      line-height: 1.55;
       display: inline-block;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
     .user {
       align-self: flex-end;
-      background-color: #f7f7f8;
-      color: #000;
-      border-radius: 18px;
+      background: #eef2f6;
+      color: #1c2733;
+      border-top-right-radius: 8px;
     }
     .bot, .bot-question {
       align-self: flex-start;
-      background: #e8f0fe;
-      color: #000;
+      background: #eaf3ff;
+      color: #0f2236;
       padding: 12px 16px;
       border-radius: 18px;
+      border-top-left-radius: 8px;
     }
     .thinking {
       display: inline-flex;
@@ -192,39 +194,48 @@
     .link-button:hover { background: #004070; }
     #inputArea {
       display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      border-top: 1px solid #e0e0e0;
+      align-items: flex-end;
+      padding: 14px 16px 16px;
+      border-top: 1px solid #e4edf5;
       gap: 12px;
-      box-shadow: 0 -2px 4px rgba(0,0,0,0.04);
+      background: #ffffff;
     }
     textarea {
       flex: 1;
-      min-height: 48px;
+      min-height: 52px;
       max-height: 200px;
-      padding: 14px 20px;
-      border-radius: 24px;
-      border: 1px solid #ccc;
+      padding: 14px 18px;
+      border-radius: 18px;
+      border: 1px solid #c9d9e8;
       font-size: 16px;
       resize: none;
       font-family: 'Open Sans', sans-serif;
+      background: #fbfdff;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     textarea:focus {
       border-color: #00558c;
       outline: none;
+      box-shadow: 0 0 0 3px rgba(0,85,140,0.10);
     }
     #charCount { font-size: 14px; color: #666; }
     button {
       background: #00558c;
       color: white;
       border: none;
-      border-radius: 24px;
+      border-radius: 18px;
       padding: 14px 20px;
       font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.1s;
     }
-    button:hover { background: #004070; }
+    button:hover {
+      background: #004070;
+    }
+    button:active {
+      transform: translateY(1px);
+    }
     .error {
       align-self: center;
       background: #ffe6e6;
