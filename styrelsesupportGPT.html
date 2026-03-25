@@ -380,7 +380,7 @@ använd följande skrivregler:
     loadSkrivregler();
 
 async function preloadContextData() {
-  const files = ['forvaltning.json','medlembrf.json','sodertorninfo.json','styrelsearbete.json','skrivregler.json'];
+  const files = ['forvaltning.json','medlembrf.json','sodertorninfo.json','styrelsearbete.json','skrivregler.json','normalstadgar.json',];
   for (const f of files) {
     try {
       const res = await fetch(`/data/${f}`);
