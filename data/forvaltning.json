@@ -1,74 +1,134 @@
 {
   "kategori": "förvaltning",
-  "sammanfattning": "HSB Södertörn erbjuder heltäckande fastighetsförvaltning i Huddinge, Botkyrka, Tullinge, Nynäshamn, Visby och Hemse. Vi tillhandahåller teknisk och ekonomisk förvaltning, fastighetsservice, projektledning och hållbarhetslösningar anpassade för bostadsrättsföreningar.",
+  "sammanfattning": "HSB Södertörn erbjuder stöd inom ekonomisk och teknisk förvaltning, fastighetsservice, energi, projekt och digitala verktyg för bostadsrättsföreningar.",
   "tags": [
-    "förvaltning", "teknisk", "ekonomisk", "fastighetsservice",
-    "projektledning", "budget", "bokföring", "styrelseservice",
-    "trädgård", "underhåll", "OVK", "värmesystem", "snöröjning", "hsb"
+    "förvaltning",
+    "ekonomisk förvaltning",
+    "teknisk förvaltning",
+    "fastighetsservice",
+    "mark och trädgård",
+    "energi",
+    "projektledning",
+    "mitt hsb",
+    "styrelsestöd"
   ],
   "delar": [
     {
-      "titel": "Ekonomisk förvaltning",
-      "beskrivning": "Vi erbjuder bokföring, budget, årsredovisning, avgiftshantering, inkasso, löner, prognoser och låneadministration.",
-      "nyckelord": ["ekonomi", "bokföring", "årsredovisning", "budget", "avgift", "inkasso", "prognos", "lånehantering"],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/ekonomisk-forvaltning/"
+      "rubrik": "ekonomisk förvaltning",
+      "nyckelord": [
+        "ekonomisk förvaltning",
+        "ekonomi",
+        "bokföring",
+        "budget",
+        "årsredovisning",
+        "avgifter",
+        "prognos",
+        "inkasso",
+        "lån"
+      ],
+      "text": "HSB Södertörn erbjuder stöd inom bokföring, budget, årsredovisning, avgiftshantering, prognoser, inkasso och låneadministration."
     },
     {
-      "titel": "Teknisk förvaltning",
-      "beskrivning": "Vi sköter underhållsplanering, besiktningar, skador, tillsyn, garantier och trygghetscertifiering.",
-      "nyckelord": ["teknisk", "underhållsplan", "besiktning", "garantibesiktning", "tillsyn", "trygghetscertifiering"],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/teknisk-forvaltning/"
+      "rubrik": "teknisk förvaltning",
+      "nyckelord": [
+        "teknisk förvaltning",
+        "underhållsplan",
+        "besiktning",
+        "tillsyn",
+        "skador",
+        "garantibesiktning"
+      ],
+      "text": "HSB Södertörn erbjuder teknisk förvaltning med stöd inom underhållsplanering, besiktningar, tillsyn, skador och uppföljning."
     },
     {
-      "titel": "Fastighetsservice",
-      "beskrivning": "Vi erbjuder jourberedskap, rondering, reparationer, VVS och el-service samt boendeservice.",
-      "nyckelord": ["service", "fastighetsservice", "jour", "felanmälan", "reparation", "vvs", "el", "rondering"],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/fastighetsskotsel/"
+      "rubrik": "fastighetsservice",
+      "nyckelord": [
+        "fastighetsservice",
+        "jour",
+        "felanmälan",
+        "reparation",
+        "vvs",
+        "el",
+        "rondering",
+        "boendeservice"
+      ],
+      "text": "Föreningen kan få hjälp med fastighetsservice som jour, rondering, reparationer samt viss boendeservice."
     },
     {
-      "titel": "Mark och trädgård",
-      "beskrivning": "Skötsel av grönytor, lekplatser, vinterväghållning och utveckling av utemiljön.",
-      "nyckelord": ["trädgård", "mark", "lekplats", "beskärning", "snöröjning", "lövrensning", "vinterväghållning"],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/mark-tradgard/"
+      "rubrik": "mark och trädgård",
+      "nyckelord": [
+        "mark",
+        "trädgård",
+        "utemiljö",
+        "lekplats",
+        "snöröjning",
+        "beskärning",
+        "vinterväghållning"
+      ],
+      "text": "HSB Södertörn erbjuder tjänster inom mark och trädgård, till exempel skötsel av grönytor, lekplatser och vinterväghållning."
     },
     {
-      "titel": "Energieffektivisering",
-      "beskrivning": "Energideklarationer, åtgärdsplaner, driftoptimering, OVK, värmesystem och smart energistyrning.",
-      "nyckelord": ["energi", "energieffektivisering", "energideklaration", "drift", "ovk", "värme", "energistatistik"],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/energitjanster2/"
+      "rubrik": "energi och drift",
+      "nyckelord": [
+        "energi",
+        "energieffektivisering",
+        "energideklaration",
+        "ovk",
+        "värme",
+        "driftoptimering",
+        "energistatistik"
+      ],
+      "text": "Föreningen kan få stöd inom energi och drift, till exempel energideklarationer, OVK, värmesystem och driftoptimering."
     },
     {
-      "titel": "Fastighetsutveckling",
-      "beskrivning": "Balkong- och fasadrenovering, upphandlingar, bostadsrättsbildningar, energiTrygg och underhållsplaner.",
-      "nyckelord": ["utveckling", "fasad", "balkong", "upphandling", "bostadsrätt", "energiplan", "underhåll"],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/fastighetsutveckling/"
+      "rubrik": "fastighetsutveckling",
+      "nyckelord": [
+        "fastighetsutveckling",
+        "fasad",
+        "balkong",
+        "upphandling",
+        "renovering",
+        "underhållsprojekt"
+      ],
+      "text": "HSB Södertörn kan hjälpa till i frågor som rör fastighetsutveckling, till exempel renoveringar, upphandlingar och större underhållsprojekt."
     },
     {
-      "titel": "Projektledning",
-      "beskrivning": "Planering, samordning, upphandling och kvalitetskontroll av fastighetsprojekt.",
-      "nyckelord": ["projekt", "projektledning", "samordning", "upphandling", "entreprenad", "byggkontroll"],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/fastighetsutveckling/"
+      "rubrik": "projektledning",
+      "nyckelord": [
+        "projektledning",
+        "projekt",
+        "samordning",
+        "entreprenad",
+        "byggprojekt",
+        "kvalitetskontroll"
+      ],
+      "text": "Föreningen kan få stöd med projektledning vid fastighetsprojekt, från planering och upphandling till samordning och uppföljning."
     },
     {
-      "titel": "Mitt HSB",
-      "beskrivning": "Digital plattform med verktyg för ekonomi, dokument, ärenden och medlemsadministration.",
-      "nyckelord": ["styrelseservice", "mitt hsb", "plattform", "ekonomi", "dokument", "ärenden", "medlemsregister"],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/medlem/"
+      "rubrik": "mitt hsb",
+      "nyckelord": [
+        "mitt hsb",
+        "styrelseservice",
+        "plattform",
+        "dokument",
+        "ärenden",
+        "medlemsregister",
+        "digitalt verktyg"
+      ],
+      "text": "Mitt HSB är en digital plattform där föreningen kan hantera exempelvis dokument, ärenden och viss administration."
     },
     {
-      "titel": "Kommunikation och styrelsestöd",
-      "beskrivning": "Utbildningar i kommunikation, stöd vid kommunikation och hjälp med brf-hemsidor för att stärka dialogen med boende.",
+      "rubrik": "kommunikation och styrelsestöd",
       "nyckelord": [
         "kommunikation",
         "styrelsestöd",
-        "hemsida",
         "boendeinformation",
+        "hemsida",
         "kommunikationsstöd",
-        "utbildning",
-        "intern kommunikation"
-        "AI"
+        "intern kommunikation",
+        "ai"
       ],
-      "lank": "https://www.hsb.se/sodertorn/tillsammans/kommunikationstjanster/"
+      "text": "HSB Södertörn kan även ge stöd i kommunikation, boendeinformation och vissa digitala verktyg som underlättar styrelsens arbete."
     }
   ]
 }
