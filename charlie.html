@@ -176,8 +176,7 @@
 
     /* ── App shell ── */
     .app-shell {
-      display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
+      display: flex;
       width: 100%;
       min-height: 100vh;
     }
@@ -351,30 +350,7 @@
       font-size: 16px;
     }
 
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .status-pill .live-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #3d9a6e;
-      animation: blinkLive 2s infinite;
-    }
-
-    @keyframes blinkLive {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
+    /* status-pill removed */
 
     /* ── Chat area ── */
     .chat-area {
@@ -759,14 +735,6 @@
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
-      .app-shell {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        display: none;
-      }
-
       .topbar {
         padding: 12px 20px;
       }
@@ -793,41 +761,13 @@
 </head>
 <body>
   <div class="app-shell">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-badge">
-          <span class="brand-dot"></span>
-          <span>HSB Södertörn</span>
-        </div>
-        <h1>Charlie</h1>
-        <p>Styrelsesupport med samma motor, loggning och datakällor som originalet.</p>
-      </div>
-
-      <div class="sidebar-divider"></div>
-
-      <div class="sidebar-section">
-        <h2>Kan hjälpa till med</h2>
-        <p>Styrelsearbete, ansvar i brf, stämmor, protokoll, boendefrågor, förvaltning och HSB Södertörns tjänster.</p>
-      </div>
-
-      <div class="sidebar-divider"></div>
-
-      <div class="sidebar-section">
-        <h2>Viktigt att veta</h2>
-        <p>Dela inte känsliga personuppgifter. Svaren är vägledande och bör granskas kritiskt.</p>
-      </div>
-    </aside>
 
     <main class="main">
       <div class="topbar">
         <div class="topbar-title">
           <strong>Charlie</strong>
           <span class="topbar-sep">·</span>
-          <span>Styrelsesupport</span>
-        </div>
-        <div class="status-pill">
-          <span class="live-dot"></span>
-          <span>ansluten</span>
+          <span>Styrelsesupport för brf</span>
         </div>
       </div>
 
@@ -836,13 +776,13 @@
           <div id="messages" aria-live="polite">
             <div class="welcome-card">
               <h2>Hej, jag är Charlie.</h2>
-              <p>Jag hjälper till med frågor om styrelsearbete, boende, förvaltning och HSB Södertörns stöd. Skriv din fråga så tar vi det steg för steg.</p>
+              <p>Jag hjälper styrelser i bostadsrättsföreningar med frågor om styrelsearbete, ansvar, stadgar, stämmor och förvaltning. Skriv din fråga så tar vi det steg för steg.</p>
             </div>
 
             <div class="message-row bot-row">
               <div class="bot-row-inner">
                 <div class="bot-avatar"></div>
-                <div class="message bot">Hej! Välkommen till styrelsesupport. Vad vill du ha hjälp med idag?</div>
+                <div class="message bot">Hej! Vad kan jag hjälpa er styrelse med idag?</div>
               </div>
             </div>
           </div>
@@ -868,7 +808,7 @@
               </button>
             </div>
             <div class="composer-footer">
-              <span class="composer-note">Charlie använder samma AI-motor och lagring som styrelsesupport.</span>
+              <span class="composer-note">AI kan göra misstag. Granska alltid svaren kritiskt.</span>
               <span id="charCount">0/1000</span>
             </div>
           </div>
