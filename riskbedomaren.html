@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riskbedömaren – stambyte & relining</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #d8eaf5;
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+    color: #1a2e44;
+  }
+
+  .page-header { max-width: 720px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 28px; font-weight: 800; color: #0d2b4e; margin-bottom: 10px; }
+  .page-header p { font-size: 15px; color: #2c5070; line-height: 1.6; max-width: 560px; }
+
+  .layout { max-width: 720px; margin: 0 auto; display: grid; grid-template-columns: 1fr 220px; gap: 16px; align-items: start; }
+  @media (max-width: 620px) { .layout { grid-template-columns: 1fr; } }
+
+  /* QUIZ CARD */
+  .quiz-card {
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .progress-bar-wrap { height: 5px; background: #e8f1f8; }
+  .progress-bar { height: 5px; background: #0d2b4e; transition: width 0.4s ease; }
+
+  .quiz-inner { padding: 28px 28px 24px; }
+  .step-counter { font-size: 12px; font-weight: 700; color: #8ab0cc; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+  .question { font-size: 18px; font-weight: 700; color: #0d2b4e; margin-bottom: 6px; line-height: 1.4; }
+  .question-hint { font-size: 13px; color: #5a7a96; margin-bottom: 20px; line-height: 1.5; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    border: 1.5px solid #c8dcea; border-radius: 9px;
+    padding: 13px 16px; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .option:hover { border-color: #0d6bb5; background: #f4f9fd; }
+  .option.selected { border-color: #0d2b4e; background: #eaf2fa; }
+  .option.selected .opt-radio { background: #0d2b4e; border-color: #0d2b4e; }
+  .option.selected .opt-radio::after { opacity: 1; }
+  .opt-radio {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 2px solid #c8dcea; flex-shrink: 0;
+    position: relative; transition: all 0.15s;
+  }
+  .opt-radio::after {
+    content: ''; position: absolute;
+    top: 3px; left: 3px; width: 8px; height: 8px;
+    border-radius: 50%; background: #fff; opacity: 0; transition: opacity 0.15s;
+  }
+  .opt-text { font-size: 14px; color: #1a2e44; }
+  .opt-sub { font-size: 12px; color: #7a9ab0; margin-top: 1px; }
+
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 22px; }
+  .btn-back {
+    background: none; border: 1.5px solid #c8dcea; border-radius: 8px;
+    padding: 9px 18px; font-size: 14px; color: #5a7a96; cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-back:hover { border-color: #0d2b4e; color: #0d2b4e; }
+  .btn-next {
+    background: #0d2b4e; color: #fff; border: none;
+    border-radius: 8px; padding: 10px 24px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: background 0.15s; opacity: 0.4; pointer-events: none;
+  }
+  .btn-next.active { opacity: 1; pointer-events: auto; }
+  .btn-next.active:hover { background: #0d4a80; }
+
+  /* RISK METER (sidebar) */
+  .meter-card {
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 22px 20px; position: sticky; top: 20px;
+  }
+  .meter-title { font-size: 13px; font-weight: 700; color: #0d2b4e; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .gauge-wrap { position: relative; width: 140px; height: 80px; margin: 0 auto 14px; }
+  .gauge-bg { fill: none; stroke: #e8f1f8; stroke-width: 14; stroke-linecap: round; }
+  .gauge-fill { fill: none; stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease, stroke 0.4s; }
+  .gauge-text { text-anchor: middle; dominant-baseline: central; }
+  .risk-score-big { font-size: 28px; font-weight: 800; text-align: center; margin-bottom: 4px; transition: color 0.4s; }
+  .risk-label { font-size: 12px; text-align: center; font-weight: 700; margin-bottom: 16px; transition: color 0.4s; }
+
+  .factor-list { display: flex; flex-direction: column; gap: 8px; }
+  .factor-row { display: flex; align-items: center; gap: 8px; }
+  .factor-name { font-size: 11px; color: #5a7a96; flex: 1; }
+  .factor-bar-wrap { width: 60px; height: 6px; background: #e8f1f8; border-radius: 3px; overflow: hidden; }
+  .factor-bar { height: 100%; border-radius: 3px; transition: width 0.5s ease, background 0.4s; }
+
+  /* RESULTS */
+  #results { display: none; }
+  .result-card {
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 28px 32px; max-width: 720px; margin: 0 auto 20px;
+  }
+  .result-card h2 { font-size: 20px; font-weight: 800; color: #0d2b4e; margin-bottom: 6px; }
+  .result-card .subtitle { font-size: 13px; color: #5a7a96; margin-bottom: 22px; }
+
+  .verdict {
+    border-radius: 10px; padding: 18px 22px; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .verdict-icon { font-size: 32px; flex-shrink: 0; }
+  .verdict-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .verdict-text p { font-size: 13px; line-height: 1.6; }
+  .verdict-green { background: #eaf7f0; color: #0e5c30; }
+  .verdict-amber { background: #fff8e6; color: #7a5000; }
+  .verdict-red { background: #fdecea; color: #7a1a1a; }
+
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  @media (max-width: 500px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-box {
+    border: 1.5px solid #c8dcea; border-radius: 10px; padding: 16px 18px;
+  }
+  .compare-box.recommended { border-color: #0d2b4e; background: #eaf2fa; }
+  .compare-box h4 { font-size: 13px; font-weight: 700; color: #0d2b4e; margin-bottom: 10px; }
+  .compare-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+  .compare-row .lbl { color: #5a7a96; }
+  .compare-row .val { font-weight: 700; color: #1a2e44; }
+  .rec-badge {
+    display: inline-block; background: #0d2b4e; color: #fff;
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: 6px;
+  }
+
+  .next-steps { margin-top: 8px; }
+  .next-steps h3 { font-size: 14px; font-weight: 700; color: #0d2b4e; margin-bottom: 10px; }
+  .step-item { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 50%; background: #0d2b4e;
+    color: #fff; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-text { font-size: 13px; color: #1a2e44; line-height: 1.5; }
+
+  .btn-restart {
+    background: none; border: 1.5px solid #0d2b4e; border-radius: 8px;
+    padding: 10px 20px; font-size: 13px; font-weight: 700; color: #0d2b4e;
+    cursor: pointer; margin-top: 16px; transition: background 0.15s;
+  }
+  .btn-restart:hover { background: #eaf2fa; }
+
+  .demo-tag { font-size: 12px; color: #8aacbf; margin-top: 32px; max-width: 720px; margin-left: auto; margin-right: auto; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Är det dags att agera på era rör?</h1>
+  <p>Svara på 7 frågor om er fastighet. Vi räknar ut ett riskindex och visar om relining eller fullt stambyte är rätt väg – inklusive kostnads- och break-even-jämförelse.</p>
+</div>
+
+<div class="layout" id="quiz-layout">
+  <!-- QUIZ -->
+  <div class="quiz-card">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progress"></div></div>
+    <div class="quiz-inner" id="quiz-inner"></div>
+  </div>
+
+  <!-- MÄTARE -->
+  <div class="meter-card">
+    <div class="meter-title">Riskindex</div>
+    <div class="gauge-wrap">
+      <svg width="140" height="80" viewBox="0 0 140 80">
+        <path class="gauge-bg" d="M 15 75 A 55 55 0 0 1 125 75" />
+        <path class="gauge-fill" id="gauge-fill" d="M 15 75 A 55 55 0 0 1 125 75"
+          stroke="#2a9d8f"
+          stroke-dasharray="173"
+          stroke-dashoffset="173" />
+        <text class="gauge-text" id="gauge-num" x="70" y="68" font-size="20" font-weight="800" fill="#0d2b4e">0</text>
+      </svg>
+    </div>
+    <div class="risk-score-big" id="risk-big">0 / 100</div>
+    <div class="risk-label" id="risk-lbl" style="color:#2a9d8f">Låg risk</div>
+    <div class="factor-list" id="factor-list"></div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results">
+  <div class="result-card">
+    <h2 id="res-title">–</h2>
+    <p class="subtitle" id="res-subtitle">–</p>
+
+    <div class="verdict" id="verdict-box">
+      <div class="verdict-icon" id="verdict-icon">–</div>
+      <div class="verdict-text">
+        <h3 id="verdict-h">–</h3>
+        <p id="verdict-p">–</p>
+      </div>
+    </div>
+
+    <div class="compare-grid" id="compare-grid"></div>
+
+    <div class="next-steps" id="next-steps-wrap">
+      <h3>Rekommenderade nästa steg</h3>
+      <div id="next-steps"></div>
+    </div>
+
+    <button class="btn-restart" onclick="restart()">← Gör om bedömningen</button>
+  </div>
+</div>
+
+<p class="demo-tag">Demo</p>
+
+<script>
+const FRAGOR = [
+  {
+    id: 'alder',
+    fraga: 'Hur gamla är era stammar?',
+    hint: 'Rör av gjutjärn och koppar har olika livslängd – ålder är den enskilt viktigaste riskfaktorn.',
+    alternativ: [
+      { text: 'Under 30 år', sub: 'Relativt nya rör', risk: 5, label: 'Under 30 år' },
+      { text: '30–45 år',    sub: 'Begynnande slitage möjligt', risk: 25, label: '30–45 år' },
+      { text: '45–60 år',    sub: 'Hög sannolikhet för åtgärd', risk: 60, label: '45–60 år' },
+      { text: 'Över 60 år',  sub: 'Akut riskzon', risk: 90, label: 'Över 60 år' },
+    ]
+  },
+  {
+    id: 'material',
+    fraga: 'Vilket rörmaterial har ni?',
+    hint: 'Gjutjärn och plast har olika nedbrytningsprofil och lämpar sig olika väl för relining.',
+    alternativ: [
+      { text: 'Gjutjärn',       sub: 'Vanligast i äldre fastigheter', risk: 40, label: 'Gjutjärn' },
+      { text: 'Koppar',         sub: 'Klarar sig ofta längre', risk: 20, label: 'Koppar' },
+      { text: 'Plast (PVC/PP)', sub: 'Modern standard, låg risk', risk: 10, label: 'Plast' },
+      { text: 'Okänt',          sub: 'Besiktning krävs för säker bedömning', risk: 55, label: 'Okänt' },
+    ]
+  },
+  {
+    id: 'stopp',
+    fraga: 'Hur ofta förekommer stopp och driftstörningar?',
+    hint: 'Återkommande stopp är ett tydligt tecken på igenväxning eller kollaps i rören.',
+    alternativ: [
+      { text: 'Aldrig eller sällan', sub: 'Inga kända problem', risk: 5, label: 'Sällan' },
+      { text: 'Någon gång per år',   sub: 'Sporadiska händelser', risk: 30, label: 'Ibland' },
+      { text: 'Flera gånger per år', sub: 'Tydligt återkommande mönster', risk: 65, label: 'Ofta' },
+      { text: 'Mycket ofta',         sub: 'Kräver omedelbar åtgärd', risk: 90, label: 'Kritiskt' },
+    ]
+  },
+  {
+    id: 'lackor',
+    fraga: 'Har ni haft läckor eller vattenskador?',
+    hint: 'Pinhole-läckor i koppar eller sprickor i gjutjärn indikerar att rören är i slutfasen.',
+    alternativ: [
+      { text: 'Inga kända läckor',           sub: '', risk: 5, label: 'Inga' },
+      { text: 'Enstaka läcka (åtgärdad)',    sub: 'Punktreparation genomförd', risk: 35, label: 'Enstaka' },
+      { text: 'Flera läckor senaste 3 åren', sub: 'Systematiskt problem', risk: 75, label: 'Flera' },
+    ]
+  },
+  {
+    id: 'besiktning',
+    fraga: 'Har rören besiktigats eller filmats?',
+    hint: 'En kamerainspektionkan visa igenväxning, sprickor och skick utan att öppna upp.',
+    alternativ: [
+      { text: 'Ja, nyligen (senaste 3 åren)',  sub: 'Bra underlag finns', risk: 0, label: 'Nyligen' },
+      { text: 'Ja, men för länge sedan',        sub: 'Kan ha förändrats', risk: 20, label: 'Gammalt' },
+      { text: 'Nej, aldrig besiktigats',        sub: 'Okänt skick', risk: 40, label: 'Aldrig' },
+    ]
+  },
+  {
+    id: 'storlek',
+    fraga: 'Hur stor är er fastighet?',
+    hint: 'Storlek påverkar kostnad och logistisk komplexitet vid både relining och stambyte.',
+    alternativ: [
+      { text: 'Liten (under 20 lgh)',   sub: 'Under 1 500 kvm', risk: 0, label: 'Liten' },
+      { text: 'Medelstor (20–60 lgh)',  sub: '1 500–5 000 kvm', risk: 0, label: 'Medelstor' },
+      { text: 'Stor (över 60 lgh)',     sub: 'Över 5 000 kvm', risk: 0, label: 'Stor' },
+    ]
+  },
+  {
+    id: 'budget',
+    fraga: 'Hur ser er ekonomiska situation ut?',
+    hint: 'Likviditet och låneutrymme påverkar vilka lösningar som är realistiska att genomföra.',
+    alternativ: [
+      { text: 'God likviditet',        sub: 'Kan finansiera stora åtgärder', risk: 0, label: 'God' },
+      { text: 'Begränsad likviditet',  sub: 'Behöver sprida ut kostnader', risk: 0, label: 'Begränsad' },
+      { text: 'Ansträngd ekonomi',     sub: 'Lån krävs för större åtgärder', risk: 0, label: 'Ansträngd' },
+    ]
+  },
+];
+
+const FAKTORER = [
+  { id: 'alder',      namn: 'Rörålder',    vikt: 0.35 },
+  { id: 'material',   namn: 'Material',    vikt: 0.15 },
+  { id: 'stopp',      namn: 'Driftstörning', vikt: 0.25 },
+  { id: 'lackor',     namn: 'Läckor',      vikt: 0.20 },
+  { id: 'besiktning', namn: 'Besiktning',  vikt: 0.05 },
+];
+
+let steg = 0;
+let svar = {};
+
+function renderFaktorList() {
+  const fl = document.getElementById('factor-list');
+  fl.innerHTML = '';
+  FAKTORER.forEach(f => {
+    const val = svar[f.id] !== undefined ? svar[f.id].risk : 0;
+    const color = val >= 60 ? '#c0392b' : val >= 30 ? '#e07820' : '#2a9d8f';
+    fl.innerHTML += `
+      <div class="factor-row">
+        <div class="factor-name">${f.namn}</div>
+        <div class="factor-bar-wrap">
+          <div class="factor-bar" style="width:${val}%;background:${color}"></div>
+        </div>
+      </div>`;
+  });
+}
+
+function calcRisk() {
+  let score = 0, totalVikt = 0;
+  FAKTORER.forEach(f => {
+    if (svar[f.id] !== undefined) {
+      score += svar[f.id].risk * f.vikt;
+      totalVikt += f.vikt;
+    }
+  });
+  return totalVikt > 0 ? Math.round(score / totalVikt) : 0;
+}
+
+function updateMeter() {
+  const score = calcRisk();
+  const arc = 173;
+  const offset = arc - (arc * score / 100);
+  const color = score >= 60 ? '#c0392b' : score >= 35 ? '#e07820' : '#2a9d8f';
+  const lbl = score >= 60 ? 'Hög risk' : score >= 35 ? 'Medelhög risk' : 'Låg risk';
+
+  document.getElementById('gauge-fill').style.strokeDashoffset = offset;
+  document.getElementById('gauge-fill').style.stroke = color;
+  document.getElementById('gauge-num').textContent = score;
+  document.getElementById('gauge-num').style.fill = color;
+  document.getElementById('risk-big').textContent = score + ' / 100';
+  document.getElementById('risk-big').style.color = color;
+  document.getElementById('risk-lbl').textContent = lbl;
+  document.getElementById('risk-lbl').style.color = color;
+  renderFaktorList();
+}
+
+function renderSteg() {
+  const f = FRAGOR[steg];
+  const pct = ((steg) / FRAGOR.length) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+
+  const valtSvar = svar[f.id];
+  let html = `
+    <div class="step-counter">Fråga ${steg + 1} av ${FRAGOR.length}</div>
+    <div class="question">${f.fraga}</div>
+    <div class="question-hint">${f.hint}</div>
+    <div class="options">`;
+
+  f.alternativ.forEach((a, i) => {
+    const sel = valtSvar && valtSvar.label === a.label ? ' selected' : '';
+    html += `
+      <div class="option${sel}" onclick="valjSvar(${i})">
+        <div class="opt-radio"></div>
+        <div>
+          <div class="opt-text">${a.text}</div>
+          ${a.sub ? `<div class="opt-sub">${a.sub}</div>` : ''}
+        </div>
+      </div>`;
+  });
+
+  html += `</div>
+    <div class="quiz-nav">
+      <button class="btn-back" onclick="gaBack()" ${steg === 0 ? 'style="visibility:hidden"' : ''}>← Tillbaka</button>
+      <button class="btn-next ${valtSvar ? 'active' : ''}" id="btn-next" onclick="gaNext()">
+        ${steg === FRAGOR.length - 1 ? 'Se resultat →' : 'Nästa →'}
+      </button>
+    </div>`;
+
+  document.getElementById('quiz-inner').innerHTML = html;
+}
+
+function valjSvar(i) {
+  const f = FRAGOR[steg];
+  svar[f.id] = f.alternativ[i];
+  renderSteg();
+  updateMeter();
+}
+
+function gaNext() {
+  if (!svar[FRAGOR[steg].id]) return;
+  if (steg < FRAGOR.length - 1) {
+    steg++;
+    renderSteg();
+  } else {
+    visaResultat();
+  }
+}
+
+function gaBack() {
+  if (steg > 0) { steg--; renderSteg(); }
+}
+
+function visaResultat() {
+  const score = calcRisk();
+  const lag = svar.storlek?.label;
+  const budget = svar.budget?.label;
+
+  // Kostnadsschabloner per kvm (approximation)
+  const kvmMap = { 'Liten': 1200, 'Medelstor': 3500, 'Stor': 8000 };
+  const kvm = kvmMap[lag] || 3500;
+  const relinKost = Math.round(kvm * 850);
+  const stamKost = Math.round(kvm * 2200);
+  const relinLiv = 30;
+  const stamLiv = 50;
+  const relinPerAr = Math.round(relinKost / relinLiv);
+  const stamPerAr = Math.round(stamKost / stamLiv);
+  const breakEven = Math.round((stamKost - relinKost) / (relinPerAr - stamPerAr + (relinKost * 0.005)));
+
+  // Verdict
+  let verdictCls, verdictIcon, verdiktH, verdiktP, rec;
+  if (score < 35) {
+    verdictCls = 'verdict-green'; verdictIcon = '✓';
+    verdiktH = 'Ingen akut åtgärd nödvändig';
+    verdiktP = 'Era rör visar låg riskprofil just nu. Fortsätt med regelbunden besiktning och förebyggande spolning. Planera in nästa filmning inom 3 år.';
+    rec = 'Avvakta';
+  } else if (score < 60) {
+    verdictCls = 'verdict-amber'; verdictIcon = '⚠';
+    verdiktH = 'Relining är sannolikt rätt nästa steg';
+    verdiktP = 'Ni befinner er i ett tidigt åtgärdsfönster. Relining ger bäst ekonomi om rören fortfarande är strukturellt intakta. Genomför kamerainspektionföre beslut.';
+    rec = 'Relining';
+  } else {
+    verdictCls = 'verdict-red'; verdictIcon = '!';
+    verdiktH = 'Stambyte bör planeras snarast';
+    verdiktP = 'Riskprofilen är hög. Relining kan vara ett komplement men löser troligen inte grundproblemet. Vi rekommenderar en professionell besiktning omgående.';
+    rec = 'Stambyte';
+  }
+
+  document.getElementById('res-title').textContent = 'Ert riskindex: ' + score + ' / 100';
+  document.getElementById('res-subtitle').textContent = 'Baserat på era svar. Nedan ser ni rekommendation, kostnadsjämförelse och nästa steg.';
+  const vb = document.getElementById('verdict-box');
+  vb.className = 'verdict ' + verdictCls;
+  document.getElementById('verdict-icon').textContent = verdictIcon;
+  document.getElementById('verdict-h').textContent = verdiktH;
+  document.getElementById('verdict-p').textContent = verdiktP;
+
+  // Kostnadsjämförelse
+  const cg = document.getElementById('compare-grid');
+  const relinRec = rec === 'Relining' || rec === 'Avvakta';
+  const stamRec = rec === 'Stambyte';
+  cg.innerHTML = `
+    <div class="compare-box ${relinRec ? 'recommended' : ''}">
+      <h4>Relining ${relinRec && rec !== 'Avvakta' ? '<span class="rec-badge">Rekommenderas</span>' : ''}</h4>
+      <div class="compare-row"><span class="lbl">Ungefärlig kostnad</span><span class="val">${fmt(relinKost)} kr</span></div>
+      <div class="compare-row"><span class="lbl">Förväntad livslängd</span><span class="val">${relinLiv} år</span></div>
+      <div class="compare-row"><span class="lbl">Kostnad per år</span><span class="val">${fmt(relinPerAr)} kr</span></div>
+      <div class="compare-row"><span class="lbl">Störning för boende</span><span class="val">Låg–medel</span></div>
+    </div>
+    <div class="compare-box ${stamRec ? 'recommended' : ''}">
+      <h4>Stambyte ${stamRec ? '<span class="rec-badge">Rekommenderas</span>' : ''}</h4>
+      <div class="compare-row"><span class="lbl">Ungefärlig kostnad</span><span class="val">${fmt(stamKost)} kr</span></div>
+      <div class="compare-row"><span class="lbl">Förväntad livslängd</span><span class="val">${stamLiv} år</span></div>
+      <div class="compare-row"><span class="lbl">Kostnad per år</span><span class="val">${fmt(stamPerAr)} kr</span></div>
+      <div class="compare-row"><span class="lbl">Störning för boende</span><span class="val">Hög (3–6 mån)</span></div>
+    </div>`;
+
+  // Nästa steg
+  const steps = score < 35
+    ? ['Boka kamerainspektioninom 2–3 år för att följa upp rörstatus.', 'Dokumentera eventuella stopp eller läckor löpande.', 'Ta fram en långsiktig underhållsplan som inkluderar stammar.']
+    : score < 60
+    ? ['Boka kamerainspektioninom 6 månader för att bekräfta om relining är möjlig.', 'Inhämta minst 2–3 offerter från reliningsföretag.', 'Kontrollera att fonden täcker kostnaden – annars planera för avgiftshöjning eller lån.']
+    : ['Boka en oberoende besiktning omgående.', 'Kontakta er förvaltare för att initiera en upphandling.', 'Informera styrelsen och planera kommunikation till boende.', 'Se över om tillfälliga åtgärder (punktreparationer) kan köpa tid.'];
+
+  const ns = document.getElementById('next-steps');
+  ns.innerHTML = steps.map((s, i) => `
+    <div class="step-item">
+      <div class="step-num">${i + 1}</div>
+      <div class="step-text">${s}</div>
+    </div>`).join('');
+
+  document.getElementById('quiz-layout').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function restart() {
+  steg = 0; svar = {};
+  document.getElementById('quiz-layout').style.display = 'grid';
+  document.getElementById('results').style.display = 'none';
+  renderSteg(); updateMeter();
+  document.getElementById('quiz-layout').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function fmt(n) { return Math.round(n / 1000) * 1000 < 1000000 ? (Math.round(n / 1000)) + ' 000' : (n / 1000000).toFixed(1).replace('.', ',') + ' Mkr'; }
+
+renderSteg();
+renderFaktorList();
+</script>
+</body>
+</html>
