@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Underhållsplansbyggaren</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #d8eaf5;
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+    color: #1a2e44;
+  }
+  .page-header { max-width: 800px; margin: 0 auto 28px; }
+  .page-header h1 { font-size: 28px; font-weight: 800; color: #0d2b4e; margin-bottom: 10px; line-height: 1.2; }
+  .page-header p { font-size: 15px; color: #2c5070; line-height: 1.6; max-width: 600px; }
+
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    max-width: 800px;
+    margin: 0 auto 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .card h2 { font-size: 17px; font-weight: 700; color: #0d2b4e; margin-bottom: 6px; }
+  .card .subtitle { font-size: 13px; color: #5a7a96; margin-bottom: 22px; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+  @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+  .full-width { grid-column: 1 / -1; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 13px; font-weight: 600; color: #1a2e44; }
+  .hint { font-size: 12px; color: #7a9ab0; }
+
+  .input-wrap { position: relative; }
+  .input-wrap input, .input-wrap select {
+    width: 100%;
+    border: 1.5px solid #c8dcea;
+    border-radius: 8px;
+    padding: 10px 56px 10px 14px;
+    font-size: 15px;
+    color: #1a2e44;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.18s;
+    appearance: none;
+  }
+  .input-wrap select { padding-right: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a9ab0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+  .input-wrap input::placeholder { color: #aac0d0; }
+  .input-wrap input:focus, .input-wrap select:focus { border-color: #0d6bb5; }
+  .input-wrap .unit {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 11px; color: #7a9ab0; pointer-events: none;
+  }
+
+  .section-divider { border: none; border-top: 1.5px solid #e8f1f8; margin: 22px 0 18px; }
+  .section-title { font-size: 14px; font-weight: 700; color: #0d2b4e; margin-bottom: 4px; }
+  .section-desc { font-size: 12px; color: #5a7a96; margin-bottom: 14px; }
+
+  /* Komponent-checkboxar */
+  .component-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 560px) { .component-grid { grid-template-columns: 1fr 1fr; } }
+  .comp-item {
+    border: 1.5px solid #c8dcea;
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .comp-item:hover { border-color: #0d6bb5; background: #f4f9fd; }
+  .comp-item.selected { border-color: #0d2b4e; background: #eaf2fa; }
+  .comp-item input[type=checkbox] { display: none; }
+  .comp-item .comp-name { font-size: 13px; font-weight: 600; color: #1a2e44; }
+  .comp-item .comp-sub { font-size: 11px; color: #7a9ab0; margin-top: 2px; }
+
+  .btn {
+    width: 100%; padding: 14px;
+    background: #0d2b4e; color: #fff;
+    font-size: 16px; font-weight: 700;
+    border: none; border-radius: 8px;
+    cursor: pointer; margin-top: 8px;
+    transition: background 0.18s;
+  }
+  .btn:hover { background: #0d4a80; }
+  .footer-tip { font-size: 12px; color: #7a9ab0; margin-top: 12px; line-height: 1.5; }
+
+  /* Results */
+  #results { display: none; }
+
+  .summary-strip {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .stat-box { background: #f0f7fc; border-radius: 10px; padding: 14px 16px; flex: 1; min-width: 140px; }
+  .stat-box .stat-label { font-size: 12px; color: #5a7a96; margin-bottom: 4px; }
+  .stat-box .stat-value { font-size: 20px; font-weight: 800; color: #0d2b4e; }
+  .stat-box .stat-value.amber { color: #a05c00; }
+  .stat-box .stat-value.red { color: #b02020; }
+
+  /* Tidslinje */
+  .timeline-wrap { overflow-x: auto; padding-bottom: 8px; }
+  .timeline { min-width: 680px; position: relative; }
+  .tl-years { display: flex; margin-bottom: 6px; }
+  .tl-year {
+    flex: 1; text-align: center; font-size: 11px; font-weight: 700;
+    color: #5a7a96; padding: 4px 2px; border-right: 1px solid #e0eaf3;
+  }
+  .tl-year:last-child { border-right: none; }
+  .tl-year.now { color: #0d2b4e; }
+
+  .tl-row { display: flex; align-items: center; margin-bottom: 8px; }
+  .tl-label { min-width: 150px; font-size: 12px; color: #1a2e44; padding-right: 12px; font-weight: 600; flex-shrink: 0; }
+  .tl-track { flex: 1; display: flex; position: relative; height: 28px; }
+  .tl-cell {
+    flex: 1; border-right: 1px solid #e8f1f8; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; position: relative;
+  }
+  .tl-cell:last-child { border-right: none; }
+  .tl-block {
+    position: absolute; left: 4px; right: 4px; top: 4px; bottom: 4px;
+    border-radius: 5px; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; cursor: default;
+  }
+
+  .urgency-high { background: #c0392b; }
+  .urgency-mid  { background: #e07820; }
+  .urgency-low  { background: #2a9d8f; }
+  .urgency-plan { background: #1a6fb5; opacity: 0.7; }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #5a7a96; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* Åtgärdslista */
+  .atgard-list { border: 0.5px solid #e0eaf3; border-radius: 10px; overflow: hidden; }
+  .atgard-header {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 80px;
+    background: #f0f7fc; padding: 8px 14px;
+    font-size: 11px; font-weight: 700; color: #5a7a96; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .atgard-row {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 80px;
+    padding: 11px 14px; border-top: 0.5px solid #e8f1f8;
+    font-size: 13px; align-items: center;
+  }
+  .atgard-row:hover { background: #f8fbfd; }
+  .atgard-row .name { font-weight: 600; color: #0d2b4e; }
+  .atgard-row .year { color: #5a7a96; }
+  .atgard-row .cost { color: #1a2e44; font-weight: 700; }
+  .urgency-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 3px 8px; border-radius: 20px;
+  }
+  .u-hog { background: #fdecea; color: #7a1a1a; }
+  .u-medel { background: #fff3e0; color: #7a4a00; }
+  .u-lag { background: #e8f8f5; color: #0a4a3a; }
+
+  .info-box {
+    background: #eaf7f0; border-left: 4px solid #1a9a55; border-radius: 6px;
+    padding: 12px 16px; font-size: 13px; color: #0e5c30; margin-top: 16px; line-height: 1.5;
+  }
+  .warn-box {
+    background: #fff8e6; border-left: 4px solid #f0a500; border-radius: 6px;
+    padding: 12px 16px; font-size: 13px; color: #7a5000; margin-top: 16px; line-height: 1.5;
+  }
+  .scenario-label { font-size: 12px; font-weight: 600; color: #5a7a96; margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .demo-tag { font-size: 12px; color: #8aacbf; margin-top: 32px; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+  @media (max-width: 600px) {
+    .atgard-header, .atgard-row { grid-template-columns: 2fr 1fr 1fr; }
+    .atgard-header span:nth-child(4), .atgard-header span:nth-child(5),
+    .atgard-row span:nth-child(4), .atgard-row span:nth-child(5) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Vad behöver ni åtgärda – och när?</h1>
+  <p>Välj era byggnadskomponenter och ålder. Vi genererar en förenklad underhållsplan med rekommenderade åtgärdsår, ungefärliga kostnader och en visuell tidslinje för de närmaste 15 åren.</p>
+</div>
+
+<div class="card">
+  <h2>Fyll i era uppgifter</h2>
+  <p class="subtitle">Ange fastighetsuppgifter och välj vilka komponenter som finns i er fastighet.</p>
+
+  <div class="form-grid">
+    <div class="field">
+      <label>Byggnadsår</label>
+      <div class="input-wrap">
+        <input type="number" id="byggar" placeholder="t.ex. 1968" min="1900" max="2024">
+      </div>
+    </div>
+    <div class="field">
+      <label>Antal lägenheter</label>
+      <div class="input-wrap">
+        <input type="number" id="lagenheter" placeholder="t.ex. 60" min="1">
+        <span class="unit">st</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Bruttoarea (BOA + LOA)</label>
+      <div class="input-wrap">
+        <input type="number" id="boa" placeholder="t.ex. 4 500" min="100">
+        <span class="unit">kvm</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Fastighetens skick (generellt)</label>
+      <div class="input-wrap">
+        <select id="skick">
+          <option value="">Välj skick</option>
+          <option value="bra">Bra – välskött, få anmärkningar</option>
+          <option value="medel">Medel – normalt slitage</option>
+          <option value="daligt">Eftersatt – en del uppskjutet underhåll</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+  <div class="section-title">Välj komponenter i er fastighet</div>
+  <div class="section-desc">Klicka på de komponenter som finns. Vi anpassar underhållsplanen efter era val.</div>
+
+  <div class="component-grid" id="comp-grid"></div>
+
+  <button class="btn" style="margin-top: 24px;" onclick="berakna()">Generera underhållsplan</button>
+  <p class="footer-tip">Tips: Uppskattningarna baseras på typiska livslängder och schablonkostnader. Kontakta er förvaltare för en detaljerad besiktningsbaserad plan.</p>
+</div>
+
+<!-- RESULTS -->
+<div class="card" id="results">
+  <h2>Er underhållsplan – närmaste 15 åren</h2>
+  <p class="subtitle">Baserad på era uppgifter. Årtalen är rekommendationer – exakt tidpunkt beror på faktiskt skick vid besiktning.</p>
+
+  <div class="summary-strip">
+    <div class="stat-box">
+      <div class="stat-label">Åtgärder totalt</div>
+      <div class="stat-value" id="res-antal">–</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Total kostnad (15 år)</div>
+      <div class="stat-value" id="res-tot">–</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Snitt per år</div>
+      <div class="stat-value" id="res-snitt">–</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Akuta åtgärder (0–3 år)</div>
+      <div class="stat-value amber" id="res-akuta">–</div>
+    </div>
+  </div>
+
+  <div class="scenario-label">Tidslinje</div>
+  <div class="timeline-wrap">
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot urgency-high"></div>Akut (0–3 år)</div>
+    <div class="legend-item"><div class="legend-dot urgency-mid"></div>Medelfristig (4–8 år)</div>
+    <div class="legend-item"><div class="legend-dot urgency-low"></div>Långsiktig (9–15 år)</div>
+  </div>
+
+  <div class="scenario-label">Åtgärdslista</div>
+  <div class="atgard-list">
+    <div class="atgard-header">
+      <span>Åtgärd</span>
+      <span>År</span>
+      <span>Kostnad (ca)</span>
+      <span>Kostnad/lgh</span>
+      <span>Prioritet</span>
+    </div>
+    <div id="atgard-body"></div>
+  </div>
+
+  <div id="msg-box"></div>
+</div>
+
+<p class="demo-tag">Demo</p>
+
+<script>
+const KOMPONENTER = [
+  { id:'tak',     namn:'Tak',              sub:'Papp, plåt eller tegel',       livslangd:30, kostKvm:600  },
+  { id:'fasad',   namn:'Fasad',            sub:'Puts, tegel eller träpanel',   livslangd:35, kostKvm:800  },
+  { id:'fonster', namn:'Fönster & dörrar', sub:'Kopplade eller 3-glas',        livslangd:30, kostKvm:250  },
+  { id:'vvs',     namn:'VVS (stammar)',    sub:'Vatten & avlopp',              livslangd:50, kostKvm:1200 },
+  { id:'el',      namn:'El & stigarledning',sub:'Centralutr. och stigare',     livslangd:40, kostKvm:400  },
+  { id:'hiss',    namn:'Hiss',             sub:'Hydraulisk eller trumhiss',    livslangd:25, kostKvm:null, kostFast:600000 },
+  { id:'varmepump',namn:'Värmesystem',     sub:'Panna, VP eller fjärrvärme',   livslangd:20, kostKvm:300  },
+  { id:'ventilation',namn:'Ventilation',  sub:'FT, FTX eller självdrag',      livslangd:25, kostKvm:350  },
+  { id:'garage',  namn:'Garage/P-hus',     sub:'Platta, dränering, portar',    livslangd:30, kostKvm:500  },
+  { id:'badrum',  namn:'Badrum (stamrenovering)',sub:'Tätskikt & kakel',       livslangd:30, kostKvm:900  },
+  { id:'yttermark',namn:'Mark & dränering',sub:'Dränering, asfaltering',      livslangd:25, kostKvm:200  },
+  { id:'balkong', namn:'Balkonger',        sub:'Infästning, räcken, tätning',  livslangd:30, kostKvm:400  },
+];
+
+let valdaKomponenter = new Set();
+
+function renderKomponenter() {
+  const grid = document.getElementById('comp-grid');
+  grid.innerHTML = '';
+  KOMPONENTER.forEach(k => {
+    const div = document.createElement('div');
+    div.className = 'comp-item';
+    div.dataset.id = k.id;
+    div.innerHTML = `<div class="comp-name">${k.namn}</div><div class="comp-sub">${k.sub}</div>`;
+    div.onclick = () => {
+      if (valdaKomponenter.has(k.id)) { valdaKomponenter.delete(k.id); div.classList.remove('selected'); }
+      else { valdaKomponenter.add(k.id); div.classList.add('selected'); }
+    };
+    grid.appendChild(div);
+  });
+}
+
+function berakna() {
+  const byggar = parseInt(document.getElementById('byggar').value) || 1970;
+  const lag = parseInt(document.getElementById('lagenheter').value) || 50;
+  const boa = parseInt(document.getElementById('boa').value) || 3500;
+  const skick = document.getElementById('skick').value || 'medel';
+
+  const now = new Date().getFullYear();
+  const alder = now - byggar;
+  const skickFaktor = skick === 'bra' ? 1.1 : skick === 'daligt' ? 0.8 : 1.0;
+
+  const atgarder = [];
+
+  valdaKomponenter.forEach(kid => {
+    const k = KOMPONENTER.find(x => x.id === kid);
+    if (!k) return;
+
+    const livslangd = k.livslangd;
+    const senastRenov = byggar + Math.floor(alder / livslangd) * livslangd;
+    const nastaAr = senastRenov + Math.round(livslangd * skickFaktor);
+    const arFranNu = nastaAr - now;
+
+    // Kostnad
+    const kost = k.kostFast ? k.kostFast : Math.round(k.kostKvm * boa);
+
+    // Justera om det är extremt eftersatt
+    const effektivtAr = Math.max(now, Math.min(now + 15, nastaAr));
+
+    atgarder.push({
+      namn: k.namn,
+      ar: effektivtAr,
+      arFranNu: effektivtAr - now,
+      kost,
+      livslangd,
+    });
+  });
+
+  if (atgarder.length === 0) {
+    alert('Välj minst en komponent för att generera planen.');
+    return;
+  }
+
+  atgarder.sort((a, b) => a.ar - b.ar);
+
+  const totKost = atgarder.reduce((s, a) => s + a.kost, 0);
+  const akuta = atgarder.filter(a => a.arFranNu <= 3);
+
+  document.getElementById('res-antal').textContent = atgarder.length + ' st';
+  document.getElementById('res-tot').textContent = formatMkr(totKost);
+  document.getElementById('res-snitt').textContent = formatMkr(totKost / 15) + '/år';
+  document.getElementById('res-akuta').textContent = akuta.length + ' st';
+
+  // Tidslinje
+  renderTidslinje(atgarder, now);
+
+  // Åtgärdslista
+  const body = document.getElementById('atgard-body');
+  body.innerHTML = '';
+  atgarder.forEach(a => {
+    const row = document.createElement('div');
+    row.className = 'atgard-row';
+    const prio = a.arFranNu <= 3 ? 'Hög' : a.arFranNu <= 8 ? 'Medel' : 'Låg';
+    const prioCls = a.arFranNu <= 3 ? 'u-hog' : a.arFranNu <= 8 ? 'u-medel' : 'u-lag';
+    row.innerHTML = `
+      <span class="name">${a.namn}</span>
+      <span class="year">${a.ar}</span>
+      <span class="cost">${formatKr(a.kost)}</span>
+      <span class="cost">${formatKr(Math.round(a.kost / lag))}</span>
+      <span><span class="urgency-badge ${prioCls}">${prio}</span></span>
+    `;
+    body.appendChild(row);
+  });
+
+  // Meddelande
+  const msgEl = document.getElementById('msg-box');
+  if (akuta.length >= 3) {
+    msgEl.innerHTML = `<div class="warn-box"><strong>Flera akuta åtgärder:</strong> Er fastighet har ${akuta.length} åtgärder som rekommenderas inom 3 år. Det kan tyda på eftersatt underhåll. Vi rekommenderar en besiktning för att prioritera rätt.</div>`;
+  } else if (akuta.length > 0) {
+    msgEl.innerHTML = `<div class="warn-box"><strong>Notera:</strong> ${akuta.length} åtgärd${akuta.length > 1 ? 'er' : ''} rekommenderas inom de närmaste 3 åren. Planera in dessa i nästa budget.</div>`;
+  } else {
+    msgEl.innerHTML = `<div class="info-box"><strong>God planering:</strong> Inga akuta åtgärder inom 3 år. Fortsätt följa upp underhållsplanen årligen och genomför besiktning vart 3:e år.</div>`;
+  }
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderTidslinje(atgarder, now) {
+  const tl = document.getElementById('timeline');
+  const years = Array.from({ length: 15 }, (_, i) => now + i + 1);
+
+  // Rubrikrad
+  let html = '<div class="tl-years">';
+  years.forEach(y => {
+    html += `<div class="tl-year${y === now + 1 ? ' now' : ''}">${y}</div>`;
+  });
+  html += '</div>';
+
+  // En rad per åtgärd
+  atgarder.forEach(a => {
+    const urgClass = a.arFranNu <= 3 ? 'urgency-high' : a.arFranNu <= 8 ? 'urgency-mid' : 'urgency-low';
+    html += `<div class="tl-row"><div class="tl-label">${a.namn}</div><div class="tl-track">`;
+    years.forEach(y => {
+      if (y === a.ar) {
+        html += `<div class="tl-cell"><div class="tl-block ${urgClass}" title="${a.namn} – ${formatKr(a.kost)}">${formatKr(a.kost)}</div></div>`;
+      } else {
+        html += `<div class="tl-cell"></div>`;
+      }
+    });
+    html += '</div></div>';
+  });
+
+  tl.innerHTML = html;
+}
+
+function formatKr(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.', ',') + ' Mkr';
+  return Math.round(n / 1000) + ' tkr';
+}
+function formatMkr(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.', ',') + ' Mkr';
+  return Math.round(n / 1000) + ' tkr';
+}
+
+renderKomponenter();
+</script>
+</body>
+</html>
