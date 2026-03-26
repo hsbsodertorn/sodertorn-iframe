@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charlie – Styrelsesupport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "DIN_FIREBASE_API_KEY",
+      authDomain: "hsbsodertorn-1e7a5.firebaseapp.com",
+      projectId: "hsbsodertorn-1e7a5",
+      storageBucket: "hsbsodertorn-1e7a5.appspot.com",
+      messagingSenderId: "34372808211",
+      appId: "1:34372808211:web:85e0c908917ff232ce59e6",
+      measurementId: "G-LTWGETNT98"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function sha256(text) {
+      const enc = new TextEncoder().encode(text);
+      const buf = await crypto.subtle.digest("SHA-256", enc);
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    const logQueue = [];
+
+    window.saveChatLog = async (conversationId, fraga, svar, meta = {}) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svar, "text/html");
+      const aTags = Array.from(doc.querySelectorAll("a"));
+
+      const länkar = aTags.map(a => {
+        const href = a.getAttribute("href") || "";
+        const källa = href.includes("hsb.se") ? "intern" : "extern";
+        return {
+          url: href,
+          titel: (a.textContent || "").trim() || null,
+          källa,
+          visad: true,
+          klickad: false,
+          värde: 1
+        };
+      });
+
+      const värde_score = länkar.reduce((s, l) => s + (typeof l.värde === "number" ? l.värde : 1), 0);
+
+      const SYS_VERSION = "2026-03-26-charlie-1";
+      const systemprompt_text = window.__SYSTEM_PROMPT__ || "";
+      const systemprompt_hash = await sha256(systemprompt_text);
+      const systemprompt_utdrag = systemprompt_text.slice(0, 120);
+
+      const logEntry = {
+        conversationId,
+        fraga,
+        svar,
+        tid: serverTimestamp(),
+        kategorier: meta.kategorier || [],
+        labels: meta.labels || [],
+        kunskapslucka: !!meta.kunskapslucka,
+        sammanfattning: meta.sammanfattning || null,
+        betyg: meta.betyg ?? null,
+        säkerhetsuppskattning: meta.säkerhetsuppskattning || "låg",
+        uiVersion: "charlie",
+        systemprompt: {
+          version: SYS_VERSION,
+          hash: systemprompt_hash,
+          utdrag: systemprompt_utdrag
+        },
+        länkar,
+        värde_score
+      };
+
+      logQueue.push(logEntry);
+
+      while (logQueue.length > 0) {
+        try {
+          await addDoc(collection(db, "chattlogg_styrelsesupport"), logQueue[0]);
+          logQueue.shift();
+        } catch (err) {
+          console.error("Fel vid loggning i Firebase:", err);
+          window.showError?.("Kunde inte spara chatten. Försök igen.");
+          break;
+        }
+      }
+    };
+
+    window.trackLinkClick = async (conversationId, url) => {
+      try {
+        await fetch("/.netlify/functions/styrelsesupport-event", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ conversationId, url, uiVersion: "charlie" })
+        });
+      } catch (e) {
+        console.warn("Kunde inte logga länkklick:", e?.message || e);
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg: #f7f7f3;
+      --panel: #ffffff;
+      --panel-soft: #fbfbf8;
+      --text: #1f1f1a;
+      --muted: #6b6b63;
+      --border: #e4e3db;
+      --accent: #d97706;
+      --accent-soft: rgba(217, 119, 6, 0.10);
+      --user: #eeece3;
+      --bot: #ffffff;
+      --shadow: 0 8px 30px rgba(0,0,0,0.05);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border);
+      background:
+        radial-gradient(circle at top left, rgba(217, 119, 6, 0.08), transparent 35%),
+        linear-gradient(180deg, #f6f5ef 0%, #f4f3ed 100%);
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      box-shadow: 0 0 0 6px rgba(217, 119, 6, 0.12);
+      animation: pulseDot 2.4s infinite ease-in-out;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.75; }
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 220px;
+    }
+
+    .sidebar-card {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-card h2 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .sidebar-card p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(247, 247, 243, 0.86);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .topbar-title strong {
+      font-size: 16px;
+    }
+
+    .topbar-title span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .status-pill .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: blinkLive 1.6s infinite;
+    }
+
+    @keyframes blinkLive {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    .chat-area {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      justify-content: center;
+      padding: 24px 24px 0;
+    }
+
+    .chat-column {
+      width: 100%;
+      max-width: 920px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    #messages {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 12px 0 32px;
+      scroll-behavior: smooth;
+    }
+
+    .welcome-card {
+      background: linear-gradient(180deg, #fff 0%, #fcfcf9 100%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 26px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 26px;
+    }
+
+    .welcome-card h2 {
+      margin: 0 0 8px 0;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+
+    .welcome-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 720px;
+    }
+
+    .message-row {
+      display: flex;
+      width: 100%;
+      margin-bottom: 18px;
+    }
+
+    .message-row.user-row {
+      justify-content: flex-end;
+    }
+
+    .message-row.bot-row {
+      justify-content: flex-start;
+    }
+
+    .message {
+      max-width: min(760px, 92%);
+      border-radius: 22px;
+      padding: 16px 18px;
+      font-size: 16px;
+      line-height: 1.7;
+      word-break: break-word;
+      white-space: pre-line;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .message.user {
+      background: var(--user);
+      border-top-right-radius: 10px;
+      color: #20201d;
+    }
+
+    .message.bot {
+      background: var(--bot);
+      border-top-left-radius: 10px;
+      color: #1f1f1a;
+    }
+
+    .message.bot p:first-child,
+    .message.bot div:first-child {
+      margin-top: 0;
+    }
+
+    .message.bot p:last-child,
+    .message.bot div:last-child {
+      margin-bottom: 0;
+    }
+
+    .message.bot a {
+      color: #9a4d00;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .message.error {
+      align-self: center;
+      background: #fff1f1;
+      color: #b42318;
+      border: 1px solid #f1c7c7;
+    }
+
+    .thinking-shell {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .thinking-orb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fbbf24, #d97706);
+      animation: orbPulse 1.2s infinite ease-in-out;
+    }
+
+    .thinking-orb:nth-child(2) { animation-delay: 0.15s; }
+    .thinking-orb:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes orbPulse {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.45; }
+      50% { transform: translateY(-4px) scale(1.15); opacity: 1; }
+    }
+
+    .thinking-text {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .mail-cta-wrap {
+      display: flex;
+      justify-content: flex-start;
+      margin: 6px 0 22px;
+    }
+
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      background: #1f1f1a;
+      color: white;
+      padding: 11px 16px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid #1f1f1a;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+    }
+
+    .link-button:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      background: #000;
+    }
+
+    .composer-wrap {
+      position: sticky;
+      bottom: 0;
+      z-index: 8;
+      background: linear-gradient(to top, rgba(247,247,243,0.98) 65%, rgba(247,247,243,0.86) 100%);
+      padding: 16px 24px 24px;
+    }
+
+    .composer {
+      max-width: 920px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
+    .composer-inner {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    textarea {
+      flex: 1;
+      min-height: 56px;
+      max-height: 220px;
+      resize: none;
+      border: none;
+      outline: none;
+      background: transparent;
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text);
+      padding: 8px 8px 2px;
+    }
+
+    textarea::placeholder {
+      color: #8c8c84;
+    }
+
+    .composer-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      min-width: 110px;
+    }
+
+    #charCount {
+      font-size: 12px;
+      color: var(--muted);
+      padding-right: 4px;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: 16px;
+      background: #1f1f1a;
+      color: white;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover {
+      opacity: 0.94;
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .composer-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      padding-left: 6px;
+    }
+
+    @media (max-width: 980px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .topbar {
+        padding: 16px 18px;
+      }
+
+      .chat-area {
+        padding: 18px 16px 0;
+      }
+
+      .composer-wrap {
+        padding: 12px 16px 16px;
+      }
+
+      .message {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .welcome-card h2 {
+        font-size: 24px;
+      }
+
+      .composer-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .composer-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        min-width: auto;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-badge">
+          <span class="brand-dot"></span>
+          <span>HSB Södertörn</span>
+        </div>
+        <h1>Charlie</h1>
+        <p>En fristående version av styrelsesupport med samma motor, samma loggning och samma datakällor.</p>
+      </div>
+
+      <div class="sidebar-card">
+        <h2>Vad Charlie kan hjälpa till med</h2>
+        <p>Styrelsearbete, ansvar i brf, stämmor, protokoll, boendefrågor, förvaltning och HSB Södertörns tjänster.</p>
+      </div>
+
+      <div class="sidebar-card">
+        <h2>Viktigt</h2>
+        <p>Dela inte känsliga personuppgifter. Svaren är vägledande och bör granskas kritiskt.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-title">
+          <strong>Charlie – Styrelsesupport</strong>
+          <span>Fristående vy med samma backend som originalet</span>
+        </div>
+        <div class="status-pill">
+          <span class="live-dot"></span>
+          <span>ansluten</span>
+        </div>
+      </div>
+
+      <section class="chat-area">
+        <div class="chat-column">
+          <div id="messages" aria-live="polite">
+            <div class="welcome-card">
+              <h2>Hej, jag är Charlie.</h2>
+              <p>Jag hjälper till med frågor om styrelsearbete, boende, förvaltning och HSB Södertörns stöd. Skriv din fråga så tar vi det steg för steg.</p>
+            </div>
+
+            <div class="message-row bot-row">
+              <div class="message bot">Hej! Välkommen till styrelsesupport. Vad vill du ha hjälp med idag?</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="composer-wrap">
+        <div class="composer">
+          <div class="composer-inner">
+            <textarea
+              id="userInput"
+              placeholder="Skriv din fråga här..."
+              maxlength="1000"
+              oninput="autoResize(this); updateCharCount(this)"
+              onkeydown="handleKey(event)"
+              aria-label="Skriv din fråga"></textarea>
+
+            <div class="composer-actions">
+              <span id="charCount">0/1000</span>
+              <button id="sendButton" onclick="sendMessage()" aria-label="Skicka fråga">Skicka</button>
+            </div>
+          </div>
+          <div class="composer-note">Charlie använder samma AI-motor och samma lagring som styrelsesupport.</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const conversationId = crypto.randomUUID();
+    const messageHistory = [];
+    const cachedContextData = new Map();
+
+    const disclaimerText = `
+---
+*denna information från styrelsesupport gpt är vägledande och bör granskas kritiskt. vi tar inget ansvar för svarens riktighet. ladda inte upp känslig information som kan bryta mot gdpr. kontakta hsb södertörn på 08-608 68 00 eller info.sodertorn@hsb.se vid frågor.*`;
+
+    const baseSystemPrompt = `
+du är styrelsesupport, en praktisk och trygg ai-assistent från hsb södertörn.
+
+du hjälper främst styrelser i bostadsrättsföreningar med frågor om styrelsearbete, ansvar, beslut, boende, stadgar, förvaltning och hsb södertörns tjänster.
+
+ditt mål är att ge tydliga, korta och användbara svar som hjälper användaren vidare i rätt riktning.
+
+uppdrag och avgränsning
+
+du svarar endast på frågor som rör:
+- styrelsearbete i brf
+- ansvarsfördelning mellan förening och medlem
+- stämma, stadgar, protokoll och beslut
+- boende- och fastighetsfrågor
+- ekonomisk och teknisk förvaltning
+- hsb södertörns tjänster, stöd och kontaktvägar
+
+om frågan ligger utanför detta:
+- säg vänligt att det ligger utanför ditt område
+- styr tillbaka till något du kan hjälpa med
+
+hur du använder underlaget
+
+- använd i första hand information från de databasträffar du får
+- om databasträffarna ger tillräckligt stöd, håll dig till dem
+- om underlaget är tunt eller frågan är bred, ge ett försiktigt generellt svar utan att hitta på detaljer
+- om du saknar stöd för ett säkert svar, säg det tydligt
+
+hur du svarar
+
+- skriv enkelt, tydligt och utan onödigt fackspråk
+- håll svaren korta och konkreta
+- använd max 3 punkter vid listor
+- börja varje punkt med liten bokstav
+- anpassa längden efter frågan
+
+om frågan är enkel, svara kort.
+om frågan är mer komplex, ge struktur och tydliga steg.
+
+viktiga regler
+
+- gissa aldrig fakta, datum, öppettider, adresser eller definitioner
+- hitta inte på information om hsb södertörn, lagar, stadgar eller tjänster
+- var tydlig när något beror på föreningens egna stadgar, regler, avtal eller rutiner
+- säg hellre "det beror på era stadgar" än att låta säker utan stöd
+- säg hellre "jag är osäker" än att fylla ut med antaganden
+
+så här ska du resonera i vanliga frågor
+
+- frågor om ansvar i lägenheten eller fastigheten: förklara kort att ansvar ofta styrs av stadgarna och att det kan variera mellan föreningar
+- frågor om stämma, beslut eller protokoll: förklara kort hur det normalt fungerar, men markera om det kan bero på stadgar eller formalia
+- frågor om kontakt med hsb södertörn: vägled till rätt väg in, men undvik att hitta på exakta tider eller uppgifter om du inte har stöd
+- frågor från boende eller medlemmar: hjälp gärna, men förklara när frågan i första hand bör gå via styrelsen
+
+kontextförståelse
+
+om det inte framgår vem användaren är, fråga bara om det verkligen behövs för att ge ett bättre svar.
+
+exempel:
+"gäller det er styrelse eller en enskild medlem?"
+
+ställ bara följdfråga när det förbättrar svaret tydligt.
+
+undvik detta
+
+- svara inte på irrelevanta frågor
+- ge inte generiska ai-svar
+- var inte säljig
+- använd inte emojis
+- upprepa inte dig själv
+- hänvisa inte till hsb södertörn i onödan
+
+ton
+
+du är:
+- lugn
+- trygg
+- konkret
+- hjälpsam
+
+du är inte:
+- överdrivet formell
+- pratig
+- tvärsäker utan stöd
+
+hsb södertörn
+
+du får gärna hänvisa till hsb södertörn när det hjälper användaren vidare, men bara när det faktiskt tillför värde.
+
+${disclaimerText}
+`;
+
+    let systemPrompt = baseSystemPrompt;
+    window.__SYSTEM_PROMPT__ = systemPrompt;
+
+    async function loadSkrivregler() {
+      try {
+        const res = await fetch('/data/skrivregler.json');
+        const rules = await res.json();
+        const brfRegel = `skriv brf:er med ${rules.skrivregler.brf.bokstäver}`;
+        const versalRegel = `börja bara nya meningar med versaler och enstaka ord med gemener`;
+        const omraden = `områden: ${rules.skrivregler.områden.join(', ')}`;
+        const fetstilRegel = `i rubriker använd **fetstil** via markdown eller HTML-taggar`;
+        const caseRegel = `följ alltid skrivreglerna för stora och små bokstäver`;
+
+        systemPrompt = `${baseSystemPrompt}
+
+använd följande skrivregler:
+- ${brfRegel}
+- ${versalRegel}
+- ${omraden}
+- ${fetstilRegel}
+- ${caseRegel}`;
+        window.__SYSTEM_PROMPT__ = systemPrompt;
+      } catch (err) {
+        console.error('Fel vid hämtning av skrivregler:', err);
+        showError("Kunde inte ladda skrivregler. Standardformat används.");
+      }
+    }
+
+    async function preloadContextData() {
+      const files = [
+        'forvaltning.json',
+        'medlembrf.json',
+        'sodertorninfo.json',
+        'styrelsearbete.json',
+        'skrivregler.json',
+        'normalstadgar.json'
+      ];
+
+      for (const f of files) {
+        try {
+          const res = await fetch(`/data/${f}`);
+          const j = await res.json();
+          cachedContextData.set(f, j);
+        } catch (err) {
+          console.error(`Fel vid cachning av ${f}:`, err);
+        }
+      }
+    }
+
+    function scrollMessagesToBottom() {
+      const messages = document.getElementById('messages');
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function showError(message) {
+      const messages = document.getElementById('messages');
+      const row = document.createElement('div');
+      row.className = 'message-row bot-row';
+
+      const div = document.createElement('div');
+      div.className = 'message error';
+      div.textContent = message;
+
+      row.appendChild(div);
+      messages.appendChild(row);
+      scrollMessagesToBottom();
+    }
+
+    window.showError = showError;
+
+    function createMailLink(subject, body) {
+      const params = new URLSearchParams({ subject, body });
+      return `mailto:info.sodertorn@hsb.se?${params.toString()}`;
+    }
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight + 2}px`;
+    }
+
+    function updateCharCount(textarea) {
+      document.getElementById('charCount').textContent = `${textarea.value.length}/1000`;
+    }
+
+    function handleKey(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function renderBold(text) {
+      return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    }
+
+    function applySkrivregler(text) {
+      return text.replace(/(^|\.\s+)([a-zåäö])/g, (match, p1, p2) => p1 + p2.toUpperCase());
+    }
+
+    function oneLineSummary(q, a) {
+      const base = (a || q || "").replace(/\s+/g, " ").trim();
+      return base.length > 160 ? base.slice(0, 157) + "…" : base;
+    }
+
+    function detectGap(text) {
+      const t = (text || "").toLowerCase();
+      return /(vet inte|osäkert|kan du förtydliga|behöver mer info|oklart)/.test(t);
+    }
+
+    function addMessage(text, sender) {
+      const messages = document.getElementById('messages');
+      const row = document.createElement('div');
+      row.className = `message-row ${sender === 'user' ? 'user-row' : 'bot-row'}`;
+
+      const div = document.createElement('div');
+      div.className = `message ${sender}`;
+
+      if (sender === 'bot') {
+        div.innerHTML = text;
+      } else {
+        div.textContent = text;
+      }
+
+      row.appendChild(div);
+      messages.appendChild(row);
+      scrollMessagesToBottom();
+      return row;
+    }
+
+    function addThinkingMessage() {
+      const messages = document.getElementById('messages');
+      const row = document.createElement('div');
+      row.className = 'message-row bot-row';
+
+      const shell = document.createElement('div');
+      shell.className = 'thinking-shell';
+
+      shell.innerHTML = `
+        <div class="thinking-orb"></div>
+        <div class="thinking-orb"></div>
+        <div class="thinking-orb"></div>
+        <div class="thinking-text">Charlie tänker...</div>
+      `;
+
+      row.appendChild(shell);
+      messages.appendChild(row);
+      scrollMessagesToBottom();
+      return row;
+    }
+
+    function typeMessage(text, sender) {
+      const messages = document.getElementById('messages');
+      const row = document.createElement('div');
+      row.className = `message-row ${sender === 'user' ? 'user-row' : 'bot-row'}`;
+
+      const div = document.createElement('div');
+      div.className = `message ${sender}`;
+      row.appendChild(div);
+      messages.appendChild(row);
+
+      if (sender === 'bot') {
+        div.addEventListener('click', (e) => {
+          const a = e.target.closest('a');
+          if (a && a.href) {
+            window.trackLinkClick?.(conversationId, a.href);
+          }
+        });
+
+        let i = 0;
+        const chunkSize = 10;
+
+        function type() {
+          if (i < text.length) {
+            div.innerHTML = text.substring(0, i + chunkSize);
+            i += chunkSize;
+            scrollMessagesToBottom();
+            setTimeout(type, 22);
+          } else {
+            div.innerHTML = text;
+            scrollMessagesToBottom();
+          }
+        }
+
+        type();
+      } else {
+        div.textContent = text;
+        scrollMessagesToBottom();
+      }
+
+      return row;
+    }
+
+    async function loadContextData(userInput) {
+      const ln = userInput.toLowerCase();
+      let ctx = [];
+
+      for (const [file, data] of cachedContextData) {
+        const keys = [
+          ...(data.tags || []),
+          ...((data.delar || []).flatMap(d => d.nyckelord || []))
+        ].map(k => k.toLowerCase());
+
+        if (keys.some(k => ln.includes(k))) {
+          ctx.push({ fil: file, innehall: data });
+        }
+      }
+
+      return ctx;
+    }
+
+    async function getAIResponse(userInput, contextData = []) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+        const step2 = ["vattenläcka", "årsredovisning", "underhållsplan"];
+        const clar = ["hiss", "trasig", "problem"];
+        const li = userInput.toLowerCase();
+        let ap = "";
+
+        if (step2.some(k => li.includes(k))) {
+          ap = "formatera svaret som en numrerad lista med tydliga steg.";
+        } else if (clar.some(k => li.includes(k))) {
+          ap = "ställ en följdfråga för att förtydliga.";
+        }
+
+        const response = await fetch("/.netlify/functions/styrelsesupport-gpt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            conversationId,
+            uiVersion: "charlie",
+            messages: [
+              { role: "system", content: systemPrompt + `\n${ap}` },
+              ...messageHistory,
+              { role: "user", content: userInput },
+              { role: "system", content: `databas träffar:\n${JSON.stringify(contextData).slice(0, 4000)}` }
+            ]
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        const js = await response.json();
+        return js.choices?.[0]?.message?.content || "Något gick fel i AI-anropet.";
+      } catch (err) {
+        console.error("Fel vid AI-anrop:", err);
+        showError("Kunde inte hämta svar. Försök igen senare.");
+        return "Något gick fel, försök senare.";
+      }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const sendButton = document.getElementById('sendButton');
+      const message = input.value.trim();
+      if (!message) return;
+
+      addMessage(message, 'user');
+      input.value = '';
+      updateCharCount(input);
+      autoResize(input);
+
+      messageHistory.push({ role: 'user', content: message });
+      if (messageHistory.length > 10) messageHistory.shift();
+
+      sendButton.disabled = true;
+      const thinking = addThinkingMessage();
+
+      const contextData = await loadContextData(message);
+      let response = await getAIResponse(message, contextData);
+
+      thinking.remove();
+      sendButton.disabled = false;
+
+      response = response.replace(/\[följdfråga\]/gi, '').trim();
+      response = applySkrivregler(response);
+      response = renderBold(response);
+
+      typeMessage(response, 'bot');
+      messageHistory.push({ role: 'assistant', content: response });
+
+      const key = message.toLowerCase();
+
+      if (/\b(ärende|skicka e-post|mail|kontakta)\b/.test(key)) {
+        const subject = message.substring(0, 50);
+        let bodyLines = [
+          'Hej,',
+          '',
+          'jag heter [namn] från brf:[förening].',
+          '',
+          'här är de senaste 5 frågorna och svaren:'
+        ];
+
+        const recent = messageHistory.slice(-10);
+        for (let i = 0; i < recent.length; i += 2) {
+          const q = recent[i];
+          const a = recent[i + 1];
+          if (q && a) {
+            bodyLines.push('', `fråga: ${q.content}`, `svar: ${a.content}`);
+          }
+        }
+
+        bodyLines.push('', 'vänligen,', '[namn]', '[telefon]', '[epost]');
+        const body = bodyLines.join('\n');
+
+        const mailLink = createMailLink(subject, body);
+        const messages = document.getElementById('messages');
+        const wrap = document.createElement('div');
+        wrap.className = 'mail-cta-wrap';
+
+        const btn = document.createElement('a');
+        btn.href = mailLink;
+        btn.textContent = 'Skicka e-post till HSB';
+        btn.className = 'link-button';
+        btn.target = '_blank';
+        btn.setAttribute('aria-label', 'Skicka e-post till HSB Södertörn');
+
+        wrap.appendChild(btn);
+        messages.appendChild(wrap);
+        scrollMessagesToBottom();
+      }
+
+      const kategorier = contextData.map(c => c.fil.replace('.json', ''));
+      const labels = ["styrelsesupport", "charlie"];
+      const sammanfattning = oneLineSummary(message, response);
+      const kunskapslucka = detectGap(response);
+
+      const clean = txt => txt
+        .replace(/\b[A-ZÅÄÖ][a-zåäö]+\s[A-ZÅÄÖ][a-zåäö]+\b/g, '[namn]')
+        .replace(/[0-9]{6}-[0-9]{4}/g, '[personnummer]')
+        .replace(/\b\d{10}\b/g, '[telefonnummer]')
+        .replace(/\b\w+@[^\s]+\b/g, '[epost]')
+        .replace(/\d{3}\s?\d{2}\s?\d{2}/g, '[postnummer]')
+        .replace(/\d{2,4}\s?[A-Za-zÅÄÖåäö]{2,}/g, '[adress]');
+
+      if (window.saveChatLog) {
+        window.saveChatLog(conversationId, clean(message), clean(response), {
+          kategorier,
+          labels,
+          kunskapslucka,
+          sammanfattning,
+          säkerhetsuppskattning: "låg",
+          betyg: null
+        });
+      }
+    }
+
+    loadSkrivregler();
+    preloadContextData();
+  </script>
+</body>
+</html>
