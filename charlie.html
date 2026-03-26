@@ -307,8 +307,9 @@
       background: var(--bg);
     }
 
-    /* ── Topbar ── */
+    /* ── Topbar (hidden until active mode) ── */
     .topbar {
+      display: none;
       position: sticky;
       top: 0;
       z-index: 10;
@@ -319,26 +320,89 @@
       padding: 0;
     }
 
+    .topbar.visible { display: block; }
+
     .topbar-inner {
-      max-width: 780px;
+      max-width: 720px;
       margin: 0 auto;
       padding: 14px 24px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 16px;
+      gap: 10px;
     }
 
-    /* subtle HSB blue accent on topbar bottom */
     .topbar::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       height: 1px;
       background: linear-gradient(90deg, var(--hsb-blue) 0%, transparent 60%);
       opacity: 0.25;
+    }
+
+    /* ── Start screen ── */
+    .start-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px 60px;
+      min-height: 100vh;
+    }
+
+    .start-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 32px;
+      gap: 14px;
+    }
+
+    .start-sphere {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 34%,
+        #c2dff5 0%, #7ab8e0 18%, #3a8ec8 42%, #1565a8 68%, #0a4580 100%
+      );
+      box-shadow: 0 2px 18px rgba(0,51,102,0.22), 0 0 0 1px rgba(0,51,102,0.08);
+      margin-bottom: 4px;
+      position: relative;
+      animation: sphereIdle 4s ease-in-out infinite;
+    }
+
+    .start-sphere::after {
+      content: '';
+      position: absolute;
+      top: 9px; left: 12px;
+      width: 16px; height: 9px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.38);
+      filter: blur(2px);
+    }
+
+    .start-heading {
+      margin: 0;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--hsb-blue);
+    }
+
+    .start-sub {
+      margin: 0;
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 400px;
+    }
+
+    .start-composer {
+      width: 100%;
+      max-width: 620px;
     }
 
     .topbar-title {
@@ -774,9 +838,10 @@
 </head>
 <body>
   <div class="app-shell">
+    <main class="main" id="appMain">
 
-    <main class="main">
-      <div class="topbar">
+      <!-- Topbar: visas bara i active-läge -->
+      <div class="topbar" id="topbar">
         <div class="topbar-inner">
           <div class="topbar-title">
             <strong>Charlie</strong>
@@ -786,37 +851,24 @@
         </div>
       </div>
 
-      <section class="chat-area">
-        <div class="chat-column">
-          <div id="messages" aria-live="polite">
-            <div class="welcome-card">
-              <h2>Hej, jag är Charlie.</h2>
-              <p>Jag hjälper styrelser i bostadsrättsföreningar med frågor om styrelsearbete, ansvar, stadgar, stämmor och förvaltning. Skriv din fråga så tar vi det steg för steg.</p>
-            </div>
-
-            <div class="message-row bot-row">
-              <div class="bot-row-inner">
-                <div class="bot-avatar"></div>
-                <div class="message bot">Hej! Vad kan jag hjälpa er styrelse med idag?</div>
-              </div>
-            </div>
-          </div>
+      <!-- START-läge: centrerad hero -->
+      <div class="start-screen" id="startScreen">
+        <div class="start-hero">
+          <div class="start-sphere"></div>
+          <h1 class="start-heading">Hej, jag är Charlie.</h1>
+          <p class="start-sub">Styrelsesupport för bostadsrättsföreningar. Ställ din fråga nedan.</p>
         </div>
-      </section>
-
-      <div class="composer-wrap">
-        <div class="composer-inner-wrap">
+        <div class="start-composer">
           <div class="composer">
             <div class="composer-top">
               <textarea
-                id="userInput"
+                id="userInputStart"
                 placeholder="Skriv din fråga här..."
                 maxlength="1000"
                 oninput="autoResize(this); updateCharCount(this)"
-                onkeydown="handleKey(event)"
+                onkeydown="handleKey(event, 'start')"
                 aria-label="Skriv din fråga"></textarea>
-
-              <button class="send-btn" id="sendButton" onclick="sendMessage()" aria-label="Skicka fråga">
+              <button class="send-btn" id="sendButtonStart" onclick="sendMessage('start')" aria-label="Skicka fråga">
                 <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 2l6 6-6 6M2 8h12" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                 </svg>
@@ -829,6 +881,39 @@
           </div>
         </div>
       </div>
+
+      <!-- ACTIVE-läge: chatflöde -->
+      <section class="chat-area" id="chatArea" style="display:none;">
+        <div class="chat-column">
+          <div id="messages" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <div class="composer-wrap" id="composerWrap" style="display:none;">
+        <div class="composer-inner-wrap">
+          <div class="composer">
+            <div class="composer-top">
+              <textarea
+                id="userInput"
+                placeholder="Skriv din fråga här..."
+                maxlength="1000"
+                oninput="autoResize(this); updateCharCount(this)"
+                onkeydown="handleKey(event, 'active')"
+                aria-label="Skriv din fråga"></textarea>
+              <button class="send-btn" id="sendButton" onclick="sendMessage()" aria-label="Skicka fråga">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 2l6 6-6 6M2 8h12" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </button>
+            </div>
+            <div class="composer-footer">
+              <span class="composer-note">AI kan göra misstag. Granska alltid svaren kritiskt.</span>
+              <span id="charCountActive">0/1000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -1022,13 +1107,17 @@ använd följande skrivregler:
     }
 
     function updateCharCount(textarea) {
-      document.getElementById('charCount').textContent = `${textarea.value.length}/1000`;
+      // Update whichever counter is visible
+      const activeEl = document.getElementById('charCountActive');
+      const startEl = document.getElementById('charCount');
+      if (activeEl) activeEl.textContent = `${textarea.value.length}/1000`;
+      if (startEl) startEl.textContent = `${textarea.value.length}/1000`;
     }
 
-    function handleKey(event) {
+    function handleKey(event, mode) {
       if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
-        sendMessage();
+        sendMessage(mode);
       }
     }
 
@@ -1227,11 +1316,31 @@ använd följande skrivregler:
       }
     }
 
-    async function sendMessage() {
-      const input = document.getElementById('userInput');
-      const sendButton = document.getElementById('sendButton');
+    let isActive = false;
+
+    function activateChat() {
+      if (isActive) return;
+      isActive = true;
+      document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('chatArea').style.display = 'flex';
+      document.getElementById('composerWrap').style.display = 'block';
+      document.getElementById('topbar').classList.add('visible');
+      setTimeout(() => document.getElementById('userInput').focus(), 50);
+    }
+
+    async function sendMessage(mode) {
+      // Get message from correct textarea
+      const inputId = isActive ? 'userInput' : 'userInputStart';
+      const input = document.getElementById(inputId);
       const message = input.value.trim();
       if (!message) return;
+
+      // Switch to active mode on first send
+      if (!isActive) {
+        activateChat();
+      }
+
+      const sendButton = document.getElementById('sendButton');
 
       addMessage(message, 'user');
       input.value = '';
