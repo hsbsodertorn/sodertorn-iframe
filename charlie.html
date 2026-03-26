@@ -293,6 +293,7 @@
 
     /* ── Main ── */
     .main {
+      flex: 1;
       min-width: 0;
       display: flex;
       flex-direction: column;
@@ -305,11 +306,17 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: rgba(248, 249, 251, 0.94);
+      background: rgba(245, 243, 239, 0.94);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-soft);
-      padding: 14px 32px;
+      padding: 0;
+    }
+
+    .topbar-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 14px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -363,7 +370,7 @@
 
     .chat-column {
       width: 100%;
-      max-width: 780px;
+      max-width: 720px;
       display: flex;
       flex-direction: column;
       min-height: 0;
@@ -638,7 +645,7 @@
     }
 
     .composer-inner-wrap {
-      max-width: 780px;
+      max-width: 720px;
       margin: 0 auto;
     }
 
@@ -764,10 +771,12 @@
 
     <main class="main">
       <div class="topbar">
-        <div class="topbar-title">
-          <strong>Charlie</strong>
-          <span class="topbar-sep">·</span>
-          <span>Styrelsesupport för brf</span>
+        <div class="topbar-inner">
+          <div class="topbar-title">
+            <strong>Charlie</strong>
+            <span class="topbar-sep">·</span>
+            <span>Styrelsesupport för brf</span>
+          </div>
         </div>
       </div>
 
