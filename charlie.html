@@ -6,8 +6,7 @@
   <title>Charlie – Styrelsesupport</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Styrene+A:wght@400;500;600&family=Tiempos+Text:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
@@ -109,26 +108,36 @@
 
   <style>
     :root {
-      --bg: #f9f8f6;
-      --sidebar-bg: #f2f0ec;
-      --panel: #ffffff;
-      --text: #1a1917;
-      --text-secondary: #6e6a63;
-      --text-muted: #9a9590;
-      --border: #e8e5df;
-      --border-soft: #eeebe6;
-      --accent: #cf6d17;
-      --accent-soft: rgba(207, 109, 23, 0.08);
-      --user-bubble: #f0ede8;
-      --bot-bubble: #ffffff;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+      /* HSB brand colors */
+      --hsb-blue:       #003366; /* HSB Blå 1 – huvudfärg */
+      --hsb-blue-2:     #006699; /* HSB Blå 2 */
+      --hsb-blue-3:     #0099CC; /* HSB Blå 3 */
+      --hsb-blue-light: #CBE8F1; /* HSB Blå 5 – mycket ljus */
+      --hsb-gold:       #B68B08; /* HSB Guld */
+      --hsb-gold-text:  #996600; /* HSB Guld Text */
+
+      /* UI tokens */
+      --bg:             #f8f9fb;
+      --sidebar-bg:     #f0f3f7;
+      --panel:          #ffffff;
+      --text:           #0d1a2b;
+      --text-secondary: #4a5a6e;
+      --text-muted:     #8a9aaa;
+      --border:         #dce3ec;
+      --border-soft:    #e6edf4;
+      --accent:         var(--hsb-blue);
+      --accent-2:       var(--hsb-gold-text);
+      --accent-soft:    rgba(0, 51, 102, 0.07);
+      --user-bubble:    #eaf0f8;
+      --bot-bubble:     #ffffff;
+      --shadow-sm:      0 1px 3px rgba(0,30,70,0.06), 0 1px 2px rgba(0,30,70,0.04);
+      --shadow-md:      0 4px 14px rgba(0,30,70,0.07), 0 2px 4px rgba(0,30,70,0.04);
       --radius-xl: 20px;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --font-body: 'DM Sans', system-ui, sans-serif;
-      --font-display: 'Crimson Pro', Georgia, serif;
+      --font-body:    'Ubuntu', system-ui, sans-serif;
+      --font-display: 'Ubuntu', system-ui, sans-serif;
     }
 
     * { box-sizing: border-box; }
@@ -170,6 +179,20 @@
       overflow-y: auto;
     }
 
+    /* thin HSB blue top-stripe in sidebar */
+    .sidebar::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--hsb-blue) 0%, var(--hsb-blue-3) 100%);
+    }
+
+    .sidebar { position: sticky; }
+
     .brand {
       display: flex;
       flex-direction: column;
@@ -184,19 +207,20 @@
       width: fit-content;
       padding: 5px 10px 5px 8px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.7);
-      border: 1px solid var(--border);
+      background: rgba(0, 51, 102, 0.06);
+      border: 1px solid rgba(0, 51, 102, 0.15);
       font-size: 12px;
-      color: var(--text-secondary);
-      letter-spacing: 0.01em;
+      font-weight: 600;
+      color: var(--hsb-blue);
+      letter-spacing: 0.03em;
     }
 
     .brand-dot {
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: var(--accent);
-      opacity: 0.85;
+      background: var(--hsb-blue);
+      opacity: 0.9;
       animation: pulseDot 2.8s infinite ease-in-out;
     }
 
@@ -207,12 +231,12 @@
 
     .brand h1 {
       margin: 0;
-      font-family: var(--font-display);
-      font-size: 32px;
-      font-weight: 600;
+      font-family: var(--font-body);
+      font-size: 30px;
+      font-weight: 700;
       line-height: 1;
-      letter-spacing: -0.02em;
-      color: var(--text);
+      letter-spacing: -0.01em;
+      color: var(--hsb-blue);
     }
 
     .brand p {
@@ -236,11 +260,11 @@
 
     .sidebar-section h2 {
       margin: 0 0 4px 0;
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 10px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      color: var(--hsb-gold-text, #996600);
     }
 
     .sidebar-section p {
@@ -264,7 +288,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: rgba(249, 248, 246, 0.92);
+      background: rgba(248, 249, 251, 0.94);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-soft);
@@ -275,6 +299,18 @@
       gap: 16px;
     }
 
+    /* subtle HSB blue accent on topbar bottom */
+    .topbar::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--hsb-blue) 0%, transparent 60%);
+      opacity: 0.25;
+    }
+
     .topbar-title {
       display: flex;
       align-items: center;
@@ -283,8 +319,8 @@
 
     .topbar-title strong {
       font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
+      font-weight: 700;
+      color: var(--hsb-blue);
     }
 
     .topbar-title span {
@@ -356,12 +392,12 @@
 
     .welcome-card h2 {
       margin: 0 0 10px 0;
-      font-family: var(--font-display);
-      font-size: 36px;
-      font-weight: 600;
-      letter-spacing: -0.025em;
+      font-family: var(--font-body);
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       line-height: 1.1;
-      color: var(--text);
+      color: var(--hsb-blue);
     }
 
     .welcome-card p {
@@ -398,7 +434,7 @@
 
     .message.user {
       background: var(--user-bubble);
-      border: 1px solid var(--border-soft);
+      border: 1px solid #d0dcea;
       border-radius: 18px 18px 6px 18px;
       padding: 12px 16px;
       color: var(--text);
@@ -418,7 +454,7 @@
     .message.bot p:last-child { margin-bottom: 0; }
 
     .message.bot a {
-      color: var(--accent);
+      color: var(--hsb-blue-2);
       text-decoration: underline;
       text-underline-offset: 2px;
       text-decoration-thickness: 1px;
@@ -444,17 +480,17 @@
       flex-shrink: 0;
       width: 32px;
       height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #e8956d 0%, #cf6d17 100%);
+      border-radius: 8px;
+      background: var(--hsb-blue);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 600;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
       color: white;
       margin-top: 2px;
-      flex-shrink: 0;
+      letter-spacing: 0.02em;
     }
 
     /* ── Thinking ── */
@@ -508,7 +544,7 @@
       justify-content: center;
       gap: 6px;
       width: fit-content;
-      background: var(--text);
+      background: var(--hsb-blue);
       color: white;
       padding: 9px 16px;
       border-radius: 10px;
@@ -549,8 +585,8 @@
     }
 
     .composer:focus-within {
-      border-color: #c5bfb5;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 0 0 3px rgba(26,25,23,0.04);
+      border-color: rgba(0, 51, 102, 0.35);
+      box-shadow: 0 4px 16px rgba(0,30,70,0.08), 0 0 0 3px rgba(0, 51, 102, 0.06);
     }
 
     .composer-top {
@@ -584,7 +620,7 @@
       width: 34px;
       height: 34px;
       border-radius: 9px;
-      background: var(--text);
+      background: var(--hsb-blue);
       color: white;
       border: none;
       cursor: pointer;
